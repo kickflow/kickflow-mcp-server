@@ -9,6 +9,10 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { setKickflowAccessToken } from './kickflow-api/custom-axios-instance.js';
 import { handleGetTicket } from './tools/get-ticket.js';
 import { handleGetTickets } from './tools/get-tickets.js';
+import {
+  GetTicketsStatusOneOfItem as TicketStatusEnum,
+  GetTicketsAssigneeStatusItem as AssigneeStatusEnum,
+} from './kickflow-api/generated/kickflowRESTAPIV1.schemas.js';
 
 // コマンドライン引数からトークンを取得
 function parseArguments() {
@@ -109,39 +113,133 @@ class KickflowServer {
           inputSchema: {
             type: 'object',
             properties: {
+              page: {
+                type: 'integer',
+                minimum: 1,
+                description: 'ページ番号（1から始まる）',
+              },
+              perPage: {
+                type: 'integer',
+                minimum: 1,
+                description: '1ページあたりの件数',
+              },
+              sortBy: {
+                type: 'string',
+                enum: ['createdAt', 'updatedAt'],
+                description: 'ソート。指定可能なフィールド: createdAt, updatedAt',
+              },
               status: {
-                type: ['string', 'array'],
-                items: {
-                  type: 'string',
-                },
-                description:
-                  'チケットのステータス。例: "draft", "in_progress", "completed", "rejected", "denied", "archived"',
+                // statusは単一文字列または文字列配列を受け付ける
+                oneOf: [
+                  {
+                    type: 'string',
+                    enum: Object.values(TicketStatusEnum),
+                  },
+                  {
+                    type: 'array',
+                    items: {
+                      type: 'string',
+                      enum: Object.values(TicketStatusEnum),
+                    },
+                  },
+                ],
+                description: 'ステータスの配列または単一ステータス',
+              },
+              subStatusIds: {
+                type: 'array',
+                items: { type: 'string', format: 'uuid' },
+                description: 'サブステータスのUUIDの配列',
               },
               workflowId: {
                 type: 'string',
+                format: 'uuid',
                 description: 'ワークフローのUUID',
               },
               authorId: {
                 type: 'string',
+                format: 'uuid',
                 description: '申請者のUUID',
+              },
+              authorTeamFullName: {
+                type: 'string',
+                description: '申請時に選択したチームの上位組織を含む名前',
               },
               ticketNumber: {
                 type: 'string',
                 description: 'チケット番号',
               },
-              page: {
-                type: 'number',
-                description: 'ページ番号（1から始まる）',
-              },
-              perPage: {
-                type: 'number',
-                description: '1ページあたりの件数',
-              },
-              sortBy: {
+              createdAtStart: {
                 type: 'string',
-                description: 'ソートフィールド。例: "createdAt", "updatedAt"',
+                format: 'date-time',
+                description: '作成日時の起点 (RFC3339形式)',
+              },
+              createdAtEnd: {
+                type: 'string',
+                format: 'date-time',
+                description: '作成日時の終点 (RFC3339形式)',
+              },
+              updatedAtStart: {
+                type: 'string',
+                format: 'date-time',
+                description: '更新日時の起点 (RFC3339形式)',
+              },
+              updatedAtEnd: {
+                type: 'string',
+                format: 'date-time',
+                description: '更新日時の終点 (RFC3339形式)',
+              },
+              openedAtStart: {
+                type: 'string',
+                format: 'date-time',
+                description: '申請日時の起点 (RFC3339形式)',
+              },
+              openedAtEnd: {
+                type: 'string',
+                format: 'date-time',
+                description: '申請日時の終点 (RFC3339形式)',
+              },
+              completedAtStart: {
+                type: 'string',
+                format: 'date-time',
+                description: '完了日時の起点 (RFC3339形式)',
+              },
+              completedAtEnd: {
+                type: 'string',
+                format: 'date-time',
+                description: '完了日時の終点 (RFC3339形式)',
+              },
+              archivedAtStart: {
+                type: 'string',
+                format: 'date-time',
+                description: 'アーカイブ日時の起点 (RFC3339形式)',
+              },
+              archivedAtEnd: {
+                type: 'string',
+                format: 'date-time',
+                description: 'アーカイブ日時の終点 (RFC3339形式)',
+              },
+              assigneeUserId: {
+                type: 'string',
+                format: 'uuid',
+                description: '承認者のUUID。assigneeStatusとセットで指定',
+              },
+              assigneeStatus: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                  enum: Object.values(AssigneeStatusEnum),
+                },
+                description: '承認者の状態。assigneeUserIdとセットで指定',
+              },
+              stepTitle: {
+                type: 'string',
+                description: '現在の承認ステップ名',
               },
             },
+            // 必須パラメータはなし
+            required: [],
+            // Zodのstrict()に相当する設定
+            additionalProperties: false,
           },
         },
         {
@@ -152,10 +250,12 @@ class KickflowServer {
             properties: {
               ticketId: {
                 type: 'string',
+                format: 'uuid', // UUID形式を明示
                 description: 'チケットのUUID',
               },
             },
-            required: ['ticketId'],
+            required: ['ticketId'], // ticketIdは必須
+            additionalProperties: false, // Zodのstrict()に相当
           },
         },
       ],

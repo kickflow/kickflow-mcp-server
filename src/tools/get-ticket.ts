@@ -1,31 +1,32 @@
 import { CallToolRequestSchema, McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
+import { z } from 'zod';
 import { getKickflowRESTAPIV1 } from '../kickflow-api/generated/kickflowRESTAPIV1.js';
 
+// Zodスキーマの定義
+const GetTicketParamsSchema = z
+  .object({
+    ticketId: z.string().uuid('Invalid UUID format for ticketId'), // ticketIdはUUID形式であるべき
+  })
+  .strict(); // 定義されていないプロパティをエラーにする
+
 // 入力パラメータの型検証関数
-function isValidGetTicketArgs(args: unknown): args is {
-  ticketId: string;
-} {
-  if (typeof args !== 'object' || args === null) {
-    return false;
-  }
-
-  const typedArgs = args as Record<string, unknown>;
-
-  // ticketIdは必須パラメータ
-  if (typeof typedArgs.ticketId !== 'string' || typedArgs.ticketId.trim() === '') {
-    return false;
-  }
-
-  return true;
+function validateGetTicketArgs(args: unknown): { success: true; data: z.infer<typeof GetTicketParamsSchema> } | { success: false; error: z.ZodError } {
+  return GetTicketParamsSchema.safeParse(args);
 }
 
 // 特定のチケットを取得するツールのハンドラー
 export async function handleGetTicket(request: ReturnType<typeof CallToolRequestSchema.parse>) {
-  if (!isValidGetTicketArgs(request.params.arguments)) {
-    throw new McpError(ErrorCode.InvalidParams, 'Missing or invalid ticketId parameter');
+  const validationResult = validateGetTicketArgs(request.params.arguments);
+
+  if (!validationResult.success) {
+    // Zodのエラーを整形して詳細なメッセージを作成
+    const errorDetails = validationResult.error.errors
+      .map((err) => `Parameter '${err.path.join('.')}': ${err.message}`)
+      .join('\n');
+    throw new McpError(ErrorCode.InvalidParams, `Invalid get ticket arguments:\n${errorDetails}`);
   }
 
-  const { ticketId } = request.params.arguments;
+  const { ticketId } = validationResult.data;
 
   try {
     // Orvalで生成されたAPIクライアントを使用
