@@ -14,11 +14,12 @@ export default defineConfig({
       mode: 'split',
       target: 'src/kickflow-api/generated',
       client: 'axios',
-      // prettier: true,
+      prettier: true,
       override: {
         mutator: {
           path: 'src/kickflow-api/custom-axios-instance.ts',
           name: 'customAxiosInstance',
+          extension: '.js',
         },
       },
     },

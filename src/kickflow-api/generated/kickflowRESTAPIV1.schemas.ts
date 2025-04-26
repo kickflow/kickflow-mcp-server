@@ -94,6 +94,7 @@ export type UserImage = {
  */
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserStatus = {
   invited: 'invited',
   activated: 'activated',
@@ -398,6 +399,7 @@ export interface Role {
 export type RoleDetailAllOfPermissionListItemPermission =
   (typeof RoleDetailAllOfPermissionListItemPermission)[keyof typeof RoleDetailAllOfPermissionListItemPermission];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RoleDetailAllOfPermissionListItemPermission = {
   tenant: 'tenant',
   billing: 'billing',
@@ -448,6 +450,7 @@ export type RoleDetail = Role & RoleDetailAllOf;
 export type RoleCreateBodyPermissionListItemPermission =
   (typeof RoleCreateBodyPermissionListItemPermission)[keyof typeof RoleCreateBodyPermissionListItemPermission];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RoleCreateBodyPermissionListItemPermission = {
   tenant: 'tenant',
   billing: 'billing',
@@ -498,6 +501,7 @@ export interface RoleCreateBody {
 export type RoleUpdateBodyPermissionListItemPermission =
   (typeof RoleUpdateBodyPermissionListItemPermission)[keyof typeof RoleUpdateBodyPermissionListItemPermission];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RoleUpdateBodyPermissionListItemPermission = {
   tenant: 'tenant',
   billing: 'billing',
@@ -704,6 +708,7 @@ export interface GeneralMasterItem {
 export type GeneralMasterFieldFieldType =
   (typeof GeneralMasterFieldFieldType)[keyof typeof GeneralMasterFieldFieldType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GeneralMasterFieldFieldType = {
   text: 'text',
   text_long: 'text_long',
@@ -757,6 +762,7 @@ export interface GeneralMasterField {
  */
 export type WorkflowStatus = (typeof WorkflowStatus)[keyof typeof WorkflowStatus];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowStatus = {
   visible: 'visible',
   invisible: 'invisible',
@@ -769,6 +775,7 @@ export const WorkflowStatus = {
 export type WorkflowVisibleToManager =
   (typeof WorkflowVisibleToManager)[keyof typeof WorkflowVisibleToManager];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowVisibleToManager = {
   none: 'none',
   direct: 'direct',
@@ -781,6 +788,7 @@ export const WorkflowVisibleToManager = {
 export type WorkflowTitleInputMode =
   (typeof WorkflowTitleInputMode)[keyof typeof WorkflowTitleInputMode];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowTitleInputMode = {
   none: 'none',
   input: 'input',
@@ -921,6 +929,7 @@ export type WorkflowDetail = WorkflowInTicket & WorkflowDetailAllOf;
 export type SectionListItemSectionType =
   (typeof SectionListItemSectionType)[keyof typeof SectionListItemSectionType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SectionListItemSectionType = {
   form: 'form',
   slip: 'slip',
@@ -958,6 +967,7 @@ export interface SectionListItem {
  */
 export type FormFieldFieldType = (typeof FormFieldFieldType)[keyof typeof FormFieldFieldType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FormFieldFieldType = {
   text: 'text',
   text_long: 'text_long',
@@ -981,6 +991,7 @@ export const FormFieldFieldType = {
  */
 export type FormFieldSize = (typeof FormFieldSize)[keyof typeof FormFieldSize];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FormFieldSize = {
   full: 'full',
   half: 'half',
@@ -1199,6 +1210,7 @@ export type FormFieldDetail = FormField & FormFieldDetailAllOf;
 export type ExternalApiSettingHttpMethod =
   (typeof ExternalApiSettingHttpMethod)[keyof typeof ExternalApiSettingHttpMethod];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExternalApiSettingHttpMethod = {
   get: 'get',
   post: 'post',
@@ -1274,6 +1286,7 @@ export interface ClimberCloudSetting {
  */
 export type SlipFieldFieldType = (typeof SlipFieldFieldType)[keyof typeof SlipFieldFieldType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SlipFieldFieldType = {
   text: 'text',
   number: 'number',
@@ -1424,6 +1437,7 @@ export type SlipFieldDetail = SlipField & SlipFieldDetailAllOf;
 export type WorkflowRouteConditionConditionType =
   (typeof WorkflowRouteConditionConditionType)[keyof typeof WorkflowRouteConditionConditionType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowRouteConditionConditionType = {
   always: 'always',
   field: 'field',
@@ -1436,6 +1450,7 @@ export const WorkflowRouteConditionConditionType = {
 export type WorkflowRouteConditionCombinationType =
   (typeof WorkflowRouteConditionCombinationType)[keyof typeof WorkflowRouteConditionCombinationType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowRouteConditionCombinationType = {
   all: 'all',
   any: 'any',
@@ -1570,6 +1585,7 @@ export interface WorkflowTicketViewer {
  */
 export type RouteStatus = (typeof RouteStatus)[keyof typeof RouteStatus];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStatus = {
   visible: 'visible',
   deleted: 'deleted',
@@ -1641,6 +1657,7 @@ export type RouteDetail = Route & RouteDetailAllOf;
  */
 export type RouteStepStepType = (typeof RouteStepStepType)[keyof typeof RouteStepStepType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepStepType = {
   author: 'author',
   manager: 'manager',
@@ -1656,6 +1673,7 @@ export const RouteStepStepType = {
  */
 export type RouteStepActionType = (typeof RouteStepActionType)[keyof typeof RouteStepActionType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepActionType = {
   approve: 'approve',
   confirm: 'confirm',
@@ -1670,6 +1688,7 @@ export type RouteStepFallbackType =
   | (typeof RouteStepFallbackType)[keyof typeof RouteStepFallbackType]
   | null;
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepFallbackType = {
   direct_manager: 'direct_manager',
   higher_manager: 'higher_manager',
@@ -1751,6 +1770,7 @@ export interface RouteStepTarget {
 export type RouteStepConditionConditionType =
   (typeof RouteStepConditionConditionType)[keyof typeof RouteStepConditionConditionType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepConditionConditionType = {
   always: 'always',
   conditional: 'conditional',
@@ -1763,6 +1783,7 @@ export const RouteStepConditionConditionType = {
 export type RouteStepConditionCombinationType =
   (typeof RouteStepConditionCombinationType)[keyof typeof RouteStepConditionCombinationType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepConditionCombinationType = {
   all: 'all',
   any: 'any',
@@ -1789,6 +1810,7 @@ export interface RouteStepCondition {
 export type RouteStepConditionFieldFieldKey =
   (typeof RouteStepConditionFieldFieldKey)[keyof typeof RouteStepConditionFieldFieldKey];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepConditionFieldFieldKey = {
   author_grade: 'author_grade',
   author_team: 'author_team',
@@ -1826,6 +1848,7 @@ export interface RouteStepConditionField {
  */
 export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -1863,6 +1886,7 @@ export type TicketProxyClientUser = User | TicketProxyClientUserAnyOf | null;
 export type TicketForcedPublicType =
   (typeof TicketForcedPublicType)[keyof typeof TicketForcedPublicType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketForcedPublicType = {
   follow_workflow: 'follow_workflow',
   forced_public: 'forced_public',
@@ -1979,6 +2003,7 @@ export type TicketDetailAllOfCloudSignDocumentAnyOf = unknown | null;
 export type TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus =
   (typeof TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus)[keyof typeof TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -2088,6 +2113,7 @@ export interface TicketSection {
  */
 export type TicketStepActionType = (typeof TicketStepActionType)[keyof typeof TicketStepActionType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketStepActionType = {
   approve: 'approve',
   confirm: 'confirm',
@@ -2102,6 +2128,7 @@ export type TicketStepFallbackResult =
   | (typeof TicketStepFallbackResult)[keyof typeof TicketStepFallbackResult]
   | null;
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketStepFallbackResult = {
   direct_manager: 'direct_manager',
   higher_manager: 'higher_manager',
@@ -2565,6 +2592,7 @@ export type GetGeneralMastersParams = {
 export type PostGeneralMastersBodyFieldsItemFieldType =
   (typeof PostGeneralMastersBodyFieldsItemFieldType)[keyof typeof PostGeneralMastersBodyFieldsItemFieldType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostGeneralMastersBodyFieldsItemFieldType = {
   text: 'text',
   text_long: 'text_long',
@@ -2970,6 +2998,7 @@ export type GetTicketsParams = {
 export type GetTicketsStatusOneOfItem =
   (typeof GetTicketsStatusOneOfItem)[keyof typeof GetTicketsStatusOneOfItem];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTicketsStatusOneOfItem = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -2982,6 +3011,7 @@ export const GetTicketsStatusOneOfItem = {
 export type GetTicketsAssigneeStatusItem =
   (typeof GetTicketsAssigneeStatusItem)[keyof typeof GetTicketsAssigneeStatusItem];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTicketsAssigneeStatusItem = {
   all: 'all',
   current: 'current',
@@ -2994,6 +3024,7 @@ export const GetTicketsAssigneeStatusItem = {
 export type PostTicketsBodyStatus =
   (typeof PostTicketsBodyStatus)[keyof typeof PostTicketsBodyStatus];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostTicketsBodyStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -3267,6 +3298,7 @@ export type GetTicketsTasksParams = {
 export type GetTicketsTasksStatusItem =
   (typeof GetTicketsTasksStatusItem)[keyof typeof GetTicketsTasksStatusItem];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTicketsTasksStatusItem = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -3278,6 +3310,7 @@ export const GetTicketsTasksStatusItem = {
 export type GetTicketsTasksPending =
   (typeof GetTicketsTasksPending)[keyof typeof GetTicketsTasksPending];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTicketsTasksPending = {
   true: 'true',
   false: 'false',
@@ -3289,6 +3322,7 @@ export const GetTicketsTasksPending = {
 export type PatchTicketsTicketIdBodyStatus =
   (typeof PatchTicketsTicketIdBodyStatus)[keyof typeof PatchTicketsTicketIdBodyStatus];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PatchTicketsTicketIdBodyStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -3584,6 +3618,7 @@ export type GetUsersParams = {
 
 export type GetUsersStatusItem = (typeof GetUsersStatusItem)[keyof typeof GetUsersStatusItem];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUsersStatusItem = {
   invited: 'invited',
   activated: 'activated',
@@ -3706,6 +3741,7 @@ export type GetRoutesParams = {
 
 export type GetRoutesStatusItem = (typeof GetRoutesStatusItem)[keyof typeof GetRoutesStatusItem];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetRoutesStatusItem = {
   visible: 'visible',
   error: 'error',
@@ -3733,6 +3769,7 @@ export type GetWorkflowsParams = {
 export type GetWorkflowsStatusItem =
   (typeof GetWorkflowsStatusItem)[keyof typeof GetWorkflowsStatusItem];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetWorkflowsStatusItem = {
   visible: 'visible',
   invisible: 'invisible',
