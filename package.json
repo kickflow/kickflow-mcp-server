@@ -9,7 +9,9 @@
     "dev": "node --loader ts-node/esm src/index.ts",
     "start": "node dist/index.js",
     "test": "npx @modelcontextprotocol/inspector node dist/index.js",
-    "generate-api": "orval --config orval.config.ts"
+    "generate-api": "orval --config orval.config.ts",
+    "lint": "eslint --ext .ts,.mts,.cts src/ --fix",
+    "format": "prettier --write \"**/*.{ts,mts,cts,js,mjs,cjs,json,md}\""
   },
   "keywords": [
     "kickflow",
@@ -28,10 +30,15 @@
     "axios": "1.9.0"
   },
   "devDependencies": {
+    "@eslint/js": "9.25.1",
     "@types/node": "22.15.2",
-    "openapi-typescript": "7.6.1",
-    "orval": "^7.8.0",
+    "eslint": "9.25.1",
+    "eslint-config-prettier": "10.1.2",
+    "eslint-plugin-prettier": "5.2.6",
+    "orval": "7.8.0",
+    "prettier": "3.5.3",
     "ts-node": "10.9.2",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.31.0"
   }
 }

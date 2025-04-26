@@ -8,37 +8,32 @@ function isValidGetTicketArgs(args: unknown): args is {
   if (typeof args !== 'object' || args === null) {
     return false;
   }
-  
+
   const typedArgs = args as Record<string, unknown>;
-  
+
   // ticketIdは必須パラメータ
   if (typeof typedArgs.ticketId !== 'string' || typedArgs.ticketId.trim() === '') {
     return false;
   }
-  
+
   return true;
 }
 
 // 特定のチケットを取得するツールのハンドラー
-export async function handleGetTicket(
-  request: ReturnType<typeof CallToolRequestSchema.parse>
-) {
+export async function handleGetTicket(request: ReturnType<typeof CallToolRequestSchema.parse>) {
   if (!isValidGetTicketArgs(request.params.arguments)) {
-    throw new McpError(
-      ErrorCode.InvalidParams,
-      'Missing or invalid ticketId parameter'
-    );
+    throw new McpError(ErrorCode.InvalidParams, 'Missing or invalid ticketId parameter');
   }
 
   const { ticketId } = request.params.arguments;
-  
+
   try {
     // Orvalで生成されたAPIクライアントを使用
     const api = getKickflowRESTAPIV1();
-    
+
     // Kickflow APIを呼び出し
     const response = await api.getTicketsTicketId(ticketId);
-    
+
     // Orvalで生成されたAPIクライアントは、レスポンスそのものがデータになっている
     return {
       content: [
@@ -50,7 +45,7 @@ export async function handleGetTicket(
     };
   } catch (error) {
     console.error(`Error getting ticket ${ticketId}:`, error);
-    
+
     return {
       content: [
         {

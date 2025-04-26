@@ -1,4 +1,3 @@
-
 import Axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 // Kickflow APIのベースURL
@@ -13,15 +12,15 @@ export function setKickflowAccessToken(token: string): void {
 }
 
 // Axiosインスタンスの作成
-export const AXIOS_INSTANCE = Axios.create({ 
+export const AXIOS_INSTANCE = Axios.create({
   baseURL: KICKFLOW_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
 });
 
 // リクエストインターセプターでアクセストークンを設定
-AXIOS_INSTANCE.interceptors.request.use((config) => {
+AXIOS_INSTANCE.interceptors.request.use(config => {
   if (accessToken) {
     config.headers = config.headers || {};
     config.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -32,15 +31,15 @@ AXIOS_INSTANCE.interceptors.request.use((config) => {
 // Orvalが使用するカスタムインスタンス関数
 export const customAxiosInstance = <T>(
   config: AxiosRequestConfig,
-  options?: AxiosRequestConfig,
+  options?: AxiosRequestConfig
 ): Promise<T> => {
   const source = Axios.CancelToken.source();
-  
+
   // アクセストークンが設定されていない場合のエラーチェック
   if (!accessToken) {
     console.warn('Kickflow access token is not set. API calls may fail.');
   }
-  
+
   const promise = AXIOS_INSTANCE({
     ...config,
     ...options,
@@ -48,7 +47,7 @@ export const customAxiosInstance = <T>(
   }).then(({ data }) => data);
 
   // キャンセル機能を追加
-  // @ts-ignore
+  // @ts-expect-error キャンセルプロパティはPromiseに存在しないが追加
   promise.cancel = () => {
     source.cancel('Query was cancelled');
   };

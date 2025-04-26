@@ -20,7 +20,7 @@ export default defineConfig({
           path: 'src/kickflow-api/custom-axios-instance.ts',
           name: 'customAxiosInstance',
         },
-      }
-    }
-  }
+      },
+    },
+  },
 });

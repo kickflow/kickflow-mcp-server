@@ -14,7 +14,7 @@ import { handleGetTickets } from './tools/get-tickets.js';
 function parseArguments() {
   const args = process.argv.slice(2);
   const tokenArgPrefix = '--kickflow-access-token=';
-  
+
   // ヘルプメッセージの表示
   if (args.includes('--help') || args.includes('-h')) {
     console.log(`Kickflow MCP Server
@@ -37,7 +37,7 @@ function parseArguments() {
   if (tokenArg) {
     return tokenArg.substring(tokenArgPrefix.length);
   }
-  
+
   // 環境変数からトークンを取得
   return process.env.KICKFLOW_ACCESS_TOKEN;
 }
@@ -87,9 +87,9 @@ class KickflowServer {
 
     // ツールハンドラーの設定
     this.setupToolHandlers();
-    
+
     // エラーハンドリング
-    this.server.onerror = (error) => console.error('[MCP Error]', error);
+    this.server.onerror = error => console.error('[MCP Error]', error);
     process.on('SIGINT', async () => {
       await this.server.close();
       process.exit(0);
@@ -112,36 +112,37 @@ class KickflowServer {
               status: {
                 type: ['string', 'array'],
                 items: {
-                  type: 'string'
+                  type: 'string',
                 },
-                description: 'チケットのステータス。例: "draft", "in_progress", "completed", "rejected", "denied", "archived"'
+                description:
+                  'チケットのステータス。例: "draft", "in_progress", "completed", "rejected", "denied", "archived"',
               },
               workflowId: {
                 type: 'string',
-                description: 'ワークフローのUUID'
+                description: 'ワークフローのUUID',
               },
               authorId: {
                 type: 'string',
-                description: '申請者のUUID'
+                description: '申請者のUUID',
               },
               ticketNumber: {
                 type: 'string',
-                description: 'チケット番号'
+                description: 'チケット番号',
               },
               page: {
                 type: 'number',
-                description: 'ページ番号（1から始まる）'
+                description: 'ページ番号（1から始まる）',
               },
               perPage: {
                 type: 'number',
-                description: '1ページあたりの件数'
+                description: '1ページあたりの件数',
               },
               sortBy: {
                 type: 'string',
-                description: 'ソートフィールド。例: "createdAt", "updatedAt"'
-              }
-            }
-          }
+                description: 'ソートフィールド。例: "createdAt", "updatedAt"',
+              },
+            },
+          },
         },
         {
           name: 'get_ticket',
@@ -151,29 +152,26 @@ class KickflowServer {
             properties: {
               ticketId: {
                 type: 'string',
-                description: 'チケットのUUID'
-              }
+                description: 'チケットのUUID',
+              },
             },
-            required: ['ticketId']
-          }
-        }
-      ]
+            required: ['ticketId'],
+          },
+        },
+      ],
     }));
 
     // ツール呼び出しのハンドラー
-    this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
+    this.server.setRequestHandler(CallToolRequestSchema, async request => {
       switch (request.params.name) {
         case 'get_tickets':
           return handleGetTickets(request);
-        
+
         case 'get_ticket':
           return handleGetTicket(request);
-        
+
         default:
-          throw new McpError(
-            ErrorCode.MethodNotFound,
-            `Unknown tool: ${request.params.name}`
-          );
+          throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${request.params.name}`);
       }
     });
   }

@@ -37,17 +37,20 @@ KICKFLOW_ACCESS_TOKEN="your-kickflow-access-token" kickflow-mcp-server
 ### 開発者向けセットアップ
 
 1. リポジトリをクローン
+
 ```
 git clone [リポジトリURL]
 cd kickflow-mcp-server
 ```
 
 2. 依存パッケージのインストール
+
 ```
 npm install
 ```
 
 3. ビルド
+
 ```
 npm run build
 ```

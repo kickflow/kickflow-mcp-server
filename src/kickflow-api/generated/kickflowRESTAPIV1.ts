@@ -87,113 +87,121 @@ import type {
   User,
   UserDetail,
   Workflow,
-  WorkflowDetail
+  WorkflowDetail,
 } from './kickflowRESTAPIV1.schemas';
 
 import { customAxiosInstance } from '../custom-axios-instance.js';
 import type { BodyType } from '../custom-axios-instance.js';
 
-
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-
-  export const getKickflowRESTAPIV1 = () => {
-/**
- * カテゴリの一覧を取得します。
- * @summary カテゴリの一覧を取得
- */
-const getCategories = (
+export const getKickflowRESTAPIV1 = () => {
+  /**
+   * カテゴリの一覧を取得します。
+   * @summary カテゴリの一覧を取得
+   */
+  const getCategories = (
     params?: GetCategoriesParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Category[]>(
-      {url: `/v1/categories`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Category[]>(
+      { url: `/v1/categories`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
  * カテゴリを作成します。
 
 このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
  * @summary カテゴリを作成
  */
-const postCategories = (
+  const postCategories = (
     postCategoriesBody: BodyType<PostCategoriesBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Category>(
-      {url: `/v1/categories`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postCategoriesBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Category>(
+      {
+        url: `/v1/categories`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postCategoriesBody,
+      },
+      options
+    );
+  };
+
+  /**
  * カテゴリを削除します。
 
 このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
  * @summary カテゴリを削除
  */
-const deleteCategoriesCategoryId = (
+  const deleteCategoriesCategoryId = (
     categoryId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/categories/${categoryId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/categories/${categoryId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
  * カテゴリを更新します。
 
 このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
  * @summary カテゴリを更新
  */
-const patchCategoriesCategoryId = (
+  const patchCategoriesCategoryId = (
     categoryId: string,
     patchCategoriesCategoryIdBody: BodyType<PatchCategoriesCategoryIdBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Category>(
-      {url: `/v1/categories/${categoryId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: patchCategoriesCategoryIdBody
-    },
-      options);
-    }
-  
-/**
- * フォルダの一覧を取得します。
- * @summary フォルダの一覧を取得
- */
-const getFolders = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Category>(
+      {
+        url: `/v1/categories/${categoryId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: patchCategoriesCategoryIdBody,
+      },
+      options
+    );
+  };
+
+  /**
+   * フォルダの一覧を取得します。
+   * @summary フォルダの一覧を取得
+   */
+  const getFolders = (
     params?: GetFoldersParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Folder[]>(
-      {url: `/v1/folders`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Folder[]>({ url: `/v1/folders`, method: 'GET', params }, options);
+  };
+
+  /**
  * フォルダを作成します。
 
 このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
  * @summary フォルダを作成
  */
-const postFolders = (
+  const postFolders = (
     postFoldersBody: BodyType<PostFoldersBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<FolderDetail>(
-      {url: `/v1/folders`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postFoldersBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<FolderDetail>(
+      {
+        url: `/v1/folders`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postFoldersBody,
+      },
+      options
+    );
+  };
+
+  /**
  * フォルダを削除します。
 
 このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
@@ -201,258 +209,280 @@ const postFolders = (
 注意：このフォルダ以下のすべてのフォルダ・ワークフロー・経路・パイプラインも削除されます。
  * @summary フォルダを削除
  */
-const deleteFoldersFolderId = (
+  const deleteFoldersFolderId = (
     folderId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/folders/${folderId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>({ url: `/v1/folders/${folderId}`, method: 'DELETE' }, options);
+  };
+
+  /**
  * フォルダを更新します。
 
 このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
  * @summary フォルダを更新
  */
-const patchFoldersFolderId = (
+  const patchFoldersFolderId = (
     folderId: string,
     patchFoldersFolderIdBody: BodyType<PatchFoldersFolderIdBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<FolderDetail>(
-      {url: `/v1/folders/${folderId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: patchFoldersFolderIdBody
-    },
-      options);
-    }
-  
-/**
- * フォルダを一件取得します。
- * @summary フォルダを取得
- */
-const getFoldersFolderId = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<FolderDetail>(
+      {
+        url: `/v1/folders/${folderId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: patchFoldersFolderIdBody,
+      },
+      options
+    );
+  };
+
+  /**
+   * フォルダを一件取得します。
+   * @summary フォルダを取得
+   */
+  const getFoldersFolderId = (
     folderId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<FolderDetail>(
-      {url: `/v1/folders/${folderId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<FolderDetail>(
+      { url: `/v1/folders/${folderId}`, method: 'GET' },
+      options
+    );
+  };
+
+  /**
  * 汎用マスタの一覧を取得します。
 
 このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタの一覧を取得
  */
-const getGeneralMasters = (
+  const getGeneralMasters = (
     params?: GetGeneralMastersParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<GeneralMaster[]>(
-      {url: `/v1/generalMasters`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<GeneralMaster[]>(
+      { url: `/v1/generalMasters`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
  * 汎用マスタを作成します。
 
 このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタを作成
  */
-const postGeneralMasters = (
+  const postGeneralMasters = (
     postGeneralMastersBody: BodyType<PostGeneralMastersBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<GeneralMaster>(
-      {url: `/v1/generalMasters`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postGeneralMastersBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<GeneralMaster>(
+      {
+        url: `/v1/generalMasters`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postGeneralMastersBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 汎用マスタを一件取得します。
 
 このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタを取得
  */
-const getGeneralMastersGeneralMasterId = (
+  const getGeneralMastersGeneralMasterId = (
     generalMasterId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<GeneralMaster>(
-      {url: `/v1/generalMasters/${generalMasterId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<GeneralMaster>(
+      { url: `/v1/generalMasters/${generalMasterId}`, method: 'GET' },
+      options
+    );
+  };
+
+  /**
  * 汎用マスタを更新します。
 
 このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタを更新
  */
-const patchGeneralMastersGeneralMasterId = (
+  const patchGeneralMastersGeneralMasterId = (
     generalMasterId: string,
     patchGeneralMastersGeneralMasterIdBody: BodyType<PatchGeneralMastersGeneralMasterIdBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<GeneralMaster>(
-      {url: `/v1/generalMasters/${generalMasterId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: patchGeneralMastersGeneralMasterIdBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<GeneralMaster>(
+      {
+        url: `/v1/generalMasters/${generalMasterId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: patchGeneralMastersGeneralMasterIdBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 汎用マスタを削除します。この汎用マスタのすべてのアイテムも同時に削除されます。
 
 このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタを削除
  */
-const deleteGeneralMastersGeneralMasterId = (
+  const deleteGeneralMastersGeneralMasterId = (
     generalMasterId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/generalMasters/${generalMasterId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
- * 汎用マスタアイテムの一覧を取得します。
- * @summary 汎用マスタアイテムの一覧を取得
- */
-const getGeneralMastersGeneralMasterIdItems = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/generalMasters/${generalMasterId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
+   * 汎用マスタアイテムの一覧を取得します。
+   * @summary 汎用マスタアイテムの一覧を取得
+   */
+  const getGeneralMastersGeneralMasterIdItems = (
     generalMasterId: string,
     params?: GetGeneralMastersGeneralMasterIdItemsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<GeneralMasterItem[]>(
-      {url: `/v1/generalMasters/${generalMasterId}/items`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<GeneralMasterItem[]>(
+      { url: `/v1/generalMasters/${generalMasterId}/items`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
  * 汎用マスタアイテムを作成します。
 
 このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタアイテムを作成
  */
-const postGeneralMastersGeneralMasterIdItems = (
+  const postGeneralMastersGeneralMasterIdItems = (
     generalMasterId: string,
     postGeneralMastersGeneralMasterIdItemsBody: BodyType<PostGeneralMastersGeneralMasterIdItemsBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<GeneralMasterItem>(
-      {url: `/v1/generalMasters/${generalMasterId}/items`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postGeneralMastersGeneralMasterIdItemsBody
-    },
-      options);
-    }
-  
-/**
- * 汎用マスタアイテムを一件取得します。
- * @summary 汎用マスタアイテムを取得
- */
-const getGeneralMastersGeneralMasterIdItemsItemId = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<GeneralMasterItem>(
+      {
+        url: `/v1/generalMasters/${generalMasterId}/items`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postGeneralMastersGeneralMasterIdItemsBody,
+      },
+      options
+    );
+  };
+
+  /**
+   * 汎用マスタアイテムを一件取得します。
+   * @summary 汎用マスタアイテムを取得
+   */
+  const getGeneralMastersGeneralMasterIdItemsItemId = (
     generalMasterId: string,
     itemId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<GeneralMasterItem>(
-      {url: `/v1/generalMasters/${generalMasterId}/items/${itemId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<GeneralMasterItem>(
+      { url: `/v1/generalMasters/${generalMasterId}/items/${itemId}`, method: 'GET' },
+      options
+    );
+  };
+
+  /**
  * 汎用マスタアイテムを更新します。
 
 このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタアイテムを更新
  */
-const patchGeneralMastersGeneralMasterIdItemsItemId = (
+  const patchGeneralMastersGeneralMasterIdItemsItemId = (
     generalMasterId: string,
     itemId: string,
     patchGeneralMastersGeneralMasterIdItemsItemIdBody: BodyType<PatchGeneralMastersGeneralMasterIdItemsItemIdBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<GeneralMasterItem>(
-      {url: `/v1/generalMasters/${generalMasterId}/items/${itemId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: patchGeneralMastersGeneralMasterIdItemsItemIdBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<GeneralMasterItem>(
+      {
+        url: `/v1/generalMasters/${generalMasterId}/items/${itemId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: patchGeneralMastersGeneralMasterIdItemsItemIdBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 汎用マスタアイテムを削除します。
 
 このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタアイテムを削除
  */
-const deleteGeneralMastersGeneralMasterIdItemsItemId = (
+  const deleteGeneralMastersGeneralMasterIdItemsItemId = (
     generalMasterId: string,
     itemId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/generalMasters/${generalMasterId}/items/${itemId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/generalMasters/${generalMasterId}/items/${itemId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
  * 役職の一覧を取得します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職の一覧を取得
  */
-const getGrades = (
+  const getGrades = (
     params?: GetGradesParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Grade[]>(
-      {url: `/v1/grades`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Grade[]>({ url: `/v1/grades`, method: 'GET', params }, options);
+  };
+
+  /**
  * 役職を作成します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職を作成
  */
-const postGrades = (
+  const postGrades = (
     gradeCreateBody: BodyType<GradeCreateBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Grade>(
-      {url: `/v1/grades`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: gradeCreateBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Grade>(
+      {
+        url: `/v1/grades`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: gradeCreateBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 役職を一件取得します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職を取得
  */
-const getGradesGradeId = (
+  const getGradesGradeId = (
     gradeId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Grade>(
-      {url: `/v1/grades/${gradeId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Grade>({ url: `/v1/grades/${gradeId}`, method: 'GET' }, options);
+  };
+
+  /**
  * 役職を削除します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
@@ -460,50 +490,53 @@ const getGradesGradeId = (
 注意：この役職を使用しているユーザーがいる場合、エラーとなります。先にユーザーから対象の役職を外してください。
  * @summary 役職を削除
  */
-const deleteGradesGradeId = (
+  const deleteGradesGradeId = (
     gradeId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/grades/${gradeId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>({ url: `/v1/grades/${gradeId}`, method: 'DELETE' }, options);
+  };
+
+  /**
  * 役職を更新します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職を更新
  */
-const patchGradesGradeId = (
+  const patchGradesGradeId = (
     gradeId: string,
     gradeUpdateBody: BodyType<GradeUpdateBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Grade>(
-      {url: `/v1/grades/${gradeId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: gradeUpdateBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Grade>(
+      {
+        url: `/v1/grades/${gradeId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: gradeUpdateBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 指定した役職をデフォルトにします。
 同時に、これまでデフォルトだった役職は自動的にデフォルトではなくなります。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary デフォルトの役職を変更
  */
-const postGradesGradeIdDefault = (
+  const postGradesGradeIdDefault = (
     gradeId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/grades/${gradeId}/default`, method: 'POST'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/grades/${gradeId}/default`, method: 'POST' },
+      options
+    );
+  };
+
+  /**
  * 組織図の一覧を取得します。
 
 このAPIの実行には、チームの管理権限が必要です。
@@ -512,34 +545,38 @@ const postGradesGradeIdDefault = (
 組織図のすべての情報を取得したい場合は、組織図を一件だけ取得するAPI経由で取得してください。
  * @summary 組織図の一覧を取得
  */
-const getOrganizationCharts = (
+  const getOrganizationCharts = (
     params?: GetOrganizationChartsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<OrganizationChart[]>(
-      {url: `/v1/organizationCharts`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<OrganizationChart[]>(
+      { url: `/v1/organizationCharts`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
  * 組織図を作成します。
 
 このAPIの実行には、チームの管理権限が必要です。
  * @summary 組織図を作成
  */
-const postOrganizationCharts = (
+  const postOrganizationCharts = (
     organizationChartBody: BodyType<OrganizationChartBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<OrganizationChartDetail>(
-      {url: `/v1/organizationCharts`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: organizationChartBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<OrganizationChartDetail>(
+      {
+        url: `/v1/organizationCharts`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: organizationChartBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 組織図を削除します。同時に、組織図内のチームや所属もすべて削除されます。
 
 このAPIの実行には、チームの管理権限が必要です。
@@ -548,64 +585,68 @@ const postOrganizationCharts = (
 注意：組織図の削除は時間がかかることがあるため、削除は非同期で実行されます。削除の完了前にレスポンスを返すので注意してください。
  * @summary 組織図を削除
  */
-const deleteOrganizationChartsOrganizationChartId = (
+  const deleteOrganizationChartsOrganizationChartId = (
     organizationChartId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/organizationCharts/${organizationChartId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/organizationCharts/${organizationChartId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
  * 組織図を一件取得します。
 
 このAPIの実行には、チームの管理権限が必要です。
  * @summary 組織図を取得
  */
-const getOrganizationChartsOrganizationChartId = (
+  const getOrganizationChartsOrganizationChartId = (
     organizationChartId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<OrganizationChartDetail>(
-      {url: `/v1/organizationCharts/${organizationChartId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<OrganizationChartDetail>(
+      { url: `/v1/organizationCharts/${organizationChartId}`, method: 'GET' },
+      options
+    );
+  };
+
+  /**
  * 組織図を更新します。
 
 このAPIの実行には、チームの管理権限が必要です。
  * @summary 組織図を更新
  */
-const patchOrganizationChartsOrganizationChartId = (
+  const patchOrganizationChartsOrganizationChartId = (
     organizationChartId: string,
     organizationChartBody: BodyType<OrganizationChartBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<OrganizationChartDetail>(
-      {url: `/v1/organizationCharts/${organizationChartId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: organizationChartBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<OrganizationChartDetail>(
+      {
+        url: `/v1/organizationCharts/${organizationChartId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: organizationChartBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 現在有効になっている組織図を取得します。
 
 このAPIの実行には、チームの管理権限が必要です。
  * @summary 現在の組織図を取得
  */
-const getOrganizationChart = (
-    
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<OrganizationChartDetail>(
-      {url: `/v1/organizationChart`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+  const getOrganizationChart = (options?: SecondParameter<typeof customAxiosInstance>) => {
+    return customAxiosInstance<OrganizationChartDetail>(
+      { url: `/v1/organizationChart`, method: 'GET' },
+      options
+    );
+  };
+
+  /**
  * 指定した組織図を有効化し、ワークフローで使用する組織図を切り替えます。
 他の組織図に有効化の予定がある場合、それらの予定は削除されます。
 
@@ -614,19 +655,23 @@ const getOrganizationChart = (
 注意：組織図の有効化は時間がかかることがあるため、有効化は非同期で実行されます。有効化の完了前にレスポンスを返すので注意してください。
  * @summary 組織図を有効化
  */
-const postOrganizationChartsOrganizationChartIdActivate = (
+  const postOrganizationChartsOrganizationChartIdActivate = (
     organizationChartId: string,
     postOrganizationChartsOrganizationChartIdActivateBody: BodyType<PostOrganizationChartsOrganizationChartIdActivateBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<OrganizationChartDetail>(
-      {url: `/v1/organizationCharts/${organizationChartId}/activate`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postOrganizationChartsOrganizationChartIdActivateBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<OrganizationChartDetail>(
+      {
+        url: `/v1/organizationCharts/${organizationChartId}/activate`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postOrganizationChartsOrganizationChartIdActivateBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 指定した組織図内のチーム一覧を取得します。
 
 parentIdを指定した場合は指定した親チームの配下チームの一覧を、parentIdを指定しない場合は組織図内のルートのチーム一覧を返します。
@@ -634,105 +679,119 @@ parentIdを指定した場合は指定した親チームの配下チームの一
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チーム一覧を取得
  */
-const getOrganizationChartsOrganizationChartIdTeams = (
+  const getOrganizationChartsOrganizationChartIdTeams = (
     organizationChartId: string,
     params?: GetOrganizationChartsOrganizationChartIdTeamsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Team[]>(
-      {url: `/v1/organizationCharts/${organizationChartId}/teams`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Team[]>(
+      { url: `/v1/organizationCharts/${organizationChartId}/teams`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
  * 指定した組織図内にチームを作成します。
 
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを作成
  */
-const postOrganizationChartsOrganizationChartIdTeams = (
+  const postOrganizationChartsOrganizationChartIdTeams = (
     organizationChartId: string,
     teamCreateBody: BodyType<TeamCreateBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TeamDetail>(
-      {url: `/v1/organizationCharts/${organizationChartId}/teams`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: teamCreateBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TeamDetail>(
+      {
+        url: `/v1/organizationCharts/${organizationChartId}/teams`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: teamCreateBody,
+      },
+      options
+    );
+  };
+
+  /**
  * チームを一件取得します。
 
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを取得
  */
-const getTeamsTeamId = (
+  const getTeamsTeamId = (
     organizationChartId: string,
     teamId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TeamDetail>(
-      {url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TeamDetail>(
+      { url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}`, method: 'GET' },
+      options
+    );
+  };
+
+  /**
  * チームを更新します。
 
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを編集
  */
-const patchTeamsTeamId = (
+  const patchTeamsTeamId = (
     organizationChartId: string,
     teamId: string,
     teamUpdateBody: BodyType<TeamUpdateBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TeamDetail>(
-      {url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: teamUpdateBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TeamDetail>(
+      {
+        url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: teamUpdateBody,
+      },
+      options
+    );
+  };
+
+  /**
  * チームを削除します。同時に、このチームの所属もすべて削除されます。
 
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを削除
  */
-const deleteTeamsTeamId = (
+  const deleteTeamsTeamId = (
     organizationChartId: string,
     teamId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
  * チームのメンバー一覧を取得します。
 
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームのメンバー一覧を取得
  */
-const getOrganizationChartsOrganizationChartIdTeamsTeamIdMemberships = (
+  const getOrganizationChartsOrganizationChartIdTeamsTeamIdMemberships = (
     organizationChartId: string,
     teamId: string,
     params?: GetOrganizationChartsOrganizationChartIdTeamsTeamIdMembershipsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<MemberUser[]>(
-      {url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}/memberships`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<MemberUser[]>(
+      {
+        url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}/memberships`,
+        method: 'GET',
+        params,
+      },
+      options
+    );
+  };
+
+  /**
  * 指定したチームにメンバーを追加します。最大10人まで同時に追加可能です。
 
 このAPIの実行には、チームの管理権限が必要です。
@@ -740,20 +799,24 @@ const getOrganizationChartsOrganizationChartIdTeamsTeamIdMemberships = (
 注意: チームに上長は最低一人必要です。上長が不在の場合、APIは422 Unprocessable Entityを返します。
  * @summary チームにメンバーを追加
  */
-const postTeamsTeamIdMembers = (
+  const postTeamsTeamIdMembers = (
     organizationChartId: string,
     teamId: string,
     postTeamsTeamIdMembersBody: BodyType<PostTeamsTeamIdMembersBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}/memberships`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postTeamsTeamIdMembersBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      {
+        url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}/memberships`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postTeamsTeamIdMembersBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 指定したチームからメンバーを削除します。最大10人まで同時に削除可能です。
 
 このAPIの実行には、チームの管理権限が必要です。
@@ -761,20 +824,24 @@ const postTeamsTeamIdMembers = (
 注意: 削除後もメンバーが残る場合、チームに上長は最低一人必要です。メンバー削除によって上長が不在になる場合、APIは422 Unprocessable Entityを返します。
  * @summary チームからメンバーを削除
  */
-const deleteTeamsTeamIdMembers = (
+  const deleteTeamsTeamIdMembers = (
     organizationChartId: string,
     teamId: string,
     deleteTeamsTeamIdMembersBody: BodyType<DeleteTeamsTeamIdMembersBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}/memberships`, method: 'DELETE',
-      headers: {'Content-Type': 'application/json', },
-      data: deleteTeamsTeamIdMembersBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      {
+        url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}/memberships`,
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        data: deleteTeamsTeamIdMembersBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 指定したメンバーを更新します。
 
 このAPIの実行には、チームの管理権限が必要です。
@@ -782,153 +849,163 @@ const deleteTeamsTeamIdMembers = (
 注意: チームに上長は最低一人は必要です。上長が不在の場合、APIは422 Unprocessable Entityを返します。
  * @summary チームのメンバーを更新
  */
-const patchTeamsTeamIdMembershipsUserId = (
+  const patchTeamsTeamIdMembershipsUserId = (
     organizationChartId: string,
     teamId: string,
     userId: string,
     patchTeamsTeamIdMembershipsUserIdBody: BodyType<PatchTeamsTeamIdMembershipsUserIdBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}/memberships/${userId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: patchTeamsTeamIdMembershipsUserIdBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      {
+        url: `/v1/organizationCharts/${organizationChartId}/teams/${teamId}/memberships/${userId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: patchTeamsTeamIdMembershipsUserIdBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 管理者ロールの一覧を取得します。
 
 このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールの一覧を取得
  */
-const getRoles = (
+  const getRoles = (
     params?: GetRolesParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Role[]>(
-      {url: `/v1/roles`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Role[]>({ url: `/v1/roles`, method: 'GET', params }, options);
+  };
+
+  /**
  * 管理者ロールを作成します。
 
 このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールを作成
  */
-const postRoles = (
+  const postRoles = (
     roleCreateBody: BodyType<RoleCreateBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<RoleDetail>(
-      {url: `/v1/roles`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: roleCreateBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<RoleDetail>(
+      {
+        url: `/v1/roles`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: roleCreateBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 管理者ロールを一件取得します。
 
 このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールを取得
  */
-const getRolesRoleId = (
+  const getRolesRoleId = (
     roleId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<RoleDetail>(
-      {url: `/v1/roles/${roleId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<RoleDetail>({ url: `/v1/roles/${roleId}`, method: 'GET' }, options);
+  };
+
+  /**
  * 管理者ロールを更新します。
 
 このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールを更新
  */
-const patchRolesRoleId = (
+  const patchRolesRoleId = (
     roleId: string,
     roleUpdateBody: BodyType<RoleUpdateBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<RoleDetail>(
-      {url: `/v1/roles/${roleId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: roleUpdateBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<RoleDetail>(
+      {
+        url: `/v1/roles/${roleId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: roleUpdateBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 管理者ロールを削除します。
 
 このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールを削除
  */
-const deleteRolesRoleId = (
+  const deleteRolesRoleId = (
     roleId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/roles/${roleId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>({ url: `/v1/roles/${roleId}`, method: 'DELETE' }, options);
+  };
+
+  /**
  * 管理者ロールにメンバーを追加します。最大10人まで複数のメンバーを同時に追加可能です。
 
 このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールにメンバーを追加
  */
-const postRolesRoleIdMemberships = (
+  const postRolesRoleIdMemberships = (
     roleId: string,
     postRolesRoleIdMembershipsBody: BodyType<PostRolesRoleIdMembershipsBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/roles/${roleId}/memberships`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postRolesRoleIdMembershipsBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      {
+        url: `/v1/roles/${roleId}/memberships`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postRolesRoleIdMembershipsBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 管理者ロールのメンバー一覧を取得します。
 
 このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールのメンバー一覧を取得
  */
-const getRolesRoleIdMemberships = (
+  const getRolesRoleIdMemberships = (
     roleId: string,
     params?: GetRolesRoleIdMembershipsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<User[]>(
-      {url: `/v1/roles/${roleId}/memberships`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<User[]>(
+      { url: `/v1/roles/${roleId}/memberships`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
  * 管理者ロールからメンバーを削除します。
 
 このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールからメンバーを削除
  */
-const deleteRolesRoleIdMembershipsUserId = (
+  const deleteRolesRoleIdMembershipsUserId = (
     roleId: string,
     userId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/roles/${roleId}/memberships/${userId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/roles/${roleId}/memberships/${userId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
  * チケットの一覧を取得します。複数の条件を組み合わせて、フィルタ可能です。
 
 注意1：パフォーマンス上の理由から、チケットの一覧取得ではフォームの入力や承認経路などはレスポンスに含まれません。
@@ -938,62 +1015,67 @@ const deleteRolesRoleIdMembershipsUserId = (
 テナント内のすべてのチケットを対象としたい場合、APIを実行するユーザーがチケットの管理権限（閲覧）を持っている必要があります。
  * @summary チケット一覧を取得
  */
-const getTickets = (
+  const getTickets = (
     params?: GetTicketsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketWithStep[]>(
-      {url: `/v1/tickets`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
- * チケットを作成します。
- * @summary チケットを作成
- */
-const postTickets = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketWithStep[]>(
+      { url: `/v1/tickets`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
+   * チケットを作成します。
+   * @summary チケットを作成
+   */
+  const postTickets = (
     postTicketsBody: BodyType<PostTicketsBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketDetail>(
-      {url: `/v1/tickets`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postTicketsBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketDetail>(
+      {
+        url: `/v1/tickets`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postTicketsBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 現在のユーザーにアサインされている承認リクエストの一覧を取得します。複数の条件を組み合わせて、フィルタ可能です。
 
 注意：パフォーマンス上の理由から、チケットの一覧取得ではフォームの入力や承認経路などはレスポンスに含まれません。
 より詳細なチケット情報を取得したい場合は、チケットを一件だけ取得するAPIをで取得してください。
  * @summary 承認リクエスト一覧を取得
  */
-const getTicketsTasks = (
+  const getTicketsTasks = (
     params?: GetTicketsTasksParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketWithStep[]>(
-      {url: `/v1/tickets/tasks`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
- * チケットを一件取得します。フォームの入力や承認経路などを含む詳細なデータを返します。
- * @summary チケットを取得
- */
-const getTicketsTicketId = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketWithStep[]>(
+      { url: `/v1/tickets/tasks`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
+   * チケットを一件取得します。フォームの入力や承認経路などを含む詳細なデータを返します。
+   * @summary チケットを取得
+   */
+  const getTicketsTicketId = (
     ticketId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketDetail>(
-      {url: `/v1/tickets/${ticketId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketDetail>(
+      { url: `/v1/tickets/${ticketId}`, method: 'GET' },
+      options
+    );
+  };
+
+  /**
  * チケットを更新します。
 
 注意1: チケットのステータスが下書きまたは差し戻しの場合、申請者が更新可能です。
@@ -1003,669 +1085,1035 @@ const getTicketsTicketId = (
 注意3: 明細ワークフローの場合、slipItemsは必須です。
  * @summary チケットを更新
  */
-const patchTicketsTicketId = (
+  const patchTicketsTicketId = (
     ticketId: string,
     patchTicketsTicketIdBody: BodyType<PatchTicketsTicketIdBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketDetail>(
-      {url: `/v1/tickets/${ticketId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: patchTicketsTicketIdBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketDetail>(
+      {
+        url: `/v1/tickets/${ticketId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: patchTicketsTicketIdBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 指定したチケットを承認もしくは確認します。
 APIの実行ユーザーがチケットにアサインされていない場合、403 Forbiddenを返します。
  * @summary チケットを承認または確認する
  */
-const postTicketsTicketIdApprove = (
+  const postTicketsTicketIdApprove = (
     ticketId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketDetail>(
-      {url: `/v1/tickets/${ticketId}/approve`, method: 'POST'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketDetail>(
+      { url: `/v1/tickets/${ticketId}/approve`, method: 'POST' },
+      options
+    );
+  };
+
+  /**
  * 指定したチケットを差し戻します。
 APIの実行ユーザーがチケットにアサインされていない場合、403 Forbiddenを返します。
  * @summary チケットを差し戻す
  */
-const postTicketsTicketIdReject = (
+  const postTicketsTicketIdReject = (
     ticketId: string,
     postTicketsTicketIdRejectBody: BodyType<PostTicketsTicketIdRejectBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketDetail>(
-      {url: `/v1/tickets/${ticketId}/reject`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postTicketsTicketIdRejectBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketDetail>(
+      {
+        url: `/v1/tickets/${ticketId}/reject`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postTicketsTicketIdRejectBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 指定したチケットを却下します。
 APIの実行ユーザーがチケットにアサインされていない場合、403 Forbiddenを返します。
  * @summary チケットを却下する
  */
-const postTicketsTicketIdDeny = (
+  const postTicketsTicketIdDeny = (
     ticketId: string,
     postTicketsTicketIdDenyBody: BodyType<PostTicketsTicketIdDenyBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketDetail>(
-      {url: `/v1/tickets/${ticketId}/deny`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postTicketsTicketIdDenyBody
-    },
-      options);
-    }
-  
-/**
- * 自分が作成したチケットを取り下げます。
- * @summary チケットを取り下げる
- */
-const postTicketsTicketIdWithdraw = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketDetail>(
+      {
+        url: `/v1/tickets/${ticketId}/deny`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postTicketsTicketIdDenyBody,
+      },
+      options
+    );
+  };
+
+  /**
+   * 自分が作成したチケットを取り下げます。
+   * @summary チケットを取り下げる
+   */
+  const postTicketsTicketIdWithdraw = (
     ticketId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketDetail>(
-      {url: `/v1/tickets/${ticketId}/withdraw`, method: 'POST'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketDetail>(
+      { url: `/v1/tickets/${ticketId}/withdraw`, method: 'POST' },
+      options
+    );
+  };
+
+  /**
  * チケットをアーカイブします。チケットのステータスがアーカイブステータスに変わりますが、引き続きUIやAPIでチケットにはアクセス可能です。
 
 注意：チケットをアーカイブ可能なユーザーはチケットのステータスによって異なります。詳しくは[ヘルプ](https://support.kickflow.com/hc/ja/articles/360058324973)をご覧ください。
  * @summary チケットをアーカイブ
  */
-const postTicketsTicketIdArchive = (
+  const postTicketsTicketIdArchive = (
     ticketId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketDetail>(
-      {url: `/v1/tickets/${ticketId}/archive`, method: 'POST'
-    },
-      options);
-    }
-  
-/**
- * 指定したチケットの関連チケットを取得します。
- * @summary チケットの関連チケットを取得する
- */
-const getTicketsTicketIdLinks = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketDetail>(
+      { url: `/v1/tickets/${ticketId}/archive`, method: 'POST' },
+      options
+    );
+  };
+
+  /**
+   * 指定したチケットの関連チケットを取得します。
+   * @summary チケットの関連チケットを取得する
+   */
+  const getTicketsTicketIdLinks = (
     ticketId: string,
     params?: GetTicketsTicketIdLinksParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Ticket[]>(
-      {url: `/v1/tickets/${ticketId}/links`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
- * チケットの共有ユーザー一覧を取得します。
- * @summary 共有ユーザーの一覧を取得
- */
-const getTicketsIdViewers = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Ticket[]>(
+      { url: `/v1/tickets/${ticketId}/links`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
+   * チケットの共有ユーザー一覧を取得します。
+   * @summary 共有ユーザーの一覧を取得
+   */
+  const getTicketsIdViewers = (
     ticketId: string,
     params?: GetTicketsIdViewersParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<TicketViewer[]>(
-      {url: `/v1/tickets/${ticketId}/viewers`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
- * チケットに共有ユーザーを追加します。
- * @summary 共有ユーザーを追加
- */
-const postTicketsIdViewers = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<TicketViewer[]>(
+      { url: `/v1/tickets/${ticketId}/viewers`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
+   * チケットに共有ユーザーを追加します。
+   * @summary 共有ユーザーを追加
+   */
+  const postTicketsIdViewers = (
     ticketId: string,
     postTicketsIdViewersBody: BodyType<PostTicketsIdViewersBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/tickets/${ticketId}/viewers`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postTicketsIdViewersBody
-    },
-      options);
-    }
-  
-/**
- * チケットの共有ユーザーを削除します。
- * @summary 共有ユーザーを削除
- */
-const deleteTicketsIdViewersViewerId = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      {
+        url: `/v1/tickets/${ticketId}/viewers`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postTicketsIdViewersBody,
+      },
+      options
+    );
+  };
+
+  /**
+   * チケットの共有ユーザーを削除します。
+   * @summary 共有ユーザーを削除
+   */
+  const deleteTicketsIdViewersViewerId = (
     ticketId: string,
     viewerId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/tickets/${ticketId}/viewers/${viewerId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
- * チケットのコメント一覧を取得します。
- * @summary コメントの一覧を取得
- */
-const getTicketsIdComments = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/tickets/${ticketId}/viewers/${viewerId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
+   * チケットのコメント一覧を取得します。
+   * @summary コメントの一覧を取得
+   */
+  const getTicketsIdComments = (
     ticketId: string,
     params?: GetTicketsIdCommentsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Comment[]>(
-      {url: `/v1/tickets/${ticketId}/comments`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
- * チケットにコメントを投稿します。
- * @summary コメントを投稿
- */
-const postTicketsIdComments = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Comment[]>(
+      { url: `/v1/tickets/${ticketId}/comments`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
+   * チケットにコメントを投稿します。
+   * @summary コメントを投稿
+   */
+  const postTicketsIdComments = (
     ticketId: string,
     postTicketsIdCommentsBody: BodyType<PostTicketsIdCommentsBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Comment>(
-      {url: `/v1/tickets/${ticketId}/comments`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postTicketsIdCommentsBody
-    },
-      options);
-    }
-  
-/**
- * チケットのコメントを取得します。
- * @summary コメントを取得
- */
-const getTicketsIdCommentsCommentId = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Comment>(
+      {
+        url: `/v1/tickets/${ticketId}/comments`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postTicketsIdCommentsBody,
+      },
+      options
+    );
+  };
+
+  /**
+   * チケットのコメントを取得します。
+   * @summary コメントを取得
+   */
+  const getTicketsIdCommentsCommentId = (
     ticketId: string,
     commentId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Comment>(
-      {url: `/v1/tickets/${ticketId}/comments/${commentId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
- * チケットのコメントを更新します。添付ファイルは更新できません。
- * @summary コメントを更新
- */
-const patchTicketsIdCommentsCommentId = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Comment>(
+      { url: `/v1/tickets/${ticketId}/comments/${commentId}`, method: 'GET' },
+      options
+    );
+  };
+
+  /**
+   * チケットのコメントを更新します。添付ファイルは更新できません。
+   * @summary コメントを更新
+   */
+  const patchTicketsIdCommentsCommentId = (
     ticketId: string,
     commentId: string,
     patchTicketsIdCommentsCommentIdBody: BodyType<PatchTicketsIdCommentsCommentIdBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Comment>(
-      {url: `/v1/tickets/${ticketId}/comments/${commentId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: patchTicketsIdCommentsCommentIdBody
-    },
-      options);
-    }
-  
-/**
- * チケットのコメントを削除します。
- * @summary コメントを削除
- */
-const deleteTicketsIdCommentsCommentId = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Comment>(
+      {
+        url: `/v1/tickets/${ticketId}/comments/${commentId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: patchTicketsIdCommentsCommentIdBody,
+      },
+      options
+    );
+  };
+
+  /**
+   * チケットのコメントを削除します。
+   * @summary コメントを削除
+   */
+  const deleteTicketsIdCommentsCommentId = (
     ticketId: string,
     commentId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/tickets/${ticketId}/comments/${commentId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
- * 現在のユーザーを取得します。
- * @summary 現在のユーザーを取得
- */
-const getUser = (
-    
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<UserDetail>(
-      {url: `/v1/user`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
- * ユーザー一覧を取得します。
- * @summary ユーザー一覧を取得
- */
-const getUsers = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/tickets/${ticketId}/comments/${commentId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
+   * 現在のユーザーを取得します。
+   * @summary 現在のユーザーを取得
+   */
+  const getUser = (options?: SecondParameter<typeof customAxiosInstance>) => {
+    return customAxiosInstance<UserDetail>({ url: `/v1/user`, method: 'GET' }, options);
+  };
+
+  /**
+   * ユーザー一覧を取得します。
+   * @summary ユーザー一覧を取得
+   */
+  const getUsers = (
     params?: GetUsersParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<User[]>(
-      {url: `/v1/users`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<User[]>({ url: `/v1/users`, method: 'GET', params }, options);
+  };
+
+  /**
  * ユーザーを作成します。
 作成されたユーザーは招待済みステータスとなり、招待メールが送信されます。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを作成（招待）
  */
-const postUsers = (
+  const postUsers = (
     postUsersBody: BodyType<PostUsersBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<UserDetail>(
-      {url: `/v1/users`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postUsersBody
-    },
-      options);
-    }
-  
-/**
- * ユーザーを一件取得します。
- * @summary ユーザーを取得
- */
-const getUsersUserId = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<UserDetail>(
+      {
+        url: `/v1/users`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postUsersBody,
+      },
+      options
+    );
+  };
+
+  /**
+   * ユーザーを一件取得します。
+   * @summary ユーザーを取得
+   */
+  const getUsersUserId = (
     userId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<UserDetail>(
-      {url: `/v1/users/${userId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<UserDetail>({ url: `/v1/users/${userId}`, method: 'GET' }, options);
+  };
+
+  /**
  * ユーザーを削除します（論理削除）。
 削除されたユーザーは削除済ステータスとなりますが、引き続きユーザー情報にアクセス可能です。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを削除
  */
-const deleteUsersUserId = (
+  const deleteUsersUserId = (
     userId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<UserDetail>(
-      {url: `/v1/users/${userId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<UserDetail>(
+      { url: `/v1/users/${userId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
  * ユーザーを更新します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを更新
  */
-const patchUsersUserId = (
+  const patchUsersUserId = (
     userId: string,
     patchUsersUserIdBody: BodyType<PatchUsersUserIdBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<UserDetail>(
-      {url: `/v1/users/${userId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: patchUsersUserIdBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<UserDetail>(
+      {
+        url: `/v1/users/${userId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: patchUsersUserIdBody,
+      },
+      options
+    );
+  };
+
+  /**
  * メールアドレスからユーザーを取得します（完全一致）
 ※メールアドレスはURLエンコードしたものを送ってください。
  * @summary メールアドレスからユーザーを取得
  */
-const getUsersLookupByEmail = (
+  const getUsersLookupByEmail = (
     params: GetUsersLookupByEmailParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<UserDetail>(
-      {url: `/v1/users/lookupByEmail`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<UserDetail>(
+      { url: `/v1/users/lookupByEmail`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
  * 削除されたユーザーを再び招待します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを再招待
  */
-const postUsersUserIdReinvite = (
+  const postUsersUserIdReinvite = (
     userId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<User>(
-      {url: `/v1/users/${userId}/reinvite`, method: 'POST'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<User>(
+      { url: `/v1/users/${userId}/reinvite`, method: 'POST' },
+      options
+    );
+  };
+
+  /**
  * 有効なユーザーを一時停止します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを一時停止
  */
-const postUsersUserIdSuspend = (
+  const postUsersUserIdSuspend = (
     userId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<User>(
-      {url: `/v1/users/${userId}/suspend`, method: 'POST'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<User>(
+      { url: `/v1/users/${userId}/suspend`, method: 'POST' },
+      options
+    );
+  };
+
+  /**
  * 一時停止中のユーザーを有効化します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを再有効化
  */
-const postUsersUserIdReactivate = (
+  const postUsersUserIdReactivate = (
     userId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<User>(
-      {url: `/v1/users/${userId}/reactivate`, method: 'POST'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<User>(
+      { url: `/v1/users/${userId}/reactivate`, method: 'POST' },
+      options
+    );
+  };
+
+  /**
  * ユーザーの所属チーム一覧を取得します。
 
 このAPIの実行には、チームの管理権限が必要です。
  * @summary ユーザーの所属チーム一覧を取得
  */
-const getUsersUserIdTeams = (
+  const getUsersUserIdTeams = (
     userId: string,
     params?: GetUsersUserIdTeamsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Team[]>(
-      {url: `/v1/users/${userId}/teams`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Team[]>(
+      { url: `/v1/users/${userId}/teams`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
  * ユーザーの管理者ロール一覧を取得します。
 
 このAPIの実行には、ロールの管理権限が必要です。
  * @summary ユーザーの管理者ロール一覧を取得
  */
-const getUsersUserIdRoles = (
+  const getUsersUserIdRoles = (
     userId: string,
     params?: GetUsersUserIdRolesParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Role[]>(
-      {url: `/v1/users/${userId}/roles`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
- * 経路の一覧を取得します。ステータスやフォルダによる絞り込みが可能です。
- * @summary 経路一覧を取得
- */
-const getRoutes = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Role[]>(
+      { url: `/v1/users/${userId}/roles`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
+   * 経路の一覧を取得します。ステータスやフォルダによる絞り込みが可能です。
+   * @summary 経路一覧を取得
+   */
+  const getRoutes = (
     params?: GetRoutesParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Route[]>(
-      {url: `/v1/routes`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
- * 指定した経路を取得します。
- * @summary 経路を取得
- */
-const getRoutesRouteId = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Route[]>({ url: `/v1/routes`, method: 'GET', params }, options);
+  };
+
+  /**
+   * 指定した経路を取得します。
+   * @summary 経路を取得
+   */
+  const getRoutesRouteId = (
     routeId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<RouteDetail>(
-      {url: `/v1/routes/${routeId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
- * ワークフローの一覧を取得します。ステータスによる絞り込みが可能です。
- * @summary ワークフロー一覧を取得
- */
-const getWorkflows = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<RouteDetail>(
+      { url: `/v1/routes/${routeId}`, method: 'GET' },
+      options
+    );
+  };
+
+  /**
+   * ワークフローの一覧を取得します。ステータスによる絞り込みが可能です。
+   * @summary ワークフロー一覧を取得
+   */
+  const getWorkflows = (
     params?: GetWorkflowsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<Workflow[]>(
-      {url: `/v1/workflows`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
- * 指定したIDのワークフローを取得します。
- * @summary ワークフローを取得
- */
-const getWorkflowsWorkflowId = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<Workflow[]>(
+      { url: `/v1/workflows`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
+   * 指定したIDのワークフローを取得します。
+   * @summary ワークフローを取得
+   */
+  const getWorkflowsWorkflowId = (
     workflowId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<WorkflowDetail>(
-      {url: `/v1/workflows/${workflowId}`, method: 'GET'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<WorkflowDetail>(
+      { url: `/v1/workflows/${workflowId}`, method: 'GET' },
+      options
+    );
+  };
+
+  /**
  * テナント内の代理申請の一覧を取得します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 代理申請一覧を取得
  */
-const getProxyApplicants = (
+  const getProxyApplicants = (
     params?: GetProxyApplicantsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<ProxyApplicant[]>(
-      {url: `/v1/proxyApplicants`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<ProxyApplicant[]>(
+      { url: `/v1/proxyApplicants`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
  * 代理申請を新規作成します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理申請の設定をすべてのユーザーに許可している場合、管理権限は不要です。
  * @summary 代理申請を作成
  */
-const postProxyApplicants = (
+  const postProxyApplicants = (
     postProxyApplicantsBody: BodyType<PostProxyApplicantsBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<ProxyApplicant>(
-      {url: `/v1/proxyApplicants`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postProxyApplicantsBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<ProxyApplicant>(
+      {
+        url: `/v1/proxyApplicants`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postProxyApplicantsBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 指定した代理申請を削除します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理申請の設定をすべてのユーザーに許可している場合、管理権限は不要です。
  * @summary 代理申請を削除
  */
-const deleteProxyApplicantsProxyApplicantId = (
+  const deleteProxyApplicantsProxyApplicantId = (
     proxyApplicantId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/proxyApplicants/${proxyApplicantId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/proxyApplicants/${proxyApplicantId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
  * テナント内の代理承認の一覧を取得します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 代理承認一覧を取得
  */
-const getProxyApprovers = (
+  const getProxyApprovers = (
     params?: GetProxyApproversParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<ProxyApprover[]>(
-      {url: `/v1/proxyApprovers`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<ProxyApprover[]>(
+      { url: `/v1/proxyApprovers`, method: 'GET', params },
+      options
+    );
+  };
+
+  /**
  * 代理承認を新規作成します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理承認の設定をすべてのユーザーに許可している場合、管理権限は不要です。
  * @summary 代理承認を作成
  */
-const postProxyApprovers = (
+  const postProxyApprovers = (
     postProxyApproversBody: BodyType<PostProxyApproversBody>,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<ProxyApprover>(
-      {url: `/v1/proxyApprovers`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postProxyApproversBody
-    },
-      options);
-    }
-  
-/**
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<ProxyApprover>(
+      {
+        url: `/v1/proxyApprovers`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postProxyApproversBody,
+      },
+      options
+    );
+  };
+
+  /**
  * 指定した代理承認を削除します。
 
 このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理承認の設定をすべてのユーザーに許可している場合、管理権限は不要です。
  * @summary 代理承認を削除
  */
-const deleteProxyApproversProxyApproverId = (
+  const deleteProxyApproversProxyApproverId = (
     proxyApproverId: string,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<void>(
-      {url: `/v1/proxyApprovers/${proxyApproverId}`, method: 'DELETE'
-    },
-      options);
-    }
-  
-/**
- * 監査ログの一覧を取得します。
- * @summary 監査ログ一覧を取得
- */
-const getAuditLogs = (
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<void>(
+      { url: `/v1/proxyApprovers/${proxyApproverId}`, method: 'DELETE' },
+      options
+    );
+  };
+
+  /**
+   * 監査ログの一覧を取得します。
+   * @summary 監査ログ一覧を取得
+   */
+  const getAuditLogs = (
     params?: GetAuditLogsParams,
- options?: SecondParameter<typeof customAxiosInstance>,) => {
-      return customAxiosInstance<AuditLog[]>(
-      {url: `/v1/auditLogs`, method: 'GET',
-        params
-    },
-      options);
-    }
-  
-return {getCategories,postCategories,deleteCategoriesCategoryId,patchCategoriesCategoryId,getFolders,postFolders,deleteFoldersFolderId,patchFoldersFolderId,getFoldersFolderId,getGeneralMasters,postGeneralMasters,getGeneralMastersGeneralMasterId,patchGeneralMastersGeneralMasterId,deleteGeneralMastersGeneralMasterId,getGeneralMastersGeneralMasterIdItems,postGeneralMastersGeneralMasterIdItems,getGeneralMastersGeneralMasterIdItemsItemId,patchGeneralMastersGeneralMasterIdItemsItemId,deleteGeneralMastersGeneralMasterIdItemsItemId,getGrades,postGrades,getGradesGradeId,deleteGradesGradeId,patchGradesGradeId,postGradesGradeIdDefault,getOrganizationCharts,postOrganizationCharts,deleteOrganizationChartsOrganizationChartId,getOrganizationChartsOrganizationChartId,patchOrganizationChartsOrganizationChartId,getOrganizationChart,postOrganizationChartsOrganizationChartIdActivate,getOrganizationChartsOrganizationChartIdTeams,postOrganizationChartsOrganizationChartIdTeams,getTeamsTeamId,patchTeamsTeamId,deleteTeamsTeamId,getOrganizationChartsOrganizationChartIdTeamsTeamIdMemberships,postTeamsTeamIdMembers,deleteTeamsTeamIdMembers,patchTeamsTeamIdMembershipsUserId,getRoles,postRoles,getRolesRoleId,patchRolesRoleId,deleteRolesRoleId,postRolesRoleIdMemberships,getRolesRoleIdMemberships,deleteRolesRoleIdMembershipsUserId,getTickets,postTickets,getTicketsTasks,getTicketsTicketId,patchTicketsTicketId,postTicketsTicketIdApprove,postTicketsTicketIdReject,postTicketsTicketIdDeny,postTicketsTicketIdWithdraw,postTicketsTicketIdArchive,getTicketsTicketIdLinks,getTicketsIdViewers,postTicketsIdViewers,deleteTicketsIdViewersViewerId,getTicketsIdComments,postTicketsIdComments,getTicketsIdCommentsCommentId,patchTicketsIdCommentsCommentId,deleteTicketsIdCommentsCommentId,getUser,getUsers,postUsers,getUsersUserId,deleteUsersUserId,patchUsersUserId,getUsersLookupByEmail,postUsersUserIdReinvite,postUsersUserIdSuspend,postUsersUserIdReactivate,getUsersUserIdTeams,getUsersUserIdRoles,getRoutes,getRoutesRouteId,getWorkflows,getWorkflowsWorkflowId,getProxyApplicants,postProxyApplicants,deleteProxyApplicantsProxyApplicantId,getProxyApprovers,postProxyApprovers,deleteProxyApproversProxyApproverId,getAuditLogs}};
-export type GetCategoriesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getCategories']>>>
-export type PostCategoriesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postCategories']>>>
-export type DeleteCategoriesCategoryIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteCategoriesCategoryId']>>>
-export type PatchCategoriesCategoryIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchCategoriesCategoryId']>>>
-export type GetFoldersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getFolders']>>>
-export type PostFoldersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postFolders']>>>
-export type DeleteFoldersFolderIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteFoldersFolderId']>>>
-export type PatchFoldersFolderIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchFoldersFolderId']>>>
-export type GetFoldersFolderIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getFoldersFolderId']>>>
-export type GetGeneralMastersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGeneralMasters']>>>
-export type PostGeneralMastersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postGeneralMasters']>>>
-export type GetGeneralMastersGeneralMasterIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGeneralMastersGeneralMasterId']>>>
-export type PatchGeneralMastersGeneralMasterIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchGeneralMastersGeneralMasterId']>>>
-export type DeleteGeneralMastersGeneralMasterIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteGeneralMastersGeneralMasterId']>>>
-export type GetGeneralMastersGeneralMasterIdItemsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGeneralMastersGeneralMasterIdItems']>>>
-export type PostGeneralMastersGeneralMasterIdItemsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postGeneralMastersGeneralMasterIdItems']>>>
-export type GetGeneralMastersGeneralMasterIdItemsItemIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGeneralMastersGeneralMasterIdItemsItemId']>>>
-export type PatchGeneralMastersGeneralMasterIdItemsItemIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchGeneralMastersGeneralMasterIdItemsItemId']>>>
-export type DeleteGeneralMastersGeneralMasterIdItemsItemIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteGeneralMastersGeneralMasterIdItemsItemId']>>>
-export type GetGradesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGrades']>>>
-export type PostGradesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postGrades']>>>
-export type GetGradesGradeIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGradesGradeId']>>>
-export type DeleteGradesGradeIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteGradesGradeId']>>>
-export type PatchGradesGradeIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchGradesGradeId']>>>
-export type PostGradesGradeIdDefaultResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postGradesGradeIdDefault']>>>
-export type GetOrganizationChartsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getOrganizationCharts']>>>
-export type PostOrganizationChartsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postOrganizationCharts']>>>
-export type DeleteOrganizationChartsOrganizationChartIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteOrganizationChartsOrganizationChartId']>>>
-export type GetOrganizationChartsOrganizationChartIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getOrganizationChartsOrganizationChartId']>>>
-export type PatchOrganizationChartsOrganizationChartIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchOrganizationChartsOrganizationChartId']>>>
-export type GetOrganizationChartResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getOrganizationChart']>>>
-export type PostOrganizationChartsOrganizationChartIdActivateResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postOrganizationChartsOrganizationChartIdActivate']>>>
-export type GetOrganizationChartsOrganizationChartIdTeamsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getOrganizationChartsOrganizationChartIdTeams']>>>
-export type PostOrganizationChartsOrganizationChartIdTeamsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postOrganizationChartsOrganizationChartIdTeams']>>>
-export type GetTeamsTeamIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTeamsTeamId']>>>
-export type PatchTeamsTeamIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchTeamsTeamId']>>>
-export type DeleteTeamsTeamIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteTeamsTeamId']>>>
-export type GetOrganizationChartsOrganizationChartIdTeamsTeamIdMembershipsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getOrganizationChartsOrganizationChartIdTeamsTeamIdMemberships']>>>
-export type PostTeamsTeamIdMembersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTeamsTeamIdMembers']>>>
-export type DeleteTeamsTeamIdMembersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteTeamsTeamIdMembers']>>>
-export type PatchTeamsTeamIdMembershipsUserIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchTeamsTeamIdMembershipsUserId']>>>
-export type GetRolesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getRoles']>>>
-export type PostRolesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postRoles']>>>
-export type GetRolesRoleIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getRolesRoleId']>>>
-export type PatchRolesRoleIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchRolesRoleId']>>>
-export type DeleteRolesRoleIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteRolesRoleId']>>>
-export type PostRolesRoleIdMembershipsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postRolesRoleIdMemberships']>>>
-export type GetRolesRoleIdMembershipsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getRolesRoleIdMemberships']>>>
-export type DeleteRolesRoleIdMembershipsUserIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteRolesRoleIdMembershipsUserId']>>>
-export type GetTicketsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTickets']>>>
-export type PostTicketsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTickets']>>>
-export type GetTicketsTasksResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsTasks']>>>
-export type GetTicketsTicketIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsTicketId']>>>
-export type PatchTicketsTicketIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchTicketsTicketId']>>>
-export type PostTicketsTicketIdApproveResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsTicketIdApprove']>>>
-export type PostTicketsTicketIdRejectResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsTicketIdReject']>>>
-export type PostTicketsTicketIdDenyResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsTicketIdDeny']>>>
-export type PostTicketsTicketIdWithdrawResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsTicketIdWithdraw']>>>
-export type PostTicketsTicketIdArchiveResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsTicketIdArchive']>>>
-export type GetTicketsTicketIdLinksResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsTicketIdLinks']>>>
-export type GetTicketsIdViewersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsIdViewers']>>>
-export type PostTicketsIdViewersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsIdViewers']>>>
-export type DeleteTicketsIdViewersViewerIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteTicketsIdViewersViewerId']>>>
-export type GetTicketsIdCommentsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsIdComments']>>>
-export type PostTicketsIdCommentsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsIdComments']>>>
-export type GetTicketsIdCommentsCommentIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsIdCommentsCommentId']>>>
-export type PatchTicketsIdCommentsCommentIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchTicketsIdCommentsCommentId']>>>
-export type DeleteTicketsIdCommentsCommentIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteTicketsIdCommentsCommentId']>>>
-export type GetUserResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUser']>>>
-export type GetUsersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUsers']>>>
-export type PostUsersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postUsers']>>>
-export type GetUsersUserIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUsersUserId']>>>
-export type DeleteUsersUserIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteUsersUserId']>>>
-export type PatchUsersUserIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchUsersUserId']>>>
-export type GetUsersLookupByEmailResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUsersLookupByEmail']>>>
-export type PostUsersUserIdReinviteResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postUsersUserIdReinvite']>>>
-export type PostUsersUserIdSuspendResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postUsersUserIdSuspend']>>>
-export type PostUsersUserIdReactivateResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postUsersUserIdReactivate']>>>
-export type GetUsersUserIdTeamsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUsersUserIdTeams']>>>
-export type GetUsersUserIdRolesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUsersUserIdRoles']>>>
-export type GetRoutesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getRoutes']>>>
-export type GetRoutesRouteIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getRoutesRouteId']>>>
-export type GetWorkflowsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getWorkflows']>>>
-export type GetWorkflowsWorkflowIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getWorkflowsWorkflowId']>>>
-export type GetProxyApplicantsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getProxyApplicants']>>>
-export type PostProxyApplicantsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postProxyApplicants']>>>
-export type DeleteProxyApplicantsProxyApplicantIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteProxyApplicantsProxyApplicantId']>>>
-export type GetProxyApproversResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getProxyApprovers']>>>
-export type PostProxyApproversResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postProxyApprovers']>>>
-export type DeleteProxyApproversProxyApproverIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteProxyApproversProxyApproverId']>>>
-export type GetAuditLogsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getAuditLogs']>>>
+    options?: SecondParameter<typeof customAxiosInstance>
+  ) => {
+    return customAxiosInstance<AuditLog[]>(
+      { url: `/v1/auditLogs`, method: 'GET', params },
+      options
+    );
+  };
+
+  return {
+    getCategories,
+    postCategories,
+    deleteCategoriesCategoryId,
+    patchCategoriesCategoryId,
+    getFolders,
+    postFolders,
+    deleteFoldersFolderId,
+    patchFoldersFolderId,
+    getFoldersFolderId,
+    getGeneralMasters,
+    postGeneralMasters,
+    getGeneralMastersGeneralMasterId,
+    patchGeneralMastersGeneralMasterId,
+    deleteGeneralMastersGeneralMasterId,
+    getGeneralMastersGeneralMasterIdItems,
+    postGeneralMastersGeneralMasterIdItems,
+    getGeneralMastersGeneralMasterIdItemsItemId,
+    patchGeneralMastersGeneralMasterIdItemsItemId,
+    deleteGeneralMastersGeneralMasterIdItemsItemId,
+    getGrades,
+    postGrades,
+    getGradesGradeId,
+    deleteGradesGradeId,
+    patchGradesGradeId,
+    postGradesGradeIdDefault,
+    getOrganizationCharts,
+    postOrganizationCharts,
+    deleteOrganizationChartsOrganizationChartId,
+    getOrganizationChartsOrganizationChartId,
+    patchOrganizationChartsOrganizationChartId,
+    getOrganizationChart,
+    postOrganizationChartsOrganizationChartIdActivate,
+    getOrganizationChartsOrganizationChartIdTeams,
+    postOrganizationChartsOrganizationChartIdTeams,
+    getTeamsTeamId,
+    patchTeamsTeamId,
+    deleteTeamsTeamId,
+    getOrganizationChartsOrganizationChartIdTeamsTeamIdMemberships,
+    postTeamsTeamIdMembers,
+    deleteTeamsTeamIdMembers,
+    patchTeamsTeamIdMembershipsUserId,
+    getRoles,
+    postRoles,
+    getRolesRoleId,
+    patchRolesRoleId,
+    deleteRolesRoleId,
+    postRolesRoleIdMemberships,
+    getRolesRoleIdMemberships,
+    deleteRolesRoleIdMembershipsUserId,
+    getTickets,
+    postTickets,
+    getTicketsTasks,
+    getTicketsTicketId,
+    patchTicketsTicketId,
+    postTicketsTicketIdApprove,
+    postTicketsTicketIdReject,
+    postTicketsTicketIdDeny,
+    postTicketsTicketIdWithdraw,
+    postTicketsTicketIdArchive,
+    getTicketsTicketIdLinks,
+    getTicketsIdViewers,
+    postTicketsIdViewers,
+    deleteTicketsIdViewersViewerId,
+    getTicketsIdComments,
+    postTicketsIdComments,
+    getTicketsIdCommentsCommentId,
+    patchTicketsIdCommentsCommentId,
+    deleteTicketsIdCommentsCommentId,
+    getUser,
+    getUsers,
+    postUsers,
+    getUsersUserId,
+    deleteUsersUserId,
+    patchUsersUserId,
+    getUsersLookupByEmail,
+    postUsersUserIdReinvite,
+    postUsersUserIdSuspend,
+    postUsersUserIdReactivate,
+    getUsersUserIdTeams,
+    getUsersUserIdRoles,
+    getRoutes,
+    getRoutesRouteId,
+    getWorkflows,
+    getWorkflowsWorkflowId,
+    getProxyApplicants,
+    postProxyApplicants,
+    deleteProxyApplicantsProxyApplicantId,
+    getProxyApprovers,
+    postProxyApprovers,
+    deleteProxyApproversProxyApproverId,
+    getAuditLogs,
+  };
+};
+export type GetCategoriesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getCategories']>>
+>;
+export type PostCategoriesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postCategories']>>
+>;
+export type DeleteCategoriesCategoryIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteCategoriesCategoryId']>>
+>;
+export type PatchCategoriesCategoryIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchCategoriesCategoryId']>>
+>;
+export type GetFoldersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getFolders']>>
+>;
+export type PostFoldersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postFolders']>>
+>;
+export type DeleteFoldersFolderIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteFoldersFolderId']>>
+>;
+export type PatchFoldersFolderIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchFoldersFolderId']>>
+>;
+export type GetFoldersFolderIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getFoldersFolderId']>>
+>;
+export type GetGeneralMastersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGeneralMasters']>>
+>;
+export type PostGeneralMastersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postGeneralMasters']>>
+>;
+export type GetGeneralMastersGeneralMasterIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGeneralMastersGeneralMasterId']>>
+>;
+export type PatchGeneralMastersGeneralMasterIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchGeneralMastersGeneralMasterId']>>
+>;
+export type DeleteGeneralMastersGeneralMasterIdResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteGeneralMastersGeneralMasterId']>
+  >
+>;
+export type GetGeneralMastersGeneralMasterIdItemsResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGeneralMastersGeneralMasterIdItems']>
+  >
+>;
+export type PostGeneralMastersGeneralMasterIdItemsResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postGeneralMastersGeneralMasterIdItems']>
+  >
+>;
+export type GetGeneralMastersGeneralMasterIdItemsItemIdResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getKickflowRESTAPIV1>['getGeneralMastersGeneralMasterIdItemsItemId']
+    >
+  >
+>;
+export type PatchGeneralMastersGeneralMasterIdItemsItemIdResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getKickflowRESTAPIV1>['patchGeneralMastersGeneralMasterIdItemsItemId']
+    >
+  >
+>;
+export type DeleteGeneralMastersGeneralMasterIdItemsItemIdResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getKickflowRESTAPIV1>['deleteGeneralMastersGeneralMasterIdItemsItemId']
+    >
+  >
+>;
+export type GetGradesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGrades']>>
+>;
+export type PostGradesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postGrades']>>
+>;
+export type GetGradesGradeIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getGradesGradeId']>>
+>;
+export type DeleteGradesGradeIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteGradesGradeId']>>
+>;
+export type PatchGradesGradeIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchGradesGradeId']>>
+>;
+export type PostGradesGradeIdDefaultResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postGradesGradeIdDefault']>>
+>;
+export type GetOrganizationChartsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getOrganizationCharts']>>
+>;
+export type PostOrganizationChartsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postOrganizationCharts']>>
+>;
+export type DeleteOrganizationChartsOrganizationChartIdResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getKickflowRESTAPIV1>['deleteOrganizationChartsOrganizationChartId']
+    >
+  >
+>;
+export type GetOrganizationChartsOrganizationChartIdResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getOrganizationChartsOrganizationChartId']>
+  >
+>;
+export type PatchOrganizationChartsOrganizationChartIdResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getKickflowRESTAPIV1>['patchOrganizationChartsOrganizationChartId']
+    >
+  >
+>;
+export type GetOrganizationChartResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getOrganizationChart']>>
+>;
+export type PostOrganizationChartsOrganizationChartIdActivateResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getKickflowRESTAPIV1>['postOrganizationChartsOrganizationChartIdActivate']
+    >
+  >
+>;
+export type GetOrganizationChartsOrganizationChartIdTeamsResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getKickflowRESTAPIV1>['getOrganizationChartsOrganizationChartIdTeams']
+    >
+  >
+>;
+export type PostOrganizationChartsOrganizationChartIdTeamsResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getKickflowRESTAPIV1>['postOrganizationChartsOrganizationChartIdTeams']
+    >
+  >
+>;
+export type GetTeamsTeamIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTeamsTeamId']>>
+>;
+export type PatchTeamsTeamIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchTeamsTeamId']>>
+>;
+export type DeleteTeamsTeamIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteTeamsTeamId']>>
+>;
+export type GetOrganizationChartsOrganizationChartIdTeamsTeamIdMembershipsResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<
+        typeof getKickflowRESTAPIV1
+      >['getOrganizationChartsOrganizationChartIdTeamsTeamIdMemberships']
+    >
+  >
+>;
+export type PostTeamsTeamIdMembersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTeamsTeamIdMembers']>>
+>;
+export type DeleteTeamsTeamIdMembersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteTeamsTeamIdMembers']>>
+>;
+export type PatchTeamsTeamIdMembershipsUserIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchTeamsTeamIdMembershipsUserId']>>
+>;
+export type GetRolesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getRoles']>>
+>;
+export type PostRolesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postRoles']>>
+>;
+export type GetRolesRoleIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getRolesRoleId']>>
+>;
+export type PatchRolesRoleIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchRolesRoleId']>>
+>;
+export type DeleteRolesRoleIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteRolesRoleId']>>
+>;
+export type PostRolesRoleIdMembershipsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postRolesRoleIdMemberships']>>
+>;
+export type GetRolesRoleIdMembershipsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getRolesRoleIdMemberships']>>
+>;
+export type DeleteRolesRoleIdMembershipsUserIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteRolesRoleIdMembershipsUserId']>>
+>;
+export type GetTicketsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTickets']>>
+>;
+export type PostTicketsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTickets']>>
+>;
+export type GetTicketsTasksResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsTasks']>>
+>;
+export type GetTicketsTicketIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsTicketId']>>
+>;
+export type PatchTicketsTicketIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchTicketsTicketId']>>
+>;
+export type PostTicketsTicketIdApproveResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsTicketIdApprove']>>
+>;
+export type PostTicketsTicketIdRejectResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsTicketIdReject']>>
+>;
+export type PostTicketsTicketIdDenyResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsTicketIdDeny']>>
+>;
+export type PostTicketsTicketIdWithdrawResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsTicketIdWithdraw']>>
+>;
+export type PostTicketsTicketIdArchiveResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsTicketIdArchive']>>
+>;
+export type GetTicketsTicketIdLinksResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsTicketIdLinks']>>
+>;
+export type GetTicketsIdViewersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsIdViewers']>>
+>;
+export type PostTicketsIdViewersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsIdViewers']>>
+>;
+export type DeleteTicketsIdViewersViewerIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteTicketsIdViewersViewerId']>>
+>;
+export type GetTicketsIdCommentsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsIdComments']>>
+>;
+export type PostTicketsIdCommentsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postTicketsIdComments']>>
+>;
+export type GetTicketsIdCommentsCommentIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getTicketsIdCommentsCommentId']>>
+>;
+export type PatchTicketsIdCommentsCommentIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchTicketsIdCommentsCommentId']>>
+>;
+export type DeleteTicketsIdCommentsCommentIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteTicketsIdCommentsCommentId']>>
+>;
+export type GetUserResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUser']>>
+>;
+export type GetUsersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUsers']>>
+>;
+export type PostUsersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postUsers']>>
+>;
+export type GetUsersUserIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUsersUserId']>>
+>;
+export type DeleteUsersUserIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteUsersUserId']>>
+>;
+export type PatchUsersUserIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['patchUsersUserId']>>
+>;
+export type GetUsersLookupByEmailResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUsersLookupByEmail']>>
+>;
+export type PostUsersUserIdReinviteResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postUsersUserIdReinvite']>>
+>;
+export type PostUsersUserIdSuspendResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postUsersUserIdSuspend']>>
+>;
+export type PostUsersUserIdReactivateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postUsersUserIdReactivate']>>
+>;
+export type GetUsersUserIdTeamsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUsersUserIdTeams']>>
+>;
+export type GetUsersUserIdRolesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getUsersUserIdRoles']>>
+>;
+export type GetRoutesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getRoutes']>>
+>;
+export type GetRoutesRouteIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getRoutesRouteId']>>
+>;
+export type GetWorkflowsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getWorkflows']>>
+>;
+export type GetWorkflowsWorkflowIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getWorkflowsWorkflowId']>>
+>;
+export type GetProxyApplicantsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getProxyApplicants']>>
+>;
+export type PostProxyApplicantsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postProxyApplicants']>>
+>;
+export type DeleteProxyApplicantsProxyApplicantIdResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteProxyApplicantsProxyApplicantId']>
+  >
+>;
+export type GetProxyApproversResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getProxyApprovers']>>
+>;
+export type PostProxyApproversResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['postProxyApprovers']>>
+>;
+export type DeleteProxyApproversProxyApproverIdResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteProxyApproversProxyApproverId']>
+  >
+>;
+export type GetAuditLogsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getAuditLogs']>>
+>;

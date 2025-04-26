@@ -9,25 +9,23 @@ function isValidGetTicketsArgs(args: unknown): args is GetTicketsParams {
 }
 
 // チケット検索ツールのハンドラー
-export async function handleGetTickets(
-  request: ReturnType<typeof CallToolRequestSchema.parse>,
-) {
+export async function handleGetTickets(request: ReturnType<typeof CallToolRequestSchema.parse>) {
   if (!isValidGetTicketsArgs(request.params.arguments)) {
     throw new McpError(
       ErrorCode.InvalidParams,
-      'Invalid get tickets arguments: ' + JSON.stringify(request.params.arguments, null, 2),
+      'Invalid get tickets arguments: ' + JSON.stringify(request.params.arguments, null, 2)
     );
   }
 
   const args = request.params.arguments;
-  
+
   try {
     // Orvalで生成されたAPIクライアントを使用
     const api = getKickflowRESTAPIV1();
-    
+
     // Kickflow APIを呼び出し
     const response = await api.getTickets(args);
-    
+
     // Orvalで生成されたAPIクライアントは、レスポンスそのものがデータになっている
     return {
       content: [
@@ -39,7 +37,7 @@ export async function handleGetTickets(
     };
   } catch (error) {
     console.error('Error getting tickets:', error);
-    
+
     return {
       content: [
         {

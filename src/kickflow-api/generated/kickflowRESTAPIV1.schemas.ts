@@ -92,10 +92,8 @@ export type UserImage = {
 /**
  * ステータス
  */
-export type UserStatus = typeof UserStatus[keyof typeof UserStatus];
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserStatus = {
   invited: 'invited',
   activated: 'activated',
@@ -397,10 +395,9 @@ export interface Role {
 /**
  * 権限タイプ
  */
-export type RoleDetailAllOfPermissionListItemPermission = typeof RoleDetailAllOfPermissionListItemPermission[keyof typeof RoleDetailAllOfPermissionListItemPermission];
+export type RoleDetailAllOfPermissionListItemPermission =
+  (typeof RoleDetailAllOfPermissionListItemPermission)[keyof typeof RoleDetailAllOfPermissionListItemPermission];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RoleDetailAllOfPermissionListItemPermission = {
   tenant: 'tenant',
   billing: 'billing',
@@ -448,10 +445,9 @@ export type RoleDetail = Role & RoleDetailAllOf;
 /**
  * 権限タイプ
  */
-export type RoleCreateBodyPermissionListItemPermission = typeof RoleCreateBodyPermissionListItemPermission[keyof typeof RoleCreateBodyPermissionListItemPermission];
+export type RoleCreateBodyPermissionListItemPermission =
+  (typeof RoleCreateBodyPermissionListItemPermission)[keyof typeof RoleCreateBodyPermissionListItemPermission];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RoleCreateBodyPermissionListItemPermission = {
   tenant: 'tenant',
   billing: 'billing',
@@ -499,10 +495,9 @@ export interface RoleCreateBody {
 /**
  * 権限タイプ
  */
-export type RoleUpdateBodyPermissionListItemPermission = typeof RoleUpdateBodyPermissionListItemPermission[keyof typeof RoleUpdateBodyPermissionListItemPermission];
+export type RoleUpdateBodyPermissionListItemPermission =
+  (typeof RoleUpdateBodyPermissionListItemPermission)[keyof typeof RoleUpdateBodyPermissionListItemPermission];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RoleUpdateBodyPermissionListItemPermission = {
   tenant: 'tenant',
   billing: 'billing',
@@ -706,10 +701,9 @@ export interface GeneralMasterItem {
 /**
  * フィールドの型
  */
-export type GeneralMasterFieldFieldType = typeof GeneralMasterFieldFieldType[keyof typeof GeneralMasterFieldFieldType];
+export type GeneralMasterFieldFieldType =
+  (typeof GeneralMasterFieldFieldType)[keyof typeof GeneralMasterFieldFieldType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GeneralMasterFieldFieldType = {
   text: 'text',
   text_long: 'text_long',
@@ -761,10 +755,8 @@ export interface GeneralMasterField {
 /**
  * ステータス。visibleは有効、invisibleは無効、deletedは削除済み。
  */
-export type WorkflowStatus = typeof WorkflowStatus[keyof typeof WorkflowStatus];
+export type WorkflowStatus = (typeof WorkflowStatus)[keyof typeof WorkflowStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowStatus = {
   visible: 'visible',
   invisible: 'invisible',
@@ -774,10 +766,9 @@ export const WorkflowStatus = {
 /**
  * 申請者の上長を共有ユーザーに追加するか。noneは追加しない、directは直属の上長のみ、allはすべての上長を表す。
  */
-export type WorkflowVisibleToManager = typeof WorkflowVisibleToManager[keyof typeof WorkflowVisibleToManager];
+export type WorkflowVisibleToManager =
+  (typeof WorkflowVisibleToManager)[keyof typeof WorkflowVisibleToManager];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowVisibleToManager = {
   none: 'none',
   direct: 'direct',
@@ -787,10 +778,9 @@ export const WorkflowVisibleToManager = {
 /**
  * タイトル入力モード
  */
-export type WorkflowTitleInputMode = typeof WorkflowTitleInputMode[keyof typeof WorkflowTitleInputMode];
+export type WorkflowTitleInputMode =
+  (typeof WorkflowTitleInputMode)[keyof typeof WorkflowTitleInputMode];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowTitleInputMode = {
   none: 'none',
   input: 'input',
@@ -900,7 +890,9 @@ export type WorkflowInTicketAllOfCloudSignSettingAnyOfTwo = unknown | null;
 /**
  * クラウドサイン連携設定
  */
-export type WorkflowInTicketAllOfCloudSignSetting = WorkflowInTicketAllOfCloudSignSettingAnyOf | WorkflowInTicketAllOfCloudSignSettingAnyOfTwo;
+export type WorkflowInTicketAllOfCloudSignSetting =
+  | WorkflowInTicketAllOfCloudSignSettingAnyOf
+  | WorkflowInTicketAllOfCloudSignSettingAnyOfTwo;
 
 export type WorkflowInTicketAllOf = {
   /** セクション・明細を表すオブジェクトを画面に表示される順に格納した配列。 */
@@ -926,10 +918,9 @@ export type WorkflowDetailAllOf = {
  */
 export type WorkflowDetail = WorkflowInTicket & WorkflowDetailAllOf;
 
-export type SectionListItemSectionType = typeof SectionListItemSectionType[keyof typeof SectionListItemSectionType];
+export type SectionListItemSectionType =
+  (typeof SectionListItemSectionType)[keyof typeof SectionListItemSectionType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SectionListItemSectionType = {
   form: 'form',
   slip: 'slip',
@@ -965,10 +956,8 @@ export interface SectionListItem {
 /**
  * フィールドの型
  */
-export type FormFieldFieldType = typeof FormFieldFieldType[keyof typeof FormFieldFieldType];
+export type FormFieldFieldType = (typeof FormFieldFieldType)[keyof typeof FormFieldFieldType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FormFieldFieldType = {
   text: 'text',
   text_long: 'text_long',
@@ -990,10 +979,8 @@ export const FormFieldFieldType = {
 /**
  * フォームサイズ。fullの場合全幅、halfの場合1/2になります。
  */
-export type FormFieldSize = typeof FormFieldSize[keyof typeof FormFieldSize];
+export type FormFieldSize = (typeof FormFieldSize)[keyof typeof FormFieldSize];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FormFieldSize = {
   full: 'full',
   half: 'half',
@@ -1116,7 +1103,9 @@ export type FormFieldDetailAllOfGeneralMasterAnyOf = unknown | null;
 /**
  * 汎用マスタ（汎用マスタフィールドの場合）
  */
-export type FormFieldDetailAllOfGeneralMaster = GeneralMaster | FormFieldDetailAllOfGeneralMasterAnyOf;
+export type FormFieldDetailAllOfGeneralMaster =
+  | GeneralMaster
+  | FormFieldDetailAllOfGeneralMasterAnyOf;
 
 /**
  * @nullable
@@ -1127,7 +1116,10 @@ export type FormFieldDetailAllOfDefaultGeneralMasterItemAnyOf = unknown | null;
  * 初期値（汎用マスタフィールドの場合）
  * @nullable
  */
-export type FormFieldDetailAllOfDefaultGeneralMasterItem = GeneralMasterItem | FormFieldDetailAllOfDefaultGeneralMasterItemAnyOf | null;
+export type FormFieldDetailAllOfDefaultGeneralMasterItem =
+  | GeneralMasterItem
+  | FormFieldDetailAllOfDefaultGeneralMasterItemAnyOf
+  | null;
 
 /**
  * @nullable
@@ -1138,7 +1130,10 @@ export type FormFieldDetailAllOfExternalApiSettingAnyOf = unknown | null;
  * 外部API設定。fieldTypeがbutton_apiのときのみ値が入ります。
  * @nullable
  */
-export type FormFieldDetailAllOfExternalApiSetting = ExternalApiSetting | FormFieldDetailAllOfExternalApiSettingAnyOf | null;
+export type FormFieldDetailAllOfExternalApiSetting =
+  | ExternalApiSetting
+  | FormFieldDetailAllOfExternalApiSettingAnyOf
+  | null;
 
 /**
  * @nullable
@@ -1149,7 +1144,10 @@ export type FormFieldDetailAllOfKintoneAppSettingAnyOf = unknown | null;
  * 外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。
  * @nullable
  */
-export type FormFieldDetailAllOfKintoneAppSetting = KintoneAppSetting | FormFieldDetailAllOfKintoneAppSettingAnyOf | null;
+export type FormFieldDetailAllOfKintoneAppSetting =
+  | KintoneAppSetting
+  | FormFieldDetailAllOfKintoneAppSettingAnyOf
+  | null;
 
 /**
  * @nullable
@@ -1160,7 +1158,10 @@ export type FormFieldDetailAllOfClimberCloudSettingAnyOf = unknown | null;
  * ClimberCloud連携設定。fieldTypeがfileのときのみ値が入ります。
  * @nullable
  */
-export type FormFieldDetailAllOfClimberCloudSetting = ClimberCloudSetting | FormFieldDetailAllOfClimberCloudSettingAnyOf | null;
+export type FormFieldDetailAllOfClimberCloudSetting =
+  | ClimberCloudSetting
+  | FormFieldDetailAllOfClimberCloudSettingAnyOf
+  | null;
 
 export type FormFieldDetailAllOf = {
   /** 汎用マスタ（汎用マスタフィールドの場合） */
@@ -1195,10 +1196,9 @@ export type FormFieldDetail = FormField & FormFieldDetailAllOf;
 /**
  * HTTPメソッド
  */
-export type ExternalApiSettingHttpMethod = typeof ExternalApiSettingHttpMethod[keyof typeof ExternalApiSettingHttpMethod];
+export type ExternalApiSettingHttpMethod =
+  (typeof ExternalApiSettingHttpMethod)[keyof typeof ExternalApiSettingHttpMethod];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExternalApiSettingHttpMethod = {
   get: 'get',
   post: 'post',
@@ -1272,10 +1272,8 @@ export interface ClimberCloudSetting {
 /**
  * フィールドの型
  */
-export type SlipFieldFieldType = typeof SlipFieldFieldType[keyof typeof SlipFieldFieldType];
+export type SlipFieldFieldType = (typeof SlipFieldFieldType)[keyof typeof SlipFieldFieldType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SlipFieldFieldType = {
   text: 'text',
   number: 'number',
@@ -1383,7 +1381,10 @@ export type SlipFieldDetailAllOfGeneralMasterAnyOf = unknown | null;
  * 汎用マスタ。型が汎用マスタのときのみ値が入ります。
  * @nullable
  */
-export type SlipFieldDetailAllOfGeneralMaster = GeneralMaster | SlipFieldDetailAllOfGeneralMasterAnyOf | null;
+export type SlipFieldDetailAllOfGeneralMaster =
+  | GeneralMaster
+  | SlipFieldDetailAllOfGeneralMasterAnyOf
+  | null;
 
 /**
  * @nullable
@@ -1394,7 +1395,10 @@ export type SlipFieldDetailAllOfDefaultGeneralMasterItemAnyOf = unknown | null;
  * 汎用マスタアイテムの初期値
  * @nullable
  */
-export type SlipFieldDetailAllOfDefaultGeneralMasterItem = GeneralMasterItem | SlipFieldDetailAllOfDefaultGeneralMasterItemAnyOf | null;
+export type SlipFieldDetailAllOfDefaultGeneralMasterItem =
+  | GeneralMasterItem
+  | SlipFieldDetailAllOfDefaultGeneralMasterItemAnyOf
+  | null;
 
 export type SlipFieldDetailAllOf = {
   /**
@@ -1417,10 +1421,9 @@ export type SlipFieldDetail = SlipField & SlipFieldDetailAllOf;
 /**
  * 経路分岐タイプ
  */
-export type WorkflowRouteConditionConditionType = typeof WorkflowRouteConditionConditionType[keyof typeof WorkflowRouteConditionConditionType];
+export type WorkflowRouteConditionConditionType =
+  (typeof WorkflowRouteConditionConditionType)[keyof typeof WorkflowRouteConditionConditionType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowRouteConditionConditionType = {
   always: 'always',
   field: 'field',
@@ -1430,10 +1433,9 @@ export const WorkflowRouteConditionConditionType = {
 /**
  * 条件の組み合わせタイプ
  */
-export type WorkflowRouteConditionCombinationType = typeof WorkflowRouteConditionCombinationType[keyof typeof WorkflowRouteConditionCombinationType];
+export type WorkflowRouteConditionCombinationType =
+  (typeof WorkflowRouteConditionCombinationType)[keyof typeof WorkflowRouteConditionCombinationType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowRouteConditionCombinationType = {
   all: 'all',
   any: 'any',
@@ -1566,10 +1568,8 @@ export interface WorkflowTicketViewer {
 /**
  * ステータス
  */
-export type RouteStatus = typeof RouteStatus[keyof typeof RouteStatus];
+export type RouteStatus = (typeof RouteStatus)[keyof typeof RouteStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStatus = {
   visible: 'visible',
   deleted: 'deleted',
@@ -1639,10 +1639,8 @@ export type RouteDetail = Route & RouteDetailAllOf;
 /**
  * ステップのタイプ
  */
-export type RouteStepStepType = typeof RouteStepStepType[keyof typeof RouteStepStepType];
+export type RouteStepStepType = (typeof RouteStepStepType)[keyof typeof RouteStepStepType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepStepType = {
   author: 'author',
   manager: 'manager',
@@ -1656,10 +1654,8 @@ export const RouteStepStepType = {
 /**
  * アクションタイプ。承認/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。
  */
-export type RouteStepActionType = typeof RouteStepActionType[keyof typeof RouteStepActionType];
+export type RouteStepActionType = (typeof RouteStepActionType)[keyof typeof RouteStepActionType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepActionType = {
   approve: 'approve',
   confirm: 'confirm',
@@ -1670,10 +1666,10 @@ export const RouteStepActionType = {
  * フォールバックのタイプ
  * @nullable
  */
-export type RouteStepFallbackType = typeof RouteStepFallbackType[keyof typeof RouteStepFallbackType] | null;
+export type RouteStepFallbackType =
+  | (typeof RouteStepFallbackType)[keyof typeof RouteStepFallbackType]
+  | null;
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepFallbackType = {
   direct_manager: 'direct_manager',
   higher_manager: 'higher_manager',
@@ -1752,10 +1748,9 @@ export interface RouteStepTarget {
 /**
  * 実行タイプ
  */
-export type RouteStepConditionConditionType = typeof RouteStepConditionConditionType[keyof typeof RouteStepConditionConditionType];
+export type RouteStepConditionConditionType =
+  (typeof RouteStepConditionConditionType)[keyof typeof RouteStepConditionConditionType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepConditionConditionType = {
   always: 'always',
   conditional: 'conditional',
@@ -1765,10 +1760,9 @@ export const RouteStepConditionConditionType = {
 /**
  * 条件の組み合わせタイプ
  */
-export type RouteStepConditionCombinationType = typeof RouteStepConditionCombinationType[keyof typeof RouteStepConditionCombinationType];
+export type RouteStepConditionCombinationType =
+  (typeof RouteStepConditionCombinationType)[keyof typeof RouteStepConditionCombinationType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepConditionCombinationType = {
   all: 'all',
   any: 'any',
@@ -1792,10 +1786,9 @@ export interface RouteStepCondition {
 /**
  * 変数のフィールド
  */
-export type RouteStepConditionFieldFieldKey = typeof RouteStepConditionFieldFieldKey[keyof typeof RouteStepConditionFieldFieldKey];
+export type RouteStepConditionFieldFieldKey =
+  (typeof RouteStepConditionFieldFieldKey)[keyof typeof RouteStepConditionFieldFieldKey];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepConditionFieldFieldKey = {
   author_grade: 'author_grade',
   author_team: 'author_team',
@@ -1831,10 +1824,8 @@ export interface RouteStepConditionField {
 /**
  * ステータス
  */
-export type TicketStatus = typeof TicketStatus[keyof typeof TicketStatus];
+export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -1869,10 +1860,9 @@ export type TicketProxyClientUser = User | TicketProxyClientUserAnyOf | null;
 /**
  * チケットの共有範囲の上書き設定
  */
-export type TicketForcedPublicType = typeof TicketForcedPublicType[keyof typeof TicketForcedPublicType];
+export type TicketForcedPublicType =
+  (typeof TicketForcedPublicType)[keyof typeof TicketForcedPublicType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketForcedPublicType = {
   follow_workflow: 'follow_workflow',
   forced_public: 'forced_public',
@@ -1986,10 +1976,9 @@ export type TicketDetailAllOfCloudSignDocumentAnyOf = unknown | null;
 /**
  * クラウドサイン書類のステータス
  */
-export type TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus = typeof TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus[keyof typeof TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus];
+export type TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus =
+  (typeof TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus)[keyof typeof TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketDetailAllOfCloudSignDocumentAnyOfTwoStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -2021,7 +2010,9 @@ export type TicketDetailAllOfCloudSignDocumentAnyOfTwo = {
 /**
  * 添付されたクラウドサインの書類
  */
-export type TicketDetailAllOfCloudSignDocument = TicketDetailAllOfCloudSignDocumentAnyOf | TicketDetailAllOfCloudSignDocumentAnyOfTwo;
+export type TicketDetailAllOfCloudSignDocument =
+  | TicketDetailAllOfCloudSignDocumentAnyOf
+  | TicketDetailAllOfCloudSignDocumentAnyOfTwo;
 
 export type TicketDetailAllOf = {
   /** 申請者の所属チーム */
@@ -2095,10 +2086,8 @@ export interface TicketSection {
 /**
  * アクションタイプ。承認/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。
  */
-export type TicketStepActionType = typeof TicketStepActionType[keyof typeof TicketStepActionType];
+export type TicketStepActionType = (typeof TicketStepActionType)[keyof typeof TicketStepActionType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketStepActionType = {
   approve: 'approve',
   confirm: 'confirm',
@@ -2109,10 +2098,10 @@ export const TicketStepActionType = {
  * フォールバックの結果
  * @nullable
  */
-export type TicketStepFallbackResult = typeof TicketStepFallbackResult[keyof typeof TicketStepFallbackResult] | null;
+export type TicketStepFallbackResult =
+  | (typeof TicketStepFallbackResult)[keyof typeof TicketStepFallbackResult]
+  | null;
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketStepFallbackResult = {
   direct_manager: 'direct_manager',
   higher_manager: 'higher_manager',
@@ -2235,7 +2224,16 @@ export interface SlipItem {
 フィールドの型が汎用マスタアイテムの場合、JSON Arrayがキャッシュとして保存されます。
  * @nullable
  */
-export type SlipItemInputValue = string | null | unknown[] | null | number | null | number | null | null;
+export type SlipItemInputValue =
+  | string
+  | null
+  | unknown[]
+  | null
+  | number
+  | null
+  | number
+  | null
+  | null;
 
 /**
  * 明細アイテム入力
@@ -2479,18 +2477,18 @@ export interface KintoneAppSetting {
 }
 
 export type GetCategoriesParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。指定可能なフィールド: name, createdAt, updatedAt
- */
-sortBy?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。指定可能なフィールド: name, createdAt, updatedAt
+   */
+  sortBy?: string;
 };
 
 export type PostCategoriesBody = {
@@ -2504,18 +2502,18 @@ export type PatchCategoriesCategoryIdBody = {
 };
 
 export type GetFoldersParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。 指定可能なフィールド: createdAt, name, fullName
- */
-sortBy?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。 指定可能なフィールド: createdAt, name, fullName
+   */
+  sortBy?: string;
 };
 
 export type PostFoldersBody = {
@@ -2547,27 +2545,26 @@ export type PatchFoldersFolderIdBody = {
 };
 
 export type GetGeneralMastersParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数å
- */
-perPage?: number;
-/**
- * ソート。 指定可能なフィールド: createdAt, code, name
- */
-sortBy?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数å
+   */
+  perPage?: number;
+  /**
+   * ソート。 指定可能なフィールド: createdAt, code, name
+   */
+  sortBy?: string;
 };
 
 /**
  * フィールドの型
  */
-export type PostGeneralMastersBodyFieldsItemFieldType = typeof PostGeneralMastersBodyFieldsItemFieldType[keyof typeof PostGeneralMastersBodyFieldsItemFieldType];
+export type PostGeneralMastersBodyFieldsItemFieldType =
+  (typeof PostGeneralMastersBodyFieldsItemFieldType)[keyof typeof PostGeneralMastersBodyFieldsItemFieldType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostGeneralMastersBodyFieldsItemFieldType = {
   text: 'text',
   text_long: 'text_long',
@@ -2653,18 +2650,18 @@ export type PatchGeneralMastersGeneralMasterIdBody = {
 };
 
 export type GetGeneralMastersGeneralMasterIdItemsParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。 指定可能なフィールド: createdAt, code, name
- */
-sortBy?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。 指定可能なフィールド: createdAt, code, name
+   */
+  sortBy?: string;
 };
 
 /**
@@ -2703,7 +2700,10 @@ export type PostGeneralMastersGeneralMasterIdItemsBody = {
 /**
  * 入力値。カスタムフィールドがcheckboxまたはpull_downの場合文字列の配列、それ以外の場合文字列。
  */
-export type PatchGeneralMastersGeneralMasterIdItemsItemIdBodyInputsItemValue = string | null | string[];
+export type PatchGeneralMastersGeneralMasterIdItemsItemIdBodyInputsItemValue =
+  | string
+  | null
+  | string[];
 
 export type PatchGeneralMastersGeneralMasterIdItemsItemIdBodyInputsItem = {
   /** フィールドのコード */
@@ -2734,33 +2734,33 @@ export type PatchGeneralMastersGeneralMasterIdItemsItemIdBody = {
 };
 
 export type GetGradesParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。指定可能なフィールド: level, code
- */
-sortBy?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。指定可能なフィールド: level, code
+   */
+  sortBy?: string;
 };
 
 export type GetOrganizationChartsParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。指定可能なフィールド: createdAt, name
- */
-sortBy?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。指定可能なフィールド: createdAt, name
+   */
+  sortBy?: string;
 };
 
 export type PostOrganizationChartsOrganizationChartIdActivateBody = {
@@ -2769,29 +2769,29 @@ export type PostOrganizationChartsOrganizationChartIdActivateBody = {
 };
 
 export type GetOrganizationChartsOrganizationChartIdTeamsParams = {
-/**
- * 親チームのUUID
- */
-parentId?: string;
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
+  /**
+   * 親チームのUUID
+   */
+  parentId?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
 };
 
 export type GetOrganizationChartsOrganizationChartIdTeamsTeamIdMembershipsParams = {
-/**
- * ページ。1が先頭のページ。
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
+  /**
+   * ページ。1が先頭のページ。
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
 };
 
 export type PostTeamsTeamIdMembersBodyUsersItem = {
@@ -2835,18 +2835,18 @@ export type PatchTeamsTeamIdMembershipsUserIdBody = {
 };
 
 export type GetRolesParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。 指定可能なフィールド: createdAt, name
- */
-sortBy?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。 指定可能なフィールド: createdAt, name
+   */
+  sortBy?: string;
 };
 
 export type PostRolesRoleIdMembershipsBody = {
@@ -2859,111 +2859,117 @@ export type PostRolesRoleIdMembershipsBody = {
 };
 
 export type GetRolesRoleIdMembershipsParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
 };
 
 export type GetTicketsParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。指定可能なフィールド: createdAt, updatedAt
- */
-sortBy?: string;
-/**
- * ステータスの配列
- */
-status?: 'draft' | 'in_progress' | 'rejected' | 'completed' | 'denied' | 'archived' | GetTicketsStatusOneOfItem[];
-/**
- * サブステータスのUUIDの配列
- */
-subStatusIds?: string[];
-/**
- * ワークフローのUUID
- */
-workflowId?: string;
-/**
- * 申請者のUUID
- */
-authorId?: string;
-/**
- * 申請時に選択したチームの上位組織を含む名前
- */
-authorTeamFullName?: string;
-/**
- * チケット番号
- */
-ticketNumber?: string;
-/**
- * 作成日時の起点
- */
-createdAtStart?: string;
-/**
- * 作成日時の終点
- */
-createdAtEnd?: string;
-/**
- * 更新日時の起点
- */
-updatedAtStart?: string;
-/**
- * 更新日時の終点
- */
-updatedAtEnd?: string;
-/**
- * 申請日時の起点
- */
-openedAtStart?: string;
-/**
- * 申請日時の終点
- */
-openedAtEnd?: string;
-/**
- * 完了日時の起点
- */
-completedAtStart?: string;
-/**
- * 完了日時の終点
- */
-completedAtEnd?: string;
-/**
- * アーカイブ日時の起点
- */
-archivedAtStart?: string;
-/**
- * アーカイブ日時の終点
- */
-archivedAtEnd?: string;
-/**
- * 承認者のUUID。assigneeStatusとセットで指定してください。
- */
-assigneeUserId?: string;
-/**
- * 承認者の状態。assigneeUserIdとセットで指定してください。
- */
-assigneeStatus?: GetTicketsAssigneeStatusItem[];
-/**
- * 現在の承認ステップ名
- */
-stepTitle?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。指定可能なフィールド: createdAt, updatedAt
+   */
+  sortBy?: string;
+  /**
+   * ステータスの配列
+   */
+  status?:
+    | 'draft'
+    | 'in_progress'
+    | 'rejected'
+    | 'completed'
+    | 'denied'
+    | 'archived'
+    | GetTicketsStatusOneOfItem[];
+  /**
+   * サブステータスのUUIDの配列
+   */
+  subStatusIds?: string[];
+  /**
+   * ワークフローのUUID
+   */
+  workflowId?: string;
+  /**
+   * 申請者のUUID
+   */
+  authorId?: string;
+  /**
+   * 申請時に選択したチームの上位組織を含む名前
+   */
+  authorTeamFullName?: string;
+  /**
+   * チケット番号
+   */
+  ticketNumber?: string;
+  /**
+   * 作成日時の起点
+   */
+  createdAtStart?: string;
+  /**
+   * 作成日時の終点
+   */
+  createdAtEnd?: string;
+  /**
+   * 更新日時の起点
+   */
+  updatedAtStart?: string;
+  /**
+   * 更新日時の終点
+   */
+  updatedAtEnd?: string;
+  /**
+   * 申請日時の起点
+   */
+  openedAtStart?: string;
+  /**
+   * 申請日時の終点
+   */
+  openedAtEnd?: string;
+  /**
+   * 完了日時の起点
+   */
+  completedAtStart?: string;
+  /**
+   * 完了日時の終点
+   */
+  completedAtEnd?: string;
+  /**
+   * アーカイブ日時の起点
+   */
+  archivedAtStart?: string;
+  /**
+   * アーカイブ日時の終点
+   */
+  archivedAtEnd?: string;
+  /**
+   * 承認者のUUID。assigneeStatusとセットで指定してください。
+   */
+  assigneeUserId?: string;
+  /**
+   * 承認者の状態。assigneeUserIdとセットで指定してください。
+   */
+  assigneeStatus?: GetTicketsAssigneeStatusItem[];
+  /**
+   * 現在の承認ステップ名
+   */
+  stepTitle?: string;
 };
 
-export type GetTicketsStatusOneOfItem = typeof GetTicketsStatusOneOfItem[keyof typeof GetTicketsStatusOneOfItem];
+export type GetTicketsStatusOneOfItem =
+  (typeof GetTicketsStatusOneOfItem)[keyof typeof GetTicketsStatusOneOfItem];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTicketsStatusOneOfItem = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -2973,10 +2979,9 @@ export const GetTicketsStatusOneOfItem = {
   archived: 'archived',
 } as const;
 
-export type GetTicketsAssigneeStatusItem = typeof GetTicketsAssigneeStatusItem[keyof typeof GetTicketsAssigneeStatusItem];
+export type GetTicketsAssigneeStatusItem =
+  (typeof GetTicketsAssigneeStatusItem)[keyof typeof GetTicketsAssigneeStatusItem];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTicketsAssigneeStatusItem = {
   all: 'all',
   current: 'current',
@@ -2986,10 +2991,9 @@ export const GetTicketsAssigneeStatusItem = {
 /**
  * ステータス。作成ではdraftまたはin_progressのみ選択可能です。
  */
-export type PostTicketsBodyStatus = typeof PostTicketsBodyStatus[keyof typeof PostTicketsBodyStatus];
+export type PostTicketsBodyStatus =
+  (typeof PostTicketsBodyStatus)[keyof typeof PostTicketsBodyStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostTicketsBodyStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -3172,98 +3176,97 @@ export type PostTicketsBody = {
 };
 
 export type GetTicketsTasksParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。指定可能なフィールド: createdAt, updatedAt
- */
-sortBy?: string;
-/**
- * ステータスの配列
- */
-status?: GetTicketsTasksStatusItem[];
-/**
- * サブステータスのUUIDの配列
- */
-subStatusIds?: string[];
-/**
- * ワークフローのUUID
- */
-workflowId?: string;
-/**
- * 申請者のUUID
- */
-authorId?: string;
-/**
- * 申請時に選択したチームの上位組織を含む名前
- */
-authorTeamFullName?: string;
-/**
- * チケット番号
- */
-ticketNumber?: string;
-/**
- * 作成日時の起点
- */
-createdAtStart?: string;
-/**
- * 作成日時の終点
- */
-createdAtEnd?: string;
-/**
- * 更新日時の起点
- */
-updatedAtStart?: string;
-/**
- * 更新日時の終点
- */
-updatedAtEnd?: string;
-/**
- * 申請日時の起点
- */
-openedAtStart?: string;
-/**
- * 申請日時の終点
- */
-openedAtEnd?: string;
-/**
- * 完了日時の起点
- */
-completedAtStart?: string;
-/**
- * 完了日時の終点
- */
-completedAtEnd?: string;
-/**
- * アーカイブ日時の起点
- */
-archivedAtStart?: string;
-/**
- * アーカイブ日時の終点
- */
-archivedAtEnd?: string;
-/**
- * 現在の承認ステップ名
- */
-stepTitle?: string;
-/**
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。指定可能なフィールド: createdAt, updatedAt
+   */
+  sortBy?: string;
+  /**
+   * ステータスの配列
+   */
+  status?: GetTicketsTasksStatusItem[];
+  /**
+   * サブステータスのUUIDの配列
+   */
+  subStatusIds?: string[];
+  /**
+   * ワークフローのUUID
+   */
+  workflowId?: string;
+  /**
+   * 申請者のUUID
+   */
+  authorId?: string;
+  /**
+   * 申請時に選択したチームの上位組織を含む名前
+   */
+  authorTeamFullName?: string;
+  /**
+   * チケット番号
+   */
+  ticketNumber?: string;
+  /**
+   * 作成日時の起点
+   */
+  createdAtStart?: string;
+  /**
+   * 作成日時の終点
+   */
+  createdAtEnd?: string;
+  /**
+   * 更新日時の起点
+   */
+  updatedAtStart?: string;
+  /**
+   * 更新日時の終点
+   */
+  updatedAtEnd?: string;
+  /**
+   * 申請日時の起点
+   */
+  openedAtStart?: string;
+  /**
+   * 申請日時の終点
+   */
+  openedAtEnd?: string;
+  /**
+   * 完了日時の起点
+   */
+  completedAtStart?: string;
+  /**
+   * 完了日時の終点
+   */
+  completedAtEnd?: string;
+  /**
+   * アーカイブ日時の起点
+   */
+  archivedAtStart?: string;
+  /**
+   * アーカイブ日時の終点
+   */
+  archivedAtEnd?: string;
+  /**
+   * 現在の承認ステップ名
+   */
+  stepTitle?: string;
+  /**
  * 承認の保留状態でチケットを絞り込みます。
 - true: 保留中のチケットのみを取得
 - false: 保留されていないチケットのみを取得
  */
-pending?: GetTicketsTasksPending;
+  pending?: GetTicketsTasksPending;
 };
 
-export type GetTicketsTasksStatusItem = typeof GetTicketsTasksStatusItem[keyof typeof GetTicketsTasksStatusItem];
+export type GetTicketsTasksStatusItem =
+  (typeof GetTicketsTasksStatusItem)[keyof typeof GetTicketsTasksStatusItem];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTicketsTasksStatusItem = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -3272,10 +3275,9 @@ export const GetTicketsTasksStatusItem = {
   deleted: 'deleted',
 } as const;
 
-export type GetTicketsTasksPending = typeof GetTicketsTasksPending[keyof typeof GetTicketsTasksPending];
+export type GetTicketsTasksPending =
+  (typeof GetTicketsTasksPending)[keyof typeof GetTicketsTasksPending];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTicketsTasksPending = {
   true: 'true',
   false: 'false',
@@ -3284,10 +3286,9 @@ export const GetTicketsTasksPending = {
 /**
  * ステータス。更新ではdraft, in_progress, rejectedのみ選択可能です。
  */
-export type PatchTicketsTicketIdBodyStatus = typeof PatchTicketsTicketIdBodyStatus[keyof typeof PatchTicketsTicketIdBodyStatus];
+export type PatchTicketsTicketIdBodyStatus =
+  (typeof PatchTicketsTicketIdBodyStatus)[keyof typeof PatchTicketsTicketIdBodyStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PatchTicketsTicketIdBodyStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -3302,7 +3303,10 @@ export type PatchTicketsTicketIdBodySlipItemsItemInputsItemValue = string | null
 /**
  * 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
  */
-export type PatchTicketsTicketIdBodySlipItemsItemInputsItemGeneralMasterItemId = string | null | string[];
+export type PatchTicketsTicketIdBodySlipItemsItemInputsItemGeneralMasterItemId =
+  | string
+  | null
+  | string[];
 
 /**
  * ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
@@ -3468,29 +3472,29 @@ export type PostTicketsTicketIdRejectBody = {
 export type PostTicketsTicketIdDenyBody = { [key: string]: unknown };
 
 export type GetTicketsTicketIdLinksParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
 };
 
 export type GetTicketsIdViewersParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。 指定可能なフィールド: createdAt
- */
-sortBy?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。 指定可能なフィールド: createdAt
+   */
+  sortBy?: string;
 };
 
 /**
@@ -3529,18 +3533,18 @@ export type PostTicketsIdViewersBody = {
 };
 
 export type GetTicketsIdCommentsParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。 指定可能なフィールド: createdAt
- */
-sortBy?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。 指定可能なフィールド: createdAt
+   */
+  sortBy?: string;
 };
 
 export type PostTicketsIdCommentsBody = {
@@ -3559,29 +3563,27 @@ export type PatchTicketsIdCommentsCommentIdBody = {
 };
 
 export type GetUsersParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ステータスによる絞り込み
- */
-status?: GetUsersStatusItem[];
-/**
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ステータスによる絞り込み
+   */
+  status?: GetUsersStatusItem[];
+  /**
  * ソート。
 指定可能なフィールド: email, code
  */
-sortBy?: string;
+  sortBy?: string;
 };
 
-export type GetUsersStatusItem = typeof GetUsersStatusItem[keyof typeof GetUsersStatusItem];
+export type GetUsersStatusItem = (typeof GetUsersStatusItem)[keyof typeof GetUsersStatusItem];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUsersStatusItem = {
   invited: 'invited',
   activated: 'activated',
@@ -3647,107 +3649,104 @@ export type PatchUsersUserIdBody = {
 };
 
 export type GetUsersLookupByEmailParams = {
-/**
- * メールアドレス（URLエンコードを行ったもの）
- */
-email: string;
+  /**
+   * メールアドレス（URLエンコードを行ったもの）
+   */
+  email: string;
 };
 
 export type GetUsersUserIdTeamsParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * trueの場合、申請可能なチームのみ返す。デフォルトはfalse（すべてのチームを返す）
- */
-submittable?: boolean;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * trueの場合、申請可能なチームのみ返す。デフォルトはfalse（すべてのチームを返す）
+   */
+  submittable?: boolean;
 };
 
 export type GetUsersUserIdRolesParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
 };
 
 export type GetRoutesParams = {
-/**
- * ページ。1が最初のページ。
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。ソート可能なフィールド: createdAt, folderId
- */
-sortBy?: string;
-/**
- * ステータス
- */
-status?: GetRoutesStatusItem[];
-/**
- * フォルダのUUID
- */
-folderId?: string;
+  /**
+   * ページ。1が最初のページ。
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。ソート可能なフィールド: createdAt, folderId
+   */
+  sortBy?: string;
+  /**
+   * ステータス
+   */
+  status?: GetRoutesStatusItem[];
+  /**
+   * フォルダのUUID
+   */
+  folderId?: string;
 };
 
-export type GetRoutesStatusItem = typeof GetRoutesStatusItem[keyof typeof GetRoutesStatusItem];
+export type GetRoutesStatusItem = (typeof GetRoutesStatusItem)[keyof typeof GetRoutesStatusItem];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetRoutesStatusItem = {
   visible: 'visible',
   error: 'error',
 } as const;
 
 export type GetWorkflowsParams = {
-/**
- * ページ。1が最初のページ。
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。ソート可能なフィールド: createdAt, updatedAt, name, status
- */
-sortBy?: string;
-/**
- * ステータス
- */
-status?: GetWorkflowsStatusItem[];
+  /**
+   * ページ。1が最初のページ。
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。ソート可能なフィールド: createdAt, updatedAt, name, status
+   */
+  sortBy?: string;
+  /**
+   * ステータス
+   */
+  status?: GetWorkflowsStatusItem[];
 };
 
-export type GetWorkflowsStatusItem = typeof GetWorkflowsStatusItem[keyof typeof GetWorkflowsStatusItem];
+export type GetWorkflowsStatusItem =
+  (typeof GetWorkflowsStatusItem)[keyof typeof GetWorkflowsStatusItem];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetWorkflowsStatusItem = {
   visible: 'visible',
   invisible: 'invisible',
 } as const;
 
 export type GetProxyApplicantsParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
 };
 
 export type PostProxyApplicantsBody = {
@@ -3770,14 +3769,14 @@ export type PostProxyApplicantsBody = {
 };
 
 export type GetProxyApproversParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
 };
 
 export type PostProxyApproversBody = {
@@ -3800,29 +3799,28 @@ export type PostProxyApproversBody = {
 };
 
 export type GetAuditLogsParams = {
-/**
- * ページ
- */
-page?: number;
-/**
- * 1ページあたりの件数
- */
-perPage?: number;
-/**
- * ソート。指定可能なフィールド: createdAt
- */
-sortBy?: string;
-/**
- * 作成日時の起点
- */
-createdAtStart?: string;
-/**
- * 作成日時の終点
- */
-createdAtEnd?: string;
-/**
- * ユーザーID
- */
-userId?: string;
+  /**
+   * ページ
+   */
+  page?: number;
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number;
+  /**
+   * ソート。指定可能なフィールド: createdAt
+   */
+  sortBy?: string;
+  /**
+   * 作成日時の起点
+   */
+  createdAtStart?: string;
+  /**
+   * 作成日時の終点
+   */
+  createdAtEnd?: string;
+  /**
+   * ユーザーID
+   */
+  userId?: string;
 };
-
