@@ -9,55 +9,42 @@ Kickflow APIをModel Context Protocol (MCP)経由で利用するためのサー�
 - `get_tickets`: チケットの一覧を取得
 - `get_ticket`: 特定のチケットの取得
 
-## 必要条件
+---
+
+## ユーザー向け
+
+### 必要条件
 
 - Node.js 18以上
 - Kickflow アクセストークン
 
-## インストール
+### インストール
 
-### npx経由でのインストール（推奨）
+#### npx経由でのインストール（推奨）
 
 ```bash
 npx kickflow-mcp-server --kickflow-access-token="your-kickflow-access-token"
 ```
 
-### グローバルインストール
+#### ソースコードからインストール
 
-```bash
-npm install -g kickflow-mcp-server
-```
+1.  リポジトリをクローン:
+    ```bash
+    git clone https://github.com/kickflow/kickflow-mcp-server.git
+    cd kickflow-mcp-server
+    ```
+2.  依存パッケージのインストール:
+    ```bash
+    npm install
+    ```
+3.  ビルド:
+    ```bash
+    npm run build
+    ```
 
-使用時：
+### 使い方
 
-```bash
-KICKFLOW_ACCESS_TOKEN="your-kickflow-access-token" kickflow-mcp-server
-```
-
-### 開発者向けセットアップ
-
-1. リポジトリをクローン
-
-```
-git clone [リポジトリURL]
-cd kickflow-mcp-server
-```
-
-2. 依存パッケージのインストール
-
-```
-npm install
-```
-
-3. ビルド
-
-```
-npm run build
-```
-
-## 使い方
-
-### 環境変数の設定
+#### 環境変数の設定
 
 Kickflow アクセストークンを環境変数に設定します：
 
@@ -65,7 +52,12 @@ Kickflow アクセストークンを環境変数に設定します：
 export KICKFLOW_ACCESS_TOKEN="your-kickflow-access-token"
 ```
 
-### サーバーの実行
+#### サーバーの実行
+
+npx経由でインストールした場合、インストールコマンドがそのままサーバー実行コマンドになります。
+
+ソースコードからインストールした場合：
+プロジェクトディレクトリ内で以下のコマンドを実行します。
 
 ```bash
 npm start
@@ -77,9 +69,13 @@ npm start
 node dist/index.js
 ```
 
-### MCP設定ファイルへの追加
+_(環境変数 `KICKFLOW_ACCESS_TOKEN` が設定されている必要があります)_
 
-MCP設定ファイルに以下のような記述を追加します：
+#### MCP設定ファイルへの追加
+
+MCP設定ファイル (`claude_desktop_config.json` など) に以下のような記述を追加します：
+
+**環境変数でトークンを設定する場合:**
 
 ```json
 {
@@ -97,7 +93,7 @@ MCP設定ファイルに以下のような記述を追加します：
 }
 ```
 
-または、引数でアクセストークンを渡す場合：
+**引数でトークンを渡す場合:**
 
 ```json
 {
@@ -112,41 +108,60 @@ MCP設定ファイルに以下のような記述を追加します：
 }
 ```
 
-## ツールの使用例
+### ツール
 
-### チケットの検索
+#### get_tickets
 
-```json
-{
-  "status": "in_progress",
-  "page": 1,
-  "perPage": 10
-}
-```
+- チケットの一覧を取得します。
+  - `page`: ページ番号 (デフォルト: 1)
+  - `perPage`: 1ページあたりのチケット数 (デフォルト: 25)
 
-### 特定のチケットの取得
+#### get_ticket
 
-```json
-{
-  "ticketId": "your-ticket-uuid"
-}
-```
+- 特定のチケットを取得します。
+  - `ticketId`: チケットのID（必須）
 
-## 開発
+---
 
-### 開発サーバーの実行
+## 開発者向け
+
+### セットアップ
+
+1.  リポジトリをクローン:
+    ```bash
+    git clone [リポジトリURL]
+    cd kickflow-mcp-server
+    ```
+2.  依存パッケージのインストール:
+    ```bash
+    npm install
+    ```
+3.  ビルド:
+    ```bash
+    npm run build
+    ```
+
+### 開発
+
+#### 開発サーバーの実行
+
+変更を監視し、自動的に再ビルドしてサーバーを再起動します。
 
 ```bash
 npm run dev
 ```
 
-### OpenAPI型定義の更新
+_(開発時も `KICKFLOW_ACCESS_TOKEN` 環境変数の設定が必要です)_
+
+#### OpenAPI型定義の更新
 
 Kickflow APIのスキーマから TypeScript の型定義を更新するには:
 
 ```bash
-npm run generate-types
+npm run generate-api
 ```
+
+---
 
 ## ライセンス
 
