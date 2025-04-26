@@ -11,10 +11,55 @@ import { KickflowClient } from './kickflow-api/client.js';
 import { handleSearchTickets } from './tools/search-tickets.js';
 import { handleGetTicket } from './tools/get-ticket.js';
 
-// 環境変数から認証トークンを取得
-const API_TOKEN = process.env.KICKFLOW_API_TOKEN;
+// コマンドライン引数からトークンを取得
+function parseArguments() {
+  const args = process.argv.slice(2);
+  const tokenArgPrefix = '--kickflow-api-token=';
+  
+  // ヘルプメッセージの表示
+  if (args.includes('--help') || args.includes('-h')) {
+    console.log(`Kickflow MCP Server
+
+使用方法:
+  kickflow-mcp-server [オプション]
+
+オプション:
+  --kickflow-api-token=TOKEN  Kickflow APIトークン
+  --help, -h                  このヘルプメッセージを表示
+
+環境変数:
+  KICKFLOW_API_TOKEN          Kickflow APIトークン（コマンドライン引数が優先されます）
+`);
+    process.exit(0);
+  }
+
+  // 引数からトークンを探す
+  const tokenArg = args.find(arg => arg.startsWith(tokenArgPrefix));
+  if (tokenArg) {
+    return tokenArg.substring(tokenArgPrefix.length);
+  }
+  
+  // 環境変数からトークンを取得
+  return process.env.KICKFLOW_API_TOKEN;
+}
+
+// トークンの取得
+const API_TOKEN = parseArguments();
 if (!API_TOKEN) {
-  throw new Error('KICKFLOW_API_TOKEN environment variable is required');
+  console.error(`エラー: Kickflow APIトークンが必要です
+
+以下のいずれかの方法でAPIトークンを指定してください:
+1. コマンドライン引数: --kickflow-api-token=YOUR_TOKEN
+2. 環境変数: KICKFLOW_API_TOKEN=YOUR_TOKEN
+
+例:
+  npx kickflow-mcp-server --kickflow-api-token=YOUR_TOKEN
+  
+  または
+  
+  KICKFLOW_API_TOKEN=YOUR_TOKEN npx kickflow-mcp-server
+`);
+  process.exit(1);
 }
 
 /**

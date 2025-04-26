@@ -14,7 +14,27 @@ Kickflow APIをModel Context Protocol (MCP)経由で利用するためのサー�
 - Node.js 18以上
 - Kickflow APIトークン
 
-## セットアップ
+## インストール
+
+### npx経由でのインストール（推奨）
+
+```bash
+npx kickflow-mcp-server --kickflow-api-token="your-kickflow-api-token"
+```
+
+### グローバルインストール
+
+```bash
+npm install -g kickflow-mcp-server
+```
+
+使用時：
+
+```bash
+KICKFLOW_API_TOKEN="your-kickflow-api-token" kickflow-mcp-server
+```
+
+### 開発者向けセットアップ
 
 1. リポジトリをクローン
 ```
@@ -62,11 +82,26 @@ MCP設定ファイルに以下のような記述を追加します：
 {
   "mcpServers": {
     "kickflow": {
-      "command": "node",
-      "args": ["/path/to/kickflow-mcp-server/dist/index.js"],
+      "command": "npx",
+      "args": ["kickflow-mcp-server"],
       "env": {
         "KICKFLOW_API_TOKEN": "your-kickflow-api-token"
       },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+または、引数でAPIトークンを渡す場合：
+
+```json
+{
+  "mcpServers": {
+    "kickflow": {
+      "command": "npx",
+      "args": ["kickflow-mcp-server", "--kickflow-api-token=your-kickflow-api-token"],
       "disabled": false,
       "autoApprove": []
     }

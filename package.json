@@ -1,8 +1,9 @@
 {
   "name": "kickflow-mcp-server",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "MCP Server for Kickflow API",
   "main": "dist/index.js",
+  "bin": "dist/index.js",
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('dist/index.js', '755')\"",
     "dev": "ts-node src/index.ts",
@@ -13,11 +14,16 @@
   "keywords": ["kickflow", "api", "mcp", "server"],
   "author": "kickflow, Inc.",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.10.2",
+    "axios": "1.9.0"
+  },
+  "devDependencies": {
     "@types/node": "22.15.2",
-    "axios": "1.9.0",
     "openapi-typescript": "7.6.1",
     "ts-node": "10.9.2",
     "typescript": "5.8.3"

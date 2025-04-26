@@ -1,0 +1,11 @@
+# ソースファイル
+src/
+tsconfig.json
+
+# 開発用ファイル
+.gitignore
+.git/
+node_modules/
+
+# その他
+*.log
