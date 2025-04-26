@@ -6,20 +6,20 @@ Kickflow APIをModel Context Protocol (MCP)経由で利用するためのサー�
 
 このMCPサーバーは、Kickflow APIを利用して以下の機能を提供します：
 
-- `search_tickets`: チケットの検索
+- `get_tickets`: チケットの一覧を取得
 - `get_ticket`: 特定のチケットの取得
 
 ## 必要条件
 
 - Node.js 18以上
-- Kickflow APIトークン
+- Kickflow アクセストークン
 
 ## インストール
 
 ### npx経由でのインストール（推奨）
 
 ```bash
-npx kickflow-mcp-server --kickflow-api-token="your-kickflow-api-token"
+npx kickflow-mcp-server --kickflow-access-token="your-kickflow-access-token"
 ```
 
 ### グローバルインストール
@@ -31,7 +31,7 @@ npm install -g kickflow-mcp-server
 使用時：
 
 ```bash
-KICKFLOW_API_TOKEN="your-kickflow-api-token" kickflow-mcp-server
+KICKFLOW_ACCESS_TOKEN="your-kickflow-access-token" kickflow-mcp-server
 ```
 
 ### 開発者向けセットアップ
@@ -56,10 +56,10 @@ npm run build
 
 ### 環境変数の設定
 
-Kickflow APIトークンを環境変数に設定します：
+Kickflow アクセストークンを環境変数に設定します：
 
 ```bash
-export KICKFLOW_API_TOKEN="your-kickflow-api-token"
+export KICKFLOW_ACCESS_TOKEN="your-kickflow-access-token"
 ```
 
 ### サーバーの実行
@@ -85,7 +85,7 @@ MCP設定ファイルに以下のような記述を追加します：
       "command": "npx",
       "args": ["kickflow-mcp-server"],
       "env": {
-        "KICKFLOW_API_TOKEN": "your-kickflow-api-token"
+        "KICKFLOW_ACCESS_TOKEN": "your-kickflow-access-token"
       },
       "disabled": false,
       "autoApprove": []
@@ -94,14 +94,14 @@ MCP設定ファイルに以下のような記述を追加します：
 }
 ```
 
-または、引数でAPIトークンを渡す場合：
+または、引数でアクセストークンを渡す場合：
 
 ```json
 {
   "mcpServers": {
     "kickflow": {
       "command": "npx",
-      "args": ["kickflow-mcp-server", "--kickflow-api-token=your-kickflow-api-token"],
+      "args": ["kickflow-mcp-server", "--kickflow-access-token=your-kickflow-access-token"],
       "disabled": false,
       "autoApprove": []
     }

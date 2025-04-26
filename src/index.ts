@@ -1,20 +1,19 @@
-#!/usr/bin/env node
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
   CallToolRequestSchema,
   ErrorCode,
   ListToolsRequestSchema,
   McpError,
 } from '@modelcontextprotocol/sdk/types.js';
-import { KickflowClient } from './kickflow-api/client.js';
-import { handleSearchTickets } from './tools/search-tickets.js';
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { setKickflowAccessToken } from './kickflow-api/custom-axios-instance.js';
 import { handleGetTicket } from './tools/get-ticket.js';
+import { handleGetTickets } from './tools/get-tickets.js';
 
 // コマンドライン引数からトークンを取得
 function parseArguments() {
   const args = process.argv.slice(2);
-  const tokenArgPrefix = '--kickflow-api-token=';
+  const tokenArgPrefix = '--kickflow-access-token=';
   
   // ヘルプメッセージの表示
   if (args.includes('--help') || args.includes('-h')) {
@@ -24,11 +23,11 @@ function parseArguments() {
   kickflow-mcp-server [オプション]
 
 オプション:
-  --kickflow-api-token=TOKEN  Kickflow APIトークン
-  --help, -h                  このヘルプメッセージを表示
+  --kickflow-access-token=TOKEN  Kickflow アクセストークン
+  --help, -h                     このヘルプメッセージを表示
 
 環境変数:
-  KICKFLOW_API_TOKEN          Kickflow APIトークン（コマンドライン引数が優先されます）
+  KICKFLOW_ACCESS_TOKEN          Kickflow アクセストークン（コマンドライン引数が優先されます）
 `);
     process.exit(0);
   }
@@ -40,24 +39,24 @@ function parseArguments() {
   }
   
   // 環境変数からトークンを取得
-  return process.env.KICKFLOW_API_TOKEN;
+  return process.env.KICKFLOW_ACCESS_TOKEN;
 }
 
 // トークンの取得
-const API_TOKEN = parseArguments();
-if (!API_TOKEN) {
-  console.error(`エラー: Kickflow APIトークンが必要です
+const ACCESS_TOKEN = parseArguments();
+if (!ACCESS_TOKEN) {
+  console.error(`エラー: Kickflow アクセストークンが必要です
 
-以下のいずれかの方法でAPIトークンを指定してください:
-1. コマンドライン引数: --kickflow-api-token=YOUR_TOKEN
-2. 環境変数: KICKFLOW_API_TOKEN=YOUR_TOKEN
+以下のいずれかの方法でアクセストークンを指定してください:
+1. コマンドライン引数: --kickflow-access-token=YOUR_TOKEN
+2. 環境変数: KICKFLOW_ACCESS_TOKEN=YOUR_TOKEN
 
 例:
-  npx kickflow-mcp-server --kickflow-api-token=YOUR_TOKEN
+  npx kickflow-mcp-server --kickflow-access-token=YOUR_TOKEN
   
   または
   
-  KICKFLOW_API_TOKEN=YOUR_TOKEN npx kickflow-mcp-server
+  KICKFLOW_ACCESS_TOKEN=YOUR_TOKEN npx kickflow-mcp-server
 `);
   process.exit(1);
 }
@@ -67,7 +66,6 @@ if (!API_TOKEN) {
  */
 class KickflowServer {
   private server: Server;
-  private kickflowClient: KickflowClient;
 
   constructor() {
     // MCP サーバーの初期化
@@ -83,9 +81,9 @@ class KickflowServer {
       }
     );
 
-    // Kickflow APIクライアントの初期化
-    // API_TOKENは最初のチェックで存在確認済み
-    this.kickflowClient = new KickflowClient(API_TOKEN as string);
+    // アクセストークンを設定
+    // ACCESS_TOKENは最初のチェックで存在確認済み
+    setKickflowAccessToken(ACCESS_TOKEN as string);
 
     // ツールハンドラーの設定
     this.setupToolHandlers();
@@ -106,8 +104,8 @@ class KickflowServer {
     this.server.setRequestHandler(ListToolsRequestSchema, async () => ({
       tools: [
         {
-          name: 'search_tickets',
-          description: 'Kickflowのチケットを検索します',
+          name: 'get_tickets',
+          description: 'チケットの一覧を取得します',
           inputSchema: {
             type: 'object',
             properties: {
@@ -165,11 +163,11 @@ class KickflowServer {
     // ツール呼び出しのハンドラー
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       switch (request.params.name) {
-        case 'search_tickets':
-          return handleSearchTickets(request, this.kickflowClient);
+        case 'get_tickets':
+          return handleGetTickets(request);
         
         case 'get_ticket':
-          return handleGetTicket(request, this.kickflowClient);
+          return handleGetTicket(request);
         
         default:
           throw new McpError(

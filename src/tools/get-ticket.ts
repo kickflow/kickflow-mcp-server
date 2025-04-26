@@ -1,5 +1,5 @@
 import { CallToolRequestSchema, McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
-import { KickflowClient } from '../kickflow-api/client.js';
+import { getKickflowRESTAPIV1 } from '../kickflow-api/generated/kickflowRESTAPIV1.js';
 
 // 入力パラメータの型検証関数
 function isValidGetTicketArgs(args: unknown): args is {
@@ -21,8 +21,7 @@ function isValidGetTicketArgs(args: unknown): args is {
 
 // 特定のチケットを取得するツールのハンドラー
 export async function handleGetTicket(
-  request: ReturnType<typeof CallToolRequestSchema.parse>,
-  client: KickflowClient
+  request: ReturnType<typeof CallToolRequestSchema.parse>
 ) {
   if (!isValidGetTicketArgs(request.params.arguments)) {
     throw new McpError(
@@ -34,14 +33,18 @@ export async function handleGetTicket(
   const { ticketId } = request.params.arguments;
   
   try {
-    // Kickflow APIを呼び出し
-    const response = await client.getTicket(ticketId);
+    // Orvalで生成されたAPIクライアントを使用
+    const api = getKickflowRESTAPIV1();
     
+    // Kickflow APIを呼び出し
+    const response = await api.getTicketsTicketId(ticketId);
+    
+    // Orvalで生成されたAPIクライアントは、レスポンスそのものがデータになっている
     return {
       content: [
         {
           type: 'text',
-          text: JSON.stringify(response.data, null, 2),
+          text: JSON.stringify(response, null, 2),
         },
       ],
     };

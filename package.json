@@ -6,12 +6,17 @@
   "bin": "dist/index.js",
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('dist/index.js', '755')\"",
-    "dev": "ts-node src/index.ts",
+    "dev": "node --loader ts-node/esm src/index.ts",
     "start": "node dist/index.js",
     "test": "npx @modelcontextprotocol/inspector node dist/index.js",
-    "generate-types": "openapi-typescript https://developer.kickflow.com/rest/schema.yaml --output src/kickflow-api/types.ts"
+    "generate-api": "orval --config orval.config.ts"
   },
-  "keywords": ["kickflow", "api", "mcp", "server"],
+  "keywords": [
+    "kickflow",
+    "api",
+    "mcp",
+    "server"
+  ],
   "author": "kickflow, Inc.",
   "license": "MIT",
   "publishConfig": {
@@ -25,6 +30,7 @@
   "devDependencies": {
     "@types/node": "22.15.2",
     "openapi-typescript": "7.6.1",
+    "orval": "^7.8.0",
     "ts-node": "10.9.2",
     "typescript": "5.8.3"
   }
