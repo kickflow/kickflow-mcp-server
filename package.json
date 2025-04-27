@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "bin": "dist/index.js",
   "scripts": {
-    "build": "tsc && node -e \"require('fs').chmodSync('dist/index.js', '755')\"",
+    "build": "tsc && chmod 755 dist/index.js",
     "dev": "node --loader ts-node/esm src/index.ts",
     "start": "node dist/index.js",
     "test": "npx @modelcontextprotocol/inspector node dist/index.js",

@@ -1,14 +1,8 @@
-import {
-  CallToolRequestSchema,
-  ErrorCode,
-  ListToolsRequestSchema,
-  McpError,
-} from '@modelcontextprotocol/sdk/types.js';
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { z } from 'zod';
 import { setKickflowAccessToken } from './kickflow-api/custom-axios-instance.js';
-import { handleGetTicket } from './tools/get-ticket.js';
-import { handleGetTickets } from './tools/get-tickets.js';
+import { getKickflowRESTAPIV1 } from './kickflow-api/generated/kickflowRESTAPIV1.js';
 import {
   GetTicketsStatusOneOfItem as TicketStatusEnum,
   GetTicketsAssigneeStatusItem as AssigneeStatusEnum,
@@ -65,227 +59,157 @@ if (!ACCESS_TOKEN) {
   process.exit(1);
 }
 
-/**
- * Kickflow MCP サーバークラス
- */
-class KickflowServer {
-  private server: Server;
+// アクセストークンを設定
+setKickflowAccessToken(ACCESS_TOKEN);
 
-  constructor() {
-    // MCP サーバーの初期化
-    this.server = new Server(
-      {
-        name: 'kickflow-mcp-server',
-        version: '1.0.0',
-      },
-      {
-        capabilities: {
-          tools: {},
-        },
-      }
-    );
+// Create server instance
+const server = new McpServer({
+  name: 'kickflow-mcp-server',
+  version: '1.0.0',
+  capabilities: {
+    resources: {},
+    tools: {},
+  },
+});
 
-    // アクセストークンを設定
-    // ACCESS_TOKENは最初のチェックで存在確認済み
-    setKickflowAccessToken(ACCESS_TOKEN as string);
+// get_tickets ツールの登録
+server.tool(
+  'get_tickets',
+  'チケットの一覧を取得します',
+  {
+    page: z.number().int().min(1).optional().describe('ページ番号（1から始まる）'),
+    perPage: z.number().int().min(1).optional().describe('1ページあたりの件数'),
+    sortBy: z
+      .enum(['createdAt', 'updatedAt'])
+      .optional()
+      .describe('ソート。指定可能なフィールド: createdAt, updatedAt'),
+    status: z
+      .union([
+        z.enum(Object.values(TicketStatusEnum) as [string, ...string[]]),
+        z.array(z.enum(Object.values(TicketStatusEnum) as [string, ...string[]])),
+      ])
+      .optional()
+      .describe('ステータスの配列または単一ステータス'),
+    subStatusIds: z.array(z.string().uuid()).optional().describe('サブステータスのUUIDの配列'),
+    workflowId: z.string().uuid().optional().describe('ワークフローのUUID'),
+    authorId: z.string().uuid().optional().describe('申請者のUUID'),
+    authorTeamFullName: z
+      .string()
+      .optional()
+      .describe('申請時に選択したチームの上位組織を含む名前'),
+    ticketNumber: z.string().optional().describe('チケット番号'),
+    createdAtStart: z.string().optional().describe('作成日時の起点 (RFC3339形式)'),
+    createdAtEnd: z.string().optional().describe('作成日時の終点 (RFC3339形式)'),
+    updatedAtStart: z.string().optional().describe('更新日時の起点 (RFC3339形式)'),
+    updatedAtEnd: z.string().optional().describe('更新日時の終点 (RFC3339形式)'),
+    openedAtStart: z.string().optional().describe('申請日時の起点 (RFC3339形式)'),
+    openedAtEnd: z.string().optional().describe('申請日時の終点 (RFC3339形式)'),
+    completedAtStart: z.string().optional().describe('完了日時の起点 (RFC3339形式)'),
+    completedAtEnd: z.string().optional().describe('完了日時の終点 (RFC3339形式)'),
+    archivedAtStart: z.string().optional().describe('アーカイブ日時の起点 (RFC3339形式)'),
+    archivedAtEnd: z.string().optional().describe('アーカイブ日時の終点 (RFC3339形式)'),
+    assigneeUserId: z
+      .string()
+      .uuid()
+      .optional()
+      .describe('承認者のUUID。assigneeStatusとセットで指定'),
+    assigneeStatus: z
+      .array(z.enum(Object.values(AssigneeStatusEnum) as [string, ...string[]]))
+      .optional()
+      .describe('承認者の状態。assigneeUserIdとセットで指定'),
+    stepTitle: z.string().optional().describe('現在の承認ステップ名'),
+  },
+  async params => {
+    try {
+      const api = getKickflowRESTAPIV1();
 
-    // ツールハンドラーの設定
-    this.setupToolHandlers();
+      // undefinedでないパラメータだけを抽出してapiParamsに設定
+      const apiParams = Object.fromEntries(
+        Object.entries(params).filter(([_, value]) => value !== undefined)
+      );
 
-    // エラーハンドリング
-    this.server.onerror = error => console.error('[MCP Error]', error);
-    process.on('SIGINT', async () => {
-      await this.server.close();
-      process.exit(0);
-    });
-  }
+      // チケット一覧の取得
+      const tickets = await api.getTickets(apiParams);
 
-  /**
-   * ツールハンドラーの設定
-   */
-  private setupToolHandlers() {
-    // 利用可能なツールのリストを設定
-    this.server.setRequestHandler(ListToolsRequestSchema, async () => ({
-      tools: [
-        {
-          name: 'get_tickets',
-          description: 'チケットの一覧を取得します',
-          inputSchema: {
-            type: 'object',
-            properties: {
-              page: {
-                type: 'integer',
-                minimum: 1,
-                description: 'ページ番号（1から始まる）',
-              },
-              perPage: {
-                type: 'integer',
-                minimum: 1,
-                description: '1ページあたりの件数',
-              },
-              sortBy: {
-                type: 'string',
-                enum: ['createdAt', 'updatedAt'],
-                description: 'ソート。指定可能なフィールド: createdAt, updatedAt',
-              },
-              status: {
-                // statusは単一文字列または文字列配列を受け付ける
-                oneOf: [
-                  {
-                    type: 'string',
-                    enum: Object.values(TicketStatusEnum),
-                  },
-                  {
-                    type: 'array',
-                    items: {
-                      type: 'string',
-                      enum: Object.values(TicketStatusEnum),
-                    },
-                  },
-                ],
-                description: 'ステータスの配列または単一ステータス',
-              },
-              subStatusIds: {
-                type: 'array',
-                items: { type: 'string', format: 'uuid' },
-                description: 'サブステータスのUUIDの配列',
-              },
-              workflowId: {
-                type: 'string',
-                format: 'uuid',
-                description: 'ワークフローのUUID',
-              },
-              authorId: {
-                type: 'string',
-                format: 'uuid',
-                description: '申請者のUUID',
-              },
-              authorTeamFullName: {
-                type: 'string',
-                description: '申請時に選択したチームの上位組織を含む名前',
-              },
-              ticketNumber: {
-                type: 'string',
-                description: 'チケット番号',
-              },
-              createdAtStart: {
-                type: 'string',
-                format: 'date-time',
-                description: '作成日時の起点 (RFC3339形式)',
-              },
-              createdAtEnd: {
-                type: 'string',
-                format: 'date-time',
-                description: '作成日時の終点 (RFC3339形式)',
-              },
-              updatedAtStart: {
-                type: 'string',
-                format: 'date-time',
-                description: '更新日時の起点 (RFC3339形式)',
-              },
-              updatedAtEnd: {
-                type: 'string',
-                format: 'date-time',
-                description: '更新日時の終点 (RFC3339形式)',
-              },
-              openedAtStart: {
-                type: 'string',
-                format: 'date-time',
-                description: '申請日時の起点 (RFC3339形式)',
-              },
-              openedAtEnd: {
-                type: 'string',
-                format: 'date-time',
-                description: '申請日時の終点 (RFC3339形式)',
-              },
-              completedAtStart: {
-                type: 'string',
-                format: 'date-time',
-                description: '完了日時の起点 (RFC3339形式)',
-              },
-              completedAtEnd: {
-                type: 'string',
-                format: 'date-time',
-                description: '完了日時の終点 (RFC3339形式)',
-              },
-              archivedAtStart: {
-                type: 'string',
-                format: 'date-time',
-                description: 'アーカイブ日時の起点 (RFC3339形式)',
-              },
-              archivedAtEnd: {
-                type: 'string',
-                format: 'date-time',
-                description: 'アーカイブ日時の終点 (RFC3339形式)',
-              },
-              assigneeUserId: {
-                type: 'string',
-                format: 'uuid',
-                description: '承認者のUUID。assigneeStatusとセットで指定',
-              },
-              assigneeStatus: {
-                type: 'array',
-                items: {
-                  type: 'string',
-                  enum: Object.values(AssigneeStatusEnum),
-                },
-                description: '承認者の状態。assigneeUserIdとセットで指定',
-              },
-              stepTitle: {
-                type: 'string',
-                description: '現在の承認ステップ名',
-              },
-            },
-            // 必須パラメータはなし
-            required: [],
-            // Zodのstrict()に相当する設定
-            additionalProperties: false,
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(tickets, null, 2),
           },
-        },
-        {
-          name: 'get_ticket',
-          description: '指定したチケットの詳細情報を取得します',
-          inputSchema: {
-            type: 'object',
-            properties: {
-              ticketId: {
-                type: 'string',
-                format: 'uuid', // UUID形式を明示
-                description: 'チケットのUUID',
-              },
-            },
-            required: ['ticketId'], // ticketIdは必須
-            additionalProperties: false, // Zodのstrict()に相当
-          },
-        },
-      ],
-    }));
+        ],
+      };
+    } catch (error) {
+      console.error('Error fetching tickets:', error);
 
-    // ツール呼び出しのハンドラー
-    this.server.setRequestHandler(CallToolRequestSchema, async request => {
-      switch (request.params.name) {
-        case 'get_tickets':
-          return handleGetTickets(request);
-
-        case 'get_ticket':
-          return handleGetTicket(request);
-
-        default:
-          throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${request.params.name}`);
+      let errorMessage = 'チケット一覧の取得中に不明なエラーが発生しました';
+      if (error instanceof Error) {
+        errorMessage = error.message;
       }
-    });
-  }
 
-  /**
-   * サーバーを起動
-   */
-  async run() {
-    const transport = new StdioServerTransport();
-    await this.server.connect(transport);
-    console.error('Kickflow MCP server running on stdio');
+      return {
+        content: [
+          {
+            type: 'text',
+            text: errorMessage,
+          },
+        ],
+        isError: true,
+      };
+    }
   }
+);
+
+// get_ticket ツールの登録
+server.tool(
+  'get_ticket',
+  '指定したチケットの詳細情報を取得します',
+  {
+    ticketId: z.string().uuid().describe('チケットのUUID'),
+  },
+  async params => {
+    try {
+      const api = getKickflowRESTAPIV1();
+
+      // チケット詳細の取得
+      const ticket = await api.getTicketsTicketId(params.ticketId);
+
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(ticket, null, 2),
+          },
+        ],
+      };
+    } catch (error) {
+      console.error('Error fetching ticket details:', error);
+
+      let errorMessage = 'チケット詳細の取得中に不明なエラーが発生しました';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
+      return {
+        content: [
+          {
+            type: 'text',
+            text: errorMessage,
+          },
+        ],
+        isError: true,
+      };
+    }
+  }
+);
+
+async function main() {
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.error('Kickflow MCP Server running on stdio');
 }
 
-// サーバーの起動
-const server = new KickflowServer();
-server.run().catch(console.error);
+main().catch(error => {
+  console.error('Fatal error in main():', error);
+  process.exit(1);
+});
