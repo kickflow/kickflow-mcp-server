@@ -100,7 +100,10 @@ MCP設定ファイル (`claude_desktop_config.json` など) に以下のよう�
   "mcpServers": {
     "kickflow": {
       "command": "npx",
-      "args": ["kickflow-mcp-server", "--kickflow-access-token=your-kickflow-access-token"],
+      "args": [
+        "kickflow-mcp-server",
+        "--kickflow-access-token=your-kickflow-access-token"
+      ],
       "disabled": false,
       "autoApprove": []
     }
