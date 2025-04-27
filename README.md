@@ -1,10 +1,10 @@
-# Kickflow MCP Server
+# kickflow MCP Server
 
-Kickflow APIをModel Context Protocol (MCP)経由で利用するためのサーバーです。
+[kickflow API](https://developer.kickflow.com/) をModel Context Protocol (MCP)経由で利用するためのサーバーです。
 
 ## 機能
 
-このMCPサーバーは、Kickflow APIを利用して以下の機能を提供します：
+このMCPサーバーは、kickflow APIを利用して以下の機能を提供します：
 
 - `get_tickets`: チケットの一覧を取得
 - `get_ticket`: 特定のチケットの取得
@@ -16,7 +16,8 @@ Kickflow APIをModel Context Protocol (MCP)経由で利用するためのサー�
 ### 必要条件
 
 - Node.js 18以上
-- Kickflow アクセストークン
+- kickflow アクセストークン
+  - [アクセストークンの取得方法](https://support.kickflow.com/hc/ja/articles/360047613534)
 
 ### インストール
 
@@ -46,7 +47,7 @@ npx kickflow-mcp-server --kickflow-access-token="your-kickflow-access-token"
 
 #### 環境変数の設定
 
-Kickflow アクセストークンを環境変数に設定します：
+kickflow アクセストークンを環境変数に設定します：
 
 ```bash
 export KICKFLOW_ACCESS_TOKEN="your-kickflow-access-token"

@@ -64,7 +64,7 @@ setKickflowAccessToken(ACCESS_TOKEN)
 
 // Create server instance
 const server = new McpServer({
-  name: 'kickflow-mcp-server',
+  name: 'kickflow',
   version: '0.0.1',
   capabilities: {
     resources: {},
