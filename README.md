@@ -6,7 +6,7 @@
 
 このMCPサーバーは、kickflow APIを利用して以下の機能を提供します：
 
-- `get_tickets`: チケットの一覧を取得
+- `list_tickets`: チケットの一覧を取得
 - `get_ticket`: 特定のチケットの取得
 
 ---
