@@ -2,13 +2,6 @@
 
 [kickflow API](https://developer.kickflow.com/) をModel Context Protocol (MCP)経由で利用するためのサーバーです。
 
-## 機能
-
-このMCPサーバーは、kickflow APIを利用して以下の機能を提供します：
-
-- `list_tickets`: チケットの一覧を取得
-- `get_ticket`: 特定のチケットの取得
-
 ---
 
 ## ユーザー向け
@@ -293,7 +286,7 @@ _(開発時も `KICKFLOW_ACCESS_TOKEN` 環境変数の設定が必要です)_
 
 #### OpenAPI型定義の更新
 
-Kickflow APIのスキーマから TypeScript の型定義を更新するには:
+kickflow APIのスキーマから TypeScript の型定義を更新するには:
 
 ```bash
 npm run generate-api
