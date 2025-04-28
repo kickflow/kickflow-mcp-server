@@ -2526,7 +2526,7 @@ export interface KintoneAppSetting {
   mappings: KintoneAppSettingMappingsItem[]
 }
 
-export type GetCategoriesParams = {
+export type ListCategoriesParams = {
   /**
    * ページ
    */
@@ -2541,17 +2541,17 @@ export type GetCategoriesParams = {
   sortBy?: string
 }
 
-export type PostCategoriesBody = {
+export type CreateCategoryBody = {
   /** 名前 */
   name: string
 }
 
-export type PatchCategoriesCategoryIdBody = {
+export type UpdateCategoryBody = {
   /** 名前 */
   name: string
 }
 
-export type GetFoldersParams = {
+export type ListFoldersParams = {
   /**
    * ページ
    */
@@ -2566,7 +2566,7 @@ export type GetFoldersParams = {
   sortBy?: string
 }
 
-export type PostFoldersBody = {
+export type CreateFolderBody = {
   /** 名前 */
   name: string
   /** コード。未指定の場合、ランダムな英数字がセットされます。 */
@@ -2580,7 +2580,7 @@ export type PostFoldersBody = {
   parentFolderId?: string | null
 }
 
-export type PatchFoldersFolderIdBody = {
+export type UpdateFolderBody = {
   /** 名前 */
   name?: string
   /** コード */
@@ -2594,7 +2594,7 @@ export type PatchFoldersFolderIdBody = {
   parentFolderId?: string | null
 }
 
-export type GetGeneralMastersParams = {
+export type ListGeneralMastersParams = {
   /**
    * ページ
    */
@@ -2612,11 +2612,11 @@ export type GetGeneralMastersParams = {
 /**
  * フィールドの型
  */
-export type PostGeneralMastersBodyFieldsItemFieldType =
-  (typeof PostGeneralMastersBodyFieldsItemFieldType)[keyof typeof PostGeneralMastersBodyFieldsItemFieldType]
+export type CreateGeneralMasterBodyFieldsItemFieldType =
+  (typeof CreateGeneralMasterBodyFieldsItemFieldType)[keyof typeof CreateGeneralMasterBodyFieldsItemFieldType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostGeneralMastersBodyFieldsItemFieldType = {
+export const CreateGeneralMasterBodyFieldsItemFieldType = {
   text: 'text',
   text_long: 'text_long',
   number: 'number',
@@ -2626,7 +2626,7 @@ export const PostGeneralMastersBodyFieldsItemFieldType = {
   date: 'date',
 } as const
 
-export type PostGeneralMastersBodyFieldsItem = {
+export type CreateGeneralMasterBodyFieldsItem = {
   /** フィールド名 */
   title: string
   /**
@@ -2639,7 +2639,7 @@ export type PostGeneralMastersBodyFieldsItem = {
   /** 入力必須かどうか */
   required: boolean
   /** フィールドの型 */
-  fieldType: PostGeneralMastersBodyFieldsItemFieldType
+  fieldType: CreateGeneralMasterBodyFieldsItemFieldType
   /**
    * 選択肢。fieldTypeがcheckboxまたはpull_downのとき必須。
    * @nullable
@@ -2649,7 +2649,7 @@ export type PostGeneralMastersBodyFieldsItem = {
   visible?: boolean
 }
 
-export type PostGeneralMastersBody = {
+export type CreateGeneralMasterBody = {
   /** 名前 */
   name: string
   /**
@@ -2663,10 +2663,10 @@ export type PostGeneralMastersBody = {
    */
   description?: string | null
   /** カスタムフィールドの配列 */
-  fields?: PostGeneralMastersBodyFieldsItem[]
+  fields?: CreateGeneralMasterBodyFieldsItem[]
 }
 
-export type PatchGeneralMastersGeneralMasterIdBodyFieldsItem = {
+export type UpdateGeneralMasterBodyFieldsItem = {
   /** フィールド名 */
   title?: string
   /**
@@ -2689,7 +2689,7 @@ export type PatchGeneralMastersGeneralMasterIdBodyFieldsItem = {
   visible?: boolean
 }
 
-export type PatchGeneralMastersGeneralMasterIdBody = {
+export type UpdateGeneralMasterBody = {
   /** コード。未指定の場合、ランダムな英数字がセットされます。 */
   code?: string
   /** 名前 */
@@ -2697,10 +2697,10 @@ export type PatchGeneralMastersGeneralMasterIdBody = {
   /** 説明 */
   description?: string
   /** カスタムフィールドの配列 */
-  fields?: PatchGeneralMastersGeneralMasterIdBodyFieldsItem[]
+  fields?: UpdateGeneralMasterBodyFieldsItem[]
 }
 
-export type GetGeneralMastersGeneralMasterIdItemsParams = {
+export type ListGeneralMasterItemsParams = {
   /**
    * ページ
    */
@@ -2718,19 +2718,19 @@ export type GetGeneralMastersGeneralMasterIdItemsParams = {
 /**
  * 入力値。カスタムフィールドがcheckboxまたはpull_downの場合は文字列の配列、それ以外は文字列。
  */
-export type PostGeneralMastersGeneralMasterIdItemsBodyInputsItemValue =
+export type CreateGeneralMasterItemBodyInputsItemValue =
   | string
   | null
   | string[]
 
-export type PostGeneralMastersGeneralMasterIdItemsBodyInputsItem = {
+export type CreateGeneralMasterItemBodyInputsItem = {
   /** フィールドのコード */
   code: string
   /** 入力値。カスタムフィールドがcheckboxまたはpull_downの場合は文字列の配列、それ以外は文字列。 */
-  value: PostGeneralMastersGeneralMasterIdItemsBodyInputsItemValue
+  value: CreateGeneralMasterItemBodyInputsItemValue
 }
 
-export type PostGeneralMastersGeneralMasterIdItemsBody = {
+export type CreateGeneralMasterItemBody = {
   /** コード。未指定の場合、ランダムな英数字がセットされます。 */
   code?: string
   /** 名前 */
@@ -2748,25 +2748,25 @@ export type PostGeneralMastersGeneralMasterIdItemsBody = {
    */
   endsOn?: string | null
   /** カスタムフィールドの入力。必須ではないカスタムフィールドを含む、すべてのカスタムフィールドに対して入力する必要があります。 */
-  inputs: PostGeneralMastersGeneralMasterIdItemsBodyInputsItem[]
+  inputs: CreateGeneralMasterItemBodyInputsItem[]
 }
 
 /**
  * 入力値。カスタムフィールドがcheckboxまたはpull_downの場合文字列の配列、それ以外の場合文字列。
  */
-export type PatchGeneralMastersGeneralMasterIdItemsItemIdBodyInputsItemValue =
+export type UpdateGeneralMasterItemBodyInputsItemValue =
   | string
   | null
   | string[]
 
-export type PatchGeneralMastersGeneralMasterIdItemsItemIdBodyInputsItem = {
+export type UpdateGeneralMasterItemBodyInputsItem = {
   /** フィールドのコード */
   code: string
   /** 入力値。カスタムフィールドがcheckboxまたはpull_downの場合文字列の配列、それ以外の場合文字列。 */
-  value: PatchGeneralMastersGeneralMasterIdItemsItemIdBodyInputsItemValue
+  value: UpdateGeneralMasterItemBodyInputsItemValue
 }
 
-export type PatchGeneralMastersGeneralMasterIdItemsItemIdBody = {
+export type UpdateGeneralMasterItemBody = {
   /** コード。未指定の場合、ランダムな英数字がセットされます。 */
   code?: string
   /** 名前 */
@@ -2784,10 +2784,10 @@ export type PatchGeneralMastersGeneralMasterIdItemsItemIdBody = {
    */
   endsOn?: string | null
   /** カスタムフィールドの入力。必須ではないカスタムフィールドを含む、すべてのカスタムフィールドに対して入力する必要があります。 */
-  inputs?: PatchGeneralMastersGeneralMasterIdItemsItemIdBodyInputsItem[]
+  inputs?: UpdateGeneralMasterItemBodyInputsItem[]
 }
 
-export type GetGradesParams = {
+export type ListGradesParams = {
   /**
    * ページ
    */
@@ -2802,7 +2802,7 @@ export type GetGradesParams = {
   sortBy?: string
 }
 
-export type GetOrganizationChartsParams = {
+export type ListOrganizationChartsParams = {
   /**
    * ページ
    */
@@ -2817,12 +2817,12 @@ export type GetOrganizationChartsParams = {
   sortBy?: string
 }
 
-export type PostOrganizationChartsOrganizationChartIdActivateBody = {
+export type ActivateOrganizationChartBody = {
   /** 有効化する日付。nullの場合、即時で有効化します。 */
   dueOn?: string
 }
 
-export type GetOrganizationChartsOrganizationChartIdTeamsParams = {
+export type ListTeamsParams = {
   /**
    * 親チームのUUID
    */
@@ -2837,19 +2837,18 @@ export type GetOrganizationChartsOrganizationChartIdTeamsParams = {
   perPage?: number
 }
 
-export type GetOrganizationChartsOrganizationChartIdTeamsTeamIdMembershipsParams =
-  {
-    /**
-     * ページ。1が先頭のページ。
-     */
-    page?: number
-    /**
-     * 1ページあたりの件数
-     */
-    perPage?: number
-  }
+export type ListTeamMembersParams = {
+  /**
+   * ページ。1が先頭のページ。
+   */
+  page?: number
+  /**
+   * 1ページあたりの件数
+   */
+  perPage?: number
+}
 
-export type PostTeamsTeamIdMembersBodyUsersItem = {
+export type CreateTeamMembersBodyUsersItem = {
   /** ユーザーのUUID */
   id: string
   /** 上長の場合、true */
@@ -2861,16 +2860,16 @@ export type PostTeamsTeamIdMembersBodyUsersItem = {
   gradeIds?: string[]
 }
 
-export type PostTeamsTeamIdMembersBody = {
+export type CreateTeamMembersBody = {
   /**
    * メンバーに追加したいユーザー情報の配列
    * @minItems 1
    * @maxItems 10
    */
-  users: PostTeamsTeamIdMembersBodyUsersItem[]
+  users: CreateTeamMembersBodyUsersItem[]
 }
 
-export type DeleteTeamsTeamIdMembersBody = {
+export type DeleteTeamMembersBody = {
   /**
    * ユーザーのUUIDの配列
    * @minItems 1
@@ -2879,7 +2878,7 @@ export type DeleteTeamsTeamIdMembersBody = {
   userIds: string[]
 }
 
-export type PatchTeamsTeamIdMembershipsUserIdBody = {
+export type UpdateTeamMemberBody = {
   /** 上長の場合、true */
   leader: boolean
   /**
@@ -2889,7 +2888,7 @@ export type PatchTeamsTeamIdMembershipsUserIdBody = {
   gradeIds: string[]
 }
 
-export type GetRolesParams = {
+export type ListRolesParams = {
   /**
    * ページ
    */
@@ -2904,7 +2903,7 @@ export type GetRolesParams = {
   sortBy?: string
 }
 
-export type PostRolesRoleIdMembershipsBody = {
+export type CreateRoleMembersBody = {
   /**
    * ユーザーUUIDの配列
    * @minItems 1
@@ -2913,7 +2912,7 @@ export type PostRolesRoleIdMembershipsBody = {
   userIds: string[]
 }
 
-export type GetRolesRoleIdMembershipsParams = {
+export type ListRoleMembersParams = {
   /**
    * ページ
    */
@@ -2924,7 +2923,7 @@ export type GetRolesRoleIdMembershipsParams = {
   perPage?: number
 }
 
-export type GetTicketsParams = {
+export type ListTicketsParams = {
   /**
    * ページ
    */
@@ -2947,7 +2946,7 @@ export type GetTicketsParams = {
     | 'completed'
     | 'denied'
     | 'archived'
-    | GetTicketsStatusOneOfItem[]
+    | ListTicketsStatusOneOfItem[]
   /**
    * サブステータスのUUIDの配列
    */
@@ -3015,18 +3014,18 @@ export type GetTicketsParams = {
   /**
    * 承認者の状態。assigneeUserIdとセットで指定してください。
    */
-  assigneeStatus?: GetTicketsAssigneeStatusItem[]
+  assigneeStatus?: ListTicketsAssigneeStatusItem[]
   /**
    * 現在の承認ステップ名
    */
   stepTitle?: string
 }
 
-export type GetTicketsStatusOneOfItem =
-  (typeof GetTicketsStatusOneOfItem)[keyof typeof GetTicketsStatusOneOfItem]
+export type ListTicketsStatusOneOfItem =
+  (typeof ListTicketsStatusOneOfItem)[keyof typeof ListTicketsStatusOneOfItem]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetTicketsStatusOneOfItem = {
+export const ListTicketsStatusOneOfItem = {
   draft: 'draft',
   in_progress: 'in_progress',
   rejected: 'rejected',
@@ -3035,11 +3034,11 @@ export const GetTicketsStatusOneOfItem = {
   archived: 'archived',
 } as const
 
-export type GetTicketsAssigneeStatusItem =
-  (typeof GetTicketsAssigneeStatusItem)[keyof typeof GetTicketsAssigneeStatusItem]
+export type ListTicketsAssigneeStatusItem =
+  (typeof ListTicketsAssigneeStatusItem)[keyof typeof ListTicketsAssigneeStatusItem]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetTicketsAssigneeStatusItem = {
+export const ListTicketsAssigneeStatusItem = {
   all: 'all',
   current: 'current',
   approved: 'approved',
@@ -3048,11 +3047,11 @@ export const GetTicketsAssigneeStatusItem = {
 /**
  * ステータス。作成ではdraftまたはin_progressのみ選択可能です。
  */
-export type PostTicketsBodyStatus =
-  (typeof PostTicketsBodyStatus)[keyof typeof PostTicketsBodyStatus]
+export type CreateTicketBodyStatus =
+  (typeof CreateTicketBodyStatus)[keyof typeof CreateTicketBodyStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostTicketsBodyStatus = {
+export const CreateTicketBodyStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
 } as const
@@ -3060,7 +3059,7 @@ export const PostTicketsBodyStatus = {
 /**
  * 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
  */
-export type PostTicketsBodySlipItemsItemInputsItemValue =
+export type CreateTicketBodySlipItemsItemInputsItemValue =
   | string
   | null
   | string[]
@@ -3068,7 +3067,7 @@ export type PostTicketsBodySlipItemsItemInputsItemValue =
 /**
  * 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
  */
-export type PostTicketsBodySlipItemsItemInputsItemGeneralMasterItemId =
+export type CreateTicketBodySlipItemsItemInputsItemGeneralMasterItemId =
   | string
   | null
   | string[]
@@ -3076,7 +3075,7 @@ export type PostTicketsBodySlipItemsItemInputsItemGeneralMasterItemId =
 /**
  * ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
  */
-export type PostTicketsBodySlipItemsItemInputsItemUserId =
+export type CreateTicketBodySlipItemsItemInputsItemUserId =
   | string
   | null
   | string[]
@@ -3084,7 +3083,7 @@ export type PostTicketsBodySlipItemsItemInputsItemUserId =
 /**
  * チームUUID。フィールドがチームタイプのときのみ指定してください。
  */
-export type PostTicketsBodySlipItemsItemInputsItemTeamId =
+export type CreateTicketBodySlipItemsItemInputsItemTeamId =
   | string
   | null
   | string[]
@@ -3092,7 +3091,7 @@ export type PostTicketsBodySlipItemsItemInputsItemTeamId =
 /**
  * チケットUUID。フィールドがチケットタイプのときのみ指定してください。
  */
-export type PostTicketsBodySlipItemsItemInputsItemTicketId =
+export type CreateTicketBodySlipItemsItemInputsItemTicketId =
   | string
   | null
   | string[]
@@ -3100,7 +3099,7 @@ export type PostTicketsBodySlipItemsItemInputsItemTicketId =
 /**
  * 明細アイテム入力
  */
-export type PostTicketsBodySlipItemsItemInputsItem = {
+export type CreateTicketBodySlipItemsItemInputsItem = {
   /**
    * 明細フィールドのUUID。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
    * @nullable
@@ -3112,15 +3111,15 @@ export type PostTicketsBodySlipItemsItemInputsItem = {
    */
   slipFieldCode?: string | null
   /** 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。 */
-  value?: PostTicketsBodySlipItemsItemInputsItemValue
+  value?: CreateTicketBodySlipItemsItemInputsItemValue
   /** 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。 */
-  generalMasterItemId?: PostTicketsBodySlipItemsItemInputsItemGeneralMasterItemId
+  generalMasterItemId?: CreateTicketBodySlipItemsItemInputsItemGeneralMasterItemId
   /** ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。 */
-  userId?: PostTicketsBodySlipItemsItemInputsItemUserId
+  userId?: CreateTicketBodySlipItemsItemInputsItemUserId
   /** チームUUID。フィールドがチームタイプのときのみ指定してください。 */
-  teamId?: PostTicketsBodySlipItemsItemInputsItemTeamId
+  teamId?: CreateTicketBodySlipItemsItemInputsItemTeamId
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
-  ticketId?: PostTicketsBodySlipItemsItemInputsItemTicketId
+  ticketId?: CreateTicketBodySlipItemsItemInputsItemTicketId
   /**
    * 添付ファイルの署名済みID。
 フィールドがファイルタイプのときのみ指定してください。
@@ -3132,25 +3131,25 @@ export type PostTicketsBodySlipItemsItemInputsItem = {
 /**
  * 明細アイテム
  */
-export type PostTicketsBodySlipItemsItem = {
+export type CreateTicketBodySlipItemsItem = {
   /**
    * 明細セクションのUUID。
    * @nullable
    */
   slipSectionId?: string | null
   /** 明細アイテム入力の配列 */
-  inputs: PostTicketsBodySlipItemsItemInputsItem[]
+  inputs: CreateTicketBodySlipItemsItemInputsItem[]
 }
 
 /**
  * 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
  */
-export type PostTicketsBodyInputsItemValue = string | null | string[]
+export type CreateTicketBodyInputsItemValue = string | null | string[]
 
 /**
  * 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
  */
-export type PostTicketsBodyInputsItemGeneralMasterItemId =
+export type CreateTicketBodyInputsItemGeneralMasterItemId =
   | string
   | null
   | string[]
@@ -3158,22 +3157,22 @@ export type PostTicketsBodyInputsItemGeneralMasterItemId =
 /**
  * ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
  */
-export type PostTicketsBodyInputsItemUserId = string | null | string[]
+export type CreateTicketBodyInputsItemUserId = string | null | string[]
 
 /**
  * チームUUID。フィールドがチームタイプのときのみ指定してください。
  */
-export type PostTicketsBodyInputsItemTeamId = string | null | string[]
+export type CreateTicketBodyInputsItemTeamId = string | null | string[]
 
 /**
  * チケットUUID。フィールドがチケットタイプのときのみ指定してください。
  */
-export type PostTicketsBodyInputsItemTicketId = string | null | string[]
+export type CreateTicketBodyInputsItemTicketId = string | null | string[]
 
 /**
  * フォームの入力
  */
-export type PostTicketsBodyInputsItem = {
+export type CreateTicketBodyInputsItem = {
   /**
    * フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。
    * @nullable
@@ -3185,15 +3184,15 @@ export type PostTicketsBodyInputsItem = {
    */
   formFieldCode?: string | null
   /** 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。 */
-  value?: PostTicketsBodyInputsItemValue
+  value?: CreateTicketBodyInputsItemValue
   /** 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。 */
-  generalMasterItemId?: PostTicketsBodyInputsItemGeneralMasterItemId
+  generalMasterItemId?: CreateTicketBodyInputsItemGeneralMasterItemId
   /** ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。 */
-  userId?: PostTicketsBodyInputsItemUserId
+  userId?: CreateTicketBodyInputsItemUserId
   /** チームUUID。フィールドがチームタイプのときのみ指定してください。 */
-  teamId?: PostTicketsBodyInputsItemTeamId
+  teamId?: CreateTicketBodyInputsItemTeamId
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
-  ticketId?: PostTicketsBodyInputsItemTicketId
+  ticketId?: CreateTicketBodyInputsItemTicketId
   /**
    * 添付ファイルの署名済みID。
 フィールドがファイルタイプのときのみ指定してください。
@@ -3205,7 +3204,7 @@ export type PostTicketsBodyInputsItem = {
 /**
  * クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。
  */
-export type PostTicketsBodyCloudSignDocument = {
+export type CreateTicketBodyCloudSignDocument = {
   /** クラウドサイン書類のID */
   id: string
   /** クラウドサイン書類のタイトル */
@@ -3214,16 +3213,16 @@ export type PostTicketsBodyCloudSignDocument = {
   sandbox: string
 }
 
-export type PostTicketsBodyApproversItem = {
+export type CreateTicketBodyApproversItem = {
   /** 承認者を指定する経路ステップのコード */
   routeStepCode: string
   /** 承認者として指定するユーザーのUUID */
   userId: string[]
 }
 
-export type PostTicketsBody = {
+export type CreateTicketBody = {
   /** ステータス。作成ではdraftまたはin_progressのみ選択可能です。 */
-  status: PostTicketsBodyStatus
+  status: CreateTicketBodyStatus
   /** ワークフローのUUID */
   workflowId: string
   /** 申請チームのUUID */
@@ -3239,19 +3238,19 @@ export type PostTicketsBody = {
    */
   title?: string | null
   /** 明細アイテムの配列。明細ワークフローの場合、このフィールドは必須です。 */
-  slipItems?: PostTicketsBodySlipItemsItem[]
+  slipItems?: CreateTicketBodySlipItemsItem[]
   /** フォームの入力の配列。ワークフローのすべてのフォームフィールドに対応する入力を入れてください。 */
-  inputs: PostTicketsBodyInputsItem[]
+  inputs: CreateTicketBodyInputsItem[]
   /** クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。 */
-  cloudSignDocument?: PostTicketsBodyCloudSignDocument
+  cloudSignDocument?: CreateTicketBodyCloudSignDocument
   /**
    * 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。
    * @nullable
    */
-  approvers?: PostTicketsBodyApproversItem[] | null
+  approvers?: CreateTicketBodyApproversItem[] | null
 }
 
-export type GetTicketsTasksParams = {
+export type ListTasksParams = {
   /**
    * ページ
    */
@@ -3267,7 +3266,7 @@ export type GetTicketsTasksParams = {
   /**
    * ステータスの配列
    */
-  status?: GetTicketsTasksStatusItem[]
+  status?: ListTasksStatusItem[]
   /**
    * サブステータスのUUIDの配列
    */
@@ -3337,14 +3336,14 @@ export type GetTicketsTasksParams = {
 - true: 保留中のチケットのみを取得
 - false: 保留されていないチケットのみを取得
  */
-  pending?: GetTicketsTasksPending
+  pending?: ListTasksPending
 }
 
-export type GetTicketsTasksStatusItem =
-  (typeof GetTicketsTasksStatusItem)[keyof typeof GetTicketsTasksStatusItem]
+export type ListTasksStatusItem =
+  (typeof ListTasksStatusItem)[keyof typeof ListTasksStatusItem]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetTicketsTasksStatusItem = {
+export const ListTasksStatusItem = {
   draft: 'draft',
   in_progress: 'in_progress',
   rejected: 'rejected',
@@ -3352,11 +3351,11 @@ export const GetTicketsTasksStatusItem = {
   deleted: 'deleted',
 } as const
 
-export type GetTicketsTasksPending =
-  (typeof GetTicketsTasksPending)[keyof typeof GetTicketsTasksPending]
+export type ListTasksPending =
+  (typeof ListTasksPending)[keyof typeof ListTasksPending]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetTicketsTasksPending = {
+export const ListTasksPending = {
   true: 'true',
   false: 'false',
 } as const
@@ -3364,11 +3363,11 @@ export const GetTicketsTasksPending = {
 /**
  * ステータス。更新ではdraft, in_progress, rejectedのみ選択可能です。
  */
-export type PatchTicketsTicketIdBodyStatus =
-  (typeof PatchTicketsTicketIdBodyStatus)[keyof typeof PatchTicketsTicketIdBodyStatus]
+export type UpdateTicketBodyStatus =
+  (typeof UpdateTicketBodyStatus)[keyof typeof UpdateTicketBodyStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PatchTicketsTicketIdBodyStatus = {
+export const UpdateTicketBodyStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
   rejected: 'rejected',
@@ -3377,7 +3376,7 @@ export const PatchTicketsTicketIdBodyStatus = {
 /**
  * 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
  */
-export type PatchTicketsTicketIdBodySlipItemsItemInputsItemValue =
+export type UpdateTicketBodySlipItemsItemInputsItemValue =
   | string
   | null
   | string[]
@@ -3385,13 +3384,15 @@ export type PatchTicketsTicketIdBodySlipItemsItemInputsItemValue =
 /**
  * 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
  */
-export type PatchTicketsTicketIdBodySlipItemsItemInputsItemGeneralMasterItemId =
-  string | null | string[]
+export type UpdateTicketBodySlipItemsItemInputsItemGeneralMasterItemId =
+  | string
+  | null
+  | string[]
 
 /**
  * ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
  */
-export type PatchTicketsTicketIdBodySlipItemsItemInputsItemUserId =
+export type UpdateTicketBodySlipItemsItemInputsItemUserId =
   | string
   | null
   | string[]
@@ -3399,7 +3400,7 @@ export type PatchTicketsTicketIdBodySlipItemsItemInputsItemUserId =
 /**
  * チームUUID。フィールドがチームタイプのときのみ指定してください。
  */
-export type PatchTicketsTicketIdBodySlipItemsItemInputsItemTeamId =
+export type UpdateTicketBodySlipItemsItemInputsItemTeamId =
   | string
   | null
   | string[]
@@ -3407,7 +3408,7 @@ export type PatchTicketsTicketIdBodySlipItemsItemInputsItemTeamId =
 /**
  * チケットUUID。フィールドがチケットタイプのときのみ指定してください。
  */
-export type PatchTicketsTicketIdBodySlipItemsItemInputsItemTicketId =
+export type UpdateTicketBodySlipItemsItemInputsItemTicketId =
   | string
   | null
   | string[]
@@ -3415,7 +3416,7 @@ export type PatchTicketsTicketIdBodySlipItemsItemInputsItemTicketId =
 /**
  * 明細アイテム入力
  */
-export type PatchTicketsTicketIdBodySlipItemsItemInputsItem = {
+export type UpdateTicketBodySlipItemsItemInputsItem = {
   /**
    * 明細フィールドのUUID。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
    * @nullable
@@ -3427,15 +3428,15 @@ export type PatchTicketsTicketIdBodySlipItemsItemInputsItem = {
    */
   slipFieldCode?: string | null
   /** 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。 */
-  value?: PatchTicketsTicketIdBodySlipItemsItemInputsItemValue
+  value?: UpdateTicketBodySlipItemsItemInputsItemValue
   /** 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。 */
-  generalMasterItemId?: PatchTicketsTicketIdBodySlipItemsItemInputsItemGeneralMasterItemId
+  generalMasterItemId?: UpdateTicketBodySlipItemsItemInputsItemGeneralMasterItemId
   /** ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。 */
-  userId?: PatchTicketsTicketIdBodySlipItemsItemInputsItemUserId
+  userId?: UpdateTicketBodySlipItemsItemInputsItemUserId
   /** チームUUID。フィールドがチームタイプのときのみ指定してください。 */
-  teamId?: PatchTicketsTicketIdBodySlipItemsItemInputsItemTeamId
+  teamId?: UpdateTicketBodySlipItemsItemInputsItemTeamId
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
-  ticketId?: PatchTicketsTicketIdBodySlipItemsItemInputsItemTicketId
+  ticketId?: UpdateTicketBodySlipItemsItemInputsItemTicketId
   /**
    * 添付ファイルの署名済みID。
 フィールドがファイルタイプのときのみ指定してください。
@@ -3447,20 +3448,20 @@ export type PatchTicketsTicketIdBodySlipItemsItemInputsItem = {
 /**
  * 明細アイテム
  */
-export type PatchTicketsTicketIdBodySlipItemsItem = {
+export type UpdateTicketBodySlipItemsItem = {
   /** 明細アイテム入力の配列 */
-  inputs: PatchTicketsTicketIdBodySlipItemsItemInputsItem[]
+  inputs: UpdateTicketBodySlipItemsItemInputsItem[]
 }
 
 /**
  * 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
  */
-export type PatchTicketsTicketIdBodyInputsItemValue = string | null | string[]
+export type UpdateTicketBodyInputsItemValue = string | null | string[]
 
 /**
  * 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
  */
-export type PatchTicketsTicketIdBodyInputsItemGeneralMasterItemId =
+export type UpdateTicketBodyInputsItemGeneralMasterItemId =
   | string
   | null
   | string[]
@@ -3468,25 +3469,22 @@ export type PatchTicketsTicketIdBodyInputsItemGeneralMasterItemId =
 /**
  * ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
  */
-export type PatchTicketsTicketIdBodyInputsItemUserId = string | null | string[]
+export type UpdateTicketBodyInputsItemUserId = string | null | string[]
 
 /**
  * チームUUID。フィールドがチームタイプのときのみ指定してください。
  */
-export type PatchTicketsTicketIdBodyInputsItemTeamId = string | null | string[]
+export type UpdateTicketBodyInputsItemTeamId = string | null | string[]
 
 /**
  * チケットUUID。フィールドがチケットタイプのときのみ指定してください。
  */
-export type PatchTicketsTicketIdBodyInputsItemTicketId =
-  | string
-  | null
-  | string[]
+export type UpdateTicketBodyInputsItemTicketId = string | null | string[]
 
 /**
  * フォームの入力
  */
-export type PatchTicketsTicketIdBodyInputsItem = {
+export type UpdateTicketBodyInputsItem = {
   /**
    * フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。
    * @nullable
@@ -3498,15 +3496,15 @@ export type PatchTicketsTicketIdBodyInputsItem = {
    */
   formFieldCode?: string | null
   /** 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。 */
-  value?: PatchTicketsTicketIdBodyInputsItemValue
+  value?: UpdateTicketBodyInputsItemValue
   /** 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。 */
-  generalMasterItemId?: PatchTicketsTicketIdBodyInputsItemGeneralMasterItemId
+  generalMasterItemId?: UpdateTicketBodyInputsItemGeneralMasterItemId
   /** ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。 */
-  userId?: PatchTicketsTicketIdBodyInputsItemUserId
+  userId?: UpdateTicketBodyInputsItemUserId
   /** チームUUID。フィールドがチームタイプのときのみ指定してください。 */
-  teamId?: PatchTicketsTicketIdBodyInputsItemTeamId
+  teamId?: UpdateTicketBodyInputsItemTeamId
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
-  ticketId?: PatchTicketsTicketIdBodyInputsItemTicketId
+  ticketId?: UpdateTicketBodyInputsItemTicketId
   /**
    * 添付ファイルの署名済みID。
 フィールドがファイルタイプのときのみ指定してください。
@@ -3518,7 +3516,7 @@ export type PatchTicketsTicketIdBodyInputsItem = {
 /**
  * クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。
  */
-export type PatchTicketsTicketIdBodyCloudSignDocument = {
+export type UpdateTicketBodyCloudSignDocument = {
   /** クラウドサイン書類のID */
   id: string
   /** クラウドサイン書類のタイトル */
@@ -3527,16 +3525,16 @@ export type PatchTicketsTicketIdBodyCloudSignDocument = {
   sandbox: boolean
 }
 
-export type PatchTicketsTicketIdBodyApproversItem = {
+export type UpdateTicketBodyApproversItem = {
   /** 承認者を指定する経路ステップのコード */
   routeStepCode: string
   /** 承認者として指定するユーザーのUUID */
   userId: string[]
 }
 
-export type PatchTicketsTicketIdBody = {
+export type UpdateTicketBody = {
   /** ステータス。更新ではdraft, in_progress, rejectedのみ選択可能です。 */
-  status?: PatchTicketsTicketIdBodyStatus
+  status?: UpdateTicketBodyStatus
   /** 申請チームのUUID */
   authorTeamId?: string
   /** 依頼者となるユーザーのUUID。代理申請の場合のみ指定してください。 */
@@ -3544,29 +3542,29 @@ export type PatchTicketsTicketIdBody = {
   /** チケットのタイトル。ワークフローでallow_titleがtrueのときのみ設定可能です。 */
   title?: string
   /** 明細アイテムの配列 */
-  slipItems?: PatchTicketsTicketIdBodySlipItemsItem[]
+  slipItems?: UpdateTicketBodySlipItemsItem[]
   /** フォームの入力の配列。
 注意：申請者による更新時は、ワークフローのすべてのフォームフィールドに対応する入力を入れてください。
 注意：承認者による更新時は、承認者用フィールドに対応する入力のみ入れてください。
 注意：明細ワークフローの場合、slipItemsも同時にリクエストボディに入れてください。 */
-  inputs?: PatchTicketsTicketIdBodyInputsItem[]
+  inputs?: UpdateTicketBodyInputsItem[]
   /** クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。 */
-  cloudSignDocument?: PatchTicketsTicketIdBodyCloudSignDocument
+  cloudSignDocument?: UpdateTicketBodyCloudSignDocument
   /**
    * 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。
    * @nullable
    */
-  approvers?: PatchTicketsTicketIdBodyApproversItem[] | null
+  approvers?: UpdateTicketBodyApproversItem[] | null
 }
 
-export type PostTicketsTicketIdRejectBody = {
+export type RejectTicketBody = {
   /** 差し戻し先のステップ番号（0が起票者、1が最初の承認ステップ） */
   to: number
 }
 
-export type PostTicketsTicketIdDenyBody = { [key: string]: unknown }
+export type DenyTicketBody = { [key: string]: unknown }
 
-export type GetTicketsTicketIdLinksParams = {
+export type ListTicketLinksParams = {
   /**
    * ページ
    */
@@ -3577,7 +3575,7 @@ export type GetTicketsTicketIdLinksParams = {
   perPage?: number
 }
 
-export type GetTicketsIdViewersParams = {
+export type ListViewersParams = {
   /**
    * ページ
    */
@@ -3596,25 +3594,25 @@ export type GetTicketsIdViewersParams = {
  * ユーザーのUUID。userIdとteamIdは片方のみ必須です。
  * @nullable
  */
-export type PostTicketsIdViewersBodyUserId = string | string[] | null
+export type CreateViewerBodyUserId = string | string[] | null
 
 /**
  * チームのUUID。userIdとteamIdは片方のみ必須です。
  * @nullable
  */
-export type PostTicketsIdViewersBodyTeamId = string | string[] | null
+export type CreateViewerBodyTeamId = string | string[] | null
 
-export type PostTicketsIdViewersBody = {
+export type CreateViewerBody = {
   /**
    * ユーザーのUUID。userIdとteamIdは片方のみ必須です。
    * @nullable
    */
-  userId?: PostTicketsIdViewersBodyUserId
+  userId?: CreateViewerBodyUserId
   /**
    * チームのUUID。userIdとteamIdは片方のみ必須です。
    * @nullable
    */
-  teamId?: PostTicketsIdViewersBodyTeamId
+  teamId?: CreateViewerBodyTeamId
   /**
    * 役職のUUID。teamId指定時のみ、任意で指定できます。
    * @nullable
@@ -3627,7 +3625,7 @@ export type PostTicketsIdViewersBody = {
   descendants?: boolean | null
 }
 
-export type GetTicketsIdCommentsParams = {
+export type ListCommentsParams = {
   /**
    * ページ
    */
@@ -3642,7 +3640,7 @@ export type GetTicketsIdCommentsParams = {
   sortBy?: string
 }
 
-export type PostTicketsIdCommentsBody = {
+export type CreateCommentBody = {
   /** 本文 */
   body: string
   /**
@@ -3652,12 +3650,12 @@ export type PostTicketsIdCommentsBody = {
   files?: string[] | null
 }
 
-export type PatchTicketsIdCommentsCommentIdBody = {
+export type UpdateCommentBody = {
   /** 本文 */
   body: string
 }
 
-export type GetUsersParams = {
+export type ListUsersParams = {
   /**
    * ページ
    */
@@ -3669,7 +3667,7 @@ export type GetUsersParams = {
   /**
    * ステータスによる絞り込み
    */
-  status?: GetUsersStatusItem[]
+  status?: ListUsersStatusItem[]
   /**
  * ソート。
 指定可能なフィールド: email, code
@@ -3677,18 +3675,18 @@ export type GetUsersParams = {
   sortBy?: string
 }
 
-export type GetUsersStatusItem =
-  (typeof GetUsersStatusItem)[keyof typeof GetUsersStatusItem]
+export type ListUsersStatusItem =
+  (typeof ListUsersStatusItem)[keyof typeof ListUsersStatusItem]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetUsersStatusItem = {
+export const ListUsersStatusItem = {
   invited: 'invited',
   activated: 'activated',
   suspended: 'suspended',
   deactivated: 'deactivated',
 } as const
 
-export type PostUsersBody = {
+export type CreateUserBody = {
   /** メールアドレス */
   email: string
   /**
@@ -3716,7 +3714,7 @@ export type PostUsersBody = {
   employeeId?: string | null
 }
 
-export type PatchUsersUserIdBody = {
+export type UpdateUserBody = {
   /**
    * メールアドレス
    * @maxLength 255
@@ -3745,14 +3743,14 @@ export type PatchUsersUserIdBody = {
   employeeId?: string | null
 }
 
-export type GetUsersLookupByEmailParams = {
+export type LookupUserByEmailParams = {
   /**
    * メールアドレス（URLエンコードを行ったもの）
    */
   email: string
 }
 
-export type GetUsersUserIdTeamsParams = {
+export type ListUserTeamsParams = {
   /**
    * ページ
    */
@@ -3767,7 +3765,7 @@ export type GetUsersUserIdTeamsParams = {
   submittable?: boolean
 }
 
-export type GetUsersUserIdRolesParams = {
+export type ListUserRolesParams = {
   /**
    * ページ
    */
@@ -3778,7 +3776,7 @@ export type GetUsersUserIdRolesParams = {
   perPage?: number
 }
 
-export type GetRoutesParams = {
+export type ListRoutesParams = {
   /**
    * ページ。1が最初のページ。
    */
@@ -3794,23 +3792,23 @@ export type GetRoutesParams = {
   /**
    * ステータス
    */
-  status?: GetRoutesStatusItem[]
+  status?: ListRoutesStatusItem[]
   /**
    * フォルダのUUID
    */
   folderId?: string
 }
 
-export type GetRoutesStatusItem =
-  (typeof GetRoutesStatusItem)[keyof typeof GetRoutesStatusItem]
+export type ListRoutesStatusItem =
+  (typeof ListRoutesStatusItem)[keyof typeof ListRoutesStatusItem]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetRoutesStatusItem = {
+export const ListRoutesStatusItem = {
   visible: 'visible',
   error: 'error',
 } as const
 
-export type GetWorkflowsParams = {
+export type ListWorkflowsParams = {
   /**
    * ページ。1が最初のページ。
    */
@@ -3826,19 +3824,19 @@ export type GetWorkflowsParams = {
   /**
    * ステータス
    */
-  status?: GetWorkflowsStatusItem[]
+  status?: ListWorkflowsStatusItem[]
 }
 
-export type GetWorkflowsStatusItem =
-  (typeof GetWorkflowsStatusItem)[keyof typeof GetWorkflowsStatusItem]
+export type ListWorkflowsStatusItem =
+  (typeof ListWorkflowsStatusItem)[keyof typeof ListWorkflowsStatusItem]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetWorkflowsStatusItem = {
+export const ListWorkflowsStatusItem = {
   visible: 'visible',
   invisible: 'invisible',
 } as const
 
-export type GetProxyApplicantsParams = {
+export type ListProxyApplicantsParams = {
   /**
    * ページ
    */
@@ -3849,7 +3847,7 @@ export type GetProxyApplicantsParams = {
   perPage?: number
 }
 
-export type PostProxyApplicantsBody = {
+export type CreateProxyApplicantBody = {
   /** 代理されるユーザーID */
   userId: string
   /** 代理するユーザーID */
@@ -3868,7 +3866,7 @@ export type PostProxyApplicantsBody = {
   workflowIds?: string[]
 }
 
-export type GetProxyApproversParams = {
+export type ListProxyApproversParams = {
   /**
    * ページ
    */
@@ -3879,7 +3877,7 @@ export type GetProxyApproversParams = {
   perPage?: number
 }
 
-export type PostProxyApproversBody = {
+export type CreateProxyApproverBody = {
   /** 代理されるユーザーID */
   userId: string
   /** 代理するユーザーID */
@@ -3898,7 +3896,7 @@ export type PostProxyApproversBody = {
   workflowIds?: string[]
 }
 
-export type GetAuditLogsParams = {
+export type ListAuditLogsParams = {
   /**
    * ページ
    */

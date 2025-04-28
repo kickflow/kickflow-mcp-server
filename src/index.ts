@@ -4,8 +4,8 @@ import { z } from 'zod'
 import { setKickflowAccessToken } from './kickflow-api/custom-axios-instance.js'
 import { getKickflowRESTAPIV1 } from './kickflow-api/generated/kickflowRESTAPIV1.js'
 import {
-  GetTicketsStatusOneOfItem as TicketStatusEnum,
-  GetTicketsAssigneeStatusItem as AssigneeStatusEnum,
+  ListTicketsStatusOneOfItem as TicketStatusEnum,
+  ListTicketsAssigneeStatusItem as AssigneeStatusEnum,
 } from './kickflow-api/generated/kickflowRESTAPIV1.schemas.js'
 
 // コマンドライン引数からトークンを取得
@@ -166,7 +166,7 @@ server.tool(
       )
 
       // チケット一覧の取得
-      const tickets = await api.getTickets(apiParams)
+      const tickets = await api.listTickets(apiParams)
 
       return {
         content: [
@@ -209,7 +209,7 @@ server.tool(
       const api = getKickflowRESTAPIV1()
 
       // チケット詳細の取得
-      const ticket = await api.getTicketsTicketId(params.ticketId)
+      const ticket = await api.getTicket(params.ticketId)
 
       return {
         content: [
