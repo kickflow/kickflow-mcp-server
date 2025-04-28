@@ -8,75 +8,22 @@
 
 ### 必要条件
 
-- Node.js 18以上
+- Node.js 22以上
 - kickflow アクセストークン
   - [アクセストークンの取得方法](https://support.kickflow.com/hc/ja/articles/360047613534)
 
 ### インストール
 
-#### npx経由でのインストール（推奨）
+MCPクライアント（Claude Desktop, Cursor, Clineなど）の構成ファイル (`claude_desktop_config.json` など) に、以下のような記述を追加してください。
 
-```bash
-npx kickflow-mcp-server --kickflow-access-token="your-kickflow-access-token"
-```
-
-#### ソースコードからインストール
-
-1.  リポジトリをクローン:
-    ```bash
-    git clone https://github.com/kickflow/kickflow-mcp-server.git
-    cd kickflow-mcp-server
-    ```
-2.  依存パッケージのインストール:
-    ```bash
-    npm install
-    ```
-3.  ビルド:
-    ```bash
-    npm run build
-    ```
-
-### 使い方
-
-#### 環境変数の設定
-
-kickflow アクセストークンを環境変数に設定します：
-
-```bash
-export KICKFLOW_ACCESS_TOKEN="your-kickflow-access-token"
-```
-
-#### サーバーの実行
-
-npx経由でインストールした場合、インストールコマンドがそのままサーバー実行コマンドになります。
-
-ソースコードからインストールした場合：
-プロジェクトディレクトリ内で以下のコマンドを実行します。
-
-```bash
-npm start
-```
-
-または
-
-```bash
-node dist/index.js
-```
-
-_(環境変数 `KICKFLOW_ACCESS_TOKEN` が設定されている必要があります)_
-
-#### MCP設定ファイルへの追加
-
-MCP設定ファイル (`claude_desktop_config.json` など) に以下のような記述を追加します：
-
-**環境変数でトークンを設定する場合:**
+#### MacOS/Linux
 
 ```json
 {
   "mcpServers": {
     "kickflow": {
       "command": "npx",
-      "args": ["kickflow-mcp-server"],
+      "args": ["-y", "kickflow-mcp-server"],
       "env": {
         "KICKFLOW_ACCESS_TOKEN": "your-kickflow-access-token"
       },
@@ -87,17 +34,17 @@ MCP設定ファイル (`claude_desktop_config.json` など) に以下のよう�
 }
 ```
 
-**引数でトークンを渡す場合:**
+#### Windows
 
 ```json
 {
   "mcpServers": {
     "kickflow": {
-      "command": "npx",
-      "args": [
-        "kickflow-mcp-server",
-        "--kickflow-access-token=your-kickflow-access-token"
-      ],
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "kickflow-mcp-server"],
+      "env": {
+        "KICKFLOW_ACCESS_TOKEN": "your-kickflow-access-token"
+      },
       "disabled": false,
       "autoApprove": []
     }
@@ -105,7 +52,7 @@ MCP設定ファイル (`claude_desktop_config.json` など) に以下のよう�
 }
 ```
 
-### ツール
+### 機能一覧
 
 このMCPサーバーは以下のツールをカテゴリ別に提供します:
 
