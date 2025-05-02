@@ -1,18 +1,16 @@
 import { defineConfig } from 'orval'
 
+const INPUT_FILE = 'schema.yaml'
+const OUTPUT_DIR = 'src/kickflow-api/generated'
+
 export default defineConfig({
   kickflow: {
     input: {
-      target: 'https://developer.kickflow.com/rest/schema.yaml',
-      // TODO: 添付ファイルアップロードAPIは、YAMLの型定義が不完全なため、除外する
-      filters: {
-        mode: 'exclude',
-        tags: ['ファイル'],
-      },
+      target: INPUT_FILE,
     },
     output: {
       mode: 'split',
-      target: 'src/kickflow-api/generated',
+      target: OUTPUT_DIR,
       client: 'axios',
       prettier: true,
       override: {
@@ -24,21 +22,19 @@ export default defineConfig({
       },
     },
   },
-  // kickflowZod: {
-  //   input: {
-  //     target: 'https://developer.kickflow.com/rest/schema.yaml',
-  //     // TODO: 添付ファイルアップロードAPIは、YAMLの型定義が不完全なため、除外する
-  //     filters: {
-  //       mode: 'exclude',
-  //       tags: ['ファイル'],
-  //     },
-  //   },
-  //   output: {
-  //     mode: 'split',
-  //     client: 'zod',
-  //     prettier: true,
-  //     target: 'src/kickflow-api/generated',
-  //     fileExtension: '.zod.ts',
-  //   },
-  // },
+  kickflowZod: {
+    input: {
+      target: INPUT_FILE,
+    },
+    output: {
+      mode: 'tags-split',
+      client: 'zod',
+      prettier: true,
+      target: OUTPUT_DIR,
+      fileExtension: '.zod.ts',
+    },
+    hooks: {
+      afterAllFilesWrite: 'node scripts/orval-hook.js && npm run format',
+    },
+  },
 })
