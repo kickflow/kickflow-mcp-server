@@ -1,8 +1,11 @@
 # ソースファイル
 src/
+scripts/
 tsconfig.json
 
 # 開発用ファイル
+.clinerules/
+.vscode/
 .gitignore
 .git/
 node_modules/
