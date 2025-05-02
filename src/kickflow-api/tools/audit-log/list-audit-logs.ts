@@ -1,6 +1,6 @@
-import { Tool } from '../../types.js'
-import { listAuditLogsQueryParams } from '../generated/audit-log/audit-log.zod.js'
-import { createApiToolCallback } from '../tool-utils.js'
+import { Tool } from '../../../types.js'
+import { listAuditLogsQueryParams } from '../../generated/audit-log/audit-log.zod.js'
+import { createApiToolCallback } from '../../tool-utils.js'
 
 const listAuditLogsTool: Tool = {
   name: 'list_audit_logs',

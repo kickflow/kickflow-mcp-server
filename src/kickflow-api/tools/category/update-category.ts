@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { Tool } from '../../types.js'
-import { updateCategoryBody } from '../generated/category/category.zod.js'
-import { createApiToolCallback } from '../tool-utils.js'
+import { Tool } from '../../../types.js'
+import { updateCategoryBody } from '../../generated/category/category.zod.js'
+import { createApiToolCallback } from '../../tool-utils.js'
 
 const paramsSchema = z.object({
   categoryId: z.string().uuid().describe('更新するカテゴリのID'),

@@ -1,6 +1,6 @@
-import { Tool } from '../../types.js'
-import { createCategoryBody } from '../generated/category/category.zod.js'
-import { createApiToolCallback } from '../tool-utils.js'
+import { Tool } from '../../../types.js'
+import { createCategoryBody } from '../../generated/category/category.zod.js'
+import { createApiToolCallback } from '../../tool-utils.js'
 
 const createCategoryTool: Tool = {
   name: 'create_category',
