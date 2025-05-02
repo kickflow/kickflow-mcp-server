@@ -1,7 +1,10 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { setKickflowAccessToken } from './kickflow-api/custom-axios-instance.js'
-import { allTools } from './tools/index.js'
+import listAuditLogsTool from './kickflow-api/tools/list-audit-logs.js'
+import createCategoryTool from './kickflow-api/tools/create-category.js'
+import updateCategoryTool from './kickflow-api/tools/update-category.js' // 追加
+import { Tool } from './types.js'
 
 // コマンドライン引数からトークンを取得
 function parseArguments() {
@@ -68,9 +71,14 @@ const server = new McpServer({
 })
 
 // Register all tools dynamically
-for (const tool of allTools) {
-  server.tool(tool.name, tool.description, tool.inputSchema, tool.execute)
-}
+const tools: Tool[] = [
+  listAuditLogsTool,
+  createCategoryTool,
+  updateCategoryTool,
+] // 追加
+tools.forEach((tool) => {
+  server.tool(tool.name, tool.description, tool.paramsSchema, tool.cb)
+})
 
 async function main() {
   const transport = new StdioServerTransport()

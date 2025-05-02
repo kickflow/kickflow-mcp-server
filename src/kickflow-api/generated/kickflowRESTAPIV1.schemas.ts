@@ -6,6 +6,16 @@
  * OpenAPI spec version: 1.0.0
  */
 /**
+ * エラーレスポンス
+ */
+export interface ErrorResponse {
+  /** エラーコード */
+  code: string
+  /** エラーメッセージ */
+  message: string
+}
+
+/**
  * 役職
  */
 export interface Grade {
@@ -1989,10 +1999,18 @@ export type TicketDetailAllOfAuthorTeam =
   | TicketDetailAllOfAuthorTeamAnyOf
 
 /**
+ * @nullable
+ */
+export type TicketDetailAllOfRouteAnyOf = unknown | null
+
+/**
  * このチケットの承認経路。申請拒否状態の場合、nullになります。
  * @nullable
  */
-export type TicketDetailAllOfRoute = RouteDetail | null
+export type TicketDetailAllOfRoute =
+  | RouteDetail
+  | TicketDetailAllOfRouteAnyOf
+  | null
 
 /**
  * @nullable
@@ -2144,19 +2162,20 @@ export const TicketStepActionType = {
 } as const
 
 /**
+ * @nullable
+ */
+export type TicketStepFallbackResultAnyOf = unknown | null
+
+/**
  * フォールバックの結果
  * @nullable
  */
 export type TicketStepFallbackResult =
-  | (typeof TicketStepFallbackResult)[keyof typeof TicketStepFallbackResult]
+  | 'direct_manager'
+  | 'higher_manager'
+  | 'skip'
+  | TicketStepFallbackResultAnyOf
   | null
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TicketStepFallbackResult = {
-  direct_manager: 'direct_manager',
-  higher_manager: 'higher_manager',
-  skip: 'skip',
-} as const
 
 /**
  * @nullable
@@ -2525,6 +2544,39 @@ export interface KintoneAppSetting {
   /** フィールドへのマッピング設定 */
   mappings: KintoneAppSettingMappingsItem[]
 }
+
+/**
+ * Bad Request
+ */
+export type BadRequestResponse = ErrorResponse
+
+/**
+ * Unauthorized
+ */
+export type UnauthorizedResponse = ErrorResponse
+
+/**
+ * Forbidden
+ */
+export type ForbiddenResponse = ErrorResponse
+
+/**
+ * Not Found
+ */
+export type NotFoundResponse = ErrorResponse
+
+/**
+ * バリデーションエラーの詳細
+ */
+export type UnprocessableEntityResponseAllOfErrors = { [key: string]: string[] }
+
+export type UnprocessableEntityResponseAllOf = {
+  /** バリデーションエラーの詳細 */
+  errors?: UnprocessableEntityResponseAllOfErrors
+}
+
+export type UnprocessableEntityResponse = ErrorResponse &
+  UnprocessableEntityResponseAllOf
 
 export type ListCategoriesParams = {
   /**
@@ -3894,6 +3946,31 @@ export type CreateProxyApproverBody = {
   endsOn?: string | null
   /** 対象ワークフローのID */
   workflowIds?: string[]
+}
+
+export type UploadFileBody = {
+  /** 添付ファイル */
+  file?: Blob
+}
+
+export type UploadFile200 = {
+  /** 添付ファイルの署名済みID */
+  signedId: string
+}
+
+export type GetFile200 = {
+  /** Amazon S3のURL */
+  url: string
+  /** ファイル名 */
+  filename: string
+  /** チェックサム */
+  checksum: string
+  /** バイト数 */
+  byteSize: number
+  /** Content-Type */
+  contentType: string
+  /** 作成日時 */
+  createdAt: string
 }
 
 export type ListAuditLogsParams = {

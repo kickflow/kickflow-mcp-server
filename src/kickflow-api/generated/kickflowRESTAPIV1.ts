@@ -28,6 +28,7 @@ import type {
   FolderDetail,
   GeneralMaster,
   GeneralMasterItem,
+  GetFile200,
   Grade,
   GradeCreateBody,
   GradeUpdateBody,
@@ -84,6 +85,8 @@ import type {
   UpdateTeamMemberBody,
   UpdateTicketBody,
   UpdateUserBody,
+  UploadFile200,
+  UploadFileBody,
   User,
   UserDetail,
   Workflow,
@@ -1753,6 +1756,52 @@ APIの実行ユーザーがチケットにアサインされていない場合�
   }
 
   /**
+ * 添付ファイルをアップロードします。最大2MBまでのファイルをアップロード可能です。
+
+注意：このAPIはエンタープライズプランのお客様のみ利用可能です。
+
+注意：アップロードしたファイルはすみやかにチケット作成などで使用してください。チケットなどから参照されていないファイルは最短24時間経過後に自動的に削除されます。
+ * @summary 添付ファイルをアップロード
+ */
+  const uploadFile = (
+    uploadFileBody: BodyType<UploadFileBody>,
+    options?: SecondParameter<typeof customAxiosInstance>,
+  ) => {
+    const formData = new FormData()
+    if (uploadFileBody.file !== undefined) {
+      formData.append('file', uploadFileBody.file)
+    }
+
+    return customAxiosInstance<UploadFile200>(
+      {
+        url: `/v1/files`,
+        method: 'POST',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+      },
+      options,
+    )
+  }
+
+  /**
+ * 添付ファイルのAmazon S3上のURLを含む情報を取得します。
+
+注意: このAPIが返すURLは、5分間で失効します。
+
+注意: チケットに添付されていないファイルはURLを取得できません。先にチケットに添付してください。
+ * @summary 添付ファイルの情報を取得
+ */
+  const getFile = (
+    signedId: string,
+    options?: SecondParameter<typeof customAxiosInstance>,
+  ) => {
+    return customAxiosInstance<GetFile200>(
+      { url: `/v1/files/${signedId}`, method: 'GET' },
+      options,
+    )
+  }
+
+  /**
    * 監査ログの一覧を取得します。
    * @summary 監査ログ一覧を取得
    */
@@ -1857,6 +1906,8 @@ APIの実行ユーザーがチケットにアサインされていない場合�
     listProxyApprovers,
     createProxyApprover,
     deleteProxyApprover,
+    uploadFile,
+    getFile,
     listAuditLogs,
   }
 }
@@ -2215,6 +2266,12 @@ export type DeleteProxyApproverResult = NonNullable<
   Awaited<
     ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteProxyApprover']>
   >
+>
+export type UploadFileResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['uploadFile']>>
+>
+export type GetFileResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['getFile']>>
 >
 export type ListAuditLogsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['listAuditLogs']>>
