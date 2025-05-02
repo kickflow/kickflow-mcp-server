@@ -48,13 +48,14 @@ export const getCurrentUserResponse = zod.object({
  */
 export const listUsersQueryPageDefault = 1;export const listUsersQueryPerPageDefault = 25;
 export const listUsersQueryPerPageMax = 100;
+export const listUsersQuerySortByRegExp = new RegExp('^(email|code)(-asc|-desc)?$');
 
 
 export const listUsersQueryParams = zod.object({
   "page": zod.number().min(1).default(listUsersQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listUsersQueryPerPageMax).default(listUsersQueryPerPageDefault).describe('1ページあたりの件数'),
   "status": zod.array(zod.enum(['invited', 'activated', 'suspended', 'deactivated'])).optional().describe('ステータスによる絞り込み'),
-  "sortBy": zod.string().optional().describe('ソート。\n指定可能なフィールド: email, code')
+  "sortBy": zod.string().regex(listUsersQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: email, code')
 })
 
 export const listUsersResponseEmailMax = 255;

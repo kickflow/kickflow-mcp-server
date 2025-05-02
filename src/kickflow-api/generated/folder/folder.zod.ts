@@ -16,12 +16,13 @@ import {
  */
 export const listFoldersQueryPageDefault = 1;export const listFoldersQueryPerPageDefault = 25;
 export const listFoldersQueryPerPageMax = 100;
+export const listFoldersQuerySortByRegExp = new RegExp('^(createdAt|name|fullName)(-asc|-desc)?$');
 
 
 export const listFoldersQueryParams = zod.object({
   "page": zod.number().min(1).default(listFoldersQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listFoldersQueryPerPageMax).default(listFoldersQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。 指定可能なフィールド: createdAt, name, fullName')
+  "sortBy": zod.string().regex(listFoldersQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name, fullName')
 })
 
 export const listFoldersResponseNameMax = 255;

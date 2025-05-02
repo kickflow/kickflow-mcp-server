@@ -16,12 +16,13 @@ import {
  */
 export const listCategoriesQueryPageDefault = 1;export const listCategoriesQueryPerPageDefault = 25;
 export const listCategoriesQueryPerPageMax = 100;
+export const listCategoriesQuerySortByRegExp = new RegExp('^(name|createdAt|updatedAt)(-asc|-desc)?$');
 
 
 export const listCategoriesQueryParams = zod.object({
   "page": zod.number().min(1).default(listCategoriesQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listCategoriesQueryPerPageMax).default(listCategoriesQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。指定可能なフィールド: name, createdAt, updatedAt')
+  "sortBy": zod.string().regex(listCategoriesQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: name, createdAt, updatedAt')
 })
 
 export const listCategoriesResponseNameMax = 100;

@@ -21,12 +21,13 @@ import {
  */
 export const listOrganizationChartsQueryPageDefault = 1;export const listOrganizationChartsQueryPerPageDefault = 25;
 export const listOrganizationChartsQueryPerPageMax = 100;
+export const listOrganizationChartsQuerySortByRegExp = new RegExp('^(createdAt|name)(-asc|-desc)?$');
 
 
 export const listOrganizationChartsQueryParams = zod.object({
   "page": zod.number().min(1).default(listOrganizationChartsQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listOrganizationChartsQueryPerPageMax).default(listOrganizationChartsQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。指定可能なフィールド: createdAt, name')
+  "sortBy": zod.string().regex(listOrganizationChartsQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name')
 })
 
 export const listOrganizationChartsResponseNameMax = 255;

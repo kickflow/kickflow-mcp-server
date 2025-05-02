@@ -98,9 +98,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(name|createdAt|updatedAt)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。指定可能なフィールド: name, createdAt, updatedAt'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: name, createdAt, updatedAt'
       description: カテゴリの一覧を取得します。
     post:
       summary: カテゴリを作成
@@ -270,9 +271,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt|name|fullName)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。 指定可能なフィールド: createdAt, name, fullName'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name, fullName'
       description: フォルダの一覧を取得します。
     post:
       summary: フォルダを作成
@@ -492,9 +494,10 @@ paths:
           description: 1ページあたりの件数å
         - schema:
             type: string
+            pattern: ^(createdAt|code|name)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。 指定可能なフィールド: createdAt, code, name'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, code, name'
       description: |-
         汎用マスタの一覧を取得します。
 
@@ -793,9 +796,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt|code|name)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。 指定可能なフィールド: createdAt, code, name'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, code, name'
       tags:
         - 汎用マスタ
       description: 汎用マスタアイテムの一覧を取得します。
@@ -1073,9 +1077,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(level|code)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。指定可能なフィールド: level, code'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: level, code'
       description: |-
         役職の一覧を取得します。
 
@@ -1306,9 +1311,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt|name)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。指定可能なフィールド: createdAt, name'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name'
       description: |-
         組織図の一覧を取得します。
 
@@ -2043,9 +2049,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt|name)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。 指定可能なフィールド: createdAt, name'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name'
       description: |-
         管理者ロールの一覧を取得します。
 
@@ -2389,9 +2396,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt|updatedAt)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。指定可能なフィールド: createdAt, updatedAt'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt'
         - schema:
             oneOf:
               - type: string
@@ -2854,9 +2862,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt|updatedAt)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。指定可能なフィールド: createdAt, updatedAt'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt'
         - schema:
             type: array
             items:
@@ -3584,9 +3593,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。 指定可能なフィールド: createdAt'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt'
     post:
       summary: 共有ユーザーを追加
       tags:
@@ -3743,9 +3753,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。 指定可能なフィールド: createdAt'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt'
     post:
       summary: コメントを投稿
       tags:
@@ -3992,11 +4003,10 @@ paths:
           description: ステータスによる絞り込み
         - schema:
             type: string
+            pattern: ^(email|code)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: |-
-            ソート。
-            指定可能なフィールド: email, code
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: email, code'
       description: ユーザー一覧を取得します。
     post:
       summary: ユーザーを作成（招待）
@@ -4521,9 +4531,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt|folderId)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。ソート可能なフィールド: createdAt, folderId'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, folderId'
         - schema:
             type: array
             items:
@@ -4625,9 +4636,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt|updatedAt|name|status)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。ソート可能なフィールド: createdAt, updatedAt, name, status'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt, name, status'
         - schema:
             type: array
             items:
@@ -5144,9 +5156,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
+            pattern: ^(createdAt)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート。指定可能なフィールド: createdAt'
+          description: ソート対象のフィールドと順序。フィールドは createdAt のみ指定可能。
         - schema:
             type: string
           in: query

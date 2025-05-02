@@ -18,12 +18,13 @@ import {
  */
 export const listGeneralMastersQueryPageDefault = 1;export const listGeneralMastersQueryPerPageDefault = 25;
 export const listGeneralMastersQueryPerPageMax = 100;
+export const listGeneralMastersQuerySortByRegExp = new RegExp('^(createdAt|code|name)(-asc|-desc)?$');
 
 
 export const listGeneralMastersQueryParams = zod.object({
   "page": zod.number().min(1).default(listGeneralMastersQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listGeneralMastersQueryPerPageMax).default(listGeneralMastersQueryPerPageDefault).describe('1ページあたりの件数å'),
-  "sortBy": zod.string().optional().describe('ソート。 指定可能なフィールド: createdAt, code, name')
+  "sortBy": zod.string().regex(listGeneralMastersQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, code, name')
 })
 
 export const listGeneralMastersResponseCodeMax = 255;
@@ -189,12 +190,13 @@ export const updateGeneralMasterResponse = zod.object({
  */
 export const listGeneralMasterItemsQueryPageDefault = 1;export const listGeneralMasterItemsQueryPerPageDefault = 25;
 export const listGeneralMasterItemsQueryPerPageMax = 100;
+export const listGeneralMasterItemsQuerySortByRegExp = new RegExp('^(createdAt|code|name)(-asc|-desc)?$');
 
 
 export const listGeneralMasterItemsQueryParams = zod.object({
   "page": zod.number().min(1).default(listGeneralMasterItemsQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listGeneralMasterItemsQueryPerPageMax).default(listGeneralMasterItemsQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。 指定可能なフィールド: createdAt, code, name')
+  "sortBy": zod.string().regex(listGeneralMasterItemsQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, code, name')
 })
 
 export const listGeneralMasterItemsResponseCodeMax = 255;

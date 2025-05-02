@@ -2588,7 +2588,7 @@ export type ListCategoriesParams = {
    */
   perPage?: number
   /**
-   * ソート。指定可能なフィールド: name, createdAt, updatedAt
+   * ソート対象のフィールドと順序。指定可能なフィールド: name, createdAt, updatedAt
    */
   sortBy?: string
 }
@@ -2613,7 +2613,7 @@ export type ListFoldersParams = {
    */
   perPage?: number
   /**
-   * ソート。 指定可能なフィールド: createdAt, name, fullName
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name, fullName
    */
   sortBy?: string
 }
@@ -2656,7 +2656,7 @@ export type ListGeneralMastersParams = {
    */
   perPage?: number
   /**
-   * ソート。 指定可能なフィールド: createdAt, code, name
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, code, name
    */
   sortBy?: string
 }
@@ -2762,7 +2762,7 @@ export type ListGeneralMasterItemsParams = {
    */
   perPage?: number
   /**
-   * ソート。 指定可能なフィールド: createdAt, code, name
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, code, name
    */
   sortBy?: string
 }
@@ -2849,7 +2849,7 @@ export type ListGradesParams = {
    */
   perPage?: number
   /**
-   * ソート。指定可能なフィールド: level, code
+   * ソート対象のフィールドと順序。指定可能なフィールド: level, code
    */
   sortBy?: string
 }
@@ -2864,7 +2864,7 @@ export type ListOrganizationChartsParams = {
    */
   perPage?: number
   /**
-   * ソート。指定可能なフィールド: createdAt, name
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name
    */
   sortBy?: string
 }
@@ -2950,7 +2950,7 @@ export type ListRolesParams = {
    */
   perPage?: number
   /**
-   * ソート。 指定可能なフィールド: createdAt, name
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name
    */
   sortBy?: string
 }
@@ -2985,7 +2985,7 @@ export type ListTicketsParams = {
    */
   perPage?: number
   /**
-   * ソート。指定可能なフィールド: createdAt, updatedAt
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt
    */
   sortBy?: string
   /**
@@ -3312,7 +3312,7 @@ export type ListTasksParams = {
    */
   perPage?: number
   /**
-   * ソート。指定可能なフィールド: createdAt, updatedAt
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt
    */
   sortBy?: string
   /**
@@ -3637,7 +3637,7 @@ export type ListViewersParams = {
    */
   perPage?: number
   /**
-   * ソート。 指定可能なフィールド: createdAt
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt
    */
   sortBy?: string
 }
@@ -3687,7 +3687,7 @@ export type ListCommentsParams = {
    */
   perPage?: number
   /**
-   * ソート。 指定可能なフィールド: createdAt
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt
    */
   sortBy?: string
 }
@@ -3721,9 +3721,8 @@ export type ListUsersParams = {
    */
   status?: ListUsersStatusItem[]
   /**
- * ソート。
-指定可能なフィールド: email, code
- */
+   * ソート対象のフィールドと順序。指定可能なフィールド: email, code
+   */
   sortBy?: string
 }
 
@@ -3838,7 +3837,7 @@ export type ListRoutesParams = {
    */
   perPage?: number
   /**
-   * ソート。ソート可能なフィールド: createdAt, folderId
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, folderId
    */
   sortBy?: string
   /**
@@ -3870,7 +3869,7 @@ export type ListWorkflowsParams = {
    */
   perPage?: number
   /**
-   * ソート。ソート可能なフィールド: createdAt, updatedAt, name, status
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt, name, status
    */
   sortBy?: string
   /**
@@ -3983,7 +3982,7 @@ export type ListAuditLogsParams = {
    */
   perPage?: number
   /**
-   * ソート。指定可能なフィールド: createdAt
+   * ソート対象のフィールドと順序。フィールドは createdAt のみ指定可能。
    */
   sortBy?: string
   /**

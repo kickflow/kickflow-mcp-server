@@ -16,12 +16,13 @@ import {
  */
 export const listRoutesQueryPageDefault = 1;export const listRoutesQueryPerPageDefault = 25;
 export const listRoutesQueryPerPageMax = 100;
+export const listRoutesQuerySortByRegExp = new RegExp('^(createdAt|folderId)(-asc|-desc)?$');
 
 
 export const listRoutesQueryParams = zod.object({
   "page": zod.number().min(1).default(listRoutesQueryPageDefault).describe('ページ。1が最初のページ。'),
   "perPage": zod.number().min(1).max(listRoutesQueryPerPageMax).default(listRoutesQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。ソート可能なフィールド: createdAt, folderId'),
+  "sortBy": zod.string().regex(listRoutesQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, folderId'),
   "status": zod.array(zod.enum(['visible', 'error'])).optional().describe('ステータス'),
   "folderId": zod.string().uuid().optional().describe('フォルダのUUID')
 })

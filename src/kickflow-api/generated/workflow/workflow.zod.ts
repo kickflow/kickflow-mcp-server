@@ -16,12 +16,13 @@ import {
  */
 export const listWorkflowsQueryPageDefault = 1;export const listWorkflowsQueryPerPageDefault = 25;
 export const listWorkflowsQueryPerPageMax = 100;
+export const listWorkflowsQuerySortByRegExp = new RegExp('^(createdAt|updatedAt|name|status)(-asc|-desc)?$');
 
 
 export const listWorkflowsQueryParams = zod.object({
   "page": zod.number().min(1).default(listWorkflowsQueryPageDefault).describe('ページ。1が最初のページ。'),
   "perPage": zod.number().min(1).max(listWorkflowsQueryPerPageMax).default(listWorkflowsQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。ソート可能なフィールド: createdAt, updatedAt, name, status'),
+  "sortBy": zod.string().regex(listWorkflowsQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt, name, status'),
   "status": zod.array(zod.enum(['visible', 'invisible'])).optional().describe('ステータス')
 })
 

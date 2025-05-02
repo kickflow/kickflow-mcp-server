@@ -22,12 +22,13 @@ import {
  */
 export const listTicketsQueryPageDefault = 1;export const listTicketsQueryPerPageDefault = 25;
 export const listTicketsQueryPerPageMax = 100;
+export const listTicketsQuerySortByRegExp = new RegExp('^(createdAt|updatedAt)(-asc|-desc)?$');
 
 
 export const listTicketsQueryParams = zod.object({
   "page": zod.number().min(1).default(listTicketsQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listTicketsQueryPerPageMax).default(listTicketsQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。指定可能なフィールド: createdAt, updatedAt'),
+  "sortBy": zod.string().regex(listTicketsQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt'),
   "status": zod.enum(['draft', 'in_progress', 'rejected', 'completed', 'denied', 'archived']).or(zod.array(zod.enum(['draft', 'in_progress', 'rejected', 'completed', 'denied', 'archived']))).optional().describe('ステータスの配列'),
   "subStatusIds": zod.array(zod.string().uuid()).optional().describe('サブステータスのUUIDの配列'),
   "workflowId": zod.string().optional().describe('ワークフローのUUID'),
@@ -5726,12 +5727,13 @@ export const createTicketResponse = zod.object({
  */
 export const listTasksQueryPageDefault = 1;export const listTasksQueryPerPageDefault = 25;
 export const listTasksQueryPerPageMax = 100;
+export const listTasksQuerySortByRegExp = new RegExp('^(createdAt|updatedAt)(-asc|-desc)?$');
 
 
 export const listTasksQueryParams = zod.object({
   "page": zod.number().min(1).default(listTasksQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listTasksQueryPerPageMax).default(listTasksQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。指定可能なフィールド: createdAt, updatedAt'),
+  "sortBy": zod.string().regex(listTasksQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt'),
   "status": zod.array(zod.enum(['draft', 'in_progress', 'rejected', 'completed', 'deleted'])).optional().describe('ステータスの配列'),
   "subStatusIds": zod.array(zod.string().uuid()).optional().describe('サブステータスのUUIDの配列'),
   "workflowId": zod.string().optional().describe('ワークフローのUUID'),
@@ -41256,12 +41258,13 @@ export const listTicketLinksResponse = zod.array(listTicketLinksResponseItem)
  */
 export const listViewersQueryPageDefault = 1;export const listViewersQueryPerPageDefault = 25;
 export const listViewersQueryPerPageMax = 100;
+export const listViewersQuerySortByRegExp = new RegExp('^(createdAt)(-asc|-desc)?$');
 
 
 export const listViewersQueryParams = zod.object({
   "page": zod.number().min(1).default(listViewersQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listViewersQueryPerPageMax).default(listViewersQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。 指定可能なフィールド: createdAt')
+  "sortBy": zod.string().regex(listViewersQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt')
 })
 
 export const listViewersResponseUserEmailMax = 255;

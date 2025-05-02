@@ -18,12 +18,13 @@ import {
  */
 export const listGradesQueryPageDefault = 1;export const listGradesQueryPerPageDefault = 25;
 export const listGradesQueryPerPageMax = 100;
+export const listGradesQuerySortByRegExp = new RegExp('^(level|code)(-asc|-desc)?$');
 
 
 export const listGradesQueryParams = zod.object({
   "page": zod.number().min(1).default(listGradesQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listGradesQueryPerPageMax).default(listGradesQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。指定可能なフィールド: level, code')
+  "sortBy": zod.string().regex(listGradesQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: level, code')
 })
 
 export const listGradesResponseNameMax = 255;

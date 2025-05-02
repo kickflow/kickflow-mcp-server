@@ -16,12 +16,13 @@ import {
  */
 export const listAuditLogsQueryPageDefault = 1;export const listAuditLogsQueryPerPageDefault = 25;
 export const listAuditLogsQueryPerPageMax = 100;
+export const listAuditLogsQuerySortByRegExp = new RegExp('^(createdAt)(-asc|-desc)?$');
 
 
 export const listAuditLogsQueryParams = zod.object({
   "page": zod.number().min(1).default(listAuditLogsQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listAuditLogsQueryPerPageMax).default(listAuditLogsQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。指定可能なフィールド: createdAt'),
+  "sortBy": zod.string().regex(listAuditLogsQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。フィールドは createdAt のみ指定可能。'),
   "createdAtStart": zod.string().optional().describe('作成日時の起点'),
   "createdAtEnd": zod.string().optional().describe('作成日時の終点'),
   "userId": zod.string().uuid().optional().describe('ユーザーID')

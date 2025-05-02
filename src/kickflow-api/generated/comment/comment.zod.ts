@@ -16,12 +16,13 @@ import {
  */
 export const listCommentsQueryPageDefault = 1;export const listCommentsQueryPerPageDefault = 25;
 export const listCommentsQueryPerPageMax = 100;
+export const listCommentsQuerySortByRegExp = new RegExp('^(createdAt)(-asc|-desc)?$');
 
 
 export const listCommentsQueryParams = zod.object({
   "page": zod.number().min(1).default(listCommentsQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listCommentsQueryPerPageMax).default(listCommentsQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。 指定可能なフィールド: createdAt')
+  "sortBy": zod.string().regex(listCommentsQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt')
 })
 
 export const listCommentsResponseUserEmailMax = 255;

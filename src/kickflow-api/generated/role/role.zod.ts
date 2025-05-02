@@ -18,12 +18,13 @@ import {
  */
 export const listRolesQueryPageDefault = 1;export const listRolesQueryPerPageDefault = 25;
 export const listRolesQueryPerPageMax = 100;
+export const listRolesQuerySortByRegExp = new RegExp('^(createdAt|name)(-asc|-desc)?$');
 
 
 export const listRolesQueryParams = zod.object({
   "page": zod.number().min(1).default(listRolesQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listRolesQueryPerPageMax).default(listRolesQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().optional().describe('ソート。 指定可能なフィールド: createdAt, name')
+  "sortBy": zod.string().regex(listRolesQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name')
 })
 
 export const listRolesResponseNameMax = 255;
