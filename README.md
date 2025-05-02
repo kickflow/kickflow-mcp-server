@@ -15,6 +15,7 @@
 ### インストール
 
 MCPクライアント（Claude Desktop, Cursor, Clineなど）の構成ファイル (`claude_desktop_config.json` など) に、以下のような記述を追加してください。
+`KICKFLOW_ACCESS_TOKEN` には、取得したアクセストークンを設定してください。
 
 #### MacOS/Linux
 
@@ -23,12 +24,10 @@ MCPクライアント（Claude Desktop, Cursor, Clineなど）の構成ファイ
   "mcpServers": {
     "kickflow": {
       "command": "npx",
-      "args": ["-y", "kickflow-mcp-server"],
+      "args": ["-y", "@kickflow/mcp-server"],
       "env": {
         "KICKFLOW_ACCESS_TOKEN": "your-kickflow-access-token"
-      },
-      "disabled": false,
-      "autoApprove": []
+      }
     }
   }
 }
@@ -41,12 +40,10 @@ MCPクライアント（Claude Desktop, Cursor, Clineなど）の構成ファイ
   "mcpServers": {
     "kickflow": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "kickflow-mcp-server"],
+      "args": ["/c", "npx", "-y", "@kickflow/mcp-server"],
       "env": {
         "KICKFLOW_ACCESS_TOKEN": "your-kickflow-access-token"
-      },
-      "disabled": false,
-      "autoApprove": []
+      }
     }
   }
 }
