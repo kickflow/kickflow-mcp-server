@@ -10,6 +10,9 @@
     "README.md",
     "LICENSE"
   ],
+  "repository": {
+    "url": "https://github.com/kickflow/kickflow-mcp-server"
+  },
   "scripts": {
     "build": "tsc && chmod 755 dist/index.js",
     "dev": "node --loader ts-node/esm src/index.ts",
