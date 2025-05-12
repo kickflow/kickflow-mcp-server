@@ -367,7 +367,7 @@ export const getWorkflowResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(getWorkflowResponseSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -660,7 +660,7 @@ export const getWorkflowResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getWorkflowResponseTicketViewersItemTeamNameMax).describe('名前'),
@@ -670,7 +670,7 @@ export const getWorkflowResponse = zod.object({
   "usersCount": zod.number().min(getWorkflowResponseTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getWorkflowResponseTicketViewersItemGradeNameMax).describe('名前'),
@@ -679,7 +679,7 @@ export const getWorkflowResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -751,7 +751,7 @@ export const getWorkflowResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('フォルダ').describe('フォルダ')
-}).describe('経路').nullable().describe('経路。routeまたはerrorMessageは片方のみ値が入ります。'),
+}).describe('経路').or(zod.any().nullable()).nullable().describe('経路。routeまたはerrorMessageは片方のみ値が入ります。'),
   "conditionFields": zod.array(zod.object({
   "id": zod.string().describe('UUID'),
   "symbol": zod.string().describe('演算子'),
@@ -789,7 +789,7 @@ export const getWorkflowResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('しきい値として使う役職'),
+}).describe('役職').or(zod.any().nullable()).nullable().describe('しきい値として使う役職'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamNameMax).describe('名前'),
@@ -799,7 +799,7 @@ export const getWorkflowResponse = zod.object({
   "usersCount": zod.number().min(getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('しきい値として使うチーム'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('しきい値として使うチーム'),
   "generalMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(getWorkflowResponseRouteConditionsItemConditionFieldsItemGeneralMasterItemCodeMax).describe('コード'),
@@ -827,7 +827,7 @@ export const getWorkflowResponse = zod.object({
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')
 })).describe('カスタムフィールドの入力の配列')
-}).describe('汎用マスタのアイテム').nullable().describe('しきい値として使う汎用マスタアイテム')
+}).describe('汎用マスタのアイテム').or(zod.any().nullable()).nullable().describe('しきい値として使う汎用マスタアイテム')
 }).describe('ワークフロー経路分岐の条件')).describe('条件'),
   "errorMessage": zod.string().nullable().describe('申請拒否時のエラーメッセージ。routeまたはerrorMessageは片方のみ値が入ります。')
 }).describe('ワークフローの経路分岐')).describe('経路分岐')

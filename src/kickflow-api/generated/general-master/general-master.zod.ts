@@ -23,7 +23,7 @@ export const listGeneralMastersQuerySortByRegExp = new RegExp('^(createdAt|code|
 
 export const listGeneralMastersQueryParams = zod.object({
   "page": zod.number().min(1).default(listGeneralMastersQueryPageDefault).describe('ページ'),
-  "perPage": zod.number().min(1).max(listGeneralMastersQueryPerPageMax).default(listGeneralMastersQueryPerPageDefault).describe('1ページあたりの件数å'),
+  "perPage": zod.number().min(1).max(listGeneralMastersQueryPerPageMax).default(listGeneralMastersQueryPerPageDefault).describe('1ページあたりの件数'),
   "sortBy": zod.string().regex(listGeneralMastersQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, code, name')
 })
 

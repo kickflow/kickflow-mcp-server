@@ -99,9 +99,7 @@ export const createTeamResponse = zod.object({
   "usersCount": zod.number().min(createTeamResponseParentUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.object({
-
-}).nullable()).optional().describe('親チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullish().describe('親チーム'),
   "children": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTeamResponseChildrenItemNameMax).describe('名前'),
@@ -191,9 +189,7 @@ export const getTeamResponse = zod.object({
   "usersCount": zod.number().min(getTeamResponseParentUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.object({
-
-}).nullable()).optional().describe('親チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullish().describe('親チーム'),
   "children": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTeamResponseChildrenItemNameMax).describe('名前'),
@@ -290,9 +286,7 @@ export const updateTeamResponse = zod.object({
   "usersCount": zod.number().min(updateTeamResponseParentUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.object({
-
-}).nullable()).optional().describe('親チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullish().describe('親チーム'),
   "children": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTeamResponseChildrenItemNameMax).describe('名前'),

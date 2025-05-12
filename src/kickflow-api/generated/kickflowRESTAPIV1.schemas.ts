@@ -261,11 +261,15 @@ export type TeamDetailAllOfParentAnyOf = unknown | null
 
 /**
  * 親チーム
+ * @nullable
  */
-export type TeamDetailAllOfParent = Team | TeamDetailAllOfParentAnyOf
+export type TeamDetailAllOfParent = Team | TeamDetailAllOfParentAnyOf | null
 
 export type TeamDetailAllOf = {
-  /** 親チーム */
+  /**
+   * 親チーム
+   * @nullable
+   */
   parent?: TeamDetailAllOfParent
   /** 子チーム */
   children: Team[]
@@ -1125,10 +1129,12 @@ export type FormFieldDetailAllOfGeneralMasterAnyOf = unknown | null
 
 /**
  * 汎用マスタ（汎用マスタフィールドの場合）
+ * @nullable
  */
 export type FormFieldDetailAllOfGeneralMaster =
   | GeneralMaster
   | FormFieldDetailAllOfGeneralMasterAnyOf
+  | null
 
 /**
  * @nullable
@@ -1187,7 +1193,10 @@ export type FormFieldDetailAllOfClimberCloudSetting =
   | null
 
 export type FormFieldDetailAllOf = {
-  /** 汎用マスタ（汎用マスタフィールドの場合） */
+  /**
+   * 汎用マスタ（汎用マスタフィールドの場合）
+   * @nullable
+   */
   generalMaster?: FormFieldDetailAllOfGeneralMaster
   /**
    * 初期値（汎用マスタフィールドの場合）
@@ -1471,10 +1480,18 @@ export const WorkflowRouteConditionCombinationType = {
 } as const
 
 /**
+ * @nullable
+ */
+export type WorkflowRouteConditionRouteAnyOf = unknown | null
+
+/**
  * 経路。routeまたはerrorMessageは片方のみ値が入ります。
  * @nullable
  */
-export type WorkflowRouteConditionRoute = Route | null
+export type WorkflowRouteConditionRoute =
+  | Route
+  | WorkflowRouteConditionRouteAnyOf
+  | null
 
 /**
  * ワークフローの経路分岐
@@ -1503,23 +1520,46 @@ export interface WorkflowRouteCondition {
 }
 
 /**
+ * @nullable
+ */
+export type WorkflowRouteConditionFieldGradeAnyOf = unknown | null
+
+/**
  * しきい値として使う役職
  * @nullable
  */
-export type WorkflowRouteConditionFieldGrade = Grade | null
+export type WorkflowRouteConditionFieldGrade =
+  | Grade
+  | WorkflowRouteConditionFieldGradeAnyOf
+  | null
+
+/**
+ * @nullable
+ */
+export type WorkflowRouteConditionFieldTeamAnyOf = unknown | null
 
 /**
  * しきい値として使うチーム
  * @nullable
  */
-export type WorkflowRouteConditionFieldTeam = Team | null
+export type WorkflowRouteConditionFieldTeam =
+  | Team
+  | WorkflowRouteConditionFieldTeamAnyOf
+  | null
+
+/**
+ * @nullable
+ */
+export type WorkflowRouteConditionFieldGeneralMasterItemAnyOf = unknown | null
 
 /**
  * しきい値として使う汎用マスタアイテム
  * @nullable
  */
 export type WorkflowRouteConditionFieldGeneralMasterItem =
-  GeneralMasterItem | null
+  | GeneralMasterItem
+  | WorkflowRouteConditionFieldGeneralMasterItemAnyOf
+  | null
 
 /**
  * ワークフロー経路分岐の条件
@@ -1554,22 +1594,46 @@ export interface WorkflowRouteConditionField {
 }
 
 /**
+ * @nullable
+ */
+export type WorkflowTicketViewerUserAnyOf = unknown | null
+
+/**
  * ユーザー。ユーザーとチームは片方のみ値が入ります。
  * @nullable
  */
-export type WorkflowTicketViewerUser = User | null
+export type WorkflowTicketViewerUser =
+  | User
+  | WorkflowTicketViewerUserAnyOf
+  | null
+
+/**
+ * @nullable
+ */
+export type WorkflowTicketViewerTeamAnyOf = unknown | null
 
 /**
  * チーム。ユーザーとチームは片方のみ値が入ります。
  * @nullable
  */
-export type WorkflowTicketViewerTeam = Team | null
+export type WorkflowTicketViewerTeam =
+  | Team
+  | WorkflowTicketViewerTeamAnyOf
+  | null
+
+/**
+ * @nullable
+ */
+export type WorkflowTicketViewerGradeAnyOf = unknown | null
 
 /**
  * 役職。チーム指定で役職も指定する場合のみ値が入ります。
  * @nullable
  */
-export type WorkflowTicketViewerGrade = Grade | null
+export type WorkflowTicketViewerGrade =
+  | Grade
+  | WorkflowTicketViewerGradeAnyOf
+  | null
 
 /**
  * ワークフロー単位で設定された共有ユーザー
@@ -1993,10 +2057,12 @@ export type TicketDetailAllOfAuthorTeamAnyOf = unknown | null
 
 /**
  * 申請者の所属チーム
+ * @nullable
  */
 export type TicketDetailAllOfAuthorTeam =
   | Team
   | TicketDetailAllOfAuthorTeamAnyOf
+  | null
 
 /**
  * @nullable
@@ -2019,10 +2085,12 @@ export type TicketDetailAllOfTriggerTicketAnyOf = unknown | null
 
 /**
  * 元のチケット（パイプラインで作成されたときのみ値が入ります）
+ * @nullable
  */
 export type TicketDetailAllOfTriggerTicket =
   | Ticket
   | TicketDetailAllOfTriggerTicketAnyOf
+  | null
 
 /**
  * @nullable
@@ -2066,20 +2134,28 @@ export type TicketDetailAllOfCloudSignDocumentAnyOfTwo = {
 
 /**
  * 添付されたクラウドサインの書類
+ * @nullable
  */
 export type TicketDetailAllOfCloudSignDocument =
   | TicketDetailAllOfCloudSignDocumentAnyOf
   | TicketDetailAllOfCloudSignDocumentAnyOfTwo
+  | null
 
 export type TicketDetailAllOf = {
-  /** 申請者の所属チーム */
+  /**
+   * 申請者の所属チーム
+   * @nullable
+   */
   authorTeam: TicketDetailAllOfAuthorTeam
   /**
    * このチケットの承認経路。申請拒否状態の場合、nullになります。
    * @nullable
    */
   route: TicketDetailAllOfRoute
-  /** 元のチケット（パイプラインで作成されたときのみ値が入ります） */
+  /**
+   * 元のチケット（パイプラインで作成されたときのみ値が入ります）
+   * @nullable
+   */
   triggerTicket?: TicketDetailAllOfTriggerTicket
   /** 次のチケット（パイプラインで次のチケットを作成したときのみ値が入ります） */
   nextTickets?: Ticket[]
@@ -2089,7 +2165,10 @@ export type TicketDetailAllOf = {
   ticketSections: TicketSection[]
   /** フォームの入力 */
   inputs: TicketInput[]
-  /** 添付されたクラウドサインの書類 */
+  /**
+   * 添付されたクラウドサインの書類
+   * @nullable
+   */
   cloudSignDocument: TicketDetailAllOfCloudSignDocument
   /** チケットのステップ */
   steps: TicketStep[]
@@ -2652,7 +2731,7 @@ export type ListGeneralMastersParams = {
    */
   page?: number
   /**
-   * 1ページあたりの件数å
+   * 1ページあたりの件数
    */
   perPage?: number
   /**

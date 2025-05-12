@@ -233,6 +233,10 @@ _(開発時も `KICKFLOW_ACCESS_TOKEN` 環境変数の設定が必要です)_
 kickflow APIのスキーマから TypeScript の型定義を更新するには:
 
 ```bash
+# 公開されている最新版のスキーマを取得
+npm run update-schema
+
+# Orvalを使って型定義を生成
 npm run generate-api
 ```
 

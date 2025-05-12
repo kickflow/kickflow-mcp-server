@@ -15,6 +15,7 @@
     "dev": "node --loader ts-node/esm src/index.ts",
     "start": "node dist/index.js",
     "test": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "update-schema": "curl -s https://developer.kickflow.com/rest/schema.yaml -o schema.yaml",
     "generate-api": "rm -rf ./src/kickflow-api/generated && orval --config orval.config.ts",
     "lint": "eslint --ext .ts,.mts,.cts src/ --fix",
     "format": "prettier --write \"**/*.{ts,mts,cts,js,mjs,cjs,json,md}\""

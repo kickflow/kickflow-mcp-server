@@ -491,7 +491,7 @@ paths:
             default: 25
           in: query
           name: perPage
-          description: 1ページあたりの件数å
+          description: 1ページあたりの件数
         - schema:
             type: string
             pattern: ^(createdAt|code|name)(-asc|-desc)?$
@@ -5530,10 +5530,10 @@ components:
           properties:
             parent:
               description: 親チーム
+              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/Team'
-                - properties: {}
-                  nullable: true
+                - nullable: true
             children:
               type: array
               description: 子チーム
@@ -6591,6 +6591,7 @@ components:
         - type: object
           properties:
             generalMaster:
+              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/GeneralMaster'
                 - nullable: true
@@ -6602,23 +6603,23 @@ components:
                 - nullable: true
               description: 初期値（汎用マスタフィールドの場合）
             externalApiSetting:
+              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/ExternalApiSetting'
                 - nullable: true
               description: 外部API設定。fieldTypeがbutton_apiのときのみ値が入ります。
-              nullable: true
             kintoneAppSetting:
+              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/KintoneAppSetting'
                 - nullable: true
               description: 外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。
-              nullable: true
             climberCloudSetting:
+              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/ClimberCloudSetting'
                 - nullable: true
               description: ClimberCloud連携設定。fieldTypeがfileのときのみ値が入ります。
-              nullable: true
     ExternalApiSetting:
       title: ExternalApiSetting
       type: object
@@ -6911,6 +6912,7 @@ components:
           nullable: true
           anyOf:
             - $ref: '#/components/schemas/Route'
+            - nullable: true
           description: 経路。routeまたはerrorMessageは片方のみ値が入ります。
         conditionFields:
           type: array
@@ -6953,16 +6955,19 @@ components:
         grade:
           anyOf:
             - $ref: '#/components/schemas/Grade'
+            - nullable: true
           description: しきい値として使う役職
           nullable: true
         team:
           anyOf:
             - $ref: '#/components/schemas/Team'
+            - nullable: true
           description: しきい値として使うチーム
           nullable: true
         generalMasterItem:
           anyOf:
             - $ref: '#/components/schemas/GeneralMasterItem'
+            - nullable: true
           description: しきい値として使う汎用マスタアイテム
           nullable: true
       required:
@@ -6987,16 +6992,19 @@ components:
           nullable: true
           anyOf:
             - $ref: '#/components/schemas/User'
+            - nullable: true
           description: ユーザー。ユーザーとチームは片方のみ値が入ります。
         team:
           nullable: true
           anyOf:
             - $ref: '#/components/schemas/Team'
+            - nullable: true
           description: チーム。ユーザーとチームは片方のみ値が入ります。
         grade:
           nullable: true
           anyOf:
             - $ref: '#/components/schemas/Grade'
+            - nullable: true
           description: 役職。チーム指定で役職も指定する場合のみ値が入ります。
       required:
         - id
@@ -7396,6 +7404,7 @@ components:
           properties:
             authorTeam:
               description: 申請者の所属チーム
+              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/Team'
                 - nullable: true
@@ -7407,6 +7416,7 @@ components:
                 - nullable: true
             triggerTicket:
               description: 元のチケット（パイプラインで作成されたときのみ値が入ります）
+              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/Ticket'
                 - nullable: true
@@ -7432,6 +7442,7 @@ components:
                 $ref: '#/components/schemas/TicketInput'
             cloudSignDocument:
               description: 添付されたクラウドサインの書類
+              nullable: true
               anyOf:
                 - nullable: true
                 - type: object

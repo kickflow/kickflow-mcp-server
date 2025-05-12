@@ -437,7 +437,7 @@ export const listTicketsResponseItem = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(listTicketsResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -730,7 +730,7 @@ export const listTicketsResponseItem = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(listTicketsResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -740,7 +740,7 @@ export const listTicketsResponseItem = zod.object({
   "usersCount": zod.number().min(listTicketsResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(listTicketsResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -749,7 +749,7 @@ export const listTicketsResponseItem = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -1936,7 +1936,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(createTicketResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -2229,7 +2229,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -2239,7 +2239,7 @@ export const createTicketResponse = zod.object({
   "usersCount": zod.number().min(createTicketResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -2248,7 +2248,7 @@ export const createTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -2274,7 +2274,7 @@ export const createTicketResponse = zod.object({
   "usersCount": zod.number().min(createTicketResponseAuthorTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.any().nullable()).describe('申請者の所属チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('申請者の所属チーム'),
   "route": zod.object({
   "id": zod.string().describe('UUID'),
   "code": zod.string().describe('コード'),
@@ -2712,7 +2712,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(createTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -3005,7 +3005,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseTriggerTicketWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -3015,7 +3015,7 @@ export const createTicketResponse = zod.object({
   "usersCount": zod.number().min(createTicketResponseTriggerTicketWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseTriggerTicketWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -3024,7 +3024,7 @@ export const createTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -3040,7 +3040,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('ラベル')).describe('チケットのラベルの配列')
-}).describe('チケット').or(zod.any().nullable()).optional().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
+}).describe('チケット').or(zod.any().nullable()).nullish().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
   "nextTickets": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "ticketNumber": zod.string().describe('チケット番号'),
@@ -3298,7 +3298,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(createTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -3591,7 +3591,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -3601,7 +3601,7 @@ export const createTicketResponse = zod.object({
   "usersCount": zod.number().min(createTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseNextTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -3610,7 +3610,7 @@ export const createTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -3949,7 +3949,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(createTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -4242,7 +4242,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -4252,7 +4252,7 @@ export const createTicketResponse = zod.object({
   "usersCount": zod.number().min(createTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -4261,7 +4261,7 @@ export const createTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -4633,7 +4633,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(createTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -4926,7 +4926,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -4936,7 +4936,7 @@ export const createTicketResponse = zod.object({
   "usersCount": zod.number().min(createTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -4945,7 +4945,7 @@ export const createTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -5311,7 +5311,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(createTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -5604,7 +5604,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -5614,7 +5614,7 @@ export const createTicketResponse = zod.object({
   "usersCount": zod.number().min(createTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -5623,7 +5623,7 @@ export const createTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -5655,7 +5655,7 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "url": zod.string().url().describe('クラウドサイン書類のURL')
-})).describe('添付されたクラウドサインの書類'),
+})).nullable().describe('添付されたクラウドサインの書類'),
   "steps": zod.array(zod.object({
   "id": zod.string().describe('UUID'),
   "routeStepId": zod.string().nullable().describe('経路ステップのUUID。カスタムステップの場合、nullになります。'),
@@ -6141,7 +6141,7 @@ export const listTasksResponseItem = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(listTasksResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -6434,7 +6434,7 @@ export const listTasksResponseItem = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(listTasksResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -6444,7 +6444,7 @@ export const listTasksResponseItem = zod.object({
   "usersCount": zod.number().min(listTasksResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(listTasksResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -6453,7 +6453,7 @@ export const listTasksResponseItem = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -7600,7 +7600,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(getTicketResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -7893,7 +7893,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -7903,7 +7903,7 @@ export const getTicketResponse = zod.object({
   "usersCount": zod.number().min(getTicketResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -7912,7 +7912,7 @@ export const getTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -7938,7 +7938,7 @@ export const getTicketResponse = zod.object({
   "usersCount": zod.number().min(getTicketResponseAuthorTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.any().nullable()).describe('申請者の所属チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('申請者の所属チーム'),
   "route": zod.object({
   "id": zod.string().describe('UUID'),
   "code": zod.string().describe('コード'),
@@ -8376,7 +8376,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(getTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -8669,7 +8669,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseTriggerTicketWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -8679,7 +8679,7 @@ export const getTicketResponse = zod.object({
   "usersCount": zod.number().min(getTicketResponseTriggerTicketWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseTriggerTicketWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -8688,7 +8688,7 @@ export const getTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -8704,7 +8704,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('ラベル')).describe('チケットのラベルの配列')
-}).describe('チケット').or(zod.any().nullable()).optional().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
+}).describe('チケット').or(zod.any().nullable()).nullish().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
   "nextTickets": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "ticketNumber": zod.string().describe('チケット番号'),
@@ -8962,7 +8962,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(getTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -9255,7 +9255,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -9265,7 +9265,7 @@ export const getTicketResponse = zod.object({
   "usersCount": zod.number().min(getTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseNextTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -9274,7 +9274,7 @@ export const getTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -9613,7 +9613,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(getTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -9906,7 +9906,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -9916,7 +9916,7 @@ export const getTicketResponse = zod.object({
   "usersCount": zod.number().min(getTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -9925,7 +9925,7 @@ export const getTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -10297,7 +10297,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(getTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -10590,7 +10590,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -10600,7 +10600,7 @@ export const getTicketResponse = zod.object({
   "usersCount": zod.number().min(getTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -10609,7 +10609,7 @@ export const getTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -10975,7 +10975,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(getTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -11268,7 +11268,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -11278,7 +11278,7 @@ export const getTicketResponse = zod.object({
   "usersCount": zod.number().min(getTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -11287,7 +11287,7 @@ export const getTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -11319,7 +11319,7 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "url": zod.string().url().describe('クラウドサイン書類のURL')
-})).describe('添付されたクラウドサインの書類'),
+})).nullable().describe('添付されたクラウドサインの書類'),
   "steps": zod.array(zod.object({
   "id": zod.string().describe('UUID'),
   "routeStepId": zod.string().nullable().describe('経路ステップのUUID。カスタムステップの場合、nullになります。'),
@@ -12493,7 +12493,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(updateTicketResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -12786,7 +12786,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -12796,7 +12796,7 @@ export const updateTicketResponse = zod.object({
   "usersCount": zod.number().min(updateTicketResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -12805,7 +12805,7 @@ export const updateTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -12831,7 +12831,7 @@ export const updateTicketResponse = zod.object({
   "usersCount": zod.number().min(updateTicketResponseAuthorTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.any().nullable()).describe('申請者の所属チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('申請者の所属チーム'),
   "route": zod.object({
   "id": zod.string().describe('UUID'),
   "code": zod.string().describe('コード'),
@@ -13269,7 +13269,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(updateTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -13562,7 +13562,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseTriggerTicketWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -13572,7 +13572,7 @@ export const updateTicketResponse = zod.object({
   "usersCount": zod.number().min(updateTicketResponseTriggerTicketWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseTriggerTicketWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -13581,7 +13581,7 @@ export const updateTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -13597,7 +13597,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('ラベル')).describe('チケットのラベルの配列')
-}).describe('チケット').or(zod.any().nullable()).optional().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
+}).describe('チケット').or(zod.any().nullable()).nullish().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
   "nextTickets": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "ticketNumber": zod.string().describe('チケット番号'),
@@ -13855,7 +13855,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(updateTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -14148,7 +14148,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -14158,7 +14158,7 @@ export const updateTicketResponse = zod.object({
   "usersCount": zod.number().min(updateTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseNextTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -14167,7 +14167,7 @@ export const updateTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -14506,7 +14506,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(updateTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -14799,7 +14799,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -14809,7 +14809,7 @@ export const updateTicketResponse = zod.object({
   "usersCount": zod.number().min(updateTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -14818,7 +14818,7 @@ export const updateTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -15190,7 +15190,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(updateTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -15483,7 +15483,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -15493,7 +15493,7 @@ export const updateTicketResponse = zod.object({
   "usersCount": zod.number().min(updateTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -15502,7 +15502,7 @@ export const updateTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -15868,7 +15868,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(updateTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -16161,7 +16161,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -16171,7 +16171,7 @@ export const updateTicketResponse = zod.object({
   "usersCount": zod.number().min(updateTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -16180,7 +16180,7 @@ export const updateTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -16212,7 +16212,7 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "url": zod.string().url().describe('クラウドサイン書類のURL')
-})).describe('添付されたクラウドサインの書類'),
+})).nullable().describe('添付されたクラウドサインの書類'),
   "steps": zod.array(zod.object({
   "id": zod.string().describe('UUID'),
   "routeStepId": zod.string().nullable().describe('経路ステップのUUID。カスタムステップの場合、nullになります。'),
@@ -17343,7 +17343,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(approveTicketResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -17636,7 +17636,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -17646,7 +17646,7 @@ export const approveTicketResponse = zod.object({
   "usersCount": zod.number().min(approveTicketResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -17655,7 +17655,7 @@ export const approveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -17681,7 +17681,7 @@ export const approveTicketResponse = zod.object({
   "usersCount": zod.number().min(approveTicketResponseAuthorTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.any().nullable()).describe('申請者の所属チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('申請者の所属チーム'),
   "route": zod.object({
   "id": zod.string().describe('UUID'),
   "code": zod.string().describe('コード'),
@@ -18119,7 +18119,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(approveTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -18412,7 +18412,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseTriggerTicketWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -18422,7 +18422,7 @@ export const approveTicketResponse = zod.object({
   "usersCount": zod.number().min(approveTicketResponseTriggerTicketWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseTriggerTicketWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -18431,7 +18431,7 @@ export const approveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -18447,7 +18447,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('ラベル')).describe('チケットのラベルの配列')
-}).describe('チケット').or(zod.any().nullable()).optional().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
+}).describe('チケット').or(zod.any().nullable()).nullish().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
   "nextTickets": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "ticketNumber": zod.string().describe('チケット番号'),
@@ -18705,7 +18705,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(approveTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -18998,7 +18998,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -19008,7 +19008,7 @@ export const approveTicketResponse = zod.object({
   "usersCount": zod.number().min(approveTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseNextTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -19017,7 +19017,7 @@ export const approveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -19356,7 +19356,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(approveTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -19649,7 +19649,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -19659,7 +19659,7 @@ export const approveTicketResponse = zod.object({
   "usersCount": zod.number().min(approveTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -19668,7 +19668,7 @@ export const approveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -20040,7 +20040,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(approveTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -20333,7 +20333,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -20343,7 +20343,7 @@ export const approveTicketResponse = zod.object({
   "usersCount": zod.number().min(approveTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -20352,7 +20352,7 @@ export const approveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -20718,7 +20718,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(approveTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -21011,7 +21011,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -21021,7 +21021,7 @@ export const approveTicketResponse = zod.object({
   "usersCount": zod.number().min(approveTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -21030,7 +21030,7 @@ export const approveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -21062,7 +21062,7 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "url": zod.string().url().describe('クラウドサイン書類のURL')
-})).describe('添付されたクラウドサインの書類'),
+})).nullable().describe('添付されたクラウドサインの書類'),
   "steps": zod.array(zod.object({
   "id": zod.string().describe('UUID'),
   "routeStepId": zod.string().nullable().describe('経路ステップのUUID。カスタムステップの場合、nullになります。'),
@@ -22197,7 +22197,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(rejectTicketResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -22490,7 +22490,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -22500,7 +22500,7 @@ export const rejectTicketResponse = zod.object({
   "usersCount": zod.number().min(rejectTicketResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -22509,7 +22509,7 @@ export const rejectTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -22535,7 +22535,7 @@ export const rejectTicketResponse = zod.object({
   "usersCount": zod.number().min(rejectTicketResponseAuthorTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.any().nullable()).describe('申請者の所属チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('申請者の所属チーム'),
   "route": zod.object({
   "id": zod.string().describe('UUID'),
   "code": zod.string().describe('コード'),
@@ -22973,7 +22973,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(rejectTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -23266,7 +23266,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseTriggerTicketWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -23276,7 +23276,7 @@ export const rejectTicketResponse = zod.object({
   "usersCount": zod.number().min(rejectTicketResponseTriggerTicketWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseTriggerTicketWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -23285,7 +23285,7 @@ export const rejectTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -23301,7 +23301,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('ラベル')).describe('チケットのラベルの配列')
-}).describe('チケット').or(zod.any().nullable()).optional().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
+}).describe('チケット').or(zod.any().nullable()).nullish().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
   "nextTickets": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "ticketNumber": zod.string().describe('チケット番号'),
@@ -23559,7 +23559,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(rejectTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -23852,7 +23852,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -23862,7 +23862,7 @@ export const rejectTicketResponse = zod.object({
   "usersCount": zod.number().min(rejectTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseNextTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -23871,7 +23871,7 @@ export const rejectTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -24210,7 +24210,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(rejectTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -24503,7 +24503,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -24513,7 +24513,7 @@ export const rejectTicketResponse = zod.object({
   "usersCount": zod.number().min(rejectTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -24522,7 +24522,7 @@ export const rejectTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -24894,7 +24894,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(rejectTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -25187,7 +25187,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -25197,7 +25197,7 @@ export const rejectTicketResponse = zod.object({
   "usersCount": zod.number().min(rejectTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -25206,7 +25206,7 @@ export const rejectTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -25572,7 +25572,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(rejectTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -25865,7 +25865,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -25875,7 +25875,7 @@ export const rejectTicketResponse = zod.object({
   "usersCount": zod.number().min(rejectTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -25884,7 +25884,7 @@ export const rejectTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -25916,7 +25916,7 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "url": zod.string().url().describe('クラウドサイン書類のURL')
-})).describe('添付されたクラウドサインの書類'),
+})).nullable().describe('添付されたクラウドサインの書類'),
   "steps": zod.array(zod.object({
   "id": zod.string().describe('UUID'),
   "routeStepId": zod.string().nullable().describe('経路ステップのUUID。カスタムステップの場合、nullになります。'),
@@ -27051,7 +27051,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(denyTicketResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -27344,7 +27344,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -27354,7 +27354,7 @@ export const denyTicketResponse = zod.object({
   "usersCount": zod.number().min(denyTicketResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -27363,7 +27363,7 @@ export const denyTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -27389,7 +27389,7 @@ export const denyTicketResponse = zod.object({
   "usersCount": zod.number().min(denyTicketResponseAuthorTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.any().nullable()).describe('申請者の所属チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('申請者の所属チーム'),
   "route": zod.object({
   "id": zod.string().describe('UUID'),
   "code": zod.string().describe('コード'),
@@ -27827,7 +27827,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(denyTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -28120,7 +28120,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseTriggerTicketWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -28130,7 +28130,7 @@ export const denyTicketResponse = zod.object({
   "usersCount": zod.number().min(denyTicketResponseTriggerTicketWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseTriggerTicketWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -28139,7 +28139,7 @@ export const denyTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -28155,7 +28155,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('ラベル')).describe('チケットのラベルの配列')
-}).describe('チケット').or(zod.any().nullable()).optional().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
+}).describe('チケット').or(zod.any().nullable()).nullish().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
   "nextTickets": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "ticketNumber": zod.string().describe('チケット番号'),
@@ -28413,7 +28413,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(denyTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -28706,7 +28706,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -28716,7 +28716,7 @@ export const denyTicketResponse = zod.object({
   "usersCount": zod.number().min(denyTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseNextTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -28725,7 +28725,7 @@ export const denyTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -29064,7 +29064,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(denyTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -29357,7 +29357,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -29367,7 +29367,7 @@ export const denyTicketResponse = zod.object({
   "usersCount": zod.number().min(denyTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -29376,7 +29376,7 @@ export const denyTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -29748,7 +29748,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(denyTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -30041,7 +30041,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -30051,7 +30051,7 @@ export const denyTicketResponse = zod.object({
   "usersCount": zod.number().min(denyTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -30060,7 +30060,7 @@ export const denyTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -30426,7 +30426,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(denyTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -30719,7 +30719,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -30729,7 +30729,7 @@ export const denyTicketResponse = zod.object({
   "usersCount": zod.number().min(denyTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -30738,7 +30738,7 @@ export const denyTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -30770,7 +30770,7 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "url": zod.string().url().describe('クラウドサイン書類のURL')
-})).describe('添付されたクラウドサインの書類'),
+})).nullable().describe('添付されたクラウドサインの書類'),
   "steps": zod.array(zod.object({
   "id": zod.string().describe('UUID'),
   "routeStepId": zod.string().nullable().describe('経路ステップのUUID。カスタムステップの場合、nullになります。'),
@@ -31900,7 +31900,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(withdrawTicketResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -32193,7 +32193,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -32203,7 +32203,7 @@ export const withdrawTicketResponse = zod.object({
   "usersCount": zod.number().min(withdrawTicketResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -32212,7 +32212,7 @@ export const withdrawTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -32238,7 +32238,7 @@ export const withdrawTicketResponse = zod.object({
   "usersCount": zod.number().min(withdrawTicketResponseAuthorTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.any().nullable()).describe('申請者の所属チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('申請者の所属チーム'),
   "route": zod.object({
   "id": zod.string().describe('UUID'),
   "code": zod.string().describe('コード'),
@@ -32676,7 +32676,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(withdrawTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -32969,7 +32969,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseTriggerTicketWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -32979,7 +32979,7 @@ export const withdrawTicketResponse = zod.object({
   "usersCount": zod.number().min(withdrawTicketResponseTriggerTicketWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseTriggerTicketWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -32988,7 +32988,7 @@ export const withdrawTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -33004,7 +33004,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('ラベル')).describe('チケットのラベルの配列')
-}).describe('チケット').or(zod.any().nullable()).optional().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
+}).describe('チケット').or(zod.any().nullable()).nullish().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
   "nextTickets": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "ticketNumber": zod.string().describe('チケット番号'),
@@ -33262,7 +33262,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(withdrawTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -33555,7 +33555,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -33565,7 +33565,7 @@ export const withdrawTicketResponse = zod.object({
   "usersCount": zod.number().min(withdrawTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseNextTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -33574,7 +33574,7 @@ export const withdrawTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -33913,7 +33913,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(withdrawTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -34206,7 +34206,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -34216,7 +34216,7 @@ export const withdrawTicketResponse = zod.object({
   "usersCount": zod.number().min(withdrawTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -34225,7 +34225,7 @@ export const withdrawTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -34597,7 +34597,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(withdrawTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -34890,7 +34890,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -34900,7 +34900,7 @@ export const withdrawTicketResponse = zod.object({
   "usersCount": zod.number().min(withdrawTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -34909,7 +34909,7 @@ export const withdrawTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -35275,7 +35275,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(withdrawTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -35568,7 +35568,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -35578,7 +35578,7 @@ export const withdrawTicketResponse = zod.object({
   "usersCount": zod.number().min(withdrawTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -35587,7 +35587,7 @@ export const withdrawTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -35619,7 +35619,7 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "url": zod.string().url().describe('クラウドサイン書類のURL')
-})).describe('添付されたクラウドサインの書類'),
+})).nullable().describe('添付されたクラウドサインの書類'),
   "steps": zod.array(zod.object({
   "id": zod.string().describe('UUID'),
   "routeStepId": zod.string().nullable().describe('経路ステップのUUID。カスタムステップの場合、nullになります。'),
@@ -36751,7 +36751,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(archiveTicketResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -37044,7 +37044,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -37054,7 +37054,7 @@ export const archiveTicketResponse = zod.object({
   "usersCount": zod.number().min(archiveTicketResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -37063,7 +37063,7 @@ export const archiveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -37089,7 +37089,7 @@ export const archiveTicketResponse = zod.object({
   "usersCount": zod.number().min(archiveTicketResponseAuthorTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').or(zod.any().nullable()).describe('申請者の所属チーム'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('申請者の所属チーム'),
   "route": zod.object({
   "id": zod.string().describe('UUID'),
   "code": zod.string().describe('コード'),
@@ -37527,7 +37527,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(archiveTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -37820,7 +37820,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseTriggerTicketWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -37830,7 +37830,7 @@ export const archiveTicketResponse = zod.object({
   "usersCount": zod.number().min(archiveTicketResponseTriggerTicketWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseTriggerTicketWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -37839,7 +37839,7 @@ export const archiveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -37855,7 +37855,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('ラベル')).describe('チケットのラベルの配列')
-}).describe('チケット').or(zod.any().nullable()).optional().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
+}).describe('チケット').or(zod.any().nullable()).nullish().describe('元のチケット（パイプラインで作成されたときのみ値が入ります）'),
   "nextTickets": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "ticketNumber": zod.string().describe('チケット番号'),
@@ -38113,7 +38113,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(archiveTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -38406,7 +38406,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -38416,7 +38416,7 @@ export const archiveTicketResponse = zod.object({
   "usersCount": zod.number().min(archiveTicketResponseNextTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseNextTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -38425,7 +38425,7 @@ export const archiveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -38764,7 +38764,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(archiveTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -39057,7 +39057,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -39067,7 +39067,7 @@ export const archiveTicketResponse = zod.object({
   "usersCount": zod.number().min(archiveTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -39076,7 +39076,7 @@ export const archiveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -39448,7 +39448,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(archiveTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -39741,7 +39741,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -39751,7 +39751,7 @@ export const archiveTicketResponse = zod.object({
   "usersCount": zod.number().min(archiveTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -39760,7 +39760,7 @@ export const archiveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -40126,7 +40126,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(archiveTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -40419,7 +40419,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -40429,7 +40429,7 @@ export const archiveTicketResponse = zod.object({
   "usersCount": zod.number().min(archiveTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseInputsItemInputTicketsItemWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -40438,7 +40438,7 @@ export const archiveTicketResponse = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
@@ -40470,7 +40470,7 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "url": zod.string().url().describe('クラウドサイン書類のURL')
-})).describe('添付されたクラウドサインの書類'),
+})).nullable().describe('添付されたクラウドサインの書類'),
   "steps": zod.array(zod.object({
   "id": zod.string().describe('UUID'),
   "routeStepId": zod.string().nullable().describe('経路ステップのUUID。カスタムステップの場合、nullになります。'),
@@ -40921,7 +40921,7 @@ export const listTicketLinksResponseItem = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
 }).describe('汎用マスタのカスタムフィールド')).describe('カスタムフィールドの配列')
-}).describe('汎用マスタ').or(zod.any().nullable()).optional().describe('汎用マスタ（汎用マスタフィールドの場合）'),
+}).describe('汎用マスタ').or(zod.any().nullable()).nullish().describe('汎用マスタ（汎用マスタフィールドの場合）'),
   "defaultGeneralMasterItem": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "code": zod.string().max(listTicketLinksResponseWorkflowSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax).describe('コード'),
@@ -41214,7 +41214,7 @@ export const listTicketLinksResponseItem = zod.object({
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時'),
   "deactivatedAt": zod.string().datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー').nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('ユーザー').or(zod.any().nullable()).nullable().describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
   "team": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(listTicketLinksResponseWorkflowTicketViewersItemTeamNameMax).describe('名前'),
@@ -41224,7 +41224,7 @@ export const listTicketLinksResponseItem = zod.object({
   "usersCount": zod.number().min(listTicketLinksResponseWorkflowTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('チーム').nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+}).describe('チーム').or(zod.any().nullable()).nullable().describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
   "grade": zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "name": zod.string().max(listTicketLinksResponseWorkflowTicketViewersItemGradeNameMax).describe('名前'),
@@ -41233,7 +41233,7 @@ export const listTicketLinksResponseItem = zod.object({
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
   "updatedAt": zod.string().datetime({}).describe('更新日時')
-}).describe('役職').nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
+}).describe('役職').or(zod.any().nullable()).nullable().describe('役職。チーム指定で役職も指定する場合のみ値が入ります。')
 }).describe('ワークフロー単位で設定された共有ユーザー')).describe('ワークフロー単位のチケット共有ユーザー'),
   "cloudSignSetting": zod.object({
   "required": zod.boolean().describe('書類の添付が必須な場合true')
