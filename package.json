@@ -37,7 +37,8 @@
   "type": "module",
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.24.0",
-    "axios": "1.12.0"
+    "axios": "1.12.0",
+    "zod": "4.1.13"
   },
   "devDependencies": {
     "@eslint/js": "9.27.0",
