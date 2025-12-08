@@ -168,14 +168,18 @@ if (!ACCESS_TOKEN) {
 setKickflowAccessToken(ACCESS_TOKEN)
 
 // Create server instance
-const server = new McpServer({
-  name: 'kickflow',
-  version: '0.0.1',
-  capabilities: {
-    resources: {},
-    tools: {},
+const server = new McpServer(
+  {
+    name: 'kickflow',
+    version: '0.0.1',
   },
-})
+  {
+    capabilities: {
+      resources: {},
+      tools: {},
+    },
+  }
+)
 
 // Register all tools dynamically
 const tools: Tool[] = [
