@@ -2,6 +2,8 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { setKickflowAccessToken } from './kickflow-api/custom-axios-instance.js'
+// package version
+import pkg from '../package.json' with { type: 'json' }
 // Audit Log tools
 import listAuditLogsTool from './kickflow-api/tools/audit-log/list-audit-logs.js'
 // Category tools
@@ -171,14 +173,14 @@ setKickflowAccessToken(ACCESS_TOKEN)
 const server = new McpServer(
   {
     name: 'kickflow',
-    version: '0.0.1',
+    version: pkg.version,
   },
   {
     capabilities: {
       resources: {},
       tools: {},
     },
-  }
+  },
 )
 
 // Register all tools dynamically
