@@ -1,0 +1,61 @@
+name: Update Schema
+
+on:
+  schedule:
+    # 毎日 3:00 に実行
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-schema:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update schema
+        run: npm run update-schema
+
+      - name: Generate API
+        run: npm run generate-api
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update kickflow API schema'
+          title: 'chore: update kickflow API schema'
+          body: |
+            This PR was automatically created by the schema update workflow.
+
+            ## Changes
+            - Updated `schema.yaml` from https://developer.kickflow.com/rest/schema.yaml
+            - Regenerated API types and Zod schemas using Orval
+
+            ## Review Checklist
+            - [ ] Confirm the schema changes are expected
+            - [ ] Verify build passes (`npm run build`)
+            - [ ] Check if any MCP tools need updates for new endpoints
+          branch: chore/update-schema
+          base: main
+          delete-branch: true
