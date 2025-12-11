@@ -2,8 +2,8 @@ name: Update Schema
 
 on:
   schedule:
-    # 毎日 3:00 に実行
-    - cron: '0 18 * * *'
+    # 毎週水曜日 3:00 (JST) に実行
+    - cron: '0 18 * * 2'
   workflow_dispatch:
 
 jobs:
