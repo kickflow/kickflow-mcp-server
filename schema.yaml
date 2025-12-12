@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: kickflow REST API v1
   version: 1.0.0
@@ -77,8 +77,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listCategories
       parameters:
         - schema:
@@ -127,8 +127,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createCategory
       requestBody:
         content:
@@ -174,8 +174,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteCategory
       description: |-
         カテゴリを削除します。
@@ -205,8 +205,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: updateCategory
       requestBody:
         content:
@@ -250,8 +250,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listFolders
       parameters:
         - schema:
@@ -300,8 +300,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createFolder
       requestBody:
         content:
@@ -314,15 +314,16 @@ paths:
                   description: 名前
                 code:
                   type: string
-                  description: コード。未指定の場合、ランダムな英数字がセットされます。
+                  description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
                 description:
                   type: string
                   description: フォルダの説明
                 parentFolderId:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 親フォルダのID
                   format: UUID
-                  nullable: true
               required:
                 - name
       description: |-
@@ -358,8 +359,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteFolder
       description: |-
         フォルダを削除します。
@@ -391,8 +392,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: updateFolder
       requestBody:
         content:
@@ -410,10 +411,11 @@ paths:
                   type: string
                   description: フォルダの説明
                 parentFolderId:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 親フォルダのID
                   format: UUID
-                  nullable: true
       description: |-
         フォルダを更新します。
 
@@ -441,8 +443,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       tags:
         - フォルダ
       description: フォルダを一件取得します。
@@ -473,8 +475,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listGeneralMasters
       parameters:
         - schema:
@@ -526,8 +528,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createGeneralMaster
       requestBody:
         content:
@@ -539,13 +541,15 @@ paths:
                   type: string
                   description: 名前
                 code:
-                  type: string
-                  description: コード。未指定の場合、ランダムな英数字がセットされます。
-                  nullable: true
+                  type:
+                    - string
+                    - 'null'
+                  description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
                 description:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 説明
-                  nullable: true
                 fields:
                   type: array
                   description: カスタムフィールドの配列
@@ -556,9 +560,10 @@ paths:
                         type: string
                         description: フィールド名
                       description:
-                        type: string
+                        type:
+                          - string
+                          - 'null'
                         description: フィールドの説明
-                        nullable: true
                       code:
                         type: string
                         description: フィールドのコード
@@ -577,9 +582,10 @@ paths:
                           - pull_down
                           - date
                       options:
-                        type: array
+                        type:
+                          - array
+                          - 'null'
                         description: 選択肢。fieldTypeがcheckboxまたはpull_downのとき必須。
-                        nullable: true
                         items:
                           type: string
                       visible:
@@ -629,8 +635,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getGeneralMaster
       description: |-
         汎用マスタを一件取得します。
@@ -660,8 +666,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: updateGeneralMaster
       requestBody:
         content:
@@ -671,7 +677,7 @@ paths:
               properties:
                 code:
                   type: string
-                  description: コード。未指定の場合、ランダムな英数字がセットされます。
+                  description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
                 name:
                   type: string
                   description: 名前
@@ -688,9 +694,10 @@ paths:
                         type: string
                         description: フィールド名
                       description:
-                        type: string
+                        type:
+                          - string
+                          - 'null'
                         description: フィールドの説明
-                        nullable: true
                       code:
                         type: string
                         description: フィールドのコード
@@ -701,9 +708,10 @@ paths:
                         type: string
                         description: フィールドの型
                       options:
-                        type: array
+                        type:
+                          - array
+                          - 'null'
                         description: 選択肢。fieldTypeがcheckboxまたはpull_downのときのみ必須。
-                        nullable: true
                         items:
                           type: string
                       visible:
@@ -735,8 +743,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteGeneralMaster
       description: |-
         汎用マスタを削除します。この汎用マスタのすべてのアイテムも同時に削除されます。
@@ -776,8 +784,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       parameters:
         - schema:
             type: integer
@@ -827,8 +835,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createGeneralMasterItem
       requestBody:
         content:
@@ -838,7 +846,7 @@ paths:
               properties:
                 code:
                   type: string
-                  description: コード。未指定の場合、ランダムな英数字がセットされます。
+                  description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
                 name:
                   type: string
                   description: 名前
@@ -846,15 +854,17 @@ paths:
                   type: string
                   description: 説明
                 startsOn:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 有効期限の開始日
                   format: date
-                  nullable: true
                 endsOn:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 有効期限の終了日
                   format: date
-                  nullable: true
                 inputs:
                   type: array
                   description: カスタムフィールドの入力。必須ではないカスタムフィールドを含む、すべてのカスタムフィールドに対して入力する必要があります。
@@ -866,8 +876,9 @@ paths:
                         description: フィールドのコード
                       value:
                         oneOf:
-                          - type: string
-                            nullable: true
+                          - type:
+                              - string
+                              - 'null'
                           - type: array
                             items:
                               type: string
@@ -922,8 +933,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getGeneralMasterItem
       description: 汎用マスタアイテムを一件取得します。
     patch:
@@ -950,8 +961,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: updateGeneralMasterItem
       requestBody:
         content:
@@ -961,7 +972,7 @@ paths:
               properties:
                 code:
                   type: string
-                  description: コード。未指定の場合、ランダムな英数字がセットされます。
+                  description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
                 name:
                   type: string
                   description: 名前
@@ -969,15 +980,17 @@ paths:
                   type: string
                   description: 説明
                 startsOn:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 有効期限の開始日
                   format: date
-                  nullable: true
                 endsOn:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 有効期限の終了日
                   format: date
-                  nullable: true
                 inputs:
                   description: カスタムフィールドの入力。必須ではないカスタムフィールドを含む、すべてのカスタムフィールドに対して入力する必要があります。
                   type: array
@@ -989,8 +1002,9 @@ paths:
                         description: フィールドのコード
                       value:
                         oneOf:
-                          - type: string
-                            nullable: true
+                          - type:
+                              - string
+                              - 'null'
                           - type: array
                             items:
                               type: string
@@ -1022,8 +1036,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteGeneralMasterItem
       description: |-
         汎用マスタアイテムを削除します。
@@ -1056,8 +1070,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listGrades
       parameters:
         - schema:
@@ -1109,8 +1123,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createGrade
       requestBody:
         content:
@@ -1154,8 +1168,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getGrade
       description: |-
         役職を一件取得します。
@@ -1181,8 +1195,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteGrade
       description: |-
         役職を削除します。
@@ -1213,8 +1227,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       tags:
         - 役職
       requestBody:
@@ -1254,8 +1268,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       description: |-
         指定した役職をデフォルトにします。
         同時に、これまでデフォルトだった役職は自動的にデフォルトではなくなります。
@@ -1290,8 +1304,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listOrganizationCharts
       parameters:
         - schema:
@@ -1346,8 +1360,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createOrganizationChart
       requestBody:
         content:
@@ -1387,8 +1401,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteOrganizationChart
       description: |-
         組織図を削除します。同時に、組織図内のチームや所属もすべて削除されます。
@@ -1420,8 +1434,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       tags:
         - 組織図
       description: |-
@@ -1451,8 +1465,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       tags:
         - 組織図
       requestBody:
@@ -1489,8 +1503,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getCurrentOrganizationChart
       description: |-
         現在有効になっている組織図を取得します。
@@ -1528,8 +1542,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       tags:
         - 組織図
       description: |-
@@ -1583,8 +1597,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       description: |-
         指定した組織図内のチーム一覧を取得します。
 
@@ -1638,8 +1652,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createTeam
       description: |-
         指定した組織図内にチームを作成します。
@@ -1689,8 +1703,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getTeam
       description: |-
         チームを一件取得します。
@@ -1719,8 +1733,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       tags:
         - チーム
       requestBody:
@@ -1752,8 +1766,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteTeam
       description: |-
         チームを削除します。同時に、このチームの所属もすべて削除されます。
@@ -1799,8 +1813,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       description: |-
         チームのメンバー一覧を取得します。
 
@@ -1843,15 +1857,15 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createTeamMembers
       description: |-
         指定したチームにメンバーを追加します。最大10人まで同時に追加可能です。
 
         このAPIの実行には、チームの管理権限が必要です。
 
-        注意: チームに上長は最低一人必要です。上長が不在の場合、APIは422 Unprocessable Entityを返します。
+        注意: チームに上長は最低一人必要です。上長が不在の場合、APIは422 Unprocessable Contentを返します。
       requestBody:
         content:
           application/json:
@@ -1905,8 +1919,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       tags:
         - チーム
       description: |-
@@ -1914,7 +1928,7 @@ paths:
 
         このAPIの実行には、チームの管理権限が必要です。
 
-        注意: 削除後もメンバーが残る場合、チームに上長は最低一人必要です。メンバー削除によって上長が不在になる場合、APIは422 Unprocessable Entityを返します。
+        注意: 削除後もメンバーが残る場合、チームに上長は最低一人必要です。メンバー削除によって上長が不在になる場合、APIは422 Unprocessable Contentを返します。
       requestBody:
         content:
           application/json:
@@ -1972,8 +1986,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       tags:
         - チーム
       description: |-
@@ -1981,7 +1995,7 @@ paths:
 
         このAPIの実行には、チームの管理権限が必要です。
 
-        注意: チームに上長は最低一人は必要です。上長が不在の場合、APIは422 Unprocessable Entityを返します。
+        注意: チームに上長は最低一人は必要です。上長が不在の場合、APIは422 Unprocessable Contentを返します。
       requestBody:
         content:
           application/json:
@@ -2028,8 +2042,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listRoles
       parameters:
         - schema:
@@ -2081,8 +2095,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createRole
       requestBody:
         content:
@@ -2126,8 +2140,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getRole
       description: |-
         管理者ロールを一件取得します。
@@ -2157,8 +2171,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: updateRole
       requestBody:
         content:
@@ -2189,8 +2203,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteRole
       description: |-
         管理者ロールを削除します。
@@ -2225,8 +2239,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createRoleMembers
       requestBody:
         content:
@@ -2274,8 +2288,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       parameters:
         - schema:
             type: integer
@@ -2333,8 +2347,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteRoleMember
       description: |-
         管理者ロールからメンバーを削除します。
@@ -2367,8 +2381,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listTickets
       description: |-
         チケットの一覧を取得します。複数の条件を組み合わせて、フィルタ可能です。
@@ -2576,8 +2590,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       description: チケットを作成します。
       tags:
         - チケット
@@ -2602,14 +2616,16 @@ paths:
                   format: uuid
                   description: 申請チームのUUID
                 proxyClientUserId:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 依頼者となるユーザーのUUID。代理申請の場合のみ指定してください。
                   format: uuid
-                  nullable: true
                 title:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: チケットのタイトル。ワークフローでtitleInputModeがinputのときのみ設定可能です。
-                  nullable: true
                 slipItems:
                   type: array
                   description: 明細アイテムの配列。明細ワークフローの場合、このフィールドは必須です。
@@ -2618,10 +2634,11 @@ paths:
                     description: 明細アイテム
                     properties:
                       slipSectionId:
-                        type: string
+                        type:
+                          - string
+                          - 'null'
                         format: uuid
                         description: 明細セクションのUUID。
-                        nullable: true
                       inputs:
                         type: array
                         description: 明細アイテム入力の配列
@@ -2630,28 +2647,32 @@ paths:
                           description: 明細アイテム入力
                           properties:
                             slipFieldId:
-                              type: string
+                              type:
+                                - string
+                                - 'null'
                               description: 明細フィールドのUUID。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
                               format: uuid
-                              nullable: true
                             slipFieldCode:
-                              type: string
+                              type:
+                                - string
+                                - 'null'
                               description: 明細フィールドのコード。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
-                              nullable: true
                             value:
                               description: 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
                               oneOf:
-                                - type: string
-                                  nullable: true
+                                - type:
+                                    - string
+                                    - 'null'
                                 - type: array
                                   items:
                                     type: string
                             generalMasterItemId:
                               description: 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
                               oneOf:
-                                - type: string
+                                - type:
+                                    - string
+                                    - 'null'
                                   format: uuid
-                                  nullable: true
                                 - type: array
                                   items:
                                     type: string
@@ -2659,9 +2680,10 @@ paths:
                             userId:
                               description: ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
                               oneOf:
-                                - type: string
+                                - type:
+                                    - string
+                                    - 'null'
                                   format: uuid
-                                  nullable: true
                                 - type: array
                                   items:
                                     type: string
@@ -2669,9 +2691,10 @@ paths:
                             teamId:
                               description: チームUUID。フィールドがチームタイプのときのみ指定してください。
                               oneOf:
-                                - type: string
+                                - type:
+                                    - string
+                                    - 'null'
                                   format: uuid
-                                  nullable: true
                                 - type: array
                                   items:
                                     type: string
@@ -2679,19 +2702,21 @@ paths:
                             ticketId:
                               description: チケットUUID。フィールドがチケットタイプのときのみ指定してください。
                               oneOf:
-                                - type: string
+                                - type:
+                                    - string
+                                    - 'null'
                                   format: uuid
-                                  nullable: true
                                 - type: array
                                   items:
                                     type: string
                                     format: uuid
                             files:
-                              type: array
+                              type:
+                                - array
+                                - 'null'
                               description: |-
                                 添付ファイルの署名済みID。
                                 フィールドがファイルタイプのときのみ指定してください。
-                              nullable: true
                               items:
                                 type: string
                     required:
@@ -2704,28 +2729,32 @@ paths:
                     description: フォームの入力
                     properties:
                       formFieldId:
-                        type: string
+                        type:
+                          - string
+                          - 'null'
                         description: フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。
                         format: uuid
-                        nullable: true
                       formFieldCode:
-                        type: string
-                        description: フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。
-                        nullable: true
+                        type:
+                          - string
+                          - 'null'
+                        description: フォームフィールドのコード。formFieldIdまたはformFieldCodeは片方のみ必須です。
                       value:
                         description: 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
                         oneOf:
-                          - type: string
-                            nullable: true
+                          - type:
+                              - string
+                              - 'null'
                           - type: array
                             items:
                               type: string
                       generalMasterItemId:
                         description: 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
                         oneOf:
-                          - type: string
+                          - type:
+                              - string
+                              - 'null'
                             format: uuid
-                            nullable: true
                           - type: array
                             items:
                               type: string
@@ -2733,9 +2762,10 @@ paths:
                       userId:
                         description: ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
                         oneOf:
-                          - type: string
+                          - type:
+                              - string
+                              - 'null'
                             format: uuid
-                            nullable: true
                           - type: array
                             items:
                               type: string
@@ -2743,9 +2773,10 @@ paths:
                       teamId:
                         description: チームUUID。フィールドがチームタイプのときのみ指定してください。
                         oneOf:
-                          - type: string
+                          - type:
+                              - string
+                              - 'null'
                             format: uuid
-                            nullable: true
                           - type: array
                             items:
                               type: string
@@ -2753,19 +2784,21 @@ paths:
                       ticketId:
                         description: チケットUUID。フィールドがチケットタイプのときのみ指定してください。
                         oneOf:
-                          - type: string
+                          - type:
+                              - string
+                              - 'null'
                             format: uuid
-                            nullable: true
                           - type: array
                             items:
                               type: string
                               format: uuid
                       files:
-                        type: array
+                        type:
+                          - array
+                          - 'null'
                         description: |-
                           添付ファイルの署名済みID。
                           フィールドがファイルタイプのときのみ指定してください。
-                        nullable: true
                         items:
                           type: string
                 cloudSignDocument:
@@ -2786,9 +2819,10 @@ paths:
                     - title
                     - sandbox
                 approvers:
-                  type: array
+                  type:
+                    - array
+                    - 'null'
                   description: 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。
-                  nullable: true
                   items:
                     type: object
                     required:
@@ -2836,8 +2870,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listTasks
       description: |-
         現在のユーザーにアサインされている承認リクエストの一覧を取得します。複数の条件を組み合わせて、フィルタ可能です。
@@ -3016,8 +3050,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getTicket
       description: チケットを一件取得します。フォームの入力や承認経路などを含む詳細なデータを返します。
     patch:
@@ -3043,8 +3077,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       description: |-
         チケットを更新します。
 
@@ -3094,27 +3128,31 @@ paths:
                           description: 明細アイテム入力
                           properties:
                             slipFieldId:
-                              type: string
+                              type:
+                                - string
+                                - 'null'
                               description: 明細フィールドのUUID。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
-                              nullable: true
                             slipFieldCode:
-                              type: string
+                              type:
+                                - string
+                                - 'null'
                               description: 明細フィールドのコード。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
-                              nullable: true
                             value:
                               description: 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
                               oneOf:
-                                - type: string
-                                  nullable: true
+                                - type:
+                                    - string
+                                    - 'null'
                                 - type: array
                                   items:
                                     type: string
                             generalMasterItemId:
                               description: 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
                               oneOf:
-                                - type: string
+                                - type:
+                                    - string
+                                    - 'null'
                                   format: uuid
-                                  nullable: true
                                 - type: array
                                   items:
                                     type: string
@@ -3122,9 +3160,10 @@ paths:
                             userId:
                               description: ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
                               oneOf:
-                                - type: string
+                                - type:
+                                    - string
+                                    - 'null'
                                   format: uuid
-                                  nullable: true
                                 - type: array
                                   items:
                                     type: string
@@ -3132,9 +3171,10 @@ paths:
                             teamId:
                               description: チームUUID。フィールドがチームタイプのときのみ指定してください。
                               oneOf:
-                                - type: string
+                                - type:
+                                    - string
+                                    - 'null'
                                   format: uuid
-                                  nullable: true
                                 - type: array
                                   items:
                                     type: string
@@ -3142,19 +3182,21 @@ paths:
                             ticketId:
                               description: チケットUUID。フィールドがチケットタイプのときのみ指定してください。
                               oneOf:
-                                - type: string
+                                - type:
+                                    - string
+                                    - 'null'
                                   format: uuid
-                                  nullable: true
                                 - type: array
                                   items:
                                     type: string
                                     format: uuid
                             files:
-                              type: array
+                              type:
+                                - array
+                                - 'null'
                               description: |-
                                 添付ファイルの署名済みID。
                                 フィールドがファイルタイプのときのみ指定してください。
-                              nullable: true
                               items:
                                 type: string
                     required:
@@ -3171,28 +3213,32 @@ paths:
                     description: フォームの入力
                     properties:
                       formFieldId:
-                        type: string
+                        type:
+                          - string
+                          - 'null'
                         description: フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。
                         format: uuid
-                        nullable: true
                       formFieldCode:
-                        type: string
+                        type:
+                          - string
+                          - 'null'
                         description: フォームフィールドのコード。formFieldIdまたはformFieldCodeは片方のみ必須です。
-                        nullable: true
                       value:
                         description: 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
                         oneOf:
-                          - type: string
-                            nullable: true
+                          - type:
+                              - string
+                              - 'null'
                           - type: array
                             items:
                               type: string
                       generalMasterItemId:
                         description: 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
                         oneOf:
-                          - type: string
+                          - type:
+                              - string
+                              - 'null'
                             format: uuid
-                            nullable: true
                           - type: array
                             items:
                               type: string
@@ -3200,9 +3246,10 @@ paths:
                       userId:
                         description: ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
                         oneOf:
-                          - type: string
+                          - type:
+                              - string
+                              - 'null'
                             format: uuid
-                            nullable: true
                           - type: array
                             items:
                               type: string
@@ -3210,9 +3257,10 @@ paths:
                       teamId:
                         description: チームUUID。フィールドがチームタイプのときのみ指定してください。
                         oneOf:
-                          - type: string
+                          - type:
+                              - string
+                              - 'null'
                             format: uuid
-                            nullable: true
                           - type: array
                             items:
                               type: string
@@ -3220,19 +3268,21 @@ paths:
                       ticketId:
                         description: チケットUUID。フィールドがチケットタイプのときのみ指定してください。
                         oneOf:
-                          - type: string
+                          - type:
+                              - string
+                              - 'null'
                             format: uuid
-                            nullable: true
                           - type: array
                             items:
                               type: string
                               format: uuid
                       files:
-                        type: array
+                        type:
+                          - array
+                          - 'null'
                         description: |-
                           添付ファイルの署名済みID。
                           フィールドがファイルタイプのときのみ指定してください。
-                        nullable: true
                         items:
                           type: string
                 cloudSignDocument:
@@ -3253,9 +3303,10 @@ paths:
                     - title
                     - sandbox
                 approvers:
-                  type: array
+                  type:
+                    - array
+                    - 'null'
                   description: 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。
-                  nullable: true
                   items:
                     type: object
                     required:
@@ -3304,8 +3355,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: approveTicket
       description: |-
         指定したチケットを承認もしくは確認します。
@@ -3343,8 +3394,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: rejectTicket
       requestBody:
         content:
@@ -3393,8 +3444,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: denyTicket
       requestBody:
         content:
@@ -3437,8 +3488,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: withdrawTicket
       description: 自分が作成したチケットを取り下げます。
   /v1/tickets/{ticketId}/archive:
@@ -3474,8 +3525,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: archiveTicket
       description: |-
         チケットをアーカイブします。チケットのステータスがアーカイブステータスに変わりますが、引き続きUIやAPIでチケットにはアクセス可能です。
@@ -3516,8 +3567,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listTicketLinks
       description: 指定したチケットの関連チケットを取得します。
       parameters:
@@ -3571,8 +3622,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listViewers
       description: チケットの共有ユーザー一覧を取得します。
       parameters:
@@ -3617,8 +3668,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createViewer
       description: チケットに共有ユーザーを追加します。
       requestBody:
@@ -3635,8 +3686,8 @@ paths:
                       items:
                         type: string
                         format: uuid
+                    - type: 'null'
                   description: ユーザーのUUID。userIdとteamIdは片方のみ必須です。
-                  nullable: true
                 teamId:
                   anyOf:
                     - type: string
@@ -3645,17 +3696,19 @@ paths:
                       items:
                         type: string
                         format: uuid
+                    - type: 'null'
                   description: チームのUUID。userIdとteamIdは片方のみ必須です。
-                  nullable: true
                 gradeId:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   format: uuid
                   description: 役職のUUID。teamId指定時のみ、任意で指定できます。
-                  nullable: true
                 descendants:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: 下位のチームを含めるかどうかをteamId指定時のみ指定できます。未指定時はfalse扱いです。
-                  nullable: true
   /v1/tickets/{ticketId}/viewers/{viewerId}:
     parameters:
       - schema:
@@ -3692,8 +3745,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteViewer
       description: チケットの共有ユーザーを削除します。
   /v1/tickets/{ticketId}/comments:
@@ -3731,8 +3784,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listComments
       description: チケットのコメント一覧を取得します。
       parameters:
@@ -3781,8 +3834,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createComment
       description: チケットにコメントを投稿します。
       requestBody:
@@ -3795,9 +3848,10 @@ paths:
                   type: string
                   description: 本文
                 files:
-                  type: array
+                  type:
+                    - array
+                    - 'null'
                   description: 添付ファイルの署名済みID
-                  nullable: true
                   items:
                     type: string
               required:
@@ -3842,8 +3896,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getComment
       description: チケットのコメントを取得します。
     patch:
@@ -3870,8 +3924,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: updateComment
       description: チケットのコメントを更新します。添付ファイルは更新できません。
       requestBody:
@@ -3905,8 +3959,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteComment
       description: チケットのコメントを削除します。
   /v1/user:
@@ -3934,8 +3988,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getCurrentUser
       description: 現在のユーザーを取得します。
   /v1/users:
@@ -3970,8 +4024,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listUsers
       parameters:
         - schema:
@@ -4031,8 +4085,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       description: |-
         ユーザーを作成します。
         作成されたユーザーは招待済みステータスとなり、招待メールが送信されます。
@@ -4050,7 +4104,7 @@ paths:
                   description: メールアドレス
                 code:
                   type: string
-                  description: コード。未指定の場合、ランダムな英数字がセットされます。
+                  description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
                   maxLength: 255
                 firstName:
                   type: string
@@ -4064,10 +4118,11 @@ paths:
                   type: boolean
                   description: 招待メールを送信する場合true（デフォルト）、送信しない場合false
                 employeeId:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 社員番号
                   maxLength: 255
-                  nullable: true
               required:
                 - email
                 - code
@@ -4108,8 +4163,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getUser
       description: ユーザーを一件取得します。
     delete:
@@ -4136,8 +4191,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteUser
       description: |-
         ユーザーを削除します（論理削除）。
@@ -4167,8 +4222,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       requestBody:
         content:
           application/json:
@@ -4193,10 +4248,11 @@ paths:
                   description: 姓
                   maxLength: 255
                 employeeId:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 社員番号
                   maxLength: 255
-                  nullable: true
       tags:
         - ユーザー
       description: |-
@@ -4228,8 +4284,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: lookupUserByEmail
       parameters:
         - schema:
@@ -4272,8 +4328,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: reinviteUser
       description: |-
         削除されたユーザーを再び招待します。
@@ -4312,8 +4368,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: suspendUser
       description: |-
         有効なユーザーを一時停止します。
@@ -4352,8 +4408,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: reactivateUser
       description: |-
         一時停止中のユーザーを有効化します。
@@ -4395,8 +4451,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       tags:
         - ユーザー
       description: |-
@@ -4458,8 +4514,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       tags:
         - ユーザー
       description: |-
@@ -4509,8 +4565,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listRoutes
       description: 経路の一覧を取得します。ステータスやフォルダによる絞り込みが可能です。
       parameters:
@@ -4584,8 +4640,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getRoute
       description: 指定した経路を取得します。
   /v1/workflows:
@@ -4615,8 +4671,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listWorkflows
       parameters:
         - schema:
@@ -4684,8 +4740,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getWorkflow
       description: 指定したIDのワークフローを取得します。
   /v1/proxyApplicants:
@@ -4731,8 +4787,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listProxyApplicants
       description: |-
         テナント内の代理申請の一覧を取得します。
@@ -4762,8 +4818,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createProxyApplicant
       requestBody:
         content:
@@ -4780,15 +4836,17 @@ paths:
                   format: uuid
                   description: 代理するユーザーID
                 startsOn:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 開始日。nullの場合、すでに開始しているものとして扱います。
                   format: date
-                  nullable: true
                 endsOn:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 終了日。nullの場合、無期限のものとして扱います。
                   format: date
-                  nullable: true
                 workflowIds:
                   type: array
                   description: 対象ワークフローのID
@@ -4831,8 +4889,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteProxyApplicant
       description: |-
         指定した代理申請を削除します。
@@ -4881,8 +4939,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listProxyApprovers
       description: |-
         テナント内の代理承認の一覧を取得します。
@@ -4912,8 +4970,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: createProxyApprover
       description: |-
         代理承認を新規作成します。
@@ -4934,15 +4992,17 @@ paths:
                   format: uuid
                   description: 代理するユーザーID
                 startsOn:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   format: date
                   description: 開始日。nullの場合、すでに始まっているものとして扱います。
-                  nullable: true
                 endsOn:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   format: date
                   description: 終了日。nullの場合、無期限として扱います。
-                  nullable: true
                 workflowIds:
                   type: array
                   description: 対象ワークフローのID
@@ -4981,8 +5041,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: deleteProxyApprover
       description: |-
         指定した代理承認を削除します。
@@ -5019,8 +5079,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: uploadFile
       description: |-
         添付ファイルをアップロードします。最大2MBまでのファイルをアップロード可能です。
@@ -5097,8 +5157,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: getFile
       description: |-
         添付ファイルのAmazon S3上のURLを含む情報を取得します。
@@ -5135,8 +5195,8 @@ paths:
           description: Not Found
           $ref: '#/components/responses/NotFound'
         '422':
-          description: Unprocessable Entity
-          $ref: '#/components/responses/UnprocessableEntity'
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
       operationId: listAuditLogs
       parameters:
         - schema:
@@ -5177,6 +5237,91 @@ paths:
           name: userId
           description: ユーザーID
       description: 監査ログの一覧を取得します。
+webhooks:
+  ping:
+    post:
+      operationId: webhookPing
+      summary: pingイベント
+      description: WebhookのPingイベントを送信します。
+      parameters:
+        - name: X-Kickflow-Delivery
+          in: header
+          description: イベント固有のUUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Kickflow-Signature
+          in: header
+          description: ペイロード検証用の署名
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Webhookのリクエストボディ
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequestBodyPing'
+      responses:
+        '200':
+          description: 成功
+  ticket:
+    post:
+      operationId: webhookTicket
+      summary: ticket_*イベント
+      description: Webhookのチケット系イベントを送信します。
+      parameters:
+        - name: X-Kickflow-Delivery
+          in: header
+          description: イベント固有のUUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Kickflow-Signature
+          in: header
+          description: ペイロード検証用の署名
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Webhookのリクエストボディ
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequestBodyTicket'
+      responses:
+        '200':
+          description: 成功
+  comment:
+    post:
+      operationId: webhookComment
+      summary: comment_*イベント
+      description: Webhookのコメント系イベントを送信します。
+      parameters:
+        - name: X-Kickflow-Delivery
+          in: header
+          description: イベント固有のUUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Kickflow-Signature
+          in: header
+          description: ペイロード検証用の署名
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Webhookのリクエストボディ
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequestBodyComment'
+      responses:
+        '200':
+          description: 成功
 components:
   schemas:
     ErrorResponse:
@@ -5216,10 +5361,11 @@ components:
           minimum: 0
           maximum: 255
         code:
-          type: string
+          type:
+            - string
+            - 'null'
           description: コード
           maxLength: 255
-          nullable: true
         isDefault:
           type: boolean
           description: デフォルトの役職かどうか
@@ -5259,7 +5405,7 @@ components:
         code:
           type: string
           maxLength: 255
-          description: コード。未指定の場合、ランダムな英数字がセットされます。
+          description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
       required:
         - name
         - level
@@ -5281,7 +5427,7 @@ components:
           description: レベル
         code:
           type: string
-          description: コード。未指定の場合、ランダムな英数字がセットされます。
+          description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
     User:
       title: User
       type: object
@@ -5315,10 +5461,11 @@ components:
           description: フルネーム
           maxLength: 255
         employeeId:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 社員番号
           maxLength: 255
-          nullable: true
         image:
           type: object
           description: ユーザー画像のURL。サイズごとに複数のURLを返します。
@@ -5328,14 +5475,17 @@ components:
             - 32x32
           properties:
             100x100:
-              type: string
-              nullable: true
+              type:
+                - string
+                - 'null'
             64x64:
-              type: string
-              nullable: true
+              type:
+                - string
+                - 'null'
             32x32:
-              type: string
-              nullable: true
+              type:
+                - string
+                - 'null'
         status:
           type: string
           enum:
@@ -5356,10 +5506,11 @@ components:
           format: date-time
           description: 更新日時
         deactivatedAt:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date-time
           description: 削除日時
-          nullable: true
       required:
         - id
         - email
@@ -5403,15 +5554,17 @@ components:
         proxyUser:
           $ref: '#/components/schemas/User'
         startsOn:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date
           description: 開始日
-          nullable: true
         endsOn:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date
           description: 終了日
-          nullable: true
         workflows:
           type: array
           description: 対象ワークフロー
@@ -5450,15 +5603,17 @@ components:
         proxyUser:
           $ref: '#/components/schemas/User'
         startsOn:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date
           description: 開始日
-          nullable: true
         endsOn:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date
           description: 終了日
-          nullable: true
         workflows:
           type: array
           description: 対象ワークフロー
@@ -5495,6 +5650,11 @@ components:
           type: string
           description: コード
           maxLength: 255
+        notes:
+          type:
+            - string
+            - 'null'
+          description: 管理用メモ
         approveOnly:
           type: boolean
           description: 承認専用チームかどうか
@@ -5530,10 +5690,9 @@ components:
           properties:
             parent:
               description: 親チーム
-              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/Team'
-                - nullable: true
+                - type: 'null'
             children:
               type: array
               description: 子チーム
@@ -5562,7 +5721,12 @@ components:
           description: 名前
         code:
           type: string
-          description: コード。未指定の場合、ランダムな英数字がセットされます。
+          description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
+        notes:
+          type:
+            - string
+            - 'null'
+          description: 管理用メモ
         parentId:
           type: string
           format: uuid
@@ -5585,7 +5749,10 @@ components:
           description: 名前
         code:
           type: string
-          description: コード。未指定の場合、ランダムな英数字がセットされます。
+          description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
+        notes:
+          type: string
+          description: 管理用メモ
         parentId:
           type: string
           description: 親チームのID
@@ -5626,14 +5793,15 @@ components:
           format: date-time
           description: 更新日時
         activationPlan:
-          type: object
+          type:
+            - object
+            - 'null'
           description: 有効化の予定
           required:
             - id
             - dueOn
             - createdAt
             - updatedAt
-          nullable: true
           properties:
             id:
               type: string
@@ -5974,8 +6142,9 @@ components:
           description: コード
           maxLength: 255
         description:
-          type: string
-          nullable: true
+          type:
+            - string
+            - 'null'
           description: 説明
         workflowsCount:
           type: integer
@@ -6045,9 +6214,10 @@ components:
           description: 名前
           maxLength: 255
         description:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 説明
-          nullable: true
         createdAt:
           type: string
           description: 作成日時
@@ -6089,9 +6259,10 @@ components:
           description: 名前
           maxLength: 255
         description:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 説明
-          nullable: true
         createdAt:
           type: string
           format: date-time
@@ -6101,15 +6272,17 @@ components:
           format: date-time
           description: 更新日時
         startsOn:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 有効期限の開始日
           format: date
-          nullable: true
         endsOn:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 有効期限の終了日
           format: date
-          nullable: true
         inputs:
           type: array
           description: カスタムフィールドの入力の配列
@@ -6123,8 +6296,9 @@ components:
               value:
                 description: 入力値
                 anyOf:
-                  - type: string
-                    nullable: true
+                  - type:
+                      - string
+                      - 'null'
                   - type: array
                     items:
                       type: string
@@ -6170,9 +6344,10 @@ components:
           description: フィールド名
           maxLength: 255
         description:
-          type: string
+          type:
+            - string
+            - 'null'
           description: フィールドの説明
-          nullable: true
         code:
           type: string
           description: フィールドのコード
@@ -6195,9 +6370,10 @@ components:
           type: boolean
           description: 管理者以外も閲覧可能な場合true
         options:
-          type: array
+          type:
+            - array
+            - 'null'
           description: 選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。
-          nullable: true
           items:
             type: string
         createdAt:
@@ -6268,13 +6444,15 @@ components:
           description: 申請チームのメンバーが共有ユーザーに追加される場合true
           default: false
         titleDescription:
-          type: string
+          type:
+            - string
+            - 'null'
           description: タイトルの説明
-          nullable: true
         ticketNumberFormat:
-          type: string
+          type:
+            - string
+            - 'null'
           description: チケット番号のフォーマット
-          nullable: true
         overwritable:
           type: boolean
           description: 承認者による上書きが可能な場合true
@@ -6292,9 +6470,10 @@ components:
             - input
             - calculate
         titleFormula:
-          type: string
+          type:
+            - string
+            - 'null'
           description: タイトルの計算式
-          nullable: true
         allowEditingOfViewers:
           type: boolean
           description: 共有ユーザーの編集が可能な場合true
@@ -6302,15 +6481,13 @@ components:
         author:
           anyOf:
             - $ref: '#/components/schemas/User'
-            - nullable: true
+            - type: 'null'
           description: 作成者
-          nullable: true
         versionAuthor:
           anyOf:
             - $ref: '#/components/schemas/User'
-            - nullable: true
+            - type: 'null'
           description: バージョン作成者
-          nullable: true
         folder:
           anyOf:
             - $ref: '#/components/schemas/Folder'
@@ -6371,8 +6548,7 @@ components:
                       description: 書類の添付が必須な場合true
                   required:
                     - required
-                - properties: {}
-                  nullable: true
+                - type: 'null'
           required:
             - ticketViewers
             - cloudSignSetting
@@ -6405,13 +6581,15 @@ components:
             - form
             - slip
         title:
-          type: string
+          type:
+            - string
+            - 'null'
           description: タイトル
-          nullable: true
         description:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 説明
-          nullable: true
         id:
           type: string
           format: uuid
@@ -6426,7 +6604,14 @@ components:
           description: 表示条件があるかどうか。明細セクションには含まれません。
         conditionAllOf:
           type: boolean
-          description: 条件をすべて満たす必要があるかどうか。明細セクションには含まれません。
+          description: 非推奨。今後はcombinationTypeを使用してください。
+          deprecated: true
+        combinationType:
+          type: string
+          description: 条件の組み合わせタイプ。all=すべて、any=いずれか。明細セクションには含まれません。
+          enum:
+            - all
+            - any
         slipFields:
           type: array
           description: 明細フィールド。フォームセクションには含まれません。
@@ -6449,12 +6634,13 @@ components:
           format: uuid
         title:
           type: string
-          description: 説明文
+          description: 説明
           maxLength: 255
         description:
-          type: string
-          description: 説明文
-          nullable: true
+          type:
+            - string
+            - 'null'
+          description: 説明
         fieldType:
           type: string
           description: フィールドの型
@@ -6484,9 +6670,10 @@ components:
           type: boolean
           description: 申請者が編集可能かどうか
         options:
-          type: array
+          type:
+            - array
+            - 'null'
           description: 選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。
-          nullable: true
           items:
             type: string
         code:
@@ -6500,66 +6687,79 @@ components:
             - full
             - half
         regexpFormat:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 正規表現フォーマット
-          nullable: true
         formula:
-          type: string
+          type:
+            - string
+            - 'null'
           description: |-
             計算式。
             型がcalculationのときのみ値が入ります。
-          nullable: true
         defaultValue:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 初期値
-          nullable: true
         minValue:
-          type: number
+          type:
+            - number
+            - 'null'
           description: 最小値
-          nullable: true
         maxValue:
-          type: number
+          type:
+            - number
+            - 'null'
           description: 最大値
-          nullable: true
         minLength:
-          type: number
+          type:
+            - number
+            - 'null'
           description: 最小文字数
           minimum: 0
-          nullable: true
         maxLength:
-          type: number
+          type:
+            - number
+            - 'null'
           description: 最大文字数
           minimum: 0
-          nullable: true
         decimalDigit:
-          type: integer
+          type:
+            - integer
+            - 'null'
           description: 小数の桁数
           minimum: 0
-          nullable: true
         delimited:
-          type: boolean
+          type:
+            - boolean
+            - 'null'
           description: |-
             カンマ区切りで表示する場合true。
             整数、数値、自動計算フィールド以外ではnullが入ります。
-          nullable: true
         prefix:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 単位（接頭辞）
-          nullable: true
         suffix:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 単位（接尾辞）
-          nullable: true
         hidden:
-          type: boolean
+          type:
+            - boolean
+            - 'null'
           description: 隠しフィールドである場合true
-          nullable: true
         readonlyOnUi:
-          type: boolean
+          type:
+            - boolean
+            - 'null'
           description: |-
             trueの時、申請者・承認者が画面上から値を入力することを禁止します。
             外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
-          nullable: true
       required:
         - id
         - title
@@ -6591,35 +6791,37 @@ components:
         - type: object
           properties:
             generalMaster:
-              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/GeneralMaster'
-                - nullable: true
+                - type: 'null'
               description: 汎用マスタ（汎用マスタフィールドの場合）
             defaultGeneralMasterItem:
-              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/GeneralMasterItem'
-                - nullable: true
+                - type: 'null'
               description: 初期値（汎用マスタフィールドの場合）
             externalApiSetting:
-              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/ExternalApiSetting'
-                - nullable: true
+                - type: 'null'
               description: 外部API設定。fieldTypeがbutton_apiのときのみ値が入ります。
             kintoneAppSetting:
-              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/KintoneAppSetting'
-                - nullable: true
+                - type: 'null'
               description: 外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。
             climberCloudSetting:
-              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/ClimberCloudSetting'
-                - nullable: true
+                - type: 'null'
               description: ClimberCloud連携設定。fieldTypeがfileのときのみ値が入ります。
+            generalMasterSearchFilters:
+              type:
+                - array
+                - 'null'
+              items:
+                $ref: '#/components/schemas/GeneralMasterSearchFilter'
+              description: 汎用マスタ型フィールドの自動絞り込みの設定
     ExternalApiSetting:
       title: ExternalApiSetting
       type: object
@@ -6663,9 +6865,10 @@ components:
           type: boolean
           description: レスポンスが複数レコードを含む場合true
         arrayJsonPath:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 複数レコードを含む場合の配列へのJSONPath
-          nullable: true
         mappings:
           type: array
           description: フィールドへのマッピング設定
@@ -6681,9 +6884,10 @@ components:
                 type: boolean
                 description: 選択用テーブルで表示する場合true
               title:
-                type: string
+                type:
+                  - string
+                  - 'null'
                 description: 選択用テーブルでのタイトル
-                nullable: true
             required:
               - formField
               - jsonPath
@@ -6781,48 +6985,57 @@ components:
           items:
             type: string
         regexpFormat:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 正規表現フォーマット
-          nullable: true
         formula:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 計算式。型が自動計算のときのみ値が入ります。
-          nullable: true
         maxValue:
-          type: number
+          type:
+            - number
+            - 'null'
           description: 最大値
-          nullable: true
         minValue:
-          type: number
+          type:
+            - number
+            - 'null'
           description: 最小値
-          nullable: true
         defaultValue:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 初期値
-          nullable: true
         decimalDigit:
-          type: integer
+          type:
+            - integer
+            - 'null'
           description: 小数の桁数
-          nullable: true
         delimited:
-          type: boolean
+          type:
+            - boolean
+            - 'null'
           description: |-
             カンマ区切りで表示する場合true。
             整数、数値、自動計算フィールド以外ではnullが入ります。
-          nullable: true
         allowedExtensions:
           type: array
           description: 添付可能な拡張子リスト
           items:
             type: string
         prefix:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 単位（接頭辞）
-          nullable: true
         suffix:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 単位（接尾辞）
-          nullable: true
         approver:
           type: boolean
           description: 承認者が編集可能かどうか
@@ -6830,15 +7043,17 @@ components:
           type: boolean
           description: 申請者が編集可能かどうか
         hidden:
-          type: boolean
+          type:
+            - boolean
+            - 'null'
           description: 隠しフィールドである場合true
-          nullable: true
         readonlyOnUi:
-          type: boolean
+          type:
+            - boolean
+            - 'null'
           description: |-
             trueの時、申請者・承認者が画面上から値を入力することを禁止します。
             外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
-          nullable: true
       required:
         - id
         - fieldType
@@ -6868,18 +7083,14 @@ components:
         - type: object
           properties:
             generalMaster:
-              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/GeneralMaster'
-                - properties: {}
-                  nullable: true
+                - type: 'null'
               description: 汎用マスタ。型が汎用マスタのときのみ値が入ります。
             defaultGeneralMasterItem:
-              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/GeneralMasterItem'
-                - properties: {}
-                  nullable: true
+                - type: 'null'
               description: 汎用マスタアイテムの初期値
     WorkflowRouteCondition:
       title: WorkflowRouteCondition
@@ -6909,10 +7120,9 @@ components:
           type: string
           description: 高度な条件式
         route:
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/Route'
-            - nullable: true
+            - type: 'null'
           description: 経路。routeまたはerrorMessageは片方のみ値が入ります。
         conditionFields:
           type: array
@@ -6920,9 +7130,10 @@ components:
           items:
             $ref: '#/components/schemas/WorkflowRouteConditionField'
         errorMessage:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 申請拒否時のエラーメッセージ。routeまたはerrorMessageは片方のみ値が入ります。
-          nullable: true
       required:
         - id
         - conditionType
@@ -6945,8 +7156,9 @@ components:
           type: string
           description: 演算子
         value:
-          type: string
-          nullable: true
+          type:
+            - string
+            - 'null'
           description: しきい値
         formField:
           description: 対象のフォームフィールド
@@ -6955,21 +7167,18 @@ components:
         grade:
           anyOf:
             - $ref: '#/components/schemas/Grade'
-            - nullable: true
+            - type: 'null'
           description: しきい値として使う役職
-          nullable: true
         team:
           anyOf:
             - $ref: '#/components/schemas/Team'
-            - nullable: true
+            - type: 'null'
           description: しきい値として使うチーム
-          nullable: true
         generalMasterItem:
           anyOf:
             - $ref: '#/components/schemas/GeneralMasterItem'
-            - nullable: true
+            - type: 'null'
           description: しきい値として使う汎用マスタアイテム
-          nullable: true
       required:
         - id
         - symbol
@@ -6989,22 +7198,19 @@ components:
           type: string
           description: UUID
         user:
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/User'
-            - nullable: true
+            - type: 'null'
           description: ユーザー。ユーザーとチームは片方のみ値が入ります。
         team:
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/Team'
-            - nullable: true
+            - type: 'null'
           description: チーム。ユーザーとチームは片方のみ値が入ります。
         grade:
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/Grade'
-            - nullable: true
+            - type: 'null'
           description: 役職。チーム指定で役職も指定する場合のみ値が入ります。
       required:
         - id
@@ -7042,7 +7248,7 @@ components:
           description: 名前
         description:
           type: string
-          description: 説明文
+          description: 説明
         createdAt:
           type: string
           description: 作成日時
@@ -7051,14 +7257,13 @@ components:
           description: 更新日時
         author:
           description: 作成者
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/User'
-            - nullable: true
+            - type: 'null'
         versionAuthor:
           anyOf:
             - $ref: '#/components/schemas/User'
-            - nullable: true
+            - type: 'null'
         folder:
           description: フォルダ
           anyOf:
@@ -7114,6 +7319,7 @@ components:
             - author_customizable
             - assignee_customizable
             - dynamic_team
+            - dynamic_user
         title:
           type: string
           description: タイトル
@@ -7125,9 +7331,10 @@ components:
             - confirm
             - none
         instruction:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 承認者への指示
-          nullable: true
         requiredApprovalsNumber:
           type: integer
           description: 必要な承認人数
@@ -7135,25 +7342,28 @@ components:
           type: integer
           description: 必要な承認割合（%）
         fallbackType:
-          type: string
           description: フォールバックのタイプ
-          enum:
-            - direct_manager
-            - higher_manager
-            - skip
-          nullable: true
+          anyOf:
+            - type: string
+              enum:
+                - direct_manager
+                - higher_manager
+                - skip
+            - type: 'null'
         allowSelfApproval:
           type: boolean
           description: 自己承認を許可するか
         minCustomAssignees:
-          type: integer
+          type:
+            - integer
+            - 'null'
           description: 最小指名人数。「申請者が指名」ステップのみ設定可能。
           minimum: 0
-          nullable: true
         approverAssignmentInstruction:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 承認者の選び方
-          nullable: true
         users:
           type: array
           items:
@@ -7167,7 +7377,7 @@ components:
         routeStepCondition:
           anyOf:
             - $ref: '#/components/schemas/RouteStepCondition'
-            - nullable: true
+            - type: 'null'
         code:
           type: string
           description: コード
@@ -7205,7 +7415,7 @@ components:
             $ref: '#/components/schemas/Grade'
         variable:
           type: string
-          description: 承認者タイプ「チームを動的に指定」で指定する変数名が入ります。
+          description: 承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。
     RouteStepCondition:
       title: RouteStepCondition
       type: object
@@ -7285,12 +7495,15 @@ components:
           description: UUID
           format: uuid
         ticketNumber:
-          type: string
+          type:
+            - string
+            - 'null'
           description: チケット番号
         title:
-          type: string
+          type:
+            - string
+            - 'null'
           description: タイトル
-          nullable: true
         status:
           type: string
           description: ステータス
@@ -7303,43 +7516,45 @@ components:
             - denied
         subStatus:
           description: サブステータス。処理中のみ値が入ります。
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/SubStatus'
-            - nullable: true
+            - type: 'null'
         currentStep:
           type: number
           description: 現在のステップ。0が起票者、1が最初の承認ステップ。
           minimum: 0
         author:
-          description: 申請者。代理申請の場合、代理人が入ります。
+          description: 申請者。代理申請の場合、代理人が入ります。外部ゲストの場合はnullになります。
           anyOf:
             - $ref: '#/components/schemas/User'
+            - type: 'null'
         proxyClientUser:
           description: 代理申請を依頼したユーザー。代理申請の場合のみ値が入ります。
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/User'
-            - nullable: true
+            - type: 'null'
         createdAt:
           type: string
           description: 作成日時
           format: date-time
         openedAt:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 申請日時
           format: date-time
-          nullable: true
         completedAt:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 完了日時
           format: date-time
-          nullable: true
         archivedAt:
-          type: string
+          type:
+            - string
+            - 'null'
           description: アーカイブ日時
           format: date-time
-          nullable: true
         updatedAt:
           type: string
           description: 更新日時
@@ -7403,23 +7618,20 @@ components:
         - type: object
           properties:
             authorTeam:
-              description: 申請者の所属チーム
-              nullable: true
+              description: 申請者の所属チーム. 外部ゲストの場合はnullになります。
               anyOf:
                 - $ref: '#/components/schemas/Team'
-                - nullable: true
+                - type: 'null'
             route:
               description: このチケットの承認経路。申請拒否状態の場合、nullになります。
-              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/RouteDetail'
-                - nullable: true
+                - type: 'null'
             triggerTicket:
               description: 元のチケット（パイプラインで作成されたときのみ値が入ります）
-              nullable: true
               anyOf:
                 - $ref: '#/components/schemas/Ticket'
-                - nullable: true
+                - type: 'null'
             nextTickets:
               description: 次のチケット（パイプラインで次のチケットを作成したときのみ値が入ります）
               type: array
@@ -7442,9 +7654,8 @@ components:
                 $ref: '#/components/schemas/TicketInput'
             cloudSignDocument:
               description: 添付されたクラウドサインの書類
-              nullable: true
               anyOf:
-                - nullable: true
+                - type: 'null'
                 - type: object
                   properties:
                     id:
@@ -7519,15 +7730,19 @@ components:
             入力値
             フィールドの型が汎用マスタアイテム、ユーザー、チーム、チケットの場合、JSON Arrayがキャッシュとして保存されます。
           anyOf:
-            - type: string
-              nullable: true
-            - type: array
-              nullable: true
+            - type:
+                - string
+                - 'null'
+            - type:
+                - array
+                - 'null'
               items: {}
-            - type: number
-              nullable: true
-            - type: integer
-              nullable: true
+            - type:
+                - number
+                - 'null'
+            - type:
+                - integer
+                - 'null'
         formField:
           $ref: '#/components/schemas/FormField'
         generalMasterItems:
@@ -7592,13 +7807,15 @@ components:
           type: string
           description: UUID
         routeStepId:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 経路ステップのUUID。カスタムステップの場合、nullになります。
-          nullable: true
         title:
-          type: string
+          type:
+            - string
+            - 'null'
           description: ステップのタイトル
-          nullable: true
         actionType:
           type: string
           description: アクションタイプ。承認/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。
@@ -7623,20 +7840,18 @@ components:
           type: boolean
         fallbackResult:
           description: フォールバックの結果
-          nullable: true
           anyOf:
             - type: string
               enum:
                 - direct_manager
                 - higher_manager
                 - skip
-            - nullable: true
+            - type: 'null'
         author:
-          nullable: true
           description: 承認ステップの作成者。カスタムステップの場合のみ、値が入ります。
           anyOf:
             - $ref: '#/components/schemas/User'
-            - nullable: true
+            - type: 'null'
         assignees:
           type: array
           description: 承認者
@@ -7646,10 +7861,11 @@ components:
           type: boolean
           description: ステップが完了している場合true
         completedAt:
-          type: string
+          type:
+            - string
+            - 'null'
           description: ステップが完了した日時。過去のデータではnullを返します。
           format: date-time
-          nullable: true
       required:
         - id
         - routeStepId
@@ -7685,10 +7901,11 @@ components:
           type: boolean
           description: 承認済みの場合true
         completedAt:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 承認日時。古いデータではnullを返します。
           format: date-time
-          nullable: true
         pending:
           type: boolean
           description: 承認を保留中の場合true
@@ -7781,21 +7998,17 @@ components:
           format: date-time
           description: 更新日時
         value:
-          nullable: true
           description: |-
             入力値
 
             フィールドの型が汎用マスタアイテムの場合、JSON Arrayがキャッシュとして保存されます。
           anyOf:
             - type: string
-              nullable: true
             - type: array
-              nullable: true
               items: {}
             - type: number
-              nullable: true
             - type: integer
-              nullable: true
+            - type: 'null'
         generalMasterItems:
           type: array
           description: '入力値: 汎用マスタアイテム'
@@ -7844,8 +8057,9 @@ components:
           type: string
           description: 名前
         description:
-          nullable: true
-          type: string
+          type:
+            - string
+            - 'null'
           description: 説明
         color:
           type: string
@@ -7886,8 +8100,9 @@ components:
           type: string
           description: 名前
         notes:
-          nullable: true
-          type: string
+          type:
+            - string
+            - 'null'
           description: 説明
         createdAt:
           type: string
@@ -7916,22 +8131,18 @@ components:
           description: UUID
           format: uuid
         user:
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/User'
-            - nullable: true
+            - type: 'null'
         team:
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/Team'
-            - nullable: true
+            - type: 'null'
         grade:
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/Grade'
-            - nullable: true
+            - type: 'null'
         descendants:
-          nullable: false
           type: boolean
           description: 下位のチームを含めるかどうか
       required:
@@ -7970,10 +8181,11 @@ components:
           description: 更新日時
           format: date-time
         deletedAt:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 削除日時
           format: date-time
-          nullable: true
         user:
           anyOf:
             - $ref: '#/components/schemas/User'
@@ -8004,25 +8216,27 @@ components:
           description: UUID
         user:
           description: 操作ユーザー。システムによる操作の場合はnull。
-          nullable: true
           anyOf:
             - $ref: '#/components/schemas/User'
-            - nullable: true
+            - type: 'null'
         action:
           type: string
           description: 操作種別
         data:
-          type: object
+          type:
+            - object
+            - 'null'
           description: 操作データ
-          nullable: true
         remoteIp:
-          type: string
+          type:
+            - string
+            - 'null'
           description: リモートIPアドレス
-          nullable: true
         systemType:
-          type: string
+          type:
+            - string
+            - 'null'
           description: システムによる操作種別
-          nullable: true
         createdAt:
           type: string
           format: date-time
@@ -8040,6 +8254,83 @@ components:
         - systemType
         - createdAt
         - updatedAt
+    WebhookRequestBodyPing:
+      title: WebhookRequestBodyPing
+      description: Webhookのリクエストボディ（ping）
+      x-tags:
+        - webhook
+      type: object
+      properties:
+        eventType:
+          type: string
+          description: イベントの種類
+        tenant:
+          $ref: '#/components/schemas/WebhookTenant'
+        user:
+          $ref: '#/components/schemas/User'
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              description: メッセージ。eventTypeがpingの場合に使用されます。
+    WebhookRequestBodyTicket:
+      title: WebhookRequestBodyTicket
+      description: Webhookのリクエストボディ（ticket_*）
+      x-tags:
+        - webhook
+      type: object
+      properties:
+        eventType:
+          type: string
+          description: イベントの種類
+        tenant:
+          $ref: '#/components/schemas/WebhookTenant'
+        user:
+          $ref: '#/components/schemas/User'
+        data:
+          type: object
+          properties:
+            ticket:
+              $ref: '#/components/schemas/TicketWithStep'
+    WebhookRequestBodyComment:
+      title: WebhookRequestBodyComment
+      description: Webhookのリクエストボディ（comment_*）
+      x-tags:
+        - webhook
+      type: object
+      properties:
+        eventType:
+          type: string
+          description: イベントの種類
+        tenant:
+          $ref: '#/components/schemas/WebhookTenant'
+        user:
+          $ref: '#/components/schemas/User'
+        data:
+          type: object
+          properties:
+            ticket:
+              $ref: '#/components/schemas/TicketWithStep'
+            comment:
+              $ref: '#/components/schemas/Comment'
+    WebhookTenant:
+      title: WebhookTenant
+      description: Webhookのテナント情報
+      x-tags:
+        - webhook
+      type: object
+      properties:
+        id:
+          type: string
+          description: テナントのUUID
+          format: uuid
+        publicId:
+          type: string
+          description: テナントのパブリックID（サブドメイン）
+        name:
+          type: string
+          description: テナント名
     KintoneApp:
       title: KintoneApp
       type: object
@@ -8114,6 +8405,40 @@ components:
         - formField
         - kintoneApp
         - mappings
+    GeneralMasterSearchFilter:
+      title: GeneralMasterSearchFilter
+      x-tags:
+        - workflows
+      type: object
+      required:
+        - id
+        - filterFormFieldId
+        - fieldType
+        - generalMasterFieldId
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID
+        filterFormFieldId:
+          type: string
+          format: uuid
+          description: 絞り込みに使う汎用フィールドのID（UUID）
+        fieldType:
+          type: string
+          enum:
+            - free_word
+            - name
+            - code
+            - description
+            - custom_field
+          description: 絞り込み先のフィールドのタイプ
+        generalMasterFieldId:
+          type:
+            - string
+            - 'null'
+          format: uuid
+          description: fieldType=custom_fieldの場合に絞り込み先の汎用マスタのカスタムフィールドのID（UUID）
   securitySchemes:
     PersonalAccessTokenAuth:
       type: http
@@ -8148,8 +8473,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    UnprocessableEntity:
-      description: Unprocessable Entity
+    UnprocessableContent:
+      description: Unprocessable Content
       content:
         application/json:
           schema:
