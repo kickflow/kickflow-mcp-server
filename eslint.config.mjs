@@ -5,6 +5,12 @@ import prettierConfig from 'eslint-config-prettier'
 import globals from 'globals' // Import globals
 
 export default tseslint.config(
+  {
+    ignores: [
+      'dist/**',
+      'src/kickflow-api/generated/**',
+    ],
+  },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   prettierConfig,
