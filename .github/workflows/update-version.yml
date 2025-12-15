@@ -31,8 +31,8 @@ jobs:
           VERSION="${{ github.event.inputs.version }}"
 
           # Check format
-          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$ ]]; then
-            echo "Error: Invalid version format. Expected format: X.Y.Z or X.Y.Z-suffix"
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Invalid version format. Expected format: X.Y.Z"
             exit 1
           fi
 
