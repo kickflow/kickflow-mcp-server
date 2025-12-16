@@ -28,8 +28,9 @@ export const listTeamsQueryParams = zod.object({
   "perPage": zod.number().min(1).max(listTeamsQueryPerPageMax).default(listTeamsQueryPerPageDefault).describe('1ページあたりの件数')
 })
 
-export const listTeamsResponseNameMax = 255;
-export const listTeamsResponseCodeMax = 255;
+export const listTeamsResponseNameMax = 300;
+export const listTeamsResponseCodeMax = 100;
+export const listTeamsResponseNotesMax = 10000;
 export const listTeamsResponseUsersCountMin = 0;
 
 
@@ -38,7 +39,7 @@ export const listTeamsResponseItem = zod.object({
   "name": zod.string().max(listTeamsResponseNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(listTeamsResponseCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(listTeamsResponseNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(listTeamsResponseUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -60,26 +61,29 @@ export const createTeamBody = zod.object({
   "approveOnly": zod.boolean().optional().describe('承認専用チームかどうか')
 }).describe('チームを作成するときのrequest body')
 
-export const createTeamResponseNameMax = 255;
-export const createTeamResponseCodeMax = 255;
+export const createTeamResponseNameMax = 300;
+export const createTeamResponseCodeMax = 100;
+export const createTeamResponseNotesMax = 10000;
 export const createTeamResponseUsersCountMin = 0;
-export const createTeamResponseParentNameMax = 255;
-export const createTeamResponseParentCodeMax = 255;
+export const createTeamResponseParentNameMax = 300;
+export const createTeamResponseParentCodeMax = 100;
+export const createTeamResponseParentNotesMax = 10000;
 export const createTeamResponseParentUsersCountMin = 0;
-export const createTeamResponseChildrenItemNameMax = 255;
-export const createTeamResponseChildrenItemCodeMax = 255;
+export const createTeamResponseChildrenItemNameMax = 300;
+export const createTeamResponseChildrenItemCodeMax = 100;
+export const createTeamResponseChildrenItemNotesMax = 10000;
 export const createTeamResponseChildrenItemUsersCountMin = 0;
-export const createTeamResponseUsersItemGradesItemNameMax = 255;
+export const createTeamResponseUsersItemGradesItemNameMax = 300;
 export const createTeamResponseUsersItemGradesItemLevelMin = 0;
 
 export const createTeamResponseUsersItemGradesItemLevelMax = 255;
-export const createTeamResponseUsersItemGradesItemCodeMax = 255;
-export const createTeamResponseUsersItemGradesItemIsDefaultDefault = false;export const createTeamResponseUsersItemEmailMax = 255;
-export const createTeamResponseUsersItemCodeMax = 255;
+export const createTeamResponseUsersItemGradesItemCodeMax = 100;
+export const createTeamResponseUsersItemGradesItemIsDefaultDefault = false;export const createTeamResponseUsersItemEmailMax = 254;
+export const createTeamResponseUsersItemCodeMax = 100;
 export const createTeamResponseUsersItemFirstNameMax = 255;
 export const createTeamResponseUsersItemLastNameMax = 255;
 export const createTeamResponseUsersItemFullNameMax = 255;
-export const createTeamResponseUsersItemEmployeeIdMax = 255;
+export const createTeamResponseUsersItemEmployeeIdMax = 30;
 
 
 export const createTeamResponse = zod.object({
@@ -87,7 +91,7 @@ export const createTeamResponse = zod.object({
   "name": zod.string().max(createTeamResponseNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(createTeamResponseCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(createTeamResponseNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(createTeamResponseUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -98,7 +102,7 @@ export const createTeamResponse = zod.object({
   "name": zod.string().max(createTeamResponseParentNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(createTeamResponseParentCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(createTeamResponseParentNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(createTeamResponseParentUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -109,7 +113,7 @@ export const createTeamResponse = zod.object({
   "name": zod.string().max(createTeamResponseChildrenItemNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(createTeamResponseChildrenItemCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(createTeamResponseChildrenItemNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(createTeamResponseChildrenItemUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -153,26 +157,29 @@ export const createTeamResponse = zod.object({
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを取得
  */
-export const getTeamResponseNameMax = 255;
-export const getTeamResponseCodeMax = 255;
+export const getTeamResponseNameMax = 300;
+export const getTeamResponseCodeMax = 100;
+export const getTeamResponseNotesMax = 10000;
 export const getTeamResponseUsersCountMin = 0;
-export const getTeamResponseParentNameMax = 255;
-export const getTeamResponseParentCodeMax = 255;
+export const getTeamResponseParentNameMax = 300;
+export const getTeamResponseParentCodeMax = 100;
+export const getTeamResponseParentNotesMax = 10000;
 export const getTeamResponseParentUsersCountMin = 0;
-export const getTeamResponseChildrenItemNameMax = 255;
-export const getTeamResponseChildrenItemCodeMax = 255;
+export const getTeamResponseChildrenItemNameMax = 300;
+export const getTeamResponseChildrenItemCodeMax = 100;
+export const getTeamResponseChildrenItemNotesMax = 10000;
 export const getTeamResponseChildrenItemUsersCountMin = 0;
-export const getTeamResponseUsersItemGradesItemNameMax = 255;
+export const getTeamResponseUsersItemGradesItemNameMax = 300;
 export const getTeamResponseUsersItemGradesItemLevelMin = 0;
 
 export const getTeamResponseUsersItemGradesItemLevelMax = 255;
-export const getTeamResponseUsersItemGradesItemCodeMax = 255;
-export const getTeamResponseUsersItemGradesItemIsDefaultDefault = false;export const getTeamResponseUsersItemEmailMax = 255;
-export const getTeamResponseUsersItemCodeMax = 255;
+export const getTeamResponseUsersItemGradesItemCodeMax = 100;
+export const getTeamResponseUsersItemGradesItemIsDefaultDefault = false;export const getTeamResponseUsersItemEmailMax = 254;
+export const getTeamResponseUsersItemCodeMax = 100;
 export const getTeamResponseUsersItemFirstNameMax = 255;
 export const getTeamResponseUsersItemLastNameMax = 255;
 export const getTeamResponseUsersItemFullNameMax = 255;
-export const getTeamResponseUsersItemEmployeeIdMax = 255;
+export const getTeamResponseUsersItemEmployeeIdMax = 30;
 
 
 export const getTeamResponse = zod.object({
@@ -180,7 +187,7 @@ export const getTeamResponse = zod.object({
   "name": zod.string().max(getTeamResponseNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(getTeamResponseCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(getTeamResponseNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(getTeamResponseUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -191,7 +198,7 @@ export const getTeamResponse = zod.object({
   "name": zod.string().max(getTeamResponseParentNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(getTeamResponseParentCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(getTeamResponseParentNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(getTeamResponseParentUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -202,7 +209,7 @@ export const getTeamResponse = zod.object({
   "name": zod.string().max(getTeamResponseChildrenItemNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(getTeamResponseChildrenItemCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(getTeamResponseChildrenItemNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(getTeamResponseChildrenItemUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -254,26 +261,29 @@ export const updateTeamBody = zod.object({
   "approveOnly": zod.boolean().optional().describe('承認専用チームかどうか')
 }).describe('チームを更新するときのrequest body')
 
-export const updateTeamResponseNameMax = 255;
-export const updateTeamResponseCodeMax = 255;
+export const updateTeamResponseNameMax = 300;
+export const updateTeamResponseCodeMax = 100;
+export const updateTeamResponseNotesMax = 10000;
 export const updateTeamResponseUsersCountMin = 0;
-export const updateTeamResponseParentNameMax = 255;
-export const updateTeamResponseParentCodeMax = 255;
+export const updateTeamResponseParentNameMax = 300;
+export const updateTeamResponseParentCodeMax = 100;
+export const updateTeamResponseParentNotesMax = 10000;
 export const updateTeamResponseParentUsersCountMin = 0;
-export const updateTeamResponseChildrenItemNameMax = 255;
-export const updateTeamResponseChildrenItemCodeMax = 255;
+export const updateTeamResponseChildrenItemNameMax = 300;
+export const updateTeamResponseChildrenItemCodeMax = 100;
+export const updateTeamResponseChildrenItemNotesMax = 10000;
 export const updateTeamResponseChildrenItemUsersCountMin = 0;
-export const updateTeamResponseUsersItemGradesItemNameMax = 255;
+export const updateTeamResponseUsersItemGradesItemNameMax = 300;
 export const updateTeamResponseUsersItemGradesItemLevelMin = 0;
 
 export const updateTeamResponseUsersItemGradesItemLevelMax = 255;
-export const updateTeamResponseUsersItemGradesItemCodeMax = 255;
-export const updateTeamResponseUsersItemGradesItemIsDefaultDefault = false;export const updateTeamResponseUsersItemEmailMax = 255;
-export const updateTeamResponseUsersItemCodeMax = 255;
+export const updateTeamResponseUsersItemGradesItemCodeMax = 100;
+export const updateTeamResponseUsersItemGradesItemIsDefaultDefault = false;export const updateTeamResponseUsersItemEmailMax = 254;
+export const updateTeamResponseUsersItemCodeMax = 100;
 export const updateTeamResponseUsersItemFirstNameMax = 255;
 export const updateTeamResponseUsersItemLastNameMax = 255;
 export const updateTeamResponseUsersItemFullNameMax = 255;
-export const updateTeamResponseUsersItemEmployeeIdMax = 255;
+export const updateTeamResponseUsersItemEmployeeIdMax = 30;
 
 
 export const updateTeamResponse = zod.object({
@@ -281,7 +291,7 @@ export const updateTeamResponse = zod.object({
   "name": zod.string().max(updateTeamResponseNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(updateTeamResponseCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(updateTeamResponseNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(updateTeamResponseUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -292,7 +302,7 @@ export const updateTeamResponse = zod.object({
   "name": zod.string().max(updateTeamResponseParentNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(updateTeamResponseParentCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(updateTeamResponseParentNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(updateTeamResponseParentUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -303,7 +313,7 @@ export const updateTeamResponse = zod.object({
   "name": zod.string().max(updateTeamResponseChildrenItemNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(updateTeamResponseChildrenItemCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(updateTeamResponseChildrenItemNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(updateTeamResponseChildrenItemUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -356,17 +366,17 @@ export const listTeamMembersQueryParams = zod.object({
   "perPage": zod.number().min(1).max(listTeamMembersQueryPerPageMax).default(listTeamMembersQueryPerPageDefault).describe('1ページあたりの件数')
 })
 
-export const listTeamMembersResponseGradesItemNameMax = 255;
+export const listTeamMembersResponseGradesItemNameMax = 300;
 export const listTeamMembersResponseGradesItemLevelMin = 0;
 
 export const listTeamMembersResponseGradesItemLevelMax = 255;
-export const listTeamMembersResponseGradesItemCodeMax = 255;
-export const listTeamMembersResponseGradesItemIsDefaultDefault = false;export const listTeamMembersResponseEmailMax = 255;
-export const listTeamMembersResponseCodeMax = 255;
+export const listTeamMembersResponseGradesItemCodeMax = 100;
+export const listTeamMembersResponseGradesItemIsDefaultDefault = false;export const listTeamMembersResponseEmailMax = 254;
+export const listTeamMembersResponseCodeMax = 100;
 export const listTeamMembersResponseFirstNameMax = 255;
 export const listTeamMembersResponseLastNameMax = 255;
 export const listTeamMembersResponseFullNameMax = 255;
-export const listTeamMembersResponseEmployeeIdMax = 255;
+export const listTeamMembersResponseEmployeeIdMax = 30;
 
 
 export const listTeamMembersResponseItem = zod.object({

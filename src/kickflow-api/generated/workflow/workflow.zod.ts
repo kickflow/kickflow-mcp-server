@@ -27,20 +27,20 @@ export const listWorkflowsQueryParams = zod.object({
 })
 
 export const listWorkflowsResponseCodeRegExp = new RegExp('^[a-zA-Z0-9_-]+$');
-export const listWorkflowsResponsePublicTicketDefault = false;export const listWorkflowsResponseVisibleToTeamMembersDefault = false;export const listWorkflowsResponseAllowEditingOfViewersDefault = true;export const listWorkflowsResponseAuthorEmailMax = 255;
-export const listWorkflowsResponseAuthorCodeMax = 255;
+export const listWorkflowsResponsePublicTicketDefault = false;export const listWorkflowsResponseVisibleToTeamMembersDefault = false;export const listWorkflowsResponseAllowEditingOfViewersDefault = true;export const listWorkflowsResponseAuthorEmailMax = 254;
+export const listWorkflowsResponseAuthorCodeMax = 100;
 export const listWorkflowsResponseAuthorFirstNameMax = 255;
 export const listWorkflowsResponseAuthorLastNameMax = 255;
 export const listWorkflowsResponseAuthorFullNameMax = 255;
-export const listWorkflowsResponseAuthorEmployeeIdMax = 255;
-export const listWorkflowsResponseVersionAuthorEmailMax = 255;
-export const listWorkflowsResponseVersionAuthorCodeMax = 255;
+export const listWorkflowsResponseAuthorEmployeeIdMax = 30;
+export const listWorkflowsResponseVersionAuthorEmailMax = 254;
+export const listWorkflowsResponseVersionAuthorCodeMax = 100;
 export const listWorkflowsResponseVersionAuthorFirstNameMax = 255;
 export const listWorkflowsResponseVersionAuthorLastNameMax = 255;
 export const listWorkflowsResponseVersionAuthorFullNameMax = 255;
-export const listWorkflowsResponseVersionAuthorEmployeeIdMax = 255;
-export const listWorkflowsResponseFolderNameMax = 255;
-export const listWorkflowsResponseFolderCodeMax = 255;
+export const listWorkflowsResponseVersionAuthorEmployeeIdMax = 30;
+export const listWorkflowsResponseFolderNameMax = 300;
+export const listWorkflowsResponseFolderCodeMax = 100;
 export const listWorkflowsResponseFolderWorkflowsCountMin = 0;
 export const listWorkflowsResponseFolderRoutesCountMin = 0;
 export const listWorkflowsResponseFolderPipelinesCountMin = 0;
@@ -129,118 +129,120 @@ export const listWorkflowsResponse = zod.array(listWorkflowsResponseItem)
  * @summary ワークフローを取得
  */
 export const getWorkflowResponseCodeRegExp = new RegExp('^[a-zA-Z0-9_-]+$');
-export const getWorkflowResponsePublicTicketDefault = false;export const getWorkflowResponseVisibleToTeamMembersDefault = false;export const getWorkflowResponseAllowEditingOfViewersDefault = true;export const getWorkflowResponseAuthorEmailMax = 255;
-export const getWorkflowResponseAuthorCodeMax = 255;
+export const getWorkflowResponsePublicTicketDefault = false;export const getWorkflowResponseVisibleToTeamMembersDefault = false;export const getWorkflowResponseAllowEditingOfViewersDefault = true;export const getWorkflowResponseAuthorEmailMax = 254;
+export const getWorkflowResponseAuthorCodeMax = 100;
 export const getWorkflowResponseAuthorFirstNameMax = 255;
 export const getWorkflowResponseAuthorLastNameMax = 255;
 export const getWorkflowResponseAuthorFullNameMax = 255;
-export const getWorkflowResponseAuthorEmployeeIdMax = 255;
-export const getWorkflowResponseVersionAuthorEmailMax = 255;
-export const getWorkflowResponseVersionAuthorCodeMax = 255;
+export const getWorkflowResponseAuthorEmployeeIdMax = 30;
+export const getWorkflowResponseVersionAuthorEmailMax = 254;
+export const getWorkflowResponseVersionAuthorCodeMax = 100;
 export const getWorkflowResponseVersionAuthorFirstNameMax = 255;
 export const getWorkflowResponseVersionAuthorLastNameMax = 255;
 export const getWorkflowResponseVersionAuthorFullNameMax = 255;
-export const getWorkflowResponseVersionAuthorEmployeeIdMax = 255;
-export const getWorkflowResponseFolderNameMax = 255;
-export const getWorkflowResponseFolderCodeMax = 255;
+export const getWorkflowResponseVersionAuthorEmployeeIdMax = 30;
+export const getWorkflowResponseFolderNameMax = 300;
+export const getWorkflowResponseFolderCodeMax = 100;
 export const getWorkflowResponseFolderWorkflowsCountMin = 0;
 export const getWorkflowResponseFolderRoutesCountMin = 0;
 export const getWorkflowResponseFolderPipelinesCountMin = 0;
 export const getWorkflowResponseCategoriesItemNameMax = 100;
-export const getWorkflowResponseSectionListItemFormFieldsItemTitleMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemCodeMax = 255;
+export const getWorkflowResponseSectionListItemFormFieldsItemTitleMax = 300;
+export const getWorkflowResponseSectionListItemFormFieldsItemCodeMax = 100;
 export const getWorkflowResponseSectionListItemFormFieldsItemMinLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemMaxLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemDecimalDigitMin = 0;
-export const getWorkflowResponseSectionListItemFormFieldsItemGeneralMasterCodeMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemGeneralMasterNameMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemGeneralMasterFieldsItemTitleMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemGeneralMasterFieldsItemCodeMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemDefaultGeneralMasterItemNameMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemDefaultGeneralMasterItemInputsItemFieldTitleMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemDefaultGeneralMasterItemInputsItemFieldCodeMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemExternalApiSettingMappingsItemFormFieldTitleMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemExternalApiSettingMappingsItemFormFieldCodeMax = 255;
+export const getWorkflowResponseSectionListItemFormFieldsItemGeneralMasterCodeMax = 100;
+export const getWorkflowResponseSectionListItemFormFieldsItemGeneralMasterNameMax = 300;
+export const getWorkflowResponseSectionListItemFormFieldsItemGeneralMasterFieldsItemTitleMax = 300;
+export const getWorkflowResponseSectionListItemFormFieldsItemGeneralMasterFieldsItemCodeMax = 100;
+export const getWorkflowResponseSectionListItemFormFieldsItemDefaultGeneralMasterItemCodeMax = 100;
+export const getWorkflowResponseSectionListItemFormFieldsItemDefaultGeneralMasterItemNameMax = 100;
+export const getWorkflowResponseSectionListItemFormFieldsItemDefaultGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const getWorkflowResponseSectionListItemFormFieldsItemDefaultGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const getWorkflowResponseSectionListItemFormFieldsItemExternalApiSettingMappingsItemFormFieldTitleMax = 300;
+export const getWorkflowResponseSectionListItemFormFieldsItemExternalApiSettingMappingsItemFormFieldCodeMax = 100;
 export const getWorkflowResponseSectionListItemFormFieldsItemExternalApiSettingMappingsItemFormFieldMinLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemExternalApiSettingMappingsItemFormFieldMaxLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemExternalApiSettingMappingsItemFormFieldDecimalDigitMin = 0;
-export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingFormFieldTitleMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingFormFieldCodeMax = 255;
+export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingFormFieldTitleMax = 300;
+export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingFormFieldCodeMax = 100;
 export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingFormFieldMinLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingFormFieldMaxLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingFormFieldDecimalDigitMin = 0;
-export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingMappingsItemFormFieldTitleMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingMappingsItemFormFieldCodeMax = 255;
+export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingMappingsItemFormFieldTitleMax = 300;
+export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingMappingsItemFormFieldCodeMax = 100;
 export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingMappingsItemFormFieldMinLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingMappingsItemFormFieldMaxLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemKintoneAppSettingMappingsItemFormFieldDecimalDigitMin = 0;
-export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingFormFieldCodeMax = 255;
+export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax = 300;
+export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingFormFieldCodeMax = 100;
 export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingFormFieldMinLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingFormFieldMaxLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingFormFieldDecimalDigitMin = 0;
-export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingMappingsItemFormFieldTitleMax = 255;
-export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingMappingsItemFormFieldCodeMax = 255;
+export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingMappingsItemFormFieldTitleMax = 300;
+export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingMappingsItemFormFieldCodeMax = 100;
 export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingMappingsItemFormFieldMinLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingMappingsItemFormFieldMaxLengthMin = 0;
 export const getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingMappingsItemFormFieldDecimalDigitMin = 0;
-export const getWorkflowResponseSectionListItemSlipFieldsItemGeneralMasterCodeMax = 255;
-export const getWorkflowResponseSectionListItemSlipFieldsItemGeneralMasterNameMax = 255;
-export const getWorkflowResponseSectionListItemSlipFieldsItemGeneralMasterFieldsItemTitleMax = 255;
-export const getWorkflowResponseSectionListItemSlipFieldsItemGeneralMasterFieldsItemCodeMax = 255;
-export const getWorkflowResponseSectionListItemSlipFieldsItemDefaultGeneralMasterItemCodeMax = 255;
-export const getWorkflowResponseSectionListItemSlipFieldsItemDefaultGeneralMasterItemNameMax = 255;
-export const getWorkflowResponseSectionListItemSlipFieldsItemDefaultGeneralMasterItemInputsItemFieldTitleMax = 255;
-export const getWorkflowResponseSectionListItemSlipFieldsItemDefaultGeneralMasterItemInputsItemFieldCodeMax = 255;
-export const getWorkflowResponseTicketViewersItemUserEmailMax = 255;
-export const getWorkflowResponseTicketViewersItemUserCodeMax = 255;
+export const getWorkflowResponseSectionListItemSlipFieldsItemGeneralMasterCodeMax = 100;
+export const getWorkflowResponseSectionListItemSlipFieldsItemGeneralMasterNameMax = 300;
+export const getWorkflowResponseSectionListItemSlipFieldsItemGeneralMasterFieldsItemTitleMax = 300;
+export const getWorkflowResponseSectionListItemSlipFieldsItemGeneralMasterFieldsItemCodeMax = 100;
+export const getWorkflowResponseSectionListItemSlipFieldsItemDefaultGeneralMasterItemCodeMax = 100;
+export const getWorkflowResponseSectionListItemSlipFieldsItemDefaultGeneralMasterItemNameMax = 100;
+export const getWorkflowResponseSectionListItemSlipFieldsItemDefaultGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const getWorkflowResponseSectionListItemSlipFieldsItemDefaultGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const getWorkflowResponseTicketViewersItemUserEmailMax = 254;
+export const getWorkflowResponseTicketViewersItemUserCodeMax = 100;
 export const getWorkflowResponseTicketViewersItemUserFirstNameMax = 255;
 export const getWorkflowResponseTicketViewersItemUserLastNameMax = 255;
 export const getWorkflowResponseTicketViewersItemUserFullNameMax = 255;
-export const getWorkflowResponseTicketViewersItemUserEmployeeIdMax = 255;
-export const getWorkflowResponseTicketViewersItemTeamNameMax = 255;
-export const getWorkflowResponseTicketViewersItemTeamCodeMax = 255;
+export const getWorkflowResponseTicketViewersItemUserEmployeeIdMax = 30;
+export const getWorkflowResponseTicketViewersItemTeamNameMax = 300;
+export const getWorkflowResponseTicketViewersItemTeamCodeMax = 100;
+export const getWorkflowResponseTicketViewersItemTeamNotesMax = 10000;
 export const getWorkflowResponseTicketViewersItemTeamUsersCountMin = 0;
-export const getWorkflowResponseTicketViewersItemGradeNameMax = 255;
+export const getWorkflowResponseTicketViewersItemGradeNameMax = 300;
 export const getWorkflowResponseTicketViewersItemGradeLevelMin = 0;
 
 export const getWorkflowResponseTicketViewersItemGradeLevelMax = 255;
-export const getWorkflowResponseTicketViewersItemGradeCodeMax = 255;
-export const getWorkflowResponseTicketViewersItemGradeIsDefaultDefault = false;export const getWorkflowResponseRouteConditionsItemRouteAuthorEmailMax = 255;
-export const getWorkflowResponseRouteConditionsItemRouteAuthorCodeMax = 255;
+export const getWorkflowResponseTicketViewersItemGradeCodeMax = 100;
+export const getWorkflowResponseTicketViewersItemGradeIsDefaultDefault = false;export const getWorkflowResponseRouteConditionsItemRouteAuthorEmailMax = 254;
+export const getWorkflowResponseRouteConditionsItemRouteAuthorCodeMax = 100;
 export const getWorkflowResponseRouteConditionsItemRouteAuthorFirstNameMax = 255;
 export const getWorkflowResponseRouteConditionsItemRouteAuthorLastNameMax = 255;
 export const getWorkflowResponseRouteConditionsItemRouteAuthorFullNameMax = 255;
-export const getWorkflowResponseRouteConditionsItemRouteAuthorEmployeeIdMax = 255;
-export const getWorkflowResponseRouteConditionsItemRouteVersionAuthorEmailMax = 255;
-export const getWorkflowResponseRouteConditionsItemRouteVersionAuthorCodeMax = 255;
+export const getWorkflowResponseRouteConditionsItemRouteAuthorEmployeeIdMax = 30;
+export const getWorkflowResponseRouteConditionsItemRouteVersionAuthorEmailMax = 254;
+export const getWorkflowResponseRouteConditionsItemRouteVersionAuthorCodeMax = 100;
 export const getWorkflowResponseRouteConditionsItemRouteVersionAuthorFirstNameMax = 255;
 export const getWorkflowResponseRouteConditionsItemRouteVersionAuthorLastNameMax = 255;
 export const getWorkflowResponseRouteConditionsItemRouteVersionAuthorFullNameMax = 255;
-export const getWorkflowResponseRouteConditionsItemRouteVersionAuthorEmployeeIdMax = 255;
-export const getWorkflowResponseRouteConditionsItemRouteFolderNameMax = 255;
-export const getWorkflowResponseRouteConditionsItemRouteFolderCodeMax = 255;
+export const getWorkflowResponseRouteConditionsItemRouteVersionAuthorEmployeeIdMax = 30;
+export const getWorkflowResponseRouteConditionsItemRouteFolderNameMax = 300;
+export const getWorkflowResponseRouteConditionsItemRouteFolderCodeMax = 100;
 export const getWorkflowResponseRouteConditionsItemRouteFolderWorkflowsCountMin = 0;
 export const getWorkflowResponseRouteConditionsItemRouteFolderRoutesCountMin = 0;
 export const getWorkflowResponseRouteConditionsItemRouteFolderPipelinesCountMin = 0;
-export const getWorkflowResponseRouteConditionsItemConditionFieldsItemFormFieldTitleMax = 255;
-export const getWorkflowResponseRouteConditionsItemConditionFieldsItemFormFieldCodeMax = 255;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemFormFieldTitleMax = 300;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemFormFieldCodeMax = 100;
 export const getWorkflowResponseRouteConditionsItemConditionFieldsItemFormFieldMinLengthMin = 0;
 export const getWorkflowResponseRouteConditionsItemConditionFieldsItemFormFieldMaxLengthMin = 0;
 export const getWorkflowResponseRouteConditionsItemConditionFieldsItemFormFieldDecimalDigitMin = 0;
-export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGradeNameMax = 255;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGradeNameMax = 300;
 export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGradeLevelMin = 0;
 
 export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGradeLevelMax = 255;
-export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGradeCodeMax = 255;
-export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGradeIsDefaultDefault = false;export const getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamNameMax = 255;
-export const getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamCodeMax = 255;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGradeCodeMax = 100;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGradeIsDefaultDefault = false;export const getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamNameMax = 300;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamCodeMax = 100;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamNotesMax = 10000;
 export const getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamUsersCountMin = 0;
-export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGeneralMasterItemCodeMax = 255;
-export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGeneralMasterItemNameMax = 255;
-export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 255;
-export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 255;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGeneralMasterItemCodeMax = 100;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGeneralMasterItemNameMax = 100;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const getWorkflowResponseRouteConditionsItemConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 
 export const getWorkflowResponse = zod.object({
@@ -568,8 +570,8 @@ export const getWorkflowResponse = zod.object({
 })).nullish().describe('汎用マスタ型フィールドの自動絞り込みの設定')
 })).describe('フォームフィールドの詳細')).optional().describe('フォームフィールド。明細セクションには含まれません。'),
   "conditional": zod.boolean().optional().describe('表示条件があるかどうか。明細セクションには含まれません。'),
-  "conditionAllOf": zod.boolean().optional().describe('非推奨。今後はcombinationTypeを使用してください。'),
-  "combinationType": zod.enum(['all', 'any']).optional().describe('条件の組み合わせタイプ。all=すべて、any=いずれか。明細セクションには含まれません。'),
+  "combinationType": zod.enum(['all', 'any', 'custom']).optional().describe('条件の組み合わせタイプ。all=すべて、any=いずれか、custom=高度な条件式。明細セクションには含まれません。'),
+  "combinationExpression": zod.string().nullish().describe('高度な条件式'),
   "slipFields": zod.array(zod.object({
   "id": zod.string().uuid().describe('UUID'),
   "fieldType": zod.enum(['text', 'number', 'integer', 'calculation', 'pull_down', 'checkbox', 'date', 'file', 'master', 'user', 'team', 'ticket']).describe('フィールドの型'),
@@ -669,7 +671,7 @@ export const getWorkflowResponse = zod.object({
   "name": zod.string().max(getWorkflowResponseTicketViewersItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(getWorkflowResponseTicketViewersItemTeamCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(getWorkflowResponseTicketViewersItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(getWorkflowResponseTicketViewersItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -797,7 +799,7 @@ export const getWorkflowResponse = zod.object({
   "name": zod.string().max(getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(getWorkflowResponseRouteConditionsItemConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),

@@ -27,11 +27,11 @@ export const listGradesQueryParams = zod.object({
   "sortBy": zod.string().regex(listGradesQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: level, code')
 })
 
-export const listGradesResponseNameMax = 255;
+export const listGradesResponseNameMax = 300;
 export const listGradesResponseLevelMin = 0;
 
 export const listGradesResponseLevelMax = 255;
-export const listGradesResponseCodeMax = 255;
+export const listGradesResponseCodeMax = 100;
 export const listGradesResponseIsDefaultDefault = false;
 
 export const listGradesResponseItem = zod.object({
@@ -51,11 +51,11 @@ export const listGradesResponse = zod.array(listGradesResponseItem)
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職を作成
  */
-export const createGradeBodyNameMax = 255;
+export const createGradeBodyNameMax = 300;
 export const createGradeBodyLevelMin = 0;
 
 export const createGradeBodyLevelMax = 255;
-export const createGradeBodyCodeMax = 255;
+export const createGradeBodyCodeMax = 100;
 
 
 export const createGradeBody = zod.object({
@@ -64,11 +64,11 @@ export const createGradeBody = zod.object({
   "code": zod.string().max(createGradeBodyCodeMax).optional().describe('コード。未指定の場合、ランダムな英数字が自動的に設定されます。')
 }).describe('役職を作成するときのrequest body')
 
-export const createGradeResponseNameMax = 255;
+export const createGradeResponseNameMax = 300;
 export const createGradeResponseLevelMin = 0;
 
 export const createGradeResponseLevelMax = 255;
-export const createGradeResponseCodeMax = 255;
+export const createGradeResponseCodeMax = 100;
 export const createGradeResponseIsDefaultDefault = false;
 
 export const createGradeResponse = zod.object({
@@ -87,11 +87,11 @@ export const createGradeResponse = zod.object({
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職を取得
  */
-export const getGradeResponseNameMax = 255;
+export const getGradeResponseNameMax = 300;
 export const getGradeResponseLevelMin = 0;
 
 export const getGradeResponseLevelMax = 255;
-export const getGradeResponseCodeMax = 255;
+export const getGradeResponseCodeMax = 100;
 export const getGradeResponseIsDefaultDefault = false;
 
 export const getGradeResponse = zod.object({
@@ -122,11 +122,11 @@ export const updateGradeBody = zod.object({
   "code": zod.string().optional().describe('コード。未指定の場合、ランダムな英数字が自動的に設定されます。')
 }).describe('役職を更新するときのrequest body')
 
-export const updateGradeResponseNameMax = 255;
+export const updateGradeResponseNameMax = 300;
 export const updateGradeResponseLevelMin = 0;
 
 export const updateGradeResponseLevelMax = 255;
-export const updateGradeResponseCodeMax = 255;
+export const updateGradeResponseCodeMax = 100;
 export const updateGradeResponseIsDefaultDefault = false;
 
 export const updateGradeResponse = zod.object({

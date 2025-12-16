@@ -25,8 +25,8 @@ export const listFoldersQueryParams = zod.object({
   "sortBy": zod.string().regex(listFoldersQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name, fullName')
 })
 
-export const listFoldersResponseNameMax = 255;
-export const listFoldersResponseCodeMax = 255;
+export const listFoldersResponseNameMax = 300;
+export const listFoldersResponseCodeMax = 100;
 export const listFoldersResponseWorkflowsCountMin = 0;
 export const listFoldersResponseRoutesCountMin = 0;
 export const listFoldersResponsePipelinesCountMin = 0;
@@ -58,18 +58,18 @@ export const createFolderBody = zod.object({
   "parentFolderId": zod.string().nullish().describe('親フォルダのID')
 })
 
-export const createFolderResponseNameMax = 255;
-export const createFolderResponseCodeMax = 255;
+export const createFolderResponseNameMax = 300;
+export const createFolderResponseCodeMax = 100;
 export const createFolderResponseWorkflowsCountMin = 0;
 export const createFolderResponseRoutesCountMin = 0;
 export const createFolderResponsePipelinesCountMin = 0;
-export const createFolderResponseAncestorsItemNameMax = 255;
-export const createFolderResponseAncestorsItemCodeMax = 255;
+export const createFolderResponseAncestorsItemNameMax = 300;
+export const createFolderResponseAncestorsItemCodeMax = 100;
 export const createFolderResponseAncestorsItemWorkflowsCountMin = 0;
 export const createFolderResponseAncestorsItemRoutesCountMin = 0;
 export const createFolderResponseAncestorsItemPipelinesCountMin = 0;
-export const createFolderResponseChildrenItemNameMax = 255;
-export const createFolderResponseChildrenItemCodeMax = 255;
+export const createFolderResponseChildrenItemNameMax = 300;
+export const createFolderResponseChildrenItemCodeMax = 100;
 export const createFolderResponseChildrenItemWorkflowsCountMin = 0;
 export const createFolderResponseChildrenItemRoutesCountMin = 0;
 export const createFolderResponseChildrenItemPipelinesCountMin = 0;
@@ -123,18 +123,18 @@ export const updateFolderBody = zod.object({
   "parentFolderId": zod.string().nullish().describe('親フォルダのID')
 })
 
-export const updateFolderResponseNameMax = 255;
-export const updateFolderResponseCodeMax = 255;
+export const updateFolderResponseNameMax = 300;
+export const updateFolderResponseCodeMax = 100;
 export const updateFolderResponseWorkflowsCountMin = 0;
 export const updateFolderResponseRoutesCountMin = 0;
 export const updateFolderResponsePipelinesCountMin = 0;
-export const updateFolderResponseAncestorsItemNameMax = 255;
-export const updateFolderResponseAncestorsItemCodeMax = 255;
+export const updateFolderResponseAncestorsItemNameMax = 300;
+export const updateFolderResponseAncestorsItemCodeMax = 100;
 export const updateFolderResponseAncestorsItemWorkflowsCountMin = 0;
 export const updateFolderResponseAncestorsItemRoutesCountMin = 0;
 export const updateFolderResponseAncestorsItemPipelinesCountMin = 0;
-export const updateFolderResponseChildrenItemNameMax = 255;
-export const updateFolderResponseChildrenItemCodeMax = 255;
+export const updateFolderResponseChildrenItemNameMax = 300;
+export const updateFolderResponseChildrenItemCodeMax = 100;
 export const updateFolderResponseChildrenItemWorkflowsCountMin = 0;
 export const updateFolderResponseChildrenItemRoutesCountMin = 0;
 export const updateFolderResponseChildrenItemPipelinesCountMin = 0;
@@ -179,18 +179,18 @@ export const updateFolderResponse = zod.object({
  * フォルダを一件取得します。
  * @summary フォルダを取得
  */
-export const getFolderResponseNameMax = 255;
-export const getFolderResponseCodeMax = 255;
+export const getFolderResponseNameMax = 300;
+export const getFolderResponseCodeMax = 100;
 export const getFolderResponseWorkflowsCountMin = 0;
 export const getFolderResponseRoutesCountMin = 0;
 export const getFolderResponsePipelinesCountMin = 0;
-export const getFolderResponseAncestorsItemNameMax = 255;
-export const getFolderResponseAncestorsItemCodeMax = 255;
+export const getFolderResponseAncestorsItemNameMax = 300;
+export const getFolderResponseAncestorsItemCodeMax = 100;
 export const getFolderResponseAncestorsItemWorkflowsCountMin = 0;
 export const getFolderResponseAncestorsItemRoutesCountMin = 0;
 export const getFolderResponseAncestorsItemPipelinesCountMin = 0;
-export const getFolderResponseChildrenItemNameMax = 255;
-export const getFolderResponseChildrenItemCodeMax = 255;
+export const getFolderResponseChildrenItemNameMax = 300;
+export const getFolderResponseChildrenItemCodeMax = 100;
 export const getFolderResponseChildrenItemWorkflowsCountMin = 0;
 export const getFolderResponseChildrenItemRoutesCountMin = 0;
 export const getFolderResponseChildrenItemPipelinesCountMin = 0;

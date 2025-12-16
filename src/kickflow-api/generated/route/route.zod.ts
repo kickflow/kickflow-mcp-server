@@ -27,20 +27,20 @@ export const listRoutesQueryParams = zod.object({
   "folderId": zod.string().uuid().optional().describe('フォルダのUUID')
 })
 
-export const listRoutesResponseAuthorEmailMax = 255;
-export const listRoutesResponseAuthorCodeMax = 255;
+export const listRoutesResponseAuthorEmailMax = 254;
+export const listRoutesResponseAuthorCodeMax = 100;
 export const listRoutesResponseAuthorFirstNameMax = 255;
 export const listRoutesResponseAuthorLastNameMax = 255;
 export const listRoutesResponseAuthorFullNameMax = 255;
-export const listRoutesResponseAuthorEmployeeIdMax = 255;
-export const listRoutesResponseVersionAuthorEmailMax = 255;
-export const listRoutesResponseVersionAuthorCodeMax = 255;
+export const listRoutesResponseAuthorEmployeeIdMax = 30;
+export const listRoutesResponseVersionAuthorEmailMax = 254;
+export const listRoutesResponseVersionAuthorCodeMax = 100;
 export const listRoutesResponseVersionAuthorFirstNameMax = 255;
 export const listRoutesResponseVersionAuthorLastNameMax = 255;
 export const listRoutesResponseVersionAuthorFullNameMax = 255;
-export const listRoutesResponseVersionAuthorEmployeeIdMax = 255;
-export const listRoutesResponseFolderNameMax = 255;
-export const listRoutesResponseFolderCodeMax = 255;
+export const listRoutesResponseVersionAuthorEmployeeIdMax = 30;
+export const listRoutesResponseFolderNameMax = 300;
+export const listRoutesResponseFolderCodeMax = 100;
 export const listRoutesResponseFolderWorkflowsCountMin = 0;
 export const listRoutesResponseFolderRoutesCountMin = 0;
 export const listRoutesResponseFolderPipelinesCountMin = 0;
@@ -112,50 +112,52 @@ export const listRoutesResponse = zod.array(listRoutesResponseItem)
  * 指定した経路を取得します。
  * @summary 経路を取得
  */
-export const getRouteResponseAuthorEmailMax = 255;
-export const getRouteResponseAuthorCodeMax = 255;
+export const getRouteResponseAuthorEmailMax = 254;
+export const getRouteResponseAuthorCodeMax = 100;
 export const getRouteResponseAuthorFirstNameMax = 255;
 export const getRouteResponseAuthorLastNameMax = 255;
 export const getRouteResponseAuthorFullNameMax = 255;
-export const getRouteResponseAuthorEmployeeIdMax = 255;
-export const getRouteResponseVersionAuthorEmailMax = 255;
-export const getRouteResponseVersionAuthorCodeMax = 255;
+export const getRouteResponseAuthorEmployeeIdMax = 30;
+export const getRouteResponseVersionAuthorEmailMax = 254;
+export const getRouteResponseVersionAuthorCodeMax = 100;
 export const getRouteResponseVersionAuthorFirstNameMax = 255;
 export const getRouteResponseVersionAuthorLastNameMax = 255;
 export const getRouteResponseVersionAuthorFullNameMax = 255;
-export const getRouteResponseVersionAuthorEmployeeIdMax = 255;
-export const getRouteResponseFolderNameMax = 255;
-export const getRouteResponseFolderCodeMax = 255;
+export const getRouteResponseVersionAuthorEmployeeIdMax = 30;
+export const getRouteResponseFolderNameMax = 300;
+export const getRouteResponseFolderCodeMax = 100;
 export const getRouteResponseFolderWorkflowsCountMin = 0;
 export const getRouteResponseFolderRoutesCountMin = 0;
 export const getRouteResponseFolderPipelinesCountMin = 0;
 export const getRouteResponseStepsItemMinCustomAssigneesMin = 0;
-export const getRouteResponseStepsItemUsersItemEmailMax = 255;
-export const getRouteResponseStepsItemUsersItemCodeMax = 255;
+export const getRouteResponseStepsItemUsersItemEmailMax = 254;
+export const getRouteResponseStepsItemUsersItemCodeMax = 100;
 export const getRouteResponseStepsItemUsersItemFirstNameMax = 255;
 export const getRouteResponseStepsItemUsersItemLastNameMax = 255;
 export const getRouteResponseStepsItemUsersItemFullNameMax = 255;
-export const getRouteResponseStepsItemUsersItemEmployeeIdMax = 255;
-export const getRouteResponseStepsItemTargetsItemTeamNameMax = 255;
-export const getRouteResponseStepsItemTargetsItemTeamCodeMax = 255;
+export const getRouteResponseStepsItemUsersItemEmployeeIdMax = 30;
+export const getRouteResponseStepsItemTargetsItemTeamNameMax = 300;
+export const getRouteResponseStepsItemTargetsItemTeamCodeMax = 100;
+export const getRouteResponseStepsItemTargetsItemTeamNotesMax = 10000;
 export const getRouteResponseStepsItemTargetsItemTeamUsersCountMin = 0;
-export const getRouteResponseStepsItemTargetsItemGradesItemNameMax = 255;
+export const getRouteResponseStepsItemTargetsItemGradesItemNameMax = 300;
 export const getRouteResponseStepsItemTargetsItemGradesItemLevelMin = 0;
 
 export const getRouteResponseStepsItemTargetsItemGradesItemLevelMax = 255;
-export const getRouteResponseStepsItemTargetsItemGradesItemCodeMax = 255;
-export const getRouteResponseStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 255;
+export const getRouteResponseStepsItemTargetsItemGradesItemCodeMax = 100;
+export const getRouteResponseStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 300;
 export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin = 0;
 
 export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax = 255;
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 255;
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 255;
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 255;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 100;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 300;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 100;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax = 10000;
 export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin = 0;
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 255;
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 255;
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 255;
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 255;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 100;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 100;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 
 export const getRouteResponse = zod.object({
@@ -256,7 +258,7 @@ export const getRouteResponse = zod.object({
   "name": zod.string().max(getRouteResponseStepsItemTargetsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(getRouteResponseStepsItemTargetsItemTeamCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(getRouteResponseStepsItemTargetsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(getRouteResponseStepsItemTargetsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -299,7 +301,7 @@ export const getRouteResponse = zod.object({
   "name": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
