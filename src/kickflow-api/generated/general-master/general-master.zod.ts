@@ -27,10 +27,10 @@ export const listGeneralMastersQueryParams = zod.object({
   "sortBy": zod.string().regex(listGeneralMastersQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, code, name')
 })
 
-export const listGeneralMastersResponseCodeMax = 255;
-export const listGeneralMastersResponseNameMax = 255;
-export const listGeneralMastersResponseFieldsItemTitleMax = 255;
-export const listGeneralMastersResponseFieldsItemCodeMax = 255;
+export const listGeneralMastersResponseCodeMax = 100;
+export const listGeneralMastersResponseNameMax = 300;
+export const listGeneralMastersResponseFieldsItemTitleMax = 300;
+export const listGeneralMastersResponseFieldsItemCodeMax = 100;
 
 
 export const listGeneralMastersResponseItem = zod.object({
@@ -76,10 +76,10 @@ export const createGeneralMasterBody = zod.object({
 })).optional().describe('カスタムフィールドの配列')
 })
 
-export const createGeneralMasterResponseCodeMax = 255;
-export const createGeneralMasterResponseNameMax = 255;
-export const createGeneralMasterResponseFieldsItemTitleMax = 255;
-export const createGeneralMasterResponseFieldsItemCodeMax = 255;
+export const createGeneralMasterResponseCodeMax = 100;
+export const createGeneralMasterResponseNameMax = 300;
+export const createGeneralMasterResponseFieldsItemTitleMax = 300;
+export const createGeneralMasterResponseFieldsItemCodeMax = 100;
 
 
 export const createGeneralMasterResponse = zod.object({
@@ -109,10 +109,10 @@ export const createGeneralMasterResponse = zod.object({
 このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタを取得
  */
-export const getGeneralMasterResponseCodeMax = 255;
-export const getGeneralMasterResponseNameMax = 255;
-export const getGeneralMasterResponseFieldsItemTitleMax = 255;
-export const getGeneralMasterResponseFieldsItemCodeMax = 255;
+export const getGeneralMasterResponseCodeMax = 100;
+export const getGeneralMasterResponseNameMax = 300;
+export const getGeneralMasterResponseFieldsItemTitleMax = 300;
+export const getGeneralMasterResponseFieldsItemCodeMax = 100;
 
 
 export const getGeneralMasterResponse = zod.object({
@@ -157,10 +157,10 @@ export const updateGeneralMasterBody = zod.object({
 })).optional().describe('カスタムフィールドの配列')
 })
 
-export const updateGeneralMasterResponseCodeMax = 255;
-export const updateGeneralMasterResponseNameMax = 255;
-export const updateGeneralMasterResponseFieldsItemTitleMax = 255;
-export const updateGeneralMasterResponseFieldsItemCodeMax = 255;
+export const updateGeneralMasterResponseCodeMax = 100;
+export const updateGeneralMasterResponseNameMax = 300;
+export const updateGeneralMasterResponseFieldsItemTitleMax = 300;
+export const updateGeneralMasterResponseFieldsItemCodeMax = 100;
 
 
 export const updateGeneralMasterResponse = zod.object({
@@ -199,10 +199,10 @@ export const listGeneralMasterItemsQueryParams = zod.object({
   "sortBy": zod.string().regex(listGeneralMasterItemsQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, code, name')
 })
 
-export const listGeneralMasterItemsResponseCodeMax = 255;
-export const listGeneralMasterItemsResponseNameMax = 255;
-export const listGeneralMasterItemsResponseInputsItemFieldTitleMax = 255;
-export const listGeneralMasterItemsResponseInputsItemFieldCodeMax = 255;
+export const listGeneralMasterItemsResponseCodeMax = 100;
+export const listGeneralMasterItemsResponseNameMax = 100;
+export const listGeneralMasterItemsResponseInputsItemFieldTitleMax = 300;
+export const listGeneralMasterItemsResponseInputsItemFieldCodeMax = 100;
 
 
 export const listGeneralMasterItemsResponseItem = zod.object({
@@ -253,10 +253,10 @@ export const createGeneralMasterItemBody = zod.object({
 })).describe('カスタムフィールドの入力。必須ではないカスタムフィールドを含む、すべてのカスタムフィールドに対して入力する必要があります。')
 })
 
-export const createGeneralMasterItemResponseCodeMax = 255;
-export const createGeneralMasterItemResponseNameMax = 255;
-export const createGeneralMasterItemResponseInputsItemFieldTitleMax = 255;
-export const createGeneralMasterItemResponseInputsItemFieldCodeMax = 255;
+export const createGeneralMasterItemResponseCodeMax = 100;
+export const createGeneralMasterItemResponseNameMax = 100;
+export const createGeneralMasterItemResponseInputsItemFieldTitleMax = 300;
+export const createGeneralMasterItemResponseInputsItemFieldCodeMax = 100;
 
 
 export const createGeneralMasterItemResponse = zod.object({
@@ -292,10 +292,10 @@ export const createGeneralMasterItemResponse = zod.object({
  * 汎用マスタアイテムを一件取得します。
  * @summary 汎用マスタアイテムを取得
  */
-export const getGeneralMasterItemResponseCodeMax = 255;
-export const getGeneralMasterItemResponseNameMax = 255;
-export const getGeneralMasterItemResponseInputsItemFieldTitleMax = 255;
-export const getGeneralMasterItemResponseInputsItemFieldCodeMax = 255;
+export const getGeneralMasterItemResponseCodeMax = 100;
+export const getGeneralMasterItemResponseNameMax = 100;
+export const getGeneralMasterItemResponseInputsItemFieldTitleMax = 300;
+export const getGeneralMasterItemResponseInputsItemFieldCodeMax = 100;
 
 
 export const getGeneralMasterItemResponse = zod.object({
@@ -345,10 +345,10 @@ export const updateGeneralMasterItemBody = zod.object({
 })).optional().describe('カスタムフィールドの入力。必須ではないカスタムフィールドを含む、すべてのカスタムフィールドに対して入力する必要があります。')
 })
 
-export const updateGeneralMasterItemResponseCodeMax = 255;
-export const updateGeneralMasterItemResponseNameMax = 255;
-export const updateGeneralMasterItemResponseInputsItemFieldTitleMax = 255;
-export const updateGeneralMasterItemResponseInputsItemFieldCodeMax = 255;
+export const updateGeneralMasterItemResponseCodeMax = 100;
+export const updateGeneralMasterItemResponseNameMax = 100;
+export const updateGeneralMasterItemResponseInputsItemFieldTitleMax = 300;
+export const updateGeneralMasterItemResponseInputsItemFieldCodeMax = 100;
 
 
 export const updateGeneralMasterItemResponse = zod.object({

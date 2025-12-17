@@ -4105,7 +4105,7 @@ paths:
                 code:
                   type: string
                   description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
-                  maxLength: 255
+                  maxLength: 100
                 firstName:
                   type: string
                   description: 名
@@ -4122,7 +4122,7 @@ paths:
                     - string
                     - 'null'
                   description: 社員番号
-                  maxLength: 255
+                  maxLength: 30
               required:
                 - email
                 - code
@@ -4234,11 +4234,11 @@ paths:
                   type: string
                   format: email
                   description: メールアドレス
-                  maxLength: 255
+                  maxLength: 254
                 code:
                   type: string
                   description: コード
-                  maxLength: 255
+                  maxLength: 100
                 firstName:
                   type: string
                   description: 名
@@ -4252,7 +4252,7 @@ paths:
                     - string
                     - 'null'
                   description: 社員番号
-                  maxLength: 255
+                  maxLength: 30
       tags:
         - ユーザー
       description: |-
@@ -5354,7 +5354,7 @@ components:
         name:
           type: string
           description: 名前
-          maxLength: 255
+          maxLength: 300
         level:
           type: integer
           description: レベル
@@ -5365,7 +5365,7 @@ components:
             - string
             - 'null'
           description: コード
-          maxLength: 255
+          maxLength: 100
         isDefault:
           type: boolean
           description: デフォルトの役職かどうか
@@ -5396,7 +5396,7 @@ components:
         name:
           type: string
           description: 名前
-          maxLength: 255
+          maxLength: 300
         level:
           type: integer
           description: レベル
@@ -5404,7 +5404,7 @@ components:
           maximum: 255
         code:
           type: string
-          maxLength: 255
+          maxLength: 100
           description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
       required:
         - name
@@ -5443,11 +5443,11 @@ components:
           type: string
           description: メールアドレス
           format: email
-          maxLength: 255
+          maxLength: 254
         code:
           type: string
           description: コード
-          maxLength: 255
+          maxLength: 100
         firstName:
           type: string
           description: 名
@@ -5465,7 +5465,7 @@ components:
             - string
             - 'null'
           description: 社員番号
-          maxLength: 255
+          maxLength: 30
         image:
           type: object
           description: ユーザー画像のURL。サイズごとに複数のURLを返します。
@@ -5642,19 +5642,20 @@ components:
         name:
           type: string
           description: 名前
-          maxLength: 255
+          maxLength: 300
         fullName:
           type: string
           description: 上位組織を含む名前
         code:
           type: string
           description: コード
-          maxLength: 255
+          maxLength: 100
         notes:
           type:
             - string
             - 'null'
           description: 管理用メモ
+          maxLength: 10000
         approveOnly:
           type: boolean
           description: 承認専用チームかどうか
@@ -5774,7 +5775,7 @@ components:
         name:
           type: string
           description: 名前
-          maxLength: 255
+          maxLength: 300
         current:
           type: boolean
           description: 現在有効な組織図かどうか
@@ -5881,7 +5882,7 @@ components:
         name:
           type: string
           description: 名前
-          maxLength: 255
+          maxLength: 300
         editable:
           type: boolean
           description: 編集可能かどうか。「すべての管理者」のときだけfalseになります。
@@ -6136,11 +6137,11 @@ components:
         name:
           type: string
           description: 名前
-          maxLength: 255
+          maxLength: 300
         code:
           type: string
           description: コード
-          maxLength: 255
+          maxLength: 100
         description:
           type:
             - string
@@ -6208,11 +6209,11 @@ components:
         code:
           type: string
           description: コード
-          maxLength: 255
+          maxLength: 100
         name:
           type: string
           description: 名前
-          maxLength: 255
+          maxLength: 300
         description:
           type:
             - string
@@ -6253,11 +6254,11 @@ components:
         code:
           type: string
           description: コード
-          maxLength: 255
+          maxLength: 100
         name:
           type: string
           description: 名前
-          maxLength: 255
+          maxLength: 100
         description:
           type:
             - string
@@ -6342,7 +6343,7 @@ components:
         title:
           type: string
           description: フィールド名
-          maxLength: 255
+          maxLength: 300
         description:
           type:
             - string
@@ -6351,7 +6352,7 @@ components:
         code:
           type: string
           description: フィールドのコード
-          maxLength: 255
+          maxLength: 100
         fieldType:
           type: string
           enum:
@@ -6602,16 +6603,18 @@ components:
         conditional:
           type: boolean
           description: 表示条件があるかどうか。明細セクションには含まれません。
-        conditionAllOf:
-          type: boolean
-          description: 非推奨。今後はcombinationTypeを使用してください。
-          deprecated: true
         combinationType:
           type: string
-          description: 条件の組み合わせタイプ。all=すべて、any=いずれか。明細セクションには含まれません。
+          description: 条件の組み合わせタイプ。all=すべて、any=いずれか、custom=高度な条件式。明細セクションには含まれません。
           enum:
             - all
             - any
+            - custom
+        combinationExpression:
+          type:
+            - string
+            - 'null'
+          description: 高度な条件式
         slipFields:
           type: array
           description: 明細フィールド。フォームセクションには含まれません。
@@ -6635,7 +6638,7 @@ components:
         title:
           type: string
           description: 説明
-          maxLength: 255
+          maxLength: 300
         description:
           type:
             - string
@@ -6679,7 +6682,7 @@ components:
         code:
           type: string
           description: コード
-          maxLength: 255
+          maxLength: 100
         size:
           type: string
           description: フォームサイズ。fullの場合全幅、halfの場合1/2になります。

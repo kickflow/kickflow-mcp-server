@@ -27,7 +27,7 @@ export const listRolesQueryParams = zod.object({
   "sortBy": zod.string().regex(listRolesQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name')
 })
 
-export const listRolesResponseNameMax = 255;
+export const listRolesResponseNameMax = 300;
 export const listRolesResponseUsersCountMin = 0;
 
 
@@ -58,19 +58,20 @@ export const createRoleBody = zod.object({
 })).describe('権限リスト')
 }).describe('管理者ロールを作成するときのrequest body')
 
-export const createRoleResponseNameMax = 255;
+export const createRoleResponseNameMax = 300;
 export const createRoleResponseUsersCountMin = 0;
-export const createRoleResponsePermissionListItemFoldersItemNameMax = 255;
-export const createRoleResponsePermissionListItemFoldersItemCodeMax = 255;
+export const createRoleResponsePermissionListItemFoldersItemNameMax = 300;
+export const createRoleResponsePermissionListItemFoldersItemCodeMax = 100;
 export const createRoleResponsePermissionListItemFoldersItemWorkflowsCountMin = 0;
 export const createRoleResponsePermissionListItemFoldersItemRoutesCountMin = 0;
 export const createRoleResponsePermissionListItemFoldersItemPipelinesCountMin = 0;
-export const createRoleResponsePermissionListItemGeneralMastersItemCodeMax = 255;
-export const createRoleResponsePermissionListItemGeneralMastersItemNameMax = 255;
-export const createRoleResponsePermissionListItemGeneralMastersItemFieldsItemTitleMax = 255;
-export const createRoleResponsePermissionListItemGeneralMastersItemFieldsItemCodeMax = 255;
-export const createRoleResponsePermissionListItemTeamsItemNameMax = 255;
-export const createRoleResponsePermissionListItemTeamsItemCodeMax = 255;
+export const createRoleResponsePermissionListItemGeneralMastersItemCodeMax = 100;
+export const createRoleResponsePermissionListItemGeneralMastersItemNameMax = 300;
+export const createRoleResponsePermissionListItemGeneralMastersItemFieldsItemTitleMax = 300;
+export const createRoleResponsePermissionListItemGeneralMastersItemFieldsItemCodeMax = 100;
+export const createRoleResponsePermissionListItemTeamsItemNameMax = 300;
+export const createRoleResponsePermissionListItemTeamsItemCodeMax = 100;
+export const createRoleResponsePermissionListItemTeamsItemNotesMax = 10000;
 export const createRoleResponsePermissionListItemTeamsItemUsersCountMin = 0;
 
 
@@ -121,7 +122,7 @@ export const createRoleResponse = zod.object({
   "name": zod.string().max(createRoleResponsePermissionListItemTeamsItemNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(createRoleResponsePermissionListItemTeamsItemCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(createRoleResponsePermissionListItemTeamsItemNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(createRoleResponsePermissionListItemTeamsItemUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -136,19 +137,20 @@ export const createRoleResponse = zod.object({
 このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールを取得
  */
-export const getRoleResponseNameMax = 255;
+export const getRoleResponseNameMax = 300;
 export const getRoleResponseUsersCountMin = 0;
-export const getRoleResponsePermissionListItemFoldersItemNameMax = 255;
-export const getRoleResponsePermissionListItemFoldersItemCodeMax = 255;
+export const getRoleResponsePermissionListItemFoldersItemNameMax = 300;
+export const getRoleResponsePermissionListItemFoldersItemCodeMax = 100;
 export const getRoleResponsePermissionListItemFoldersItemWorkflowsCountMin = 0;
 export const getRoleResponsePermissionListItemFoldersItemRoutesCountMin = 0;
 export const getRoleResponsePermissionListItemFoldersItemPipelinesCountMin = 0;
-export const getRoleResponsePermissionListItemGeneralMastersItemCodeMax = 255;
-export const getRoleResponsePermissionListItemGeneralMastersItemNameMax = 255;
-export const getRoleResponsePermissionListItemGeneralMastersItemFieldsItemTitleMax = 255;
-export const getRoleResponsePermissionListItemGeneralMastersItemFieldsItemCodeMax = 255;
-export const getRoleResponsePermissionListItemTeamsItemNameMax = 255;
-export const getRoleResponsePermissionListItemTeamsItemCodeMax = 255;
+export const getRoleResponsePermissionListItemGeneralMastersItemCodeMax = 100;
+export const getRoleResponsePermissionListItemGeneralMastersItemNameMax = 300;
+export const getRoleResponsePermissionListItemGeneralMastersItemFieldsItemTitleMax = 300;
+export const getRoleResponsePermissionListItemGeneralMastersItemFieldsItemCodeMax = 100;
+export const getRoleResponsePermissionListItemTeamsItemNameMax = 300;
+export const getRoleResponsePermissionListItemTeamsItemCodeMax = 100;
+export const getRoleResponsePermissionListItemTeamsItemNotesMax = 10000;
 export const getRoleResponsePermissionListItemTeamsItemUsersCountMin = 0;
 
 
@@ -199,7 +201,7 @@ export const getRoleResponse = zod.object({
   "name": zod.string().max(getRoleResponsePermissionListItemTeamsItemNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(getRoleResponsePermissionListItemTeamsItemCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(getRoleResponsePermissionListItemTeamsItemNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(getRoleResponsePermissionListItemTeamsItemUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -225,19 +227,20 @@ export const updateRoleBody = zod.object({
 })).optional().describe('権限リスト')
 }).describe('管理者ロールを更新するときのrequest body')
 
-export const updateRoleResponseNameMax = 255;
+export const updateRoleResponseNameMax = 300;
 export const updateRoleResponseUsersCountMin = 0;
-export const updateRoleResponsePermissionListItemFoldersItemNameMax = 255;
-export const updateRoleResponsePermissionListItemFoldersItemCodeMax = 255;
+export const updateRoleResponsePermissionListItemFoldersItemNameMax = 300;
+export const updateRoleResponsePermissionListItemFoldersItemCodeMax = 100;
 export const updateRoleResponsePermissionListItemFoldersItemWorkflowsCountMin = 0;
 export const updateRoleResponsePermissionListItemFoldersItemRoutesCountMin = 0;
 export const updateRoleResponsePermissionListItemFoldersItemPipelinesCountMin = 0;
-export const updateRoleResponsePermissionListItemGeneralMastersItemCodeMax = 255;
-export const updateRoleResponsePermissionListItemGeneralMastersItemNameMax = 255;
-export const updateRoleResponsePermissionListItemGeneralMastersItemFieldsItemTitleMax = 255;
-export const updateRoleResponsePermissionListItemGeneralMastersItemFieldsItemCodeMax = 255;
-export const updateRoleResponsePermissionListItemTeamsItemNameMax = 255;
-export const updateRoleResponsePermissionListItemTeamsItemCodeMax = 255;
+export const updateRoleResponsePermissionListItemGeneralMastersItemCodeMax = 100;
+export const updateRoleResponsePermissionListItemGeneralMastersItemNameMax = 300;
+export const updateRoleResponsePermissionListItemGeneralMastersItemFieldsItemTitleMax = 300;
+export const updateRoleResponsePermissionListItemGeneralMastersItemFieldsItemCodeMax = 100;
+export const updateRoleResponsePermissionListItemTeamsItemNameMax = 300;
+export const updateRoleResponsePermissionListItemTeamsItemCodeMax = 100;
+export const updateRoleResponsePermissionListItemTeamsItemNotesMax = 10000;
 export const updateRoleResponsePermissionListItemTeamsItemUsersCountMin = 0;
 
 
@@ -288,7 +291,7 @@ export const updateRoleResponse = zod.object({
   "name": zod.string().max(updateRoleResponsePermissionListItemTeamsItemNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(updateRoleResponsePermissionListItemTeamsItemCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(updateRoleResponsePermissionListItemTeamsItemNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(updateRoleResponsePermissionListItemTeamsItemUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -325,12 +328,12 @@ export const listRoleMembersQueryParams = zod.object({
   "perPage": zod.number().min(1).max(listRoleMembersQueryPerPageMax).default(listRoleMembersQueryPerPageDefault).describe('1ページあたりの件数')
 })
 
-export const listRoleMembersResponseEmailMax = 255;
-export const listRoleMembersResponseCodeMax = 255;
+export const listRoleMembersResponseEmailMax = 254;
+export const listRoleMembersResponseCodeMax = 100;
 export const listRoleMembersResponseFirstNameMax = 255;
 export const listRoleMembersResponseLastNameMax = 255;
 export const listRoleMembersResponseFullNameMax = 255;
-export const listRoleMembersResponseEmployeeIdMax = 255;
+export const listRoleMembersResponseEmployeeIdMax = 30;
 
 
 export const listRoleMembersResponseItem = zod.object({

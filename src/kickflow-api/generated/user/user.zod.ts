@@ -14,12 +14,12 @@ import {
  * 現在のユーザーを取得します。
  * @summary 現在のユーザーを取得
  */
-export const getCurrentUserResponseEmailMax = 255;
-export const getCurrentUserResponseCodeMax = 255;
+export const getCurrentUserResponseEmailMax = 254;
+export const getCurrentUserResponseCodeMax = 100;
 export const getCurrentUserResponseFirstNameMax = 255;
 export const getCurrentUserResponseLastNameMax = 255;
 export const getCurrentUserResponseFullNameMax = 255;
-export const getCurrentUserResponseEmployeeIdMax = 255;
+export const getCurrentUserResponseEmployeeIdMax = 30;
 
 
 export const getCurrentUserResponse = zod.object({
@@ -58,12 +58,12 @@ export const listUsersQueryParams = zod.object({
   "sortBy": zod.string().regex(listUsersQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: email, code')
 })
 
-export const listUsersResponseEmailMax = 255;
-export const listUsersResponseCodeMax = 255;
+export const listUsersResponseEmailMax = 254;
+export const listUsersResponseCodeMax = 100;
 export const listUsersResponseFirstNameMax = 255;
 export const listUsersResponseLastNameMax = 255;
 export const listUsersResponseFullNameMax = 255;
-export const listUsersResponseEmployeeIdMax = 255;
+export const listUsersResponseEmployeeIdMax = 30;
 
 
 export const listUsersResponseItem = zod.object({
@@ -94,10 +94,10 @@ export const listUsersResponse = zod.array(listUsersResponseItem)
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを作成（招待）
  */
-export const createUserBodyCodeMax = 255;
+export const createUserBodyCodeMax = 100;
 export const createUserBodyFirstNameMax = 255;
 export const createUserBodyLastNameMax = 255;
-export const createUserBodyEmployeeIdMax = 255;
+export const createUserBodyEmployeeIdMax = 30;
 
 
 export const createUserBody = zod.object({
@@ -109,12 +109,12 @@ export const createUserBody = zod.object({
   "employeeId": zod.string().max(createUserBodyEmployeeIdMax).nullish().describe('社員番号')
 })
 
-export const createUserResponseEmailMax = 255;
-export const createUserResponseCodeMax = 255;
+export const createUserResponseEmailMax = 254;
+export const createUserResponseCodeMax = 100;
 export const createUserResponseFirstNameMax = 255;
 export const createUserResponseLastNameMax = 255;
 export const createUserResponseFullNameMax = 255;
-export const createUserResponseEmployeeIdMax = 255;
+export const createUserResponseEmployeeIdMax = 30;
 
 
 export const createUserResponse = zod.object({
@@ -141,12 +141,12 @@ export const createUserResponse = zod.object({
  * ユーザーを一件取得します。
  * @summary ユーザーを取得
  */
-export const getUserResponseEmailMax = 255;
-export const getUserResponseCodeMax = 255;
+export const getUserResponseEmailMax = 254;
+export const getUserResponseCodeMax = 100;
 export const getUserResponseFirstNameMax = 255;
 export const getUserResponseLastNameMax = 255;
 export const getUserResponseFullNameMax = 255;
-export const getUserResponseEmployeeIdMax = 255;
+export const getUserResponseEmployeeIdMax = 30;
 
 
 export const getUserResponse = zod.object({
@@ -176,12 +176,12 @@ export const getUserResponse = zod.object({
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを削除
  */
-export const deleteUserResponseEmailMax = 255;
-export const deleteUserResponseCodeMax = 255;
+export const deleteUserResponseEmailMax = 254;
+export const deleteUserResponseCodeMax = 100;
 export const deleteUserResponseFirstNameMax = 255;
 export const deleteUserResponseLastNameMax = 255;
 export const deleteUserResponseFullNameMax = 255;
-export const deleteUserResponseEmployeeIdMax = 255;
+export const deleteUserResponseEmployeeIdMax = 30;
 
 
 export const deleteUserResponse = zod.object({
@@ -210,11 +210,11 @@ export const deleteUserResponse = zod.object({
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを更新
  */
-export const updateUserBodyEmailMax = 255;
-export const updateUserBodyCodeMax = 255;
+export const updateUserBodyEmailMax = 254;
+export const updateUserBodyCodeMax = 100;
 export const updateUserBodyFirstNameMax = 255;
 export const updateUserBodyLastNameMax = 255;
-export const updateUserBodyEmployeeIdMax = 255;
+export const updateUserBodyEmployeeIdMax = 30;
 
 
 export const updateUserBody = zod.object({
@@ -225,12 +225,12 @@ export const updateUserBody = zod.object({
   "employeeId": zod.string().max(updateUserBodyEmployeeIdMax).nullish().describe('社員番号')
 })
 
-export const updateUserResponseEmailMax = 255;
-export const updateUserResponseCodeMax = 255;
+export const updateUserResponseEmailMax = 254;
+export const updateUserResponseCodeMax = 100;
 export const updateUserResponseFirstNameMax = 255;
 export const updateUserResponseLastNameMax = 255;
 export const updateUserResponseFullNameMax = 255;
-export const updateUserResponseEmployeeIdMax = 255;
+export const updateUserResponseEmployeeIdMax = 30;
 
 
 export const updateUserResponse = zod.object({
@@ -262,12 +262,12 @@ export const lookupUserByEmailQueryParams = zod.object({
   "email": zod.string().describe('メールアドレス（URLエンコードを行ったもの）')
 })
 
-export const lookupUserByEmailResponseEmailMax = 255;
-export const lookupUserByEmailResponseCodeMax = 255;
+export const lookupUserByEmailResponseEmailMax = 254;
+export const lookupUserByEmailResponseCodeMax = 100;
 export const lookupUserByEmailResponseFirstNameMax = 255;
 export const lookupUserByEmailResponseLastNameMax = 255;
 export const lookupUserByEmailResponseFullNameMax = 255;
-export const lookupUserByEmailResponseEmployeeIdMax = 255;
+export const lookupUserByEmailResponseEmployeeIdMax = 30;
 
 
 export const lookupUserByEmailResponse = zod.object({
@@ -296,12 +296,12 @@ export const lookupUserByEmailResponse = zod.object({
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを再招待
  */
-export const reinviteUserResponseEmailMax = 255;
-export const reinviteUserResponseCodeMax = 255;
+export const reinviteUserResponseEmailMax = 254;
+export const reinviteUserResponseCodeMax = 100;
 export const reinviteUserResponseFirstNameMax = 255;
 export const reinviteUserResponseLastNameMax = 255;
 export const reinviteUserResponseFullNameMax = 255;
-export const reinviteUserResponseEmployeeIdMax = 255;
+export const reinviteUserResponseEmployeeIdMax = 30;
 
 
 export const reinviteUserResponse = zod.object({
@@ -330,12 +330,12 @@ export const reinviteUserResponse = zod.object({
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを一時停止
  */
-export const suspendUserResponseEmailMax = 255;
-export const suspendUserResponseCodeMax = 255;
+export const suspendUserResponseEmailMax = 254;
+export const suspendUserResponseCodeMax = 100;
 export const suspendUserResponseFirstNameMax = 255;
 export const suspendUserResponseLastNameMax = 255;
 export const suspendUserResponseFullNameMax = 255;
-export const suspendUserResponseEmployeeIdMax = 255;
+export const suspendUserResponseEmployeeIdMax = 30;
 
 
 export const suspendUserResponse = zod.object({
@@ -364,12 +364,12 @@ export const suspendUserResponse = zod.object({
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを再有効化
  */
-export const reactivateUserResponseEmailMax = 255;
-export const reactivateUserResponseCodeMax = 255;
+export const reactivateUserResponseEmailMax = 254;
+export const reactivateUserResponseCodeMax = 100;
 export const reactivateUserResponseFirstNameMax = 255;
 export const reactivateUserResponseLastNameMax = 255;
 export const reactivateUserResponseFullNameMax = 255;
-export const reactivateUserResponseEmployeeIdMax = 255;
+export const reactivateUserResponseEmployeeIdMax = 30;
 
 
 export const reactivateUserResponse = zod.object({
@@ -408,8 +408,9 @@ export const listUserTeamsQueryParams = zod.object({
   "submittable": zod.boolean().optional().describe('trueの場合、申請可能なチームのみ返す。デフォルトはfalse（すべてのチームを返す）')
 })
 
-export const listUserTeamsResponseNameMax = 255;
-export const listUserTeamsResponseCodeMax = 255;
+export const listUserTeamsResponseNameMax = 300;
+export const listUserTeamsResponseCodeMax = 100;
+export const listUserTeamsResponseNotesMax = 10000;
 export const listUserTeamsResponseUsersCountMin = 0;
 
 
@@ -418,7 +419,7 @@ export const listUserTeamsResponseItem = zod.object({
   "name": zod.string().max(listUserTeamsResponseNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
   "code": zod.string().max(listUserTeamsResponseCodeMax).describe('コード'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
+  "notes": zod.string().max(listUserTeamsResponseNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
   "usersCount": zod.number().min(listUserTeamsResponseUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.string().datetime({}).describe('作成日時'),
@@ -441,7 +442,7 @@ export const listUserRolesQueryParams = zod.object({
   "perPage": zod.number().min(1).max(listUserRolesQueryPerPageMax).default(listUserRolesQueryPerPageDefault).describe('1ページあたりの件数')
 })
 
-export const listUserRolesResponseNameMax = 255;
+export const listUserRolesResponseNameMax = 300;
 export const listUserRolesResponseUsersCountMin = 0;
 
 

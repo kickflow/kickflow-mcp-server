@@ -28,12 +28,12 @@ export const listAuditLogsQueryParams = zod.object({
   "userId": zod.string().uuid().optional().describe('ユーザーID')
 })
 
-export const listAuditLogsResponseUserEmailMax = 255;
-export const listAuditLogsResponseUserCodeMax = 255;
+export const listAuditLogsResponseUserEmailMax = 254;
+export const listAuditLogsResponseUserCodeMax = 100;
 export const listAuditLogsResponseUserFirstNameMax = 255;
 export const listAuditLogsResponseUserLastNameMax = 255;
 export const listAuditLogsResponseUserFullNameMax = 255;
-export const listAuditLogsResponseUserEmployeeIdMax = 255;
+export const listAuditLogsResponseUserEmployeeIdMax = 30;
 
 
 export const listAuditLogsResponseItem = zod.object({

@@ -30,7 +30,7 @@ export const listOrganizationChartsQueryParams = zod.object({
   "sortBy": zod.string().regex(listOrganizationChartsQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, name')
 })
 
-export const listOrganizationChartsResponseNameMax = 255;
+export const listOrganizationChartsResponseNameMax = 300;
 
 
 export const listOrganizationChartsResponseItem = zod.object({
@@ -60,7 +60,7 @@ export const createOrganizationChartBody = zod.object({
   "name": zod.string().describe('名前')
 }).describe('組織図を作成・更新するときのrequest body')
 
-export const createOrganizationChartResponseNameMax = 255;
+export const createOrganizationChartResponseNameMax = 300;
 
 
 export const createOrganizationChartResponse = zod.object({
@@ -85,7 +85,7 @@ export const createOrganizationChartResponse = zod.object({
 このAPIの実行には、チームの管理権限が必要です。
  * @summary 組織図を取得
  */
-export const getOrganizationChartResponseNameMax = 255;
+export const getOrganizationChartResponseNameMax = 300;
 
 
 export const getOrganizationChartResponse = zod.object({
@@ -114,7 +114,7 @@ export const updateOrganizationChartBody = zod.object({
   "name": zod.string().describe('名前')
 }).describe('組織図を作成・更新するときのrequest body')
 
-export const updateOrganizationChartResponseNameMax = 255;
+export const updateOrganizationChartResponseNameMax = 300;
 
 
 export const updateOrganizationChartResponse = zod.object({
@@ -139,7 +139,7 @@ export const updateOrganizationChartResponse = zod.object({
 このAPIの実行には、チームの管理権限が必要です。
  * @summary 現在の組織図を取得
  */
-export const getCurrentOrganizationChartResponseNameMax = 255;
+export const getCurrentOrganizationChartResponseNameMax = 300;
 
 
 export const getCurrentOrganizationChartResponse = zod.object({
@@ -171,7 +171,7 @@ export const activateOrganizationChartBody = zod.object({
   "dueOn": zod.string().date().optional().describe('有効化する日付。nullの場合、即時で有効化します。')
 })
 
-export const activateOrganizationChartResponseNameMax = 255;
+export const activateOrganizationChartResponseNameMax = 300;
 
 
 export const activateOrganizationChartResponse = zod.object({

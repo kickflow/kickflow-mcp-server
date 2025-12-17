@@ -25,18 +25,18 @@ export const listCommentsQueryParams = zod.object({
   "sortBy": zod.string().regex(listCommentsQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt')
 })
 
-export const listCommentsResponseUserEmailMax = 255;
-export const listCommentsResponseUserCodeMax = 255;
+export const listCommentsResponseUserEmailMax = 254;
+export const listCommentsResponseUserCodeMax = 100;
 export const listCommentsResponseUserFirstNameMax = 255;
 export const listCommentsResponseUserLastNameMax = 255;
 export const listCommentsResponseUserFullNameMax = 255;
-export const listCommentsResponseUserEmployeeIdMax = 255;
-export const listCommentsResponseMentionedUsersItemEmailMax = 255;
-export const listCommentsResponseMentionedUsersItemCodeMax = 255;
+export const listCommentsResponseUserEmployeeIdMax = 30;
+export const listCommentsResponseMentionedUsersItemEmailMax = 254;
+export const listCommentsResponseMentionedUsersItemCodeMax = 100;
 export const listCommentsResponseMentionedUsersItemFirstNameMax = 255;
 export const listCommentsResponseMentionedUsersItemLastNameMax = 255;
 export const listCommentsResponseMentionedUsersItemFullNameMax = 255;
-export const listCommentsResponseMentionedUsersItemEmployeeIdMax = 255;
+export const listCommentsResponseMentionedUsersItemEmployeeIdMax = 30;
 
 
 export const listCommentsResponseItem = zod.object({
@@ -100,18 +100,18 @@ export const createCommentBody = zod.object({
   "files": zod.array(zod.string()).nullish().describe('添付ファイルの署名済みID')
 })
 
-export const createCommentResponseUserEmailMax = 255;
-export const createCommentResponseUserCodeMax = 255;
+export const createCommentResponseUserEmailMax = 254;
+export const createCommentResponseUserCodeMax = 100;
 export const createCommentResponseUserFirstNameMax = 255;
 export const createCommentResponseUserLastNameMax = 255;
 export const createCommentResponseUserFullNameMax = 255;
-export const createCommentResponseUserEmployeeIdMax = 255;
-export const createCommentResponseMentionedUsersItemEmailMax = 255;
-export const createCommentResponseMentionedUsersItemCodeMax = 255;
+export const createCommentResponseUserEmployeeIdMax = 30;
+export const createCommentResponseMentionedUsersItemEmailMax = 254;
+export const createCommentResponseMentionedUsersItemCodeMax = 100;
 export const createCommentResponseMentionedUsersItemFirstNameMax = 255;
 export const createCommentResponseMentionedUsersItemLastNameMax = 255;
 export const createCommentResponseMentionedUsersItemFullNameMax = 255;
-export const createCommentResponseMentionedUsersItemEmployeeIdMax = 255;
+export const createCommentResponseMentionedUsersItemEmployeeIdMax = 30;
 
 
 export const createCommentResponse = zod.object({
@@ -169,18 +169,18 @@ export const createCommentResponse = zod.object({
  * チケットのコメントを取得します。
  * @summary コメントを取得
  */
-export const getCommentResponseUserEmailMax = 255;
-export const getCommentResponseUserCodeMax = 255;
+export const getCommentResponseUserEmailMax = 254;
+export const getCommentResponseUserCodeMax = 100;
 export const getCommentResponseUserFirstNameMax = 255;
 export const getCommentResponseUserLastNameMax = 255;
 export const getCommentResponseUserFullNameMax = 255;
-export const getCommentResponseUserEmployeeIdMax = 255;
-export const getCommentResponseMentionedUsersItemEmailMax = 255;
-export const getCommentResponseMentionedUsersItemCodeMax = 255;
+export const getCommentResponseUserEmployeeIdMax = 30;
+export const getCommentResponseMentionedUsersItemEmailMax = 254;
+export const getCommentResponseMentionedUsersItemCodeMax = 100;
 export const getCommentResponseMentionedUsersItemFirstNameMax = 255;
 export const getCommentResponseMentionedUsersItemLastNameMax = 255;
 export const getCommentResponseMentionedUsersItemFullNameMax = 255;
-export const getCommentResponseMentionedUsersItemEmployeeIdMax = 255;
+export const getCommentResponseMentionedUsersItemEmployeeIdMax = 30;
 
 
 export const getCommentResponse = zod.object({
@@ -242,18 +242,18 @@ export const updateCommentBody = zod.object({
   "body": zod.string().describe('本文')
 })
 
-export const updateCommentResponseUserEmailMax = 255;
-export const updateCommentResponseUserCodeMax = 255;
+export const updateCommentResponseUserEmailMax = 254;
+export const updateCommentResponseUserCodeMax = 100;
 export const updateCommentResponseUserFirstNameMax = 255;
 export const updateCommentResponseUserLastNameMax = 255;
 export const updateCommentResponseUserFullNameMax = 255;
-export const updateCommentResponseUserEmployeeIdMax = 255;
-export const updateCommentResponseMentionedUsersItemEmailMax = 255;
-export const updateCommentResponseMentionedUsersItemCodeMax = 255;
+export const updateCommentResponseUserEmployeeIdMax = 30;
+export const updateCommentResponseMentionedUsersItemEmailMax = 254;
+export const updateCommentResponseMentionedUsersItemCodeMax = 100;
 export const updateCommentResponseMentionedUsersItemFirstNameMax = 255;
 export const updateCommentResponseMentionedUsersItemLastNameMax = 255;
 export const updateCommentResponseMentionedUsersItemFullNameMax = 255;
-export const updateCommentResponseMentionedUsersItemEmployeeIdMax = 255;
+export const updateCommentResponseMentionedUsersItemEmployeeIdMax = 30;
 
 
 export const updateCommentResponse = zod.object({

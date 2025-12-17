@@ -17,7 +17,7 @@ export interface ErrorResponse {
 
 /**
  * コード
- * @maxLength 255
+ * @maxLength 100
  */
 export type GradeCode = string | null
 
@@ -29,7 +29,7 @@ export interface Grade {
   id: string
   /**
    * 名前
-   * @maxLength 255
+   * @maxLength 300
    */
   name: string
   /**
@@ -40,7 +40,7 @@ export interface Grade {
   level: number
   /**
    * コード
-   * @maxLength 255
+   * @maxLength 100
    */
   code: GradeCode
   /** デフォルトの役職かどうか */
@@ -57,7 +57,7 @@ export interface Grade {
 export interface GradeCreateBody {
   /**
    * 名前
-   * @maxLength 255
+   * @maxLength 300
    */
   name: string
   /**
@@ -68,7 +68,7 @@ export interface GradeCreateBody {
   level: number
   /**
    * コード。未指定の場合、ランダムな英数字が自動的に設定されます。
-   * @maxLength 255
+   * @maxLength 100
    */
   code?: string
 }
@@ -94,7 +94,7 @@ export interface GradeUpdateBody {
 
 /**
  * 社員番号
- * @maxLength 255
+ * @maxLength 30
  */
 export type UserEmployeeId = string | null
 
@@ -139,12 +139,12 @@ export interface User {
   id: string
   /**
    * メールアドレス
-   * @maxLength 255
+   * @maxLength 254
    */
   email: string
   /**
    * コード
-   * @maxLength 255
+   * @maxLength 100
    */
   code: string
   /**
@@ -164,7 +164,7 @@ export interface User {
   fullName: string
   /**
    * 社員番号
-   * @maxLength 255
+   * @maxLength 30
    */
   employeeId?: UserEmployeeId
   /** ユーザー画像のURL。サイズごとに複数のURLを返します。 */
@@ -248,6 +248,7 @@ export interface ProxyApprover {
 
 /**
  * 管理用メモ
+ * @maxLength 10000
  */
 export type TeamNotes = string | null
 
@@ -259,17 +260,20 @@ export interface Team {
   id: string
   /**
    * 名前
-   * @maxLength 255
+   * @maxLength 300
    */
   name: string
   /** 上位組織を含む名前 */
   fullName: string
   /**
    * コード
-   * @maxLength 255
+   * @maxLength 100
    */
   code: string
-  /** 管理用メモ */
+  /**
+   * 管理用メモ
+   * @maxLength 10000
+   */
   notes?: TeamNotes
   /** 承認専用チームかどうか */
   approveOnly: boolean
@@ -370,7 +374,7 @@ export interface OrganizationChart {
   id: string
   /**
    * 名前
-   * @maxLength 255
+   * @maxLength 300
    */
   name: string
   /** 現在有効な組織図かどうか */
@@ -423,7 +427,7 @@ export interface Role {
   id: string
   /**
    * 名前
-   * @maxLength 255
+   * @maxLength 300
    */
   name: string
   /** 編集可能かどうか。「すべての管理者」のときだけfalseになります。 */
@@ -622,12 +626,12 @@ export interface Folder {
   id: string
   /**
    * 名前
-   * @maxLength 255
+   * @maxLength 300
    */
   name: string
   /**
    * コード
-   * @maxLength 255
+   * @maxLength 100
    */
   code: string
   /** 説明 */
@@ -678,12 +682,12 @@ export interface GeneralMaster {
   id: string
   /**
    * コード
-   * @maxLength 255
+   * @maxLength 100
    */
   code: string
   /**
    * 名前
-   * @maxLength 255
+   * @maxLength 300
    */
   name: string
   /** 説明 */
@@ -740,12 +744,12 @@ export interface GeneralMasterItem {
   id: string
   /**
    * コード
-   * @maxLength 255
+   * @maxLength 100
    */
   code: string
   /**
    * 名前
-   * @maxLength 255
+   * @maxLength 100
    */
   name: string
   /** 説明 */
@@ -797,14 +801,14 @@ export interface GeneralMasterField {
   id: string
   /**
    * フィールド名
-   * @maxLength 255
+   * @maxLength 300
    */
   title: string
   /** フィールドの説明 */
   description: GeneralMasterFieldDescription
   /**
    * フィールドのコード
-   * @maxLength 255
+   * @maxLength 100
    */
   code: string
   /** フィールドの型 */
@@ -993,7 +997,7 @@ export type SectionListItemTitle = string | null
 export type SectionListItemDescription = string | null
 
 /**
- * 条件の組み合わせタイプ。all=すべて、any=いずれか。明細セクションには含まれません。
+ * 条件の組み合わせタイプ。all=すべて、any=いずれか、custom=高度な条件式。明細セクションには含まれません。
  */
 export type SectionListItemCombinationType =
   (typeof SectionListItemCombinationType)[keyof typeof SectionListItemCombinationType]
@@ -1002,7 +1006,13 @@ export type SectionListItemCombinationType =
 export const SectionListItemCombinationType = {
   all: 'all',
   any: 'any',
+  custom: 'custom',
 } as const
+
+/**
+ * 高度な条件式
+ */
+export type SectionListItemCombinationExpression = string | null
 
 /**
  * 明細セクションまたはフォームセクション
@@ -1019,13 +1029,10 @@ export interface SectionListItem {
   formFields?: FormFieldDetail[]
   /** 表示条件があるかどうか。明細セクションには含まれません。 */
   conditional?: boolean
-  /**
-   * 非推奨。今後はcombinationTypeを使用してください。
-   * @deprecated
-   */
-  conditionAllOf?: boolean
-  /** 条件の組み合わせタイプ。all=すべて、any=いずれか。明細セクションには含まれません。 */
+  /** 条件の組み合わせタイプ。all=すべて、any=いずれか、custom=高度な条件式。明細セクションには含まれません。 */
   combinationType?: SectionListItemCombinationType
+  /** 高度な条件式 */
+  combinationExpression?: SectionListItemCombinationExpression
   /** 明細フィールド。フォームセクションには含まれません。 */
   slipFields?: SlipFieldDetail[]
 }
@@ -1155,7 +1162,7 @@ export interface FormField {
   id: string
   /**
    * 説明
-   * @maxLength 255
+   * @maxLength 300
    */
   title: string
   /** 説明 */
@@ -1172,7 +1179,7 @@ export interface FormField {
   options: FormFieldOptions
   /**
    * コード
-   * @maxLength 255
+   * @maxLength 100
    */
   code: string
   /** フォームサイズ。fullの場合全幅、halfの場合1/2になります。 */
@@ -3881,7 +3888,7 @@ export const ListUsersStatusItem = {
 
 /**
  * 社員番号
- * @maxLength 255
+ * @maxLength 30
  */
 export type CreateUserBodyEmployeeId = string | null
 
@@ -3890,7 +3897,7 @@ export type CreateUserBody = {
   email: string
   /**
    * コード。未指定の場合、ランダムな英数字が自動的に設定されます。
-   * @maxLength 255
+   * @maxLength 100
    */
   code: string
   /**
@@ -3907,26 +3914,26 @@ export type CreateUserBody = {
   sendEmail?: boolean
   /**
    * 社員番号
-   * @maxLength 255
+   * @maxLength 30
    */
   employeeId?: CreateUserBodyEmployeeId
 }
 
 /**
  * 社員番号
- * @maxLength 255
+ * @maxLength 30
  */
 export type UpdateUserBodyEmployeeId = string | null
 
 export type UpdateUserBody = {
   /**
    * メールアドレス
-   * @maxLength 255
+   * @maxLength 254
    */
   email?: string
   /**
    * コード
-   * @maxLength 255
+   * @maxLength 100
    */
   code?: string
   /**
@@ -3941,7 +3948,7 @@ export type UpdateUserBody = {
   lastName?: string
   /**
    * 社員番号
-   * @maxLength 255
+   * @maxLength 30
    */
   employeeId?: UpdateUserBodyEmployeeId
 }
