@@ -19,10 +19,13 @@
     "build": "tsc && chmod 755 dist/index.js",
     "dev": "node --loader ts-node/esm src/index.ts",
     "start": "node dist/index.js",
-    "test": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:inspector": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "typecheck": "tsc --noEmit",
     "update-schema": "curl -s https://developer.kickflow.com/rest/schema.yaml -o schema.yaml",
     "generate-api": "rm -rf ./src/kickflow-api/generated && orval --config orval.config.ts",
-    "lint": "eslint --ext .ts,.mts,.cts src/ --fix",
+    "lint": "eslint . --ext .ts,.mts,.cts --fix",
     "format": "prettier --write \"**/*.{ts,mts,cts,js,mjs,cjs,json,md}\""
   },
   "keywords": [
@@ -45,14 +48,16 @@
   "devDependencies": {
     "@eslint/js": "9.27.0",
     "@types/node": "22.15.17",
+    "@vitest/eslint-plugin": "1.5.2",
     "eslint": "9.27.0",
     "eslint-config-prettier": "10.1.5",
     "eslint-plugin-prettier": "5.4.0",
-    "globals": "^16.0.0",
+    "globals": "16.0.0",
     "orval": "7.9.0",
     "prettier": "3.5.3",
     "ts-node": "10.9.2",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.33.0"
+    "typescript-eslint": "8.33.0",
+    "vitest": "4.0.15"
   }
 }
