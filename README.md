@@ -228,6 +228,29 @@ npm run dev
 
 _(開発時も `KICKFLOW_ACCESS_TOKEN` 環境変数の設定が必要です)_
 
+#### テストの実行
+
+```bash
+# ユニットテストを実行
+npm run test
+
+# ウォッチモードでテストを実行（ファイル変更時に自動再実行）
+npm run test:watch
+
+# MCP Inspector でサーバーをデバッグ
+npm run test:inspector
+```
+
+#### Lint と型チェック
+
+```bash
+# ESLint によるコードチェック
+npm run lint
+
+# TypeScript の型チェック
+npm run typecheck
+```
+
 #### OpenAPI型定義の更新
 
 kickflow APIのスキーマから TypeScript の型定義を更新するには:
