@@ -5418,7 +5418,7 @@ components:
       properties:
         name:
           type: string
-          maxLength: 30
+          maxLength: 300
           description: 名前
         level:
           type: integer
@@ -5427,6 +5427,7 @@ components:
           description: レベル
         code:
           type: string
+          maxLength: 100
           description: コード。未指定の場合、ランダムな英数字が自動的に設定されます。
     User:
       title: User
