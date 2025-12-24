@@ -4,9 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'New version number (e.g., 1.0.0)'
+        description: 'Version bump type'
         required: true
-        type: string
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   update-version:
@@ -26,38 +30,23 @@ jobs:
       - name: Fetch all tags
         run: git fetch --tags
 
-      - name: Validate version
+      - name: Update package.json version
+        id: version
         run: |
-          VERSION="${{ github.event.inputs.version }}"
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $CURRENT_VERSION"
+          npm version ${{ github.event.inputs.version }} --no-git-tag-version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "New version: $NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
-          # Check format
-          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Error: Invalid version format. Expected format: X.Y.Z"
-            exit 1
-          fi
-
-          # Check if tag already exists
+      - name: Check if tag already exists
+        run: |
+          VERSION="${{ steps.version.outputs.new_version }}"
           if git tag -l "v$VERSION" | grep -q "v$VERSION"; then
             echo "Error: Tag v$VERSION already exists"
             exit 1
           fi
-
-          # Check if version is newer than current
-          CURRENT_VERSION=$(node -p "require('./package.json').version")
-          echo "Current version: $CURRENT_VERSION"
-          echo "New version: $VERSION"
-
-          # Compare versions using sort -V
-          HIGHER_VERSION=$(echo -e "$CURRENT_VERSION\n$VERSION" | sort -V | tail -n 1)
-          if [[ "$HIGHER_VERSION" == "$CURRENT_VERSION" ]]; then
-            echo "Error: New version ($VERSION) must be higher than current version ($CURRENT_VERSION)"
-            exit 1
-          fi
-
-          echo "Version validation passed"
-
-      - name: Update package.json version
-        run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
 
       - name: Check for changes
         id: changes
@@ -74,7 +63,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add package.json package-lock.json
-          git commit -m "chore: bump version to ${{ github.event.inputs.version }}"
+          git commit -m "chore: bump version to ${{ steps.version.outputs.new_version }}"
           git push origin main
 
       - name: Create Draft Release
@@ -82,7 +71,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "v${{ github.event.inputs.version }}" \
-            --title "v${{ github.event.inputs.version }}" \
+          gh release create "v${{ steps.version.outputs.new_version }}" \
+            --title "v${{ steps.version.outputs.new_version }}" \
             --draft \
             --generate-notes
