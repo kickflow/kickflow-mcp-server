@@ -25,11 +25,31 @@ export const specialHandlers: Record<string, SpecialHandler> = {
     }),
     handler: async (api, params) => {
       const filePath = params.filePath as string
-      const filename = path.basename(filePath)
+      const resolvedPath = path.resolve(filePath)
+
+      if (!fs.existsSync(resolvedPath)) {
+        throw new Error(`File not found: ${resolvedPath}`)
+      }
+
+      const allowedBaseDir = process.cwd()
+      if (!resolvedPath.startsWith(allowedBaseDir + path.sep)) {
+        throw new Error(
+          `Access denied: file path must be within ${allowedBaseDir}`,
+        )
+      }
+
+      const realPath = fs.realpathSync(resolvedPath)
+      if (!realPath.startsWith(allowedBaseDir + path.sep)) {
+        throw new Error(
+          `Access denied: symbolic link points outside allowed directory`,
+        )
+      }
+
+      const filename = path.basename(resolvedPath)
       const contentType =
         (params.contentType as string) || 'application/octet-stream'
 
-      const binaryData = fs.readFileSync(filePath)
+      const binaryData = fs.readFileSync(resolvedPath)
       const blob = new Blob([binaryData], { type: contentType })
       const file = new File([blob], filename, { type: contentType })
 
