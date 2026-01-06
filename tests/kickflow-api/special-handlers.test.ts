@@ -74,10 +74,13 @@ describe('special-handlers', () => {
     })
 
     it('成功時はAPI結果を返す', async () => {
-      const testFilePath = `${process.cwd()}/test.pdf`
+      const cwd = process.cwd()
+      const testFilePath = `${cwd}/test.pdf`
       const mockFileContent = Buffer.from('file content')
       vi.mocked(fs.existsSync).mockReturnValue(true)
-      vi.mocked(fs.realpathSync).mockReturnValue(testFilePath)
+      vi.mocked(fs.realpathSync).mockImplementation((p) =>
+        p === cwd ? cwd : testFilePath,
+      )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
       mockUploadFile.mockResolvedValue({ signedId: 'abc123' })
 
@@ -96,10 +99,13 @@ describe('special-handlers', () => {
     })
 
     it('contentTypeを指定した場合はそれが使用される', async () => {
-      const testFilePath = `${process.cwd()}/test.pdf`
+      const cwd = process.cwd()
+      const testFilePath = `${cwd}/test.pdf`
       const mockFileContent = Buffer.from('file content')
       vi.mocked(fs.existsSync).mockReturnValue(true)
-      vi.mocked(fs.realpathSync).mockReturnValue(testFilePath)
+      vi.mocked(fs.realpathSync).mockImplementation((p) =>
+        p === cwd ? cwd : testFilePath,
+      )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
       mockUploadFile.mockResolvedValue({ signedId: 'abc123' })
 
@@ -113,10 +119,13 @@ describe('special-handlers', () => {
     })
 
     it('contentType未指定時はapplication/octet-streamが使用される', async () => {
-      const testFilePath = `${process.cwd()}/test.bin`
+      const cwd = process.cwd()
+      const testFilePath = `${cwd}/test.bin`
       const mockFileContent = Buffer.from('file content')
       vi.mocked(fs.existsSync).mockReturnValue(true)
-      vi.mocked(fs.realpathSync).mockReturnValue(testFilePath)
+      vi.mocked(fs.realpathSync).mockImplementation((p) =>
+        p === cwd ? cwd : testFilePath,
+      )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
       mockUploadFile.mockResolvedValue({ signedId: 'abc123' })
 
@@ -129,10 +138,13 @@ describe('special-handlers', () => {
     })
 
     it('AxiosError発生時はエラーメッセージを返す', async () => {
-      const testFilePath = `${process.cwd()}/large.pdf`
+      const cwd = process.cwd()
+      const testFilePath = `${cwd}/large.pdf`
       const mockFileContent = Buffer.from('file content')
       vi.mocked(fs.existsSync).mockReturnValue(true)
-      vi.mocked(fs.realpathSync).mockReturnValue(testFilePath)
+      vi.mocked(fs.realpathSync).mockImplementation((p) =>
+        p === cwd ? cwd : testFilePath,
+      )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
 
       const axiosError = new AxiosError('Request failed')
@@ -158,10 +170,13 @@ describe('special-handlers', () => {
     })
 
     it('AxiosErrorでresponse.data.messageがない場合はerror.messageを使用', async () => {
-      const testFilePath = `${process.cwd()}/file.pdf`
+      const cwd = process.cwd()
+      const testFilePath = `${cwd}/file.pdf`
       const mockFileContent = Buffer.from('file content')
       vi.mocked(fs.existsSync).mockReturnValue(true)
-      vi.mocked(fs.realpathSync).mockReturnValue(testFilePath)
+      vi.mocked(fs.realpathSync).mockImplementation((p) =>
+        p === cwd ? cwd : testFilePath,
+      )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
 
       const axiosError = new AxiosError('Network Error')
@@ -187,10 +202,13 @@ describe('special-handlers', () => {
     })
 
     it('通常のError発生時はエラーメッセージを返す', async () => {
-      const testFilePath = `${process.cwd()}/file.pdf`
+      const cwd = process.cwd()
+      const testFilePath = `${cwd}/file.pdf`
       const mockFileContent = Buffer.from('file content')
       vi.mocked(fs.existsSync).mockReturnValue(true)
-      vi.mocked(fs.realpathSync).mockReturnValue(testFilePath)
+      vi.mocked(fs.realpathSync).mockImplementation((p) =>
+        p === cwd ? cwd : testFilePath,
+      )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
 
       mockUploadFile.mockRejectedValue(new Error('Something went wrong'))
@@ -208,10 +226,13 @@ describe('special-handlers', () => {
     })
 
     it('未知のエラー発生時はデフォルトエラーメッセージを返す', async () => {
-      const testFilePath = `${process.cwd()}/file.pdf`
+      const cwd = process.cwd()
+      const testFilePath = `${cwd}/file.pdf`
       const mockFileContent = Buffer.from('file content')
       vi.mocked(fs.existsSync).mockReturnValue(true)
-      vi.mocked(fs.realpathSync).mockReturnValue(testFilePath)
+      vi.mocked(fs.realpathSync).mockImplementation((p) =>
+        p === cwd ? cwd : testFilePath,
+      )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
 
       mockUploadFile.mockRejectedValue('unknown error')
@@ -229,10 +250,13 @@ describe('special-handlers', () => {
     })
 
     it('ファイル名がパスから正しく抽出される', async () => {
-      const testFilePath = `${process.cwd()}/documents/report.pdf`
+      const cwd = process.cwd()
+      const testFilePath = `${cwd}/documents/report.pdf`
       const mockFileContent = Buffer.from('file content')
       vi.mocked(fs.existsSync).mockReturnValue(true)
-      vi.mocked(fs.realpathSync).mockReturnValue(testFilePath)
+      vi.mocked(fs.realpathSync).mockImplementation((p) =>
+        p === cwd ? cwd : testFilePath,
+      )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
       mockUploadFile.mockResolvedValue({ signedId: 'abc123' })
 

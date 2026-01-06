@@ -31,17 +31,11 @@ export const specialHandlers: Record<string, SpecialHandler> = {
         throw new Error(`File not found: ${resolvedPath}`)
       }
 
-      const allowedBaseDir = process.cwd()
-      if (!resolvedPath.startsWith(allowedBaseDir + path.sep)) {
-        throw new Error(
-          `Access denied: file path must be within ${allowedBaseDir}`,
-        )
-      }
-
+      const allowedBaseDir = fs.realpathSync(process.cwd())
       const realPath = fs.realpathSync(resolvedPath)
       if (!realPath.startsWith(allowedBaseDir + path.sep)) {
         throw new Error(
-          `Access denied: symbolic link points outside allowed directory`,
+          `Access denied: file path must be within ${allowedBaseDir}`,
         )
       }
 

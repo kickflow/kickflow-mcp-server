@@ -77,10 +77,13 @@ describe('call-api tool', () => {
     describe('スペシャルハンドラー', () => {
       describe('uploadFile', () => {
         it('スペシャルハンドラーで処理される', async () => {
-          const testFilePath = `${process.cwd()}/file.pdf`
+          const cwd = process.cwd()
+          const testFilePath = `${cwd}/file.pdf`
           const mockFileContent = Buffer.from('file content')
           vi.mocked(fs.existsSync).mockReturnValue(true)
-          vi.mocked(fs.realpathSync).mockReturnValue(testFilePath)
+          vi.mocked(fs.realpathSync).mockImplementation((p) =>
+            p === cwd ? cwd : testFilePath,
+          )
           vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
           mockApiMethod.mockResolvedValue({ signedId: 'abc123' })
 
