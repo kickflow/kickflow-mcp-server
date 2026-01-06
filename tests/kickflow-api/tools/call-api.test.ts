@@ -3,6 +3,8 @@ import { AxiosError, AxiosHeaders } from 'axios'
 
 vi.mock('fs', () => ({
   readFileSync: vi.fn(),
+  existsSync: vi.fn(),
+  realpathSync: vi.fn(),
 }))
 
 const mockApiMethod = vi.fn()
@@ -75,16 +77,19 @@ describe('call-api tool', () => {
     describe('スペシャルハンドラー', () => {
       describe('uploadFile', () => {
         it('スペシャルハンドラーで処理される', async () => {
+          const testFilePath = `${process.cwd()}/file.pdf`
           const mockFileContent = Buffer.from('file content')
+          vi.mocked(fs.existsSync).mockReturnValue(true)
+          vi.mocked(fs.realpathSync).mockReturnValue(testFilePath)
           vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
           mockApiMethod.mockResolvedValue({ signedId: 'abc123' })
 
           const result = await callApiTool.callback({
             operationId: 'uploadFile',
-            requestBody: { filePath: '/path/to/file.pdf' },
+            requestBody: { filePath: testFilePath },
           })
 
-          expect(fs.readFileSync).toHaveBeenCalledWith('/path/to/file.pdf')
+          expect(fs.readFileSync).toHaveBeenCalledWith(testFilePath)
           const text = (result.content[0] as { type: 'text'; text: string })
             .text
           expect(text).toContain('signedId')
@@ -102,19 +107,18 @@ describe('call-api tool', () => {
           expect(text).toContain('パラメータ検証エラー')
         })
 
-        it('ファイル読み込みエラーの場合はエラーを返す', async () => {
-          vi.mocked(fs.readFileSync).mockImplementation(() => {
-            throw new Error('ENOENT: no such file')
-          })
+        it('ファイルが存在しない場合はエラーを返す', async () => {
+          const testFilePath = `${process.cwd()}/invalid.pdf`
+          vi.mocked(fs.existsSync).mockReturnValue(false)
 
           const result = await callApiTool.callback({
             operationId: 'uploadFile',
-            requestBody: { filePath: '/invalid/path' },
+            requestBody: { filePath: testFilePath },
           })
 
           const text = (result.content[0] as { type: 'text'; text: string })
             .text
-          expect(text).toContain('ENOENT')
+          expect(text).toContain('File not found')
         })
       })
     })
