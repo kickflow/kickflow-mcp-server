@@ -110,16 +110,17 @@ export const getGradeResponse = zod.object({
 このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職を更新
  */
-export const updateGradeBodyNameMax = 30;
+export const updateGradeBodyNameMax = 300;
 export const updateGradeBodyLevelMin = 0;
 
 export const updateGradeBodyLevelMax = 255;
+export const updateGradeBodyCodeMax = 100;
 
 
 export const updateGradeBody = zod.object({
   "name": zod.string().max(updateGradeBodyNameMax).optional().describe('名前'),
   "level": zod.number().min(updateGradeBodyLevelMin).max(updateGradeBodyLevelMax).optional().describe('レベル'),
-  "code": zod.string().optional().describe('コード。未指定の場合、ランダムな英数字が自動的に設定されます。')
+  "code": zod.string().max(updateGradeBodyCodeMax).optional().describe('コード。未指定の場合、ランダムな英数字が自動的に設定されます。')
 }).describe('役職を更新するときのrequest body')
 
 export const updateGradeResponseNameMax = 300;

@@ -1,6 +1,6 @@
 {
   "name": "@kickflow/mcp-server",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "MCP Server for kickflow API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -59,7 +59,7 @@
     "prettier": "3.7.4",
     "ts-node": "10.9.2",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.33.0",
+    "typescript-eslint": "8.49.0",
     "vitest": "4.0.15",
     "yaml": "2.7.1"
   }

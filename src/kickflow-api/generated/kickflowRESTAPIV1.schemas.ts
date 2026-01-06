@@ -79,7 +79,7 @@ export interface GradeCreateBody {
 export interface GradeUpdateBody {
   /**
    * 名前
-   * @maxLength 30
+   * @maxLength 300
    */
   name?: string
   /**
@@ -88,7 +88,10 @@ export interface GradeUpdateBody {
    * @maximum 255
    */
   level?: number
-  /** コード。未指定の場合、ランダムな英数字が自動的に設定されます。 */
+  /**
+   * コード。未指定の場合、ランダムな英数字が自動的に設定されます。
+   * @maxLength 100
+   */
   code?: string
 }
 
