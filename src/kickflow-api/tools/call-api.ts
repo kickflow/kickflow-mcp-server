@@ -134,8 +134,8 @@ const callApiTool: RegisterTool = {
       }
     }
 
-    if (schemas.queryParams && queryParams) {
-      const result = schemas.queryParams.safeParse(queryParams)
+    if (schemas.queryParams) {
+      const result = schemas.queryParams.safeParse(queryParams ?? {})
       if (!result.success) {
         validationErrors.push(
           ...formatValidationErrors('queryParams', result.error),
@@ -147,8 +147,8 @@ const callApiTool: RegisterTool = {
       validatedQueryParams = queryParams
     }
 
-    if (schemas.requestBody && requestBody) {
-      const result = schemas.requestBody.safeParse(requestBody)
+    if (schemas.requestBody) {
+      const result = schemas.requestBody.safeParse(requestBody ?? {})
       if (!result.success) {
         validationErrors.push(
           ...formatValidationErrors('requestBody', result.error),
