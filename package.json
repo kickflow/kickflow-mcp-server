@@ -40,6 +40,9 @@
     "access": "public"
   },
   "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.25.2",
     "axios": "1.12.0",

@@ -8,7 +8,7 @@
 
 ### 必要条件
 
-- Node.js 22以上
+- Node.js v22.18.0以上
 - kickflow アクセストークン
   - [アクセストークンの取得方法](https://support.kickflow.com/hc/ja/articles/360047613534)
 
