@@ -9,7 +9,6 @@
     {
       "matchDatasources": ["npm"],
       "minimumReleaseAge": "7 days",
-      "prCreation": "not-pending",
       "internalChecksFilter": "strict"
     }
   ]

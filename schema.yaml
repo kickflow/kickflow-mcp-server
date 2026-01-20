@@ -7159,6 +7159,18 @@ components:
         symbol:
           type: string
           description: 演算子
+          enum:
+            - equal
+            - not_equal
+            - greater_than
+            - greater_than_or_equal
+            - less_than
+            - less_than_or_equal
+            - include
+            - exclude
+            - is_empty
+            - is_not_empty
+            - descendants_or_equal
         value:
           type:
             - string
@@ -7353,6 +7365,8 @@ components:
                 - direct_manager
                 - higher_manager
                 - skip
+                - no_fallback
+                - higher_team
             - type: 'null'
         allowSelfApproval:
           type: boolean
@@ -7412,6 +7426,13 @@ components:
         gradeSymbol:
           type: string
           description: 役職の比較条件。役職が指定されているときのみ値が入ります。
+          enum:
+            - equal
+            - greater_than
+            - greater_than_or_equal
+            - less_than
+            - less_than_or_equal
+            - any_of
         grades:
           type: array
           description: 承認者の指定に使う役職の配列
@@ -7472,6 +7493,19 @@ components:
         symbol:
           type: string
           description: 演算子
+          enum:
+            - equal
+            - not_equal
+            - greater_than
+            - greater_than_or_equal
+            - less_than
+            - less_than_or_equal
+            - include
+            - exclude
+            - is_empty
+            - is_not_empty
+            - descendants_or_equal
+            - not_descendants_or_equal
         value:
           type: string
           description: しきい値
@@ -7518,6 +7552,7 @@ components:
             - rejected
             - archived
             - denied
+            - permanently_deleted
         subStatus:
           description: サブステータス。処理中のみ値が入ります。
           anyOf:
@@ -7850,6 +7885,8 @@ components:
                 - direct_manager
                 - higher_manager
                 - skip
+                - no_fallback
+                - higher_team
             - type: 'null'
         author:
           description: 承認ステップの作成者。カスタムステップの場合のみ、値が入ります。
@@ -8241,6 +8278,9 @@ components:
             - string
             - 'null'
           description: システムによる操作種別
+          enum:
+            - automation
+            - null
         createdAt:
           type: string
           format: date-time

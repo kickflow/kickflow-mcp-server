@@ -1,6 +1,6 @@
 {
   "name": "@kickflow/mcp-server",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "MCP Server for kickflow API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -58,7 +58,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.4",
     "globals": "16.0.0",
-    "orval": "7.17.2",
+    "orval": "7.18.0",
     "prettier": "3.7.4",
     "ts-node": "10.9.2",
     "typescript": "5.9.3",
