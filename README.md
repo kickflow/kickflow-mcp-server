@@ -70,7 +70,7 @@ Kickflow APIを実行します。`operationId`、`pathParams`、`queryParams`、
 #### 1. discover_apis でAPIの一覧を確認
 
 結果例:
-```
+```text
 listCategories: カテゴリの一覧を取得
 createCategory: カテゴリを作成
 getTicket: チケットを取得
