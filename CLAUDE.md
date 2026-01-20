@@ -10,56 +10,54 @@
 
 - 余計なコメントは書かないでください。
 
-### APIクライアントの使い方
+### アーキテクチャ
 
-- src/kickflow-api/generated 以下に、Orvalで生成したAPIクライアントのコードがあります。
-- APIが存在するかどうかは、src/kickflow-api/generated/kickflowRESTAPIV1.tsを見てください。
-- src/kickflow-api/generated/[タグ] 以下には、リクエストボディやクエリパラメータの検証用のzodスキーマが定義されています。すべてのAPIについてzodスキーマが存在するわけではなので、APIの存在確認には使用しないでください。
+このMCPサーバーは、3つの汎用ツール（`discover_apis`、`get_api_info`、`call_api`）を提供し、kickflow APIの全機能に動的にアクセスできるようになっています。
 
-### ツールの実装
+#### 主要ファイル
 
-- ツールはすべて以下のような書き方で統一して実装してください。
+- `src/kickflow-api/tools/discover-apis.ts` - API一覧を返すツール
+- `src/kickflow-api/tools/get-api-info.ts` - API仕様をJSON Schemaで返すツール
+- `src/kickflow-api/tools/call-api.ts` - APIを動的に実行するツール
 
-```ts
-import { Tool } from '../../../types.js'
-import { listCategoriesQueryParams } from '../../generated/category/category.zod.js'
-import { createApiToolCallback } from '../../tool-utils.js'
+#### 自動生成ファイル（編集禁止）
 
-const listCategoriesTool: Tool = {
-  name: 'list_categories',
-  description: 'カテゴリの一覧を取得します',
-  paramsSchema: listCategoriesQueryParams.shape,
-  cb: createApiToolCallback(listCategoriesQueryParams, (api, validatedArgs) =>
-    api.listCategories(validatedArgs),
-  ),
-}
-export default listCategoriesTool
-```
+- `src/kickflow-api/generated/api-definitions.ts` - OpenAPIスキーマから生成されたAPI定義（operationId、summary、pathParams）
+- `src/kickflow-api/generated/zod-schemas.ts` - 全カテゴリのZodスキーマを集約したインデックス
+- `src/kickflow-api/generated/kickflowRESTAPIV1.ts` - Orvalで生成したAPIクライアント
+- `src/kickflow-api/generated/[カテゴリ]/` - カテゴリ別のZodスキーマ
 
-- パスパラメータはzodに定義がないので、以下のように自分で定義してください。
+#### ユーティリティ
+
+- `src/kickflow-api/schema-registry.ts` - operationIdからZodスキーマを動的に検索
+- `src/kickflow-api/special-handlers.ts` - 特殊なAPI（ファイルアップロードなど）のハンドラ
+
+### 特殊ハンドラの追加
+
+ファイルアップロードなど、標準的なAPI呼び出しでは対応できないAPIは、`special-handlers.ts`にハンドラを追加します。
 
 ```ts
-import { z } from 'zod'
-import { Tool } from '../../../types.js'
-import { updateCategoryBody } from '../../generated/category/category.zod.js'
-import { createApiToolCallback } from '../../tool-utils.js'
-
-const paramsSchema = z.object({
-  categoryId: z.string().uuid().describe('更新するカテゴリのID'),
-  ...updateCategoryBody.shape,
-})
-
-const updateCategoryTool: Tool = {
-  name: 'update_category',
-  description: '指定されたIDのカテゴリを更新します',
-  paramsSchema: paramsSchema.shape,
-  cb: createApiToolCallback(paramsSchema, (api, validatedArgs) => {
-    const { categoryId, ...updateData } = validatedArgs
-    return api.updateCategory(categoryId, updateData)
-  }),
+export const specialHandlers: Record<string, SpecialHandler> = {
+  uploadFile: {
+    schema: z.object({
+      filePath: z.string().describe('アップロードするファイルのローカルパス'),
+    }),
+    handler: async (api, params) => {
+      // 特殊な処理を実装
+    },
+  },
 }
-export default updateCategoryTool
 ```
+
+### APIクライアントの更新
+
+```bash
+# スキーマを最新化してAPIクライアントを再生成
+npm run update-schema
+npm run generate-api
+```
+
+`generate-api`実行時に`scripts/orval-hook.js`が自動的に`api-definitions.ts`と`zod-schemas.ts`を生成します。
 
 ## Git操作
 
