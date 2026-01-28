@@ -14,6 +14,7 @@ export default defineConfig({
       client: 'axios',
       prettier: true,
       override: {
+        header: false,
         mutator: {
           path: 'src/kickflow-api/custom-axios-instance.ts',
           name: 'customAxiosInstance',
@@ -32,6 +33,9 @@ export default defineConfig({
       prettier: true,
       target: OUTPUT_DIR,
       fileExtension: '.zod.ts',
+      override: {
+        header: false,
+      },
     },
     hooks: {
       afterAllFilesWrite: 'node scripts/orval-hook.js && npm run format',
