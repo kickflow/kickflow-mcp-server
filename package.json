@@ -62,7 +62,7 @@
     "ts-node": "10.9.2",
     "typescript": "5.9.3",
     "typescript-eslint": "8.53.1",
-    "vitest": "4.0.17",
+    "vitest": "4.0.18",
     "yaml": "2.8.2"
   }
 }
