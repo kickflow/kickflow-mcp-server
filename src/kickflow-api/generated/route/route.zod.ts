@@ -283,7 +283,7 @@ export const getRouteResponse = zod.object({
   "stepOrder": zod.number().describe('ステップ順序（1から始まります）'),
   "stepType": zod.enum(['author', 'manager', 'team', 'user', 'author_customizable', 'assignee_customizable', 'dynamic_team', 'dynamic_user']).describe('ステップのタイプ'),
   "title": zod.string().describe('タイトル'),
-  "actionType": zod.enum(['approve', 'confirm', 'none']).describe('アクションタイプ。承認/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。'),
+  "actionType": zod.enum(['approve', 'confirm', 'none']).describe('アクションタイプ。承認\/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。'),
   "instruction": zod.string().nullable().describe('承認者への指示'),
   "requiredApprovalsNumber": zod.number().describe('必要な承認人数'),
   "requiredApprovalsPercent": zod.number().describe('必要な承認割合（%）'),
