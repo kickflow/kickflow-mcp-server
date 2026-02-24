@@ -882,7 +882,7 @@ paths:
                           - type: array
                             items:
                               type: string
-                        description: 入力値。カスタムフィールドがcheckboxまたはpull_downの場合は文字列の配列、それ以外は文字列。
+                        description: 入力値。カスタムフィールドがcheckboxの場合は文字列の配列、それ以外は文字列。
                     required:
                       - code
                       - value
@@ -1008,7 +1008,7 @@ paths:
                           - type: array
                             items:
                               type: string
-                        description: 入力値。カスタムフィールドがcheckboxまたはpull_downの場合文字列の配列、それ以外の場合文字列。
+                        description: 入力値。カスタムフィールドがcheckboxの場合文字列の配列、それ以外の場合文字列。
                     required:
                       - code
                       - value
