@@ -44,7 +44,7 @@
     "node": ">=22.18.0"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.26.0",
+    "@modelcontextprotocol/sdk": "1.27.0",
     "axios": "1.13.5",
     "zod": "4.3.6"
   },
