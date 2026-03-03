@@ -2907,7 +2907,7 @@ export type CreateGeneralMasterItemBodyEndsOn = string | null
 export type CreateGeneralMasterItemBodyInputsItemValueOneOf = string | null
 
 /**
- * 入力値。カスタムフィールドがcheckboxまたはpull_downの場合は文字列の配列、それ以外は文字列。
+ * 入力値。カスタムフィールドがcheckboxの場合は文字列の配列、それ以外は文字列。
  */
 export type CreateGeneralMasterItemBodyInputsItemValue =
   | CreateGeneralMasterItemBodyInputsItemValueOneOf
@@ -2916,7 +2916,7 @@ export type CreateGeneralMasterItemBodyInputsItemValue =
 export type CreateGeneralMasterItemBodyInputsItem = {
   /** フィールドのコード */
   code: string
-  /** 入力値。カスタムフィールドがcheckboxまたはpull_downの場合は文字列の配列、それ以外は文字列。 */
+  /** 入力値。カスタムフィールドがcheckboxの場合は文字列の配列、それ以外は文字列。 */
   value: CreateGeneralMasterItemBodyInputsItemValue
 }
 
@@ -2948,7 +2948,7 @@ export type UpdateGeneralMasterItemBodyEndsOn = string | null
 export type UpdateGeneralMasterItemBodyInputsItemValueOneOf = string | null
 
 /**
- * 入力値。カスタムフィールドがcheckboxまたはpull_downの場合文字列の配列、それ以外の場合文字列。
+ * 入力値。カスタムフィールドがcheckboxの場合文字列の配列、それ以外の場合文字列。
  */
 export type UpdateGeneralMasterItemBodyInputsItemValue =
   | UpdateGeneralMasterItemBodyInputsItemValueOneOf
@@ -2957,7 +2957,7 @@ export type UpdateGeneralMasterItemBodyInputsItemValue =
 export type UpdateGeneralMasterItemBodyInputsItem = {
   /** フィールドのコード */
   code: string
-  /** 入力値。カスタムフィールドがcheckboxまたはpull_downの場合文字列の配列、それ以外の場合文字列。 */
+  /** 入力値。カスタムフィールドがcheckboxの場合文字列の配列、それ以外の場合文字列。 */
   value: UpdateGeneralMasterItemBodyInputsItemValue
 }
 

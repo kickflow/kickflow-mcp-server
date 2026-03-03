@@ -307,7 +307,7 @@ export const createGeneralMasterItemBody = zod.object({
   "endsOn": zod.iso.date().nullish().describe('有効期限の終了日'),
   "inputs": zod.array(zod.object({
   "code": zod.string().describe('フィールドのコード'),
-  "value": zod.union([zod.string().nullable(),zod.array(zod.string())]).describe('入力値。カスタムフィールドがcheckboxまたはpull_downの場合は文字列の配列、それ以外は文字列。')
+  "value": zod.union([zod.string().nullable(),zod.array(zod.string())]).describe('入力値。カスタムフィールドがcheckboxの場合は文字列の配列、それ以外は文字列。')
 })).describe('カスタムフィールドの入力。必須ではないカスタムフィールドを含む、すべてのカスタムフィールドに対して入力する必要があります。')
 })
 
@@ -423,7 +423,7 @@ export const updateGeneralMasterItemBody = zod.object({
   "endsOn": zod.iso.date().nullish().describe('有効期限の終了日'),
   "inputs": zod.array(zod.object({
   "code": zod.string().describe('フィールドのコード'),
-  "value": zod.union([zod.string().nullable(),zod.array(zod.string())]).describe('入力値。カスタムフィールドがcheckboxまたはpull_downの場合文字列の配列、それ以外の場合文字列。')
+  "value": zod.union([zod.string().nullable(),zod.array(zod.string())]).describe('入力値。カスタムフィールドがcheckboxの場合文字列の配列、それ以外の場合文字列。')
 })).optional().describe('カスタムフィールドの入力。必須ではないカスタムフィールドを含む、すべてのカスタムフィールドに対して入力する必要があります。')
 })
 
