@@ -634,7 +634,7 @@ export const getWorkflowResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(getWorkflowResponseSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -659,7 +659,7 @@ export const getWorkflowResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),

@@ -1348,8 +1348,8 @@ export interface ClimberCloudSetting {
   /** UUID */
   id: string
   /** ファイル付きリストID */
-  contentsId?: string
-  formField?: FormField
+  contentsId: string
+  formField: FormField
   /** ClimberCloudのカラムとのマッピング設定 */
   mappings: ClimberCloudSettingMappingsItem[]
 }
@@ -1815,17 +1815,18 @@ export interface RouteStep {
  * 役職の比較条件。役職が指定されているときのみ値が入ります。
  */
 export type RouteStepTargetGradeSymbol =
-  (typeof RouteStepTargetGradeSymbol)[keyof typeof RouteStepTargetGradeSymbol]
+  | 'equal'
+  | 'greater_than'
+  | 'greater_than_or_equal'
+  | 'less_than'
+  | 'less_than_or_equal'
+  | 'any_of'
+  | null
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RouteStepTargetGradeSymbol = {
-  equal: 'equal',
-  greater_than: 'greater_than',
-  greater_than_or_equal: 'greater_than_or_equal',
-  less_than: 'less_than',
-  less_than_or_equal: 'less_than_or_equal',
-  any_of: 'any_of',
-} as const
+/**
+ * 承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。
+ */
+export type RouteStepTargetVariable = string | null
 
 export interface RouteStepTarget {
   team?: Team
@@ -1836,7 +1837,7 @@ export interface RouteStepTarget {
   /** 承認者の指定に使う役職の配列 */
   grades?: Grade[]
   /** 承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。 */
-  variable?: string
+  variable?: RouteStepTargetVariable
 }
 
 /**
@@ -1864,10 +1865,6 @@ export const RouteStepConditionCombinationType = {
   any: 'any',
 } as const
 
-export type RouteStepConditionRouteStepConditionFields =
-  | RouteStepConditionField
-  | unknown
-
 /**
  * ステップごとに設定できる実行条件
  */
@@ -1878,7 +1875,7 @@ export interface RouteStepCondition {
   conditionType?: RouteStepConditionConditionType
   /** 条件の組み合わせタイプ */
   combinationType?: RouteStepConditionCombinationType
-  routeStepConditionFields?: RouteStepConditionRouteStepConditionFields
+  routeStepConditionFields?: RouteStepConditionField[]
 }
 
 /**
@@ -2525,7 +2522,7 @@ export interface WebhookRequestBodyPing {
 }
 
 export type WebhookRequestBodyTicketData = {
-  ticket?: TicketWithStep
+  ticket?: TicketDetail
 }
 
 /**
@@ -2907,7 +2904,7 @@ export type CreateGeneralMasterItemBodyEndsOn = string | null
 export type CreateGeneralMasterItemBodyInputsItemValueOneOf = string | null
 
 /**
- * 入力値。カスタムフィールドがcheckboxまたはpull_downの場合は文字列の配列、それ以外は文字列。
+ * 入力値。カスタムフィールドがcheckboxの場合は文字列の配列、それ以外は文字列。
  */
 export type CreateGeneralMasterItemBodyInputsItemValue =
   | CreateGeneralMasterItemBodyInputsItemValueOneOf
@@ -2916,7 +2913,7 @@ export type CreateGeneralMasterItemBodyInputsItemValue =
 export type CreateGeneralMasterItemBodyInputsItem = {
   /** フィールドのコード */
   code: string
-  /** 入力値。カスタムフィールドがcheckboxまたはpull_downの場合は文字列の配列、それ以外は文字列。 */
+  /** 入力値。カスタムフィールドがcheckboxの場合は文字列の配列、それ以外は文字列。 */
   value: CreateGeneralMasterItemBodyInputsItemValue
 }
 
@@ -2948,7 +2945,7 @@ export type UpdateGeneralMasterItemBodyEndsOn = string | null
 export type UpdateGeneralMasterItemBodyInputsItemValueOneOf = string | null
 
 /**
- * 入力値。カスタムフィールドがcheckboxまたはpull_downの場合文字列の配列、それ以外の場合文字列。
+ * 入力値。カスタムフィールドがcheckboxの場合文字列の配列、それ以外の場合文字列。
  */
 export type UpdateGeneralMasterItemBodyInputsItemValue =
   | UpdateGeneralMasterItemBodyInputsItemValueOneOf
@@ -2957,7 +2954,7 @@ export type UpdateGeneralMasterItemBodyInputsItemValue =
 export type UpdateGeneralMasterItemBodyInputsItem = {
   /** フィールドのコード */
   code: string
-  /** 入力値。カスタムフィールドがcheckboxまたはpull_downの場合文字列の配列、それ以外の場合文字列。 */
+  /** 入力値。カスタムフィールドがcheckboxの場合文字列の配列、それ以外の場合文字列。 */
   value: UpdateGeneralMasterItemBodyInputsItemValue
 }
 
@@ -3525,8 +3522,8 @@ export type ListTasksParams = {
    */
   perPage?: number
   /**
-   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt
-   * @pattern ^(createdAt|updatedAt)(-asc|-desc)?$
+   * ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt, openedAt, assignedToMeAt
+   * @pattern ^(createdAt|updatedAt|openedAt|assignedToMeAt)(-asc|-desc)?$
    */
   sortBy?: string
   /**
@@ -3577,6 +3574,14 @@ export type ListTasksParams = {
    * 申請日時の終点
    */
   openedAtEnd?: string
+  /**
+   * 承認依頼日時の起点
+   */
+  assignedToMeAtStart?: string
+  /**
+   * 承認依頼日時の終点
+   */
+  assignedToMeAtEnd?: string
   /**
    * 完了日時の起点
    */
