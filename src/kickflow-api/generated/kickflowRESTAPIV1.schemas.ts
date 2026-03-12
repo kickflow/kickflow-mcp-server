@@ -9,12 +9,6 @@ export interface ErrorResponse {
 }
 
 /**
- * コード
- * @maxLength 100
- */
-export type GradeCode = string | null
-
-/**
  * 役職
  */
 export interface Grade {
@@ -34,8 +28,9 @@ export interface Grade {
   /**
    * コード
    * @maxLength 100
+   * @nullable
    */
-  code: GradeCode
+  code: string | null
   /** デフォルトの役職かどうか */
   isDefault: boolean
   /** 作成日時 */
@@ -89,24 +84,15 @@ export interface GradeUpdateBody {
 }
 
 /**
- * 社員番号
- * @maxLength 30
- */
-export type UserEmployeeId = string | null
-
-export type UserImage100x100 = string | null
-
-export type UserImage64x64 = string | null
-
-export type UserImage32x32 = string | null
-
-/**
  * ユーザー画像のURL。サイズごとに複数のURLを返します。
  */
 export type UserImage = {
-  '100x100': UserImage100x100
-  '64x64': UserImage64x64
-  '32x32': UserImage32x32
+  /** @nullable */
+  '100x100': string | null
+  /** @nullable */
+  '64x64': string | null
+  /** @nullable */
+  '32x32': string | null
 }
 
 /**
@@ -114,18 +100,12 @@ export type UserImage = {
  */
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserStatus = {
   invited: 'invited',
   activated: 'activated',
   suspended: 'suspended',
   deactivated: 'deactivated',
 } as const
-
-/**
- * 削除日時
- */
-export type UserDeactivatedAt = string | null
 
 /**
  * ユーザー
@@ -161,8 +141,9 @@ export interface User {
   /**
    * 社員番号
    * @maxLength 30
+   * @nullable
    */
-  employeeId?: UserEmployeeId
+  employeeId?: string | null
   /** ユーザー画像のURL。サイズごとに複数のURLを返します。 */
   image: UserImage
   /** ステータス */
@@ -173,8 +154,11 @@ export interface User {
   createdAt: string
   /** 更新日時 */
   updatedAt: string
-  /** 削除日時 */
-  deactivatedAt?: UserDeactivatedAt
+  /**
+   * 削除日時
+   * @nullable
+   */
+  deactivatedAt?: string | null
 }
 
 /**
@@ -183,14 +167,161 @@ export interface User {
 export type UserDetail = User
 
 /**
- * 開始日
+ * ステータス。visibleは有効、invisibleは無効、deletedは削除済み。
  */
-export type ProxyApplicantStartsOn = string | null
+export type WorkflowStatus =
+  (typeof WorkflowStatus)[keyof typeof WorkflowStatus]
+
+export const WorkflowStatus = {
+  visible: 'visible',
+  invisible: 'invisible',
+  deleted: 'deleted',
+} as const
 
 /**
- * 終了日
+ * 申請者の上長を共有ユーザーに追加するか。noneは追加しない、directは直属の上長のみ、allはすべての上長を表す。
  */
-export type ProxyApplicantEndsOn = string | null
+export type WorkflowVisibleToManager =
+  (typeof WorkflowVisibleToManager)[keyof typeof WorkflowVisibleToManager]
+
+export const WorkflowVisibleToManager = {
+  none: 'none',
+  direct: 'direct',
+  all: 'all',
+} as const
+
+/**
+ * タイトル入力モード
+ */
+export type WorkflowTitleInputMode =
+  (typeof WorkflowTitleInputMode)[keyof typeof WorkflowTitleInputMode]
+
+export const WorkflowTitleInputMode = {
+  none: 'none',
+  input: 'input',
+  calculate: 'calculate',
+} as const
+
+/**
+ * フォルダ
+ */
+export interface Folder {
+  /** UUID */
+  id: string
+  /**
+   * 名前
+   * @maxLength 300
+   */
+  name: string
+  /**
+   * コード
+   * @maxLength 100
+   */
+  code: string
+  /**
+   * 説明
+   * @nullable
+   */
+  description?: string | null
+  /**
+   * フォルダ内のワークフロー数
+   * @minimum 0
+   */
+  workflowsCount: number
+  /**
+   * フォルダ内の経路数
+   * @minimum 0
+   */
+  routesCount: number
+  /**
+   * フォルダ内のパイプライン数
+   * @minimum 0
+   */
+  pipelinesCount: number
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
+
+/**
+ * カテゴリ
+ */
+export interface Category {
+  /** UUID */
+  id: string
+  /**
+   * 名前
+   * @maxLength 100
+   */
+  name: string
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
+
+/**
+ * ワークフロー
+ */
+export interface Workflow {
+  /** UUID */
+  id: string
+  /**
+   * コード
+   * @pattern ^[a-zA-Z0-9_-]+$
+   */
+  code: string
+  /** バージョンのUUID */
+  versionId: string
+  /** バージョン番号 */
+  versionNumber: number
+  /** 名前 */
+  name: string
+  /** 説明 */
+  description: string
+  /** ステータス。visibleは有効、invisibleは無効、deletedは削除済み。 */
+  status: WorkflowStatus
+  /** チケットがテナント全体に共有される場合true */
+  publicTicket: boolean
+  /** 申請者の上長を共有ユーザーに追加するか。noneは追加しない、directは直属の上長のみ、allはすべての上長を表す。 */
+  visibleToManager: WorkflowVisibleToManager
+  /** 申請チームのメンバーが共有ユーザーに追加される場合true */
+  visibleToTeamMembers: boolean
+  /**
+   * タイトルの説明
+   * @nullable
+   */
+  titleDescription: string | null
+  /**
+   * チケット番号のフォーマット
+   * @nullable
+   */
+  ticketNumberFormat: string | null
+  /** 承認者による上書きが可能な場合true */
+  overwritable: boolean
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+  /** タイトル入力モード */
+  titleInputMode: WorkflowTitleInputMode
+  /**
+   * タイトルの計算式
+   * @nullable
+   */
+  titleFormula: string | null
+  /** 共有ユーザーの編集が可能な場合true */
+  allowEditingOfViewers?: boolean
+  /** 作成者 */
+  author: User | null
+  /** バージョン作成者 */
+  versionAuthor: User | null
+  /** フォルダ */
+  folder: Folder
+  /** カテゴリの配列 */
+  categories: Category[]
+}
 
 /**
  * 代理申請
@@ -204,23 +335,19 @@ export interface ProxyApplicant {
   updatedAt: string
   user: User
   proxyUser: User
-  /** 開始日 */
-  startsOn: ProxyApplicantStartsOn
-  /** 終了日 */
-  endsOn: ProxyApplicantEndsOn
+  /**
+   * 開始日
+   * @nullable
+   */
+  startsOn: string | null
+  /**
+   * 終了日
+   * @nullable
+   */
+  endsOn: string | null
   /** 対象ワークフロー */
   workflows: Workflow[]
 }
-
-/**
- * 開始日
- */
-export type ProxyApproverStartsOn = string | null
-
-/**
- * 終了日
- */
-export type ProxyApproverEndsOn = string | null
 
 /**
  * 代理承認
@@ -234,19 +361,19 @@ export interface ProxyApprover {
   updatedAt: string
   user: User
   proxyUser: User
-  /** 開始日 */
-  startsOn: ProxyApproverStartsOn
-  /** 終了日 */
-  endsOn: ProxyApproverEndsOn
+  /**
+   * 開始日
+   * @nullable
+   */
+  startsOn: string | null
+  /**
+   * 終了日
+   * @nullable
+   */
+  endsOn: string | null
   /** 対象ワークフロー */
   workflows: Workflow[]
 }
-
-/**
- * 管理用メモ
- * @maxLength 10000
- */
-export type TeamNotes = string | null
 
 /**
  * チーム
@@ -269,8 +396,9 @@ export interface Team {
   /**
    * 管理用メモ
    * @maxLength 10000
+   * @nullable
    */
-  notes?: TeamNotes
+  notes?: string | null
   /** 承認専用チームかどうか */
   approveOnly: boolean
   /**
@@ -285,13 +413,24 @@ export interface Team {
 }
 
 /**
- * 親チーム
+ * チームの所属メンバー
  */
-export type TeamDetailAllOfParent = Team | null
+export type MemberUser = User & {
+  /**
+   * 役職
+   * @minItems 1
+   */
+  grades: Grade[]
+  /** 上長かどうか */
+  leader: boolean
+}
 
-export type TeamDetailAllOf = {
+/**
+ * チームの詳細
+ */
+export type TeamDetail = Team & {
   /** 親チーム */
-  parent?: TeamDetailAllOfParent
+  parent?: Team | null
   /** 子チーム */
   children: Team[]
   /** メンバーの配列。
@@ -301,16 +440,6 @@ export type TeamDetailAllOf = {
 }
 
 /**
- * チームの詳細
- */
-export type TeamDetail = Team & TeamDetailAllOf
-
-/**
- * 管理用メモ
- */
-export type TeamCreateBodyNotes = string | null
-
-/**
  * チームを作成するときのrequest body
  */
 export interface TeamCreateBody {
@@ -318,8 +447,11 @@ export interface TeamCreateBody {
   name: string
   /** コード。未指定の場合、ランダムな英数字が自動的に設定されます。 */
   code?: string
-  /** 管理用メモ */
-  notes?: TeamCreateBodyNotes
+  /**
+   * 管理用メモ
+   * @nullable
+   */
+  notes?: string | null
   /** 親チームのUUID。nullの場合、作成したチームはルートになります。 */
   parentId?: string
   /** 承認専用チームかどうか */
@@ -344,8 +476,9 @@ export interface TeamUpdateBody {
 
 /**
  * 有効化の予定
+ * @nullable
  */
-export type OrganizationChartActivationPlanAnyOf = {
+export type OrganizationChartActivationPlan = {
   /** UUID */
   id: string
   /** 有効化の予定日 */
@@ -354,13 +487,7 @@ export type OrganizationChartActivationPlanAnyOf = {
   createdAt: string
   /** 更新日時 */
   updatedAt: string
-}
-
-/**
- * 有効化の予定
- */
-export type OrganizationChartActivationPlan =
-  OrganizationChartActivationPlanAnyOf | null
+} | null
 
 /**
  * 組織図
@@ -383,7 +510,10 @@ export interface OrganizationChart {
   createdAt: string
   /** 更新日時 */
   updatedAt: string
-  /** 有効化の予定 */
+  /**
+   * 有効化の予定
+   * @nullable
+   */
   activationPlan: OrganizationChartActivationPlan
 }
 
@@ -399,21 +529,6 @@ export interface OrganizationChartBody {
   /** 名前 */
   name: string
 }
-
-export type MemberUserAllOf = {
-  /**
-   * 役職
-   * @minItems 1
-   */
-  grades: Grade[]
-  /** 上長かどうか */
-  leader: boolean
-}
-
-/**
- * チームの所属メンバー
- */
-export type MemberUser = MemberUserAllOf & User
 
 /**
  * 管理者ロール
@@ -442,11 +557,10 @@ export interface Role {
 /**
  * 権限タイプ
  */
-export type RoleDetailAllOfPermissionListItemPermission =
-  (typeof RoleDetailAllOfPermissionListItemPermission)[keyof typeof RoleDetailAllOfPermissionListItemPermission]
+export type RoleDetailPermissionListItemPermission =
+  (typeof RoleDetailPermissionListItemPermission)[keyof typeof RoleDetailPermissionListItemPermission]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RoleDetailAllOfPermissionListItemPermission = {
+export const RoleDetailPermissionListItemPermission = {
   tenant: 'tenant',
   billing: 'billing',
   integration: 'integration',
@@ -467,9 +581,92 @@ export const RoleDetailAllOfPermissionListItemPermission = {
   automation: 'automation',
 } as const
 
-export type RoleDetailAllOfPermissionListItem = {
+/**
+ * フィールドの型
+ */
+export type GeneralMasterFieldFieldType =
+  (typeof GeneralMasterFieldFieldType)[keyof typeof GeneralMasterFieldFieldType]
+
+export const GeneralMasterFieldFieldType = {
+  text: 'text',
+  text_long: 'text_long',
+  number: 'number',
+  integer: 'integer',
+  checkbox: 'checkbox',
+  pull_down: 'pull_down',
+  date: 'date',
+} as const
+
+/**
+ * 汎用マスタのカスタムフィールド
+ */
+export interface GeneralMasterField {
+  /** UUID */
+  id: string
+  /**
+   * フィールド名
+   * @maxLength 300
+   */
+  title: string
+  /**
+   * フィールドの説明
+   * @nullable
+   */
+  description: string | null
+  /**
+   * フィールドのコード
+   * @maxLength 100
+   */
+  code: string
+  /** フィールドの型 */
+  fieldType: GeneralMasterFieldFieldType
+  /** 必須項目かどうか */
+  required: boolean
+  /** 管理者以外も閲覧可能な場合true */
+  visible: boolean
+  /**
+   * 選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。
+   * @nullable
+   */
+  options: string[] | null
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
+
+/**
+ * 汎用マスタ
+ */
+export interface GeneralMaster {
+  /** UUID */
+  id: string
+  /**
+   * コード
+   * @maxLength 100
+   */
+  code: string
+  /**
+   * 名前
+   * @maxLength 300
+   */
+  name: string
+  /**
+   * 説明
+   * @nullable
+   */
+  description: string | null
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+  /** カスタムフィールドの配列 */
+  fields: GeneralMasterField[]
+}
+
+export type RoleDetailPermissionListItem = {
   /** 権限タイプ */
-  permission: RoleDetailAllOfPermissionListItemPermission
+  permission: RoleDetailPermissionListItemPermission
   /** 管理対象が制限されている場合true */
   restricted: boolean
   /** 管理対象のフォルダ */
@@ -480,15 +677,13 @@ export type RoleDetailAllOfPermissionListItem = {
   teams: Team[]
 }
 
-export type RoleDetailAllOf = {
-  /** 権限のリスト */
-  permissionList: RoleDetailAllOfPermissionListItem[]
-}
-
 /**
  * 管理者ロールの詳細
  */
-export type RoleDetail = Role & RoleDetailAllOf
+export type RoleDetail = Role & {
+  /** 権限のリスト */
+  permissionList: RoleDetailPermissionListItem[]
+}
 
 /**
  * 権限タイプ
@@ -496,7 +691,6 @@ export type RoleDetail = Role & RoleDetailAllOf
 export type RoleCreateBodyPermissionListItemPermission =
   (typeof RoleCreateBodyPermissionListItemPermission)[keyof typeof RoleCreateBodyPermissionListItemPermission]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RoleCreateBodyPermissionListItemPermission = {
   tenant: 'tenant',
   billing: 'billing',
@@ -547,7 +741,6 @@ export interface RoleCreateBody {
 export type RoleUpdateBodyPermissionListItemPermission =
   (typeof RoleUpdateBodyPermissionListItemPermission)[keyof typeof RoleUpdateBodyPermissionListItemPermission]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RoleUpdateBodyPermissionListItemPermission = {
   tenant: 'tenant',
   billing: 'billing',
@@ -593,138 +786,20 @@ export interface RoleUpdateBody {
 }
 
 /**
- * カテゴリ
+ * フォルダの詳細
  */
-export interface Category {
-  /** UUID */
-  id: string
-  /**
-   * 名前
-   * @maxLength 100
-   */
-  name: string
-  /** 作成日時 */
-  createdAt: string
-  /** 更新日時 */
-  updatedAt: string
-}
-
-/**
- * 説明
- */
-export type FolderDescription = string | null
-
-/**
- * フォルダ
- */
-export interface Folder {
-  /** UUID */
-  id: string
-  /**
-   * 名前
-   * @maxLength 300
-   */
-  name: string
-  /**
-   * コード
-   * @maxLength 100
-   */
-  code: string
-  /** 説明 */
-  description?: FolderDescription
-  /**
-   * フォルダ内のワークフロー数
-   * @minimum 0
-   */
-  workflowsCount: number
-  /**
-   * フォルダ内の経路数
-   * @minimum 0
-   */
-  routesCount: number
-  /**
-   * フォルダ内のパイプライン数
-   * @minimum 0
-   */
-  pipelinesCount: number
-  /** 作成日時 */
-  createdAt: string
-  /** 更新日時 */
-  updatedAt: string
-}
-
-export type FolderDetailAllOf = {
+export type FolderDetail = Folder & {
   /** 親フォルダからルートフォルダまでの配列 */
   ancestors?: Folder[]
   /** 子フォルダ */
   children?: Folder[]
 }
 
-/**
- * フォルダの詳細
- */
-export type FolderDetail = Folder & FolderDetailAllOf
-
-/**
- * 説明
- */
-export type GeneralMasterDescription = string | null
-
-/**
- * 汎用マスタ
- */
-export interface GeneralMaster {
-  /** UUID */
-  id: string
-  /**
-   * コード
-   * @maxLength 100
-   */
-  code: string
-  /**
-   * 名前
-   * @maxLength 300
-   */
-  name: string
-  /** 説明 */
-  description: GeneralMasterDescription
-  /** 作成日時 */
-  createdAt: string
-  /** 更新日時 */
-  updatedAt: string
-  /** カスタムフィールドの配列 */
-  fields: GeneralMasterField[]
-}
-
-/**
- * 説明
- */
-export type GeneralMasterItemDescription = string | null
-
-/**
- * 有効期限の開始日
- */
-export type GeneralMasterItemStartsOn = string | null
-
-/**
- * 有効期限の終了日
- */
-export type GeneralMasterItemEndsOn = string | null
-
-export type GeneralMasterItemInputsItemValueAnyOf = string | null
-
-/**
- * 入力値
- */
-export type GeneralMasterItemInputsItemValue =
-  | GeneralMasterItemInputsItemValueAnyOf
-  | string[]
-
 export type GeneralMasterItemInputsItem = {
   /** UUID */
   id: string
   /** 入力値 */
-  value: GeneralMasterItemInputsItemValue
+  value: string | null | string[]
   /** 作成日時 */
   createdAt: string
   /** 更新日時 */
@@ -748,295 +823,44 @@ export interface GeneralMasterItem {
    * @maxLength 100
    */
   name: string
-  /** 説明 */
-  description: GeneralMasterItemDescription
+  /**
+   * 説明
+   * @nullable
+   */
+  description: string | null
   /** 作成日時 */
   createdAt: string
   /** 更新日時 */
   updatedAt: string
-  /** 有効期限の開始日 */
-  startsOn: GeneralMasterItemStartsOn
-  /** 有効期限の終了日 */
-  endsOn: GeneralMasterItemEndsOn
+  /**
+   * 有効期限の開始日
+   * @nullable
+   */
+  startsOn: string | null
+  /**
+   * 有効期限の終了日
+   * @nullable
+   */
+  endsOn: string | null
   /** カスタムフィールドの入力の配列 */
   inputs: GeneralMasterItemInputsItem[]
 }
 
 /**
- * フィールドの説明
- */
-export type GeneralMasterFieldDescription = string | null
-
-/**
- * フィールドの型
- */
-export type GeneralMasterFieldFieldType =
-  (typeof GeneralMasterFieldFieldType)[keyof typeof GeneralMasterFieldFieldType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GeneralMasterFieldFieldType = {
-  text: 'text',
-  text_long: 'text_long',
-  number: 'number',
-  integer: 'integer',
-  checkbox: 'checkbox',
-  pull_down: 'pull_down',
-  date: 'date',
-} as const
-
-/**
- * 選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。
- */
-export type GeneralMasterFieldOptions = string[] | null
-
-/**
- * 汎用マスタのカスタムフィールド
- */
-export interface GeneralMasterField {
-  /** UUID */
-  id: string
-  /**
-   * フィールド名
-   * @maxLength 300
-   */
-  title: string
-  /** フィールドの説明 */
-  description: GeneralMasterFieldDescription
-  /**
-   * フィールドのコード
-   * @maxLength 100
-   */
-  code: string
-  /** フィールドの型 */
-  fieldType: GeneralMasterFieldFieldType
-  /** 必須項目かどうか */
-  required: boolean
-  /** 管理者以外も閲覧可能な場合true */
-  visible: boolean
-  /** 選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。 */
-  options: GeneralMasterFieldOptions
-  /** 作成日時 */
-  createdAt: string
-  /** 更新日時 */
-  updatedAt: string
-}
-
-/**
- * ステータス。visibleは有効、invisibleは無効、deletedは削除済み。
- */
-export type WorkflowStatus =
-  (typeof WorkflowStatus)[keyof typeof WorkflowStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const WorkflowStatus = {
-  visible: 'visible',
-  invisible: 'invisible',
-  deleted: 'deleted',
-} as const
-
-/**
- * 申請者の上長を共有ユーザーに追加するか。noneは追加しない、directは直属の上長のみ、allはすべての上長を表す。
- */
-export type WorkflowVisibleToManager =
-  (typeof WorkflowVisibleToManager)[keyof typeof WorkflowVisibleToManager]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const WorkflowVisibleToManager = {
-  none: 'none',
-  direct: 'direct',
-  all: 'all',
-} as const
-
-/**
- * タイトルの説明
- */
-export type WorkflowTitleDescription = string | null
-
-/**
- * チケット番号のフォーマット
- */
-export type WorkflowTicketNumberFormat = string | null
-
-/**
- * タイトル入力モード
- */
-export type WorkflowTitleInputMode =
-  (typeof WorkflowTitleInputMode)[keyof typeof WorkflowTitleInputMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const WorkflowTitleInputMode = {
-  none: 'none',
-  input: 'input',
-  calculate: 'calculate',
-} as const
-
-/**
- * タイトルの計算式
- */
-export type WorkflowTitleFormula = string | null
-
-/**
- * 作成者
- */
-export type WorkflowAuthor = User | null
-
-/**
- * バージョン作成者
- */
-export type WorkflowVersionAuthor = User | null
-
-/**
- * ワークフロー
- */
-export interface Workflow {
-  /** UUID */
-  id: string
-  /**
-   * コード
-   * @pattern ^[a-zA-Z0-9_-]+$
-   */
-  code: string
-  /** バージョンのUUID */
-  versionId: string
-  /** バージョン番号 */
-  versionNumber: number
-  /** 名前 */
-  name: string
-  /** 説明 */
-  description: string
-  /** ステータス。visibleは有効、invisibleは無効、deletedは削除済み。 */
-  status: WorkflowStatus
-  /** チケットがテナント全体に共有される場合true */
-  publicTicket: boolean
-  /** 申請者の上長を共有ユーザーに追加するか。noneは追加しない、directは直属の上長のみ、allはすべての上長を表す。 */
-  visibleToManager: WorkflowVisibleToManager
-  /** 申請チームのメンバーが共有ユーザーに追加される場合true */
-  visibleToTeamMembers: boolean
-  /** タイトルの説明 */
-  titleDescription: WorkflowTitleDescription
-  /** チケット番号のフォーマット */
-  ticketNumberFormat: WorkflowTicketNumberFormat
-  /** 承認者による上書きが可能な場合true */
-  overwritable: boolean
-  /** 作成日時 */
-  createdAt: string
-  /** 更新日時 */
-  updatedAt: string
-  /** タイトル入力モード */
-  titleInputMode: WorkflowTitleInputMode
-  /** タイトルの計算式 */
-  titleFormula: WorkflowTitleFormula
-  /** 共有ユーザーの編集が可能な場合true */
-  allowEditingOfViewers?: boolean
-  /** 作成者 */
-  author: WorkflowAuthor
-  /** バージョン作成者 */
-  versionAuthor: WorkflowVersionAuthor
-  /** フォルダ */
-  folder: Folder
-  /** カテゴリの配列 */
-  categories: Category[]
-}
-
-export type WorkflowInTicketAllOfCloudSignSettingAnyOf = {
-  /** 書類の添付が必須な場合true */
-  required: boolean
-}
-
-/**
  * クラウドサイン連携設定
  */
-export type WorkflowInTicketAllOfCloudSignSetting =
-  WorkflowInTicketAllOfCloudSignSettingAnyOf | null
-
-export type WorkflowInTicketAllOf = {
-  /** セクション・明細を表すオブジェクトを画面に表示される順に格納した配列。 */
-  sectionList?: SectionListItem[]
-  /** ワークフロー単位のチケット共有ユーザー */
-  ticketViewers: WorkflowTicketViewer[]
-  /** クラウドサイン連携設定 */
-  cloudSignSetting: WorkflowInTicketAllOfCloudSignSetting
-}
-
-/**
- * チケットに含まれるワークフロー。セクション情報と共有ユーザー情報を含みます。
- */
-export type WorkflowInTicket = Workflow & WorkflowInTicketAllOf
-
-export type WorkflowDetailAllOf = {
-  /** 経路分岐 */
-  routeConditions: WorkflowRouteCondition[]
-}
-
-/**
- * ワークフローの詳細
- */
-export type WorkflowDetail = WorkflowInTicket & WorkflowDetailAllOf
+export type WorkflowInTicketCloudSignSetting = {
+  /** 書類の添付が必須な場合true */
+  required: boolean
+} | null
 
 export type SectionListItemSectionType =
   (typeof SectionListItemSectionType)[keyof typeof SectionListItemSectionType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SectionListItemSectionType = {
   form: 'form',
   slip: 'slip',
 } as const
-
-/**
- * タイトル
- */
-export type SectionListItemTitle = string | null
-
-/**
- * 説明
- */
-export type SectionListItemDescription = string | null
-
-/**
- * 条件の組み合わせタイプ。all=すべて、any=いずれか、custom=高度な条件式。明細セクションには含まれません。
- */
-export type SectionListItemCombinationType =
-  (typeof SectionListItemCombinationType)[keyof typeof SectionListItemCombinationType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SectionListItemCombinationType = {
-  all: 'all',
-  any: 'any',
-  custom: 'custom',
-} as const
-
-/**
- * 高度な条件式
- */
-export type SectionListItemCombinationExpression = string | null
-
-/**
- * 明細セクションまたはフォームセクション
- */
-export interface SectionListItem {
-  sectionType: SectionListItemSectionType
-  /** タイトル */
-  title: SectionListItemTitle
-  /** 説明 */
-  description: SectionListItemDescription
-  /** フォームセクションのID（UUID）。明細セクションには含まれません。 */
-  id?: string
-  /** フォームフィールド。明細セクションには含まれません。 */
-  formFields?: FormFieldDetail[]
-  /** 表示条件があるかどうか。明細セクションには含まれません。 */
-  conditional?: boolean
-  /** 条件の組み合わせタイプ。all=すべて、any=いずれか、custom=高度な条件式。明細セクションには含まれません。 */
-  combinationType?: SectionListItemCombinationType
-  /** 高度な条件式 */
-  combinationExpression?: SectionListItemCombinationExpression
-  /** 明細フィールド。フォームセクションには含まれません。 */
-  slipFields?: SlipFieldDetail[]
-}
-
-/**
- * 説明
- */
-export type FormFieldDescription = string | null
 
 /**
  * フィールドの型
@@ -1044,7 +868,6 @@ export type FormFieldDescription = string | null
 export type FormFieldFieldType =
   (typeof FormFieldFieldType)[keyof typeof FormFieldFieldType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FormFieldFieldType = {
   text: 'text',
   text_long: 'text_long',
@@ -1064,91 +887,14 @@ export const FormFieldFieldType = {
 } as const
 
 /**
- * 選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。
- */
-export type FormFieldOptions = string[] | null
-
-/**
  * フォームサイズ。fullの場合全幅、halfの場合1/2になります。
  */
 export type FormFieldSize = (typeof FormFieldSize)[keyof typeof FormFieldSize]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FormFieldSize = {
   full: 'full',
   half: 'half',
 } as const
-
-/**
- * 正規表現フォーマット
- */
-export type FormFieldRegexpFormat = string | null
-
-/**
- * 計算式。
-型がcalculationのときのみ値が入ります。
- */
-export type FormFieldFormula = string | null
-
-/**
- * 初期値
- */
-export type FormFieldDefaultValue = string | null
-
-/**
- * 最小値
- */
-export type FormFieldMinValue = number | null
-
-/**
- * 最大値
- */
-export type FormFieldMaxValue = number | null
-
-/**
- * 最小文字数
- * @minimum 0
- */
-export type FormFieldMinLength = number | null
-
-/**
- * 最大文字数
- * @minimum 0
- */
-export type FormFieldMaxLength = number | null
-
-/**
- * 小数の桁数
- * @minimum 0
- */
-export type FormFieldDecimalDigit = number | null
-
-/**
- * カンマ区切りで表示する場合true。
-整数、数値、自動計算フィールド以外ではnullが入ります。
- */
-export type FormFieldDelimited = boolean | null
-
-/**
- * 単位（接頭辞）
- */
-export type FormFieldPrefix = string | null
-
-/**
- * 単位（接尾辞）
- */
-export type FormFieldSuffix = string | null
-
-/**
- * 隠しフィールドである場合true
- */
-export type FormFieldHidden = boolean | null
-
-/**
- * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
-外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
- */
-export type FormFieldReadonlyOnUi = boolean | null
 
 /**
  * フォームフィールド
@@ -1161,8 +907,11 @@ export interface FormField {
    * @maxLength 300
    */
   title: string
-  /** 説明 */
-  description: FormFieldDescription
+  /**
+   * 説明
+   * @nullable
+   */
+  description: string | null
   /** フィールドの型 */
   fieldType: FormFieldFieldType
   /** 必須項目かどうか */
@@ -1171,8 +920,11 @@ export interface FormField {
   approver: boolean
   /** 申請者が編集可能かどうか */
   author?: boolean
-  /** 選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。 */
-  options: FormFieldOptions
+  /**
+   * 選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。
+   * @nullable
+   */
+  options: string[] | null
   /**
    * コード
    * @maxLength 100
@@ -1180,98 +932,78 @@ export interface FormField {
   code: string
   /** フォームサイズ。fullの場合全幅、halfの場合1/2になります。 */
   size: FormFieldSize
-  /** 正規表現フォーマット */
-  regexpFormat: FormFieldRegexpFormat
-  /** 計算式。
-型がcalculationのときのみ値が入ります。 */
-  formula: FormFieldFormula
-  /** 初期値 */
-  defaultValue: FormFieldDefaultValue
-  /** 最小値 */
-  minValue: FormFieldMinValue
-  /** 最大値 */
-  maxValue: FormFieldMaxValue
+  /**
+   * 正規表現フォーマット
+   * @nullable
+   */
+  regexpFormat: string | null
+  /**
+   * 計算式。
+型がcalculationのときのみ値が入ります。
+   * @nullable
+   */
+  formula: string | null
+  /**
+   * 初期値
+   * @nullable
+   */
+  defaultValue: string | null
+  /**
+   * 最小値
+   * @nullable
+   */
+  minValue: number | null
+  /**
+   * 最大値
+   * @nullable
+   */
+  maxValue: number | null
   /**
    * 最小文字数
    * @minimum 0
+   * @nullable
    */
-  minLength: FormFieldMinLength
+  minLength: number | null
   /**
    * 最大文字数
    * @minimum 0
+   * @nullable
    */
-  maxLength: FormFieldMaxLength
+  maxLength: number | null
   /**
    * 小数の桁数
    * @minimum 0
+   * @nullable
    */
-  decimalDigit: FormFieldDecimalDigit
-  /** カンマ区切りで表示する場合true。
-整数、数値、自動計算フィールド以外ではnullが入ります。 */
-  delimited: FormFieldDelimited
-  /** 単位（接頭辞） */
-  prefix: FormFieldPrefix
-  /** 単位（接尾辞） */
-  suffix: FormFieldSuffix
-  /** 隠しフィールドである場合true */
-  hidden?: FormFieldHidden
-  /** trueの時、申請者・承認者が画面上から値を入力することを禁止します。
-外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。 */
-  readonlyOnUi?: FormFieldReadonlyOnUi
+  decimalDigit: number | null
+  /**
+   * カンマ区切りで表示する場合true。
+整数、数値、自動計算フィールド以外ではnullが入ります。
+   * @nullable
+   */
+  delimited: boolean | null
+  /**
+   * 単位（接頭辞）
+   * @nullable
+   */
+  prefix: string | null
+  /**
+   * 単位（接尾辞）
+   * @nullable
+   */
+  suffix: string | null
+  /**
+   * 隠しフィールドである場合true
+   * @nullable
+   */
+  hidden?: boolean | null
+  /**
+   * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
+外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
+   * @nullable
+   */
+  readonlyOnUi?: boolean | null
 }
-
-/**
- * 汎用マスタ（汎用マスタフィールドの場合）
- */
-export type FormFieldDetailAllOfGeneralMaster = GeneralMaster | null
-
-/**
- * 初期値（汎用マスタフィールドの場合）
- */
-export type FormFieldDetailAllOfDefaultGeneralMasterItem =
-  GeneralMasterItem | null
-
-/**
- * 外部API設定。fieldTypeがbutton_apiのときのみ値が入ります。
- */
-export type FormFieldDetailAllOfExternalApiSetting = ExternalApiSetting | null
-
-/**
- * 外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。
- */
-export type FormFieldDetailAllOfKintoneAppSetting = KintoneAppSetting | null
-
-/**
- * ClimberCloud連携設定。fieldTypeがfileのときのみ値が入ります。
- */
-export type FormFieldDetailAllOfClimberCloudSetting = ClimberCloudSetting | null
-
-/**
- * 汎用マスタ型フィールドの自動絞り込みの設定
- */
-export type FormFieldDetailAllOfGeneralMasterSearchFilters =
-  | GeneralMasterSearchFilter[]
-  | null
-
-export type FormFieldDetailAllOf = {
-  /** 汎用マスタ（汎用マスタフィールドの場合） */
-  generalMaster?: FormFieldDetailAllOfGeneralMaster
-  /** 初期値（汎用マスタフィールドの場合） */
-  defaultGeneralMasterItem?: FormFieldDetailAllOfDefaultGeneralMasterItem
-  /** 外部API設定。fieldTypeがbutton_apiのときのみ値が入ります。 */
-  externalApiSetting?: FormFieldDetailAllOfExternalApiSetting
-  /** 外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。 */
-  kintoneAppSetting?: FormFieldDetailAllOfKintoneAppSetting
-  /** ClimberCloud連携設定。fieldTypeがfileのときのみ値が入ります。 */
-  climberCloudSetting?: FormFieldDetailAllOfClimberCloudSetting
-  /** 汎用マスタ型フィールドの自動絞り込みの設定 */
-  generalMasterSearchFilters?: FormFieldDetailAllOfGeneralMasterSearchFilters
-}
-
-/**
- * フォームフィールドの詳細
- */
-export type FormFieldDetail = FormField & FormFieldDetailAllOf
 
 /**
  * HTTPメソッド
@@ -1279,7 +1011,6 @@ export type FormFieldDetail = FormField & FormFieldDetailAllOf
 export type ExternalApiSettingHttpMethod =
   (typeof ExternalApiSettingHttpMethod)[keyof typeof ExternalApiSettingHttpMethod]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExternalApiSettingHttpMethod = {
   get: 'get',
   post: 'post',
@@ -1295,24 +1026,17 @@ export type ExternalApiSettingHeadersItem = {
   value: string
 }
 
-/**
- * 複数レコードを含む場合の配列へのJSONPath
- */
-export type ExternalApiSettingArrayJsonPath = string | null
-
-/**
- * 選択用テーブルでのタイトル
- */
-export type ExternalApiSettingMappingsItemTitle = string | null
-
 export type ExternalApiSettingMappingsItem = {
   formField: FormField
   /** 値抽出用のJSONPath */
   jsonPath: string
   /** 選択用テーブルで表示する場合true */
   displayInTable: boolean
-  /** 選択用テーブルでのタイトル */
-  title: ExternalApiSettingMappingsItemTitle
+  /**
+   * 選択用テーブルでのタイトル
+   * @nullable
+   */
+  title: string | null
 }
 
 /**
@@ -1329,10 +1053,53 @@ export interface ExternalApiSetting {
   headers: ExternalApiSettingHeadersItem[]
   /** レスポンスが複数レコードを含む場合true */
   responseArray: boolean
-  /** 複数レコードを含む場合の配列へのJSONPath */
-  arrayJsonPath: ExternalApiSettingArrayJsonPath
+  /**
+   * 複数レコードを含む場合の配列へのJSONPath
+   * @nullable
+   */
+  arrayJsonPath: string | null
   /** フィールドへのマッピング設定 */
   mappings: ExternalApiSettingMappingsItem[]
+}
+
+/**
+ * kintone連携
+ */
+export interface KintoneApp {
+  /** UUID */
+  id: string
+  /** kintoneアプリ名 */
+  name: string
+  /** kintoneドメイン */
+  domain: string
+  /** kintoneアプリID */
+  appId: string
+}
+
+export type KintoneAppSettingMappingsItem = {
+  /** UUID */
+  id: string
+  /** 選択用テーブルで表示する場合true */
+  displayInTable: boolean
+  /** kintoneフィールドコード */
+  kintoneFieldCode: string
+  /** kintoneフィールドコード */
+  kintoneFieldName: string
+  /** kintoneフィールドコード */
+  kintoneFieldType: string
+  formField: FormField
+}
+
+/**
+ * kintone連携設定
+ */
+export interface KintoneAppSetting {
+  /** UUID */
+  id: string
+  formField: FormField
+  kintoneApp: KintoneApp
+  /** フィールドへのマッピング設定 */
+  mappings: KintoneAppSettingMappingsItem[]
 }
 
 export type ClimberCloudSettingMappingsItem = {
@@ -1355,12 +1122,72 @@ export interface ClimberCloudSetting {
 }
 
 /**
+ * 絞り込み先のフィールドのタイプ
+ */
+export type GeneralMasterSearchFilterFieldType =
+  (typeof GeneralMasterSearchFilterFieldType)[keyof typeof GeneralMasterSearchFilterFieldType]
+
+export const GeneralMasterSearchFilterFieldType = {
+  free_word: 'free_word',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  custom_field: 'custom_field',
+} as const
+
+export interface GeneralMasterSearchFilter {
+  /** UUID */
+  id: string
+  /** 絞り込みに使う汎用フィールドのID（UUID） */
+  filterFormFieldId: string
+  /** 絞り込み先のフィールドのタイプ */
+  fieldType: GeneralMasterSearchFilterFieldType
+  /**
+   * fieldType=custom_fieldの場合に絞り込み先の汎用マスタのカスタムフィールドのID（UUID）
+   * @nullable
+   */
+  generalMasterFieldId: string | null
+}
+
+/**
+ * フォームフィールドの詳細
+ */
+export type FormFieldDetail = FormField & {
+  /** 汎用マスタ（汎用マスタフィールドの場合） */
+  generalMaster?: GeneralMaster | null
+  /** 初期値（汎用マスタフィールドの場合） */
+  defaultGeneralMasterItem?: GeneralMasterItem | null
+  /** 外部API設定。fieldTypeがbutton_apiのときのみ値が入ります。 */
+  externalApiSetting?: ExternalApiSetting | null
+  /** 外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。 */
+  kintoneAppSetting?: KintoneAppSetting | null
+  /** ClimberCloud連携設定。fieldTypeがfileのときのみ値が入ります。 */
+  climberCloudSetting?: ClimberCloudSetting | null
+  /**
+   * 汎用マスタ型フィールドの自動絞り込みの設定
+   * @nullable
+   */
+  generalMasterSearchFilters?: GeneralMasterSearchFilter[] | null
+}
+
+/**
+ * 条件の組み合わせタイプ。all=すべて、any=いずれか、custom=高度な条件式。明細セクションには含まれません。
+ */
+export type SectionListItemCombinationType =
+  (typeof SectionListItemCombinationType)[keyof typeof SectionListItemCombinationType]
+
+export const SectionListItemCombinationType = {
+  all: 'all',
+  any: 'any',
+  custom: 'custom',
+} as const
+
+/**
  * フィールドの型
  */
 export type SlipFieldFieldType =
   (typeof SlipFieldFieldType)[keyof typeof SlipFieldFieldType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SlipFieldFieldType = {
   text: 'text',
   number: 'number',
@@ -1375,63 +1202,6 @@ export const SlipFieldFieldType = {
   team: 'team',
   ticket: 'ticket',
 } as const
-
-/**
- * 正規表現フォーマット
- */
-export type SlipFieldRegexpFormat = string | null
-
-/**
- * 計算式。型が自動計算のときのみ値が入ります。
- */
-export type SlipFieldFormula = string | null
-
-/**
- * 最大値
- */
-export type SlipFieldMaxValue = number | null
-
-/**
- * 最小値
- */
-export type SlipFieldMinValue = number | null
-
-/**
- * 初期値
- */
-export type SlipFieldDefaultValue = string | null
-
-/**
- * 小数の桁数
- */
-export type SlipFieldDecimalDigit = number | null
-
-/**
- * カンマ区切りで表示する場合true。
-整数、数値、自動計算フィールド以外ではnullが入ります。
- */
-export type SlipFieldDelimited = boolean | null
-
-/**
- * 単位（接頭辞）
- */
-export type SlipFieldPrefix = string | null
-
-/**
- * 単位（接尾辞）
- */
-export type SlipFieldSuffix = string | null
-
-/**
- * 隠しフィールドである場合true
- */
-export type SlipFieldHidden = boolean | null
-
-/**
- * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
-外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
- */
-export type SlipFieldReadonlyOnUi = boolean | null
 
 /**
  * 明細フィールド
@@ -1451,60 +1221,138 @@ export interface SlipField {
   showTotal: boolean
   /** 選択肢。プルダウンまたはチェックボックスのときのみ値が入ります。 */
   options: string[]
-  /** 正規表現フォーマット */
-  regexpFormat: SlipFieldRegexpFormat
-  /** 計算式。型が自動計算のときのみ値が入ります。 */
-  formula: SlipFieldFormula
-  /** 最大値 */
-  maxValue: SlipFieldMaxValue
-  /** 最小値 */
-  minValue: SlipFieldMinValue
-  /** 初期値 */
-  defaultValue: SlipFieldDefaultValue
-  /** 小数の桁数 */
-  decimalDigit: SlipFieldDecimalDigit
-  /** カンマ区切りで表示する場合true。
-整数、数値、自動計算フィールド以外ではnullが入ります。 */
-  delimited: SlipFieldDelimited
+  /**
+   * 正規表現フォーマット
+   * @nullable
+   */
+  regexpFormat: string | null
+  /**
+   * 計算式。型が自動計算のときのみ値が入ります。
+   * @nullable
+   */
+  formula: string | null
+  /**
+   * 最大値
+   * @nullable
+   */
+  maxValue: number | null
+  /**
+   * 最小値
+   * @nullable
+   */
+  minValue: number | null
+  /**
+   * 初期値
+   * @nullable
+   */
+  defaultValue: string | null
+  /**
+   * 小数の桁数
+   * @nullable
+   */
+  decimalDigit: number | null
+  /**
+   * カンマ区切りで表示する場合true。
+整数、数値、自動計算フィールド以外ではnullが入ります。
+   * @nullable
+   */
+  delimited: boolean | null
   /** 添付可能な拡張子リスト */
   allowedExtensions: string[]
-  /** 単位（接頭辞） */
-  prefix: SlipFieldPrefix
-  /** 単位（接尾辞） */
-  suffix: SlipFieldSuffix
+  /**
+   * 単位（接頭辞）
+   * @nullable
+   */
+  prefix: string | null
+  /**
+   * 単位（接尾辞）
+   * @nullable
+   */
+  suffix: string | null
   /** 承認者が編集可能かどうか */
   approver: boolean
   /** 申請者が編集可能かどうか */
   author?: boolean
-  /** 隠しフィールドである場合true */
-  hidden?: SlipFieldHidden
-  /** trueの時、申請者・承認者が画面上から値を入力することを禁止します。
-外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。 */
-  readonlyOnUi?: SlipFieldReadonlyOnUi
-}
-
-/**
- * 汎用マスタ。型が汎用マスタのときのみ値が入ります。
- */
-export type SlipFieldDetailAllOfGeneralMaster = GeneralMaster | null
-
-/**
- * 汎用マスタアイテムの初期値
- */
-export type SlipFieldDetailAllOfDefaultGeneralMasterItem =
-  GeneralMasterItem | null
-
-export type SlipFieldDetailAllOf = {
-  /** 汎用マスタ。型が汎用マスタのときのみ値が入ります。 */
-  generalMaster?: SlipFieldDetailAllOfGeneralMaster
-  /** 汎用マスタアイテムの初期値 */
-  defaultGeneralMasterItem?: SlipFieldDetailAllOfDefaultGeneralMasterItem
+  /**
+   * 隠しフィールドである場合true
+   * @nullable
+   */
+  hidden?: boolean | null
+  /**
+   * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
+外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
+   * @nullable
+   */
+  readonlyOnUi?: boolean | null
 }
 
 /**
  * 明細フィールドの詳細
  */
-export type SlipFieldDetail = SlipField & SlipFieldDetailAllOf
+export type SlipFieldDetail = SlipField & {
+  /** 汎用マスタ。型が汎用マスタのときのみ値が入ります。 */
+  generalMaster?: GeneralMaster | null
+  /** 汎用マスタアイテムの初期値 */
+  defaultGeneralMasterItem?: GeneralMasterItem | null
+}
+
+/**
+ * 明細セクションまたはフォームセクション
+ */
+export interface SectionListItem {
+  sectionType: SectionListItemSectionType
+  /**
+   * タイトル
+   * @nullable
+   */
+  title: string | null
+  /**
+   * 説明
+   * @nullable
+   */
+  description: string | null
+  /** フォームセクションのID（UUID）。明細セクションには含まれません。 */
+  id?: string
+  /** フォームフィールド。明細セクションには含まれません。 */
+  formFields?: FormFieldDetail[]
+  /** 表示条件があるかどうか。明細セクションには含まれません。 */
+  conditional?: boolean
+  /** 条件の組み合わせタイプ。all=すべて、any=いずれか、custom=高度な条件式。明細セクションには含まれません。 */
+  combinationType?: SectionListItemCombinationType
+  /**
+   * 高度な条件式
+   * @nullable
+   */
+  combinationExpression?: string | null
+  /** 明細フィールド。フォームセクションには含まれません。 */
+  slipFields?: SlipFieldDetail[]
+}
+
+/**
+ * ワークフロー単位で設定された共有ユーザー
+ */
+export interface WorkflowTicketViewer {
+  /** UUID */
+  id: string
+  /** ユーザー。ユーザーとチームは片方のみ値が入ります。 */
+  user: User | null
+  /** チーム。ユーザーとチームは片方のみ値が入ります。 */
+  team: Team | null
+  /** 役職。チーム指定で役職も指定する場合のみ値が入ります。 */
+  grade: Grade | null
+}
+
+/**
+ * チケットに含まれるワークフロー。セクション情報と共有ユーザー情報を含みます。
+ */
+export type WorkflowInTicket = Workflow & {
+  /** セクション・明細を表すオブジェクトを画面に表示される順に格納した配列。 */
+  sectionList?: SectionListItem[]
+  /** ワークフロー単位のチケット共有ユーザー */
+  ticketViewers: WorkflowTicketViewer[]
+  /** クラウドサイン連携設定 */
+  cloudSignSetting: WorkflowInTicketCloudSignSetting
+}
 
 /**
  * 経路分岐タイプ
@@ -1512,7 +1360,6 @@ export type SlipFieldDetail = SlipField & SlipFieldDetailAllOf
 export type WorkflowRouteConditionConditionType =
   (typeof WorkflowRouteConditionConditionType)[keyof typeof WorkflowRouteConditionConditionType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowRouteConditionConditionType = {
   always: 'always',
   field: 'field',
@@ -1525,7 +1372,6 @@ export const WorkflowRouteConditionConditionType = {
 export type WorkflowRouteConditionCombinationType =
   (typeof WorkflowRouteConditionCombinationType)[keyof typeof WorkflowRouteConditionCombinationType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowRouteConditionCombinationType = {
   all: 'all',
   any: 'any',
@@ -1533,144 +1379,15 @@ export const WorkflowRouteConditionCombinationType = {
 } as const
 
 /**
- * 経路。routeまたはerrorMessageは片方のみ値が入ります。
- */
-export type WorkflowRouteConditionRoute = Route | null
-
-/**
- * 申請拒否時のエラーメッセージ。routeまたはerrorMessageは片方のみ値が入ります。
- */
-export type WorkflowRouteConditionErrorMessage = string | null
-
-/**
- * ワークフローの経路分岐
- */
-export interface WorkflowRouteCondition {
-  /** UUID */
-  id: string
-  /** 経路分岐タイプ */
-  conditionType: WorkflowRouteConditionConditionType
-  /** 条件の組み合わせタイプ */
-  combinationType: WorkflowRouteConditionCombinationType
-  /** 高度な条件式 */
-  combinationExpression: string
-  /** 経路。routeまたはerrorMessageは片方のみ値が入ります。 */
-  route: WorkflowRouteConditionRoute
-  /** 条件 */
-  conditionFields: WorkflowRouteConditionField[]
-  /** 申請拒否時のエラーメッセージ。routeまたはerrorMessageは片方のみ値が入ります。 */
-  errorMessage: WorkflowRouteConditionErrorMessage
-}
-
-/**
- * 演算子
- */
-export type WorkflowRouteConditionFieldSymbol =
-  (typeof WorkflowRouteConditionFieldSymbol)[keyof typeof WorkflowRouteConditionFieldSymbol]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const WorkflowRouteConditionFieldSymbol = {
-  equal: 'equal',
-  not_equal: 'not_equal',
-  greater_than: 'greater_than',
-  greater_than_or_equal: 'greater_than_or_equal',
-  less_than: 'less_than',
-  less_than_or_equal: 'less_than_or_equal',
-  include: 'include',
-  exclude: 'exclude',
-  is_empty: 'is_empty',
-  is_not_empty: 'is_not_empty',
-  descendants_or_equal: 'descendants_or_equal',
-} as const
-
-/**
- * しきい値
- */
-export type WorkflowRouteConditionFieldValue = string | null
-
-/**
- * しきい値として使う役職
- */
-export type WorkflowRouteConditionFieldGrade = Grade | null
-
-/**
- * しきい値として使うチーム
- */
-export type WorkflowRouteConditionFieldTeam = Team | null
-
-/**
- * しきい値として使う汎用マスタアイテム
- */
-export type WorkflowRouteConditionFieldGeneralMasterItem =
-  GeneralMasterItem | null
-
-/**
- * ワークフロー経路分岐の条件
- */
-export interface WorkflowRouteConditionField {
-  /** UUID */
-  id: string
-  /** 演算子 */
-  symbol: WorkflowRouteConditionFieldSymbol
-  /** しきい値 */
-  value: WorkflowRouteConditionFieldValue
-  /** 対象のフォームフィールド */
-  formField: FormField
-  /** しきい値として使う役職 */
-  grade: WorkflowRouteConditionFieldGrade
-  /** しきい値として使うチーム */
-  team: WorkflowRouteConditionFieldTeam
-  /** しきい値として使う汎用マスタアイテム */
-  generalMasterItem: WorkflowRouteConditionFieldGeneralMasterItem
-}
-
-/**
- * ユーザー。ユーザーとチームは片方のみ値が入ります。
- */
-export type WorkflowTicketViewerUser = User | null
-
-/**
- * チーム。ユーザーとチームは片方のみ値が入ります。
- */
-export type WorkflowTicketViewerTeam = Team | null
-
-/**
- * 役職。チーム指定で役職も指定する場合のみ値が入ります。
- */
-export type WorkflowTicketViewerGrade = Grade | null
-
-/**
- * ワークフロー単位で設定された共有ユーザー
- */
-export interface WorkflowTicketViewer {
-  /** UUID */
-  id: string
-  /** ユーザー。ユーザーとチームは片方のみ値が入ります。 */
-  user: WorkflowTicketViewerUser
-  /** チーム。ユーザーとチームは片方のみ値が入ります。 */
-  team: WorkflowTicketViewerTeam
-  /** 役職。チーム指定で役職も指定する場合のみ値が入ります。 */
-  grade: WorkflowTicketViewerGrade
-}
-
-/**
  * ステータス
  */
 export type RouteStatus = (typeof RouteStatus)[keyof typeof RouteStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStatus = {
   visible: 'visible',
   deleted: 'deleted',
   error: 'error',
 } as const
-
-/**
- * 作成者
- */
-export type RouteAuthor = User | null
-
-export type RouteVersionAuthor = User | null
 
 /**
  * 経路
@@ -1695,21 +1412,85 @@ export interface Route {
   /** 更新日時 */
   updatedAt: string
   /** 作成者 */
-  author?: RouteAuthor
-  versionAuthor?: RouteVersionAuthor
+  author?: User | null
+  versionAuthor?: User | null
   /** フォルダ */
   folder: Folder
 }
 
-export type RouteDetailAllOf = {
-  /** 経路ステップ */
-  steps: RouteStep[]
+/**
+ * 演算子
+ */
+export type WorkflowRouteConditionFieldSymbol =
+  (typeof WorkflowRouteConditionFieldSymbol)[keyof typeof WorkflowRouteConditionFieldSymbol]
+
+export const WorkflowRouteConditionFieldSymbol = {
+  equal: 'equal',
+  not_equal: 'not_equal',
+  greater_than: 'greater_than',
+  greater_than_or_equal: 'greater_than_or_equal',
+  less_than: 'less_than',
+  less_than_or_equal: 'less_than_or_equal',
+  include: 'include',
+  exclude: 'exclude',
+  is_empty: 'is_empty',
+  is_not_empty: 'is_not_empty',
+  descendants_or_equal: 'descendants_or_equal',
+} as const
+
+/**
+ * ワークフロー経路分岐の条件
+ */
+export interface WorkflowRouteConditionField {
+  /** UUID */
+  id: string
+  /** 演算子 */
+  symbol: WorkflowRouteConditionFieldSymbol
+  /**
+   * しきい値
+   * @nullable
+   */
+  value: string | null
+  /** 対象のフォームフィールド */
+  formField: FormField
+  /** しきい値として使う役職 */
+  grade: Grade | null
+  /** しきい値として使うチーム */
+  team: Team | null
+  /** しきい値として使う汎用マスタアイテム */
+  generalMasterItem: GeneralMasterItem | null
 }
 
 /**
- * 経路の詳細情報
+ * ワークフローの経路分岐
  */
-export type RouteDetail = Route & RouteDetailAllOf
+export interface WorkflowRouteCondition {
+  /** UUID */
+  id: string
+  /** 経路分岐タイプ */
+  conditionType: WorkflowRouteConditionConditionType
+  /** 条件の組み合わせタイプ */
+  combinationType: WorkflowRouteConditionCombinationType
+  /** 高度な条件式 */
+  combinationExpression: string
+  /** 経路。routeまたはerrorMessageは片方のみ値が入ります。 */
+  route: Route | null
+  /** 条件 */
+  conditionFields: WorkflowRouteConditionField[]
+  /**
+   * 申請拒否時のエラーメッセージ。routeまたはerrorMessageは片方のみ値が入ります。
+   * @nullable
+   */
+  errorMessage: string | null
+}
+
+/**
+ * ワークフローの詳細
+ */
+export type WorkflowDetail = WorkflowInTicket & {
+  /** 経路分岐 */
+  routeConditions: WorkflowRouteCondition[]
+}
 
 /**
  * ステップのタイプ
@@ -1717,7 +1498,6 @@ export type RouteDetail = Route & RouteDetailAllOf
 export type RouteStepStepType =
   (typeof RouteStepStepType)[keyof typeof RouteStepStepType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepStepType = {
   author: 'author',
   manager: 'manager',
@@ -1735,109 +1515,32 @@ export const RouteStepStepType = {
 export type RouteStepActionType =
   (typeof RouteStepActionType)[keyof typeof RouteStepActionType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepActionType = {
   approve: 'approve',
   confirm: 'confirm',
   none: 'none',
 } as const
 
-/**
- * 承認者への指示
- */
-export type RouteStepInstruction = string | null
-
-/**
- * フォールバックのタイプ
- */
-export type RouteStepFallbackType =
-  | 'direct_manager'
-  | 'higher_manager'
-  | 'skip'
-  | 'no_fallback'
-  | 'higher_team'
-  | null
-
-/**
- * 最小指名人数。「申請者が指名」ステップのみ設定可能。
- * @minimum 0
- */
-export type RouteStepMinCustomAssignees = number | null
-
-/**
- * 承認者の選び方
- */
-export type RouteStepApproverAssignmentInstruction = string | null
-
-export type RouteStepRouteStepCondition = RouteStepCondition | null
-
-/**
- * 経路ステップ
- */
-export interface RouteStep {
-  /** UUID */
-  id: string
-  /** ステップ順序（1から始まります） */
-  stepOrder: number
-  /** ステップのタイプ */
-  stepType: RouteStepStepType
-  /** タイトル */
-  title: string
-  /** アクションタイプ。承認/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。 */
-  actionType: RouteStepActionType
-  /** 承認者への指示 */
-  instruction: RouteStepInstruction
-  /** 必要な承認人数 */
-  requiredApprovalsNumber: number
-  /** 必要な承認割合（%） */
-  requiredApprovalsPercent: number
-  /** フォールバックのタイプ */
-  fallbackType: RouteStepFallbackType
-  /** 自己承認を許可するか */
-  allowSelfApproval: boolean
-  /**
-   * 最小指名人数。「申請者が指名」ステップのみ設定可能。
-   * @minimum 0
-   */
-  minCustomAssignees: RouteStepMinCustomAssignees
-  /** 承認者の選び方 */
-  approverAssignmentInstruction: RouteStepApproverAssignmentInstruction
-  /** 承認者の指定に使うユーザーの配列 */
-  users: User[]
-  /** 承認者の指定に使うチームと役職の条件 */
-  targets?: RouteStepTarget[]
-  routeStepCondition?: RouteStepRouteStepCondition
-  /** コード */
-  code: string
-}
-
-/**
- * 役職の比較条件。役職が指定されているときのみ値が入ります。
- */
-export type RouteStepTargetGradeSymbol =
-  | 'equal'
-  | 'greater_than'
-  | 'greater_than_or_equal'
-  | 'less_than'
-  | 'less_than_or_equal'
-  | 'any_of'
-  | null
-
-/**
- * 承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。
- */
-export type RouteStepTargetVariable = string | null
-
 export interface RouteStepTarget {
   team?: Team
   /** stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない） */
   descendants?: boolean
   /** 役職の比較条件。役職が指定されているときのみ値が入ります。 */
-  gradeSymbol?: RouteStepTargetGradeSymbol
+  gradeSymbol?:
+    | 'equal'
+    | 'greater_than'
+    | 'greater_than_or_equal'
+    | 'less_than'
+    | 'less_than_or_equal'
+    | 'any_of'
+    | null
   /** 承認者の指定に使う役職の配列 */
   grades?: Grade[]
-  /** 承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。 */
-  variable?: RouteStepTargetVariable
+  /**
+   * 承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。
+   * @nullable
+   */
+  variable?: string | null
 }
 
 /**
@@ -1846,7 +1549,6 @@ export interface RouteStepTarget {
 export type RouteStepConditionConditionType =
   (typeof RouteStepConditionConditionType)[keyof typeof RouteStepConditionConditionType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepConditionConditionType = {
   always: 'always',
   conditional: 'conditional',
@@ -1859,24 +1561,10 @@ export const RouteStepConditionConditionType = {
 export type RouteStepConditionCombinationType =
   (typeof RouteStepConditionCombinationType)[keyof typeof RouteStepConditionCombinationType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepConditionCombinationType = {
   all: 'all',
   any: 'any',
 } as const
-
-/**
- * ステップごとに設定できる実行条件
- */
-export interface RouteStepCondition {
-  /** UUID */
-  id?: string
-  /** 実行タイプ */
-  conditionType?: RouteStepConditionConditionType
-  /** 条件の組み合わせタイプ */
-  combinationType?: RouteStepConditionCombinationType
-  routeStepConditionFields?: RouteStepConditionField[]
-}
 
 /**
  * 変数のフィールド
@@ -1884,7 +1572,6 @@ export interface RouteStepCondition {
 export type RouteStepConditionFieldFieldKey =
   (typeof RouteStepConditionFieldFieldKey)[keyof typeof RouteStepConditionFieldFieldKey]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepConditionFieldFieldKey = {
   author_grade: 'author_grade',
   author_team: 'author_team',
@@ -1901,7 +1588,6 @@ export const RouteStepConditionFieldFieldKey = {
 export type RouteStepConditionFieldSymbol =
   (typeof RouteStepConditionFieldSymbol)[keyof typeof RouteStepConditionFieldSymbol]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RouteStepConditionFieldSymbol = {
   equal: 'equal',
   not_equal: 'not_equal',
@@ -1940,21 +1626,84 @@ export interface RouteStepConditionField {
 }
 
 /**
- * チケット番号
+ * ステップごとに設定できる実行条件
  */
-export type TicketTicketNumber = string | null
+export interface RouteStepCondition {
+  /** UUID */
+  id?: string
+  /** 実行タイプ */
+  conditionType?: RouteStepConditionConditionType
+  /** 条件の組み合わせタイプ */
+  combinationType?: RouteStepConditionCombinationType
+  routeStepConditionFields?: RouteStepConditionField[]
+}
 
 /**
- * タイトル
+ * 経路ステップ
  */
-export type TicketTitle = string | null
+export interface RouteStep {
+  /** UUID */
+  id: string
+  /** ステップ順序（1から始まります） */
+  stepOrder: number
+  /** ステップのタイプ */
+  stepType: RouteStepStepType
+  /** タイトル */
+  title: string
+  /** アクションタイプ。承認/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。 */
+  actionType: RouteStepActionType
+  /**
+   * 承認者への指示
+   * @nullable
+   */
+  instruction: string | null
+  /** 必要な承認人数 */
+  requiredApprovalsNumber: number
+  /** 必要な承認割合（%） */
+  requiredApprovalsPercent: number
+  /** フォールバックのタイプ */
+  fallbackType:
+    | 'direct_manager'
+    | 'higher_manager'
+    | 'skip'
+    | 'no_fallback'
+    | 'higher_team'
+    | null
+  /** 自己承認を許可するか */
+  allowSelfApproval: boolean
+  /**
+   * 最小指名人数。「申請者が指名」ステップのみ設定可能。
+   * @minimum 0
+   * @nullable
+   */
+  minCustomAssignees: number | null
+  /**
+   * 承認者の選び方
+   * @nullable
+   */
+  approverAssignmentInstruction: string | null
+  /** 承認者の指定に使うユーザーの配列 */
+  users: User[]
+  /** 承認者の指定に使うチームと役職の条件 */
+  targets?: RouteStepTarget[]
+  routeStepCondition?: RouteStepCondition | null
+  /** コード */
+  code: string
+}
+
+/**
+ * 経路の詳細情報
+ */
+export type RouteDetail = Route & {
+  /** 経路ステップ */
+  steps: RouteStep[]
+}
 
 /**
  * ステータス
  */
 export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -1966,42 +1715,11 @@ export const TicketStatus = {
 } as const
 
 /**
- * サブステータス。処理中のみ値が入ります。
- */
-export type TicketSubStatus = SubStatus | null
-
-/**
- * 申請者。代理申請の場合、代理人が入ります。外部ゲストの場合はnullになります。
- */
-export type TicketAuthor = User | null
-
-/**
- * 代理申請を依頼したユーザー。代理申請の場合のみ値が入ります。
- */
-export type TicketProxyClientUser = User | null
-
-/**
- * 申請日時
- */
-export type TicketOpenedAt = string | null
-
-/**
- * 完了日時
- */
-export type TicketCompletedAt = string | null
-
-/**
- * アーカイブ日時
- */
-export type TicketArchivedAt = string | null
-
-/**
  * チケットの共有範囲の上書き設定
  */
 export type TicketForcedPublicType =
   (typeof TicketForcedPublicType)[keyof typeof TicketForcedPublicType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TicketForcedPublicType = {
   follow_workflow: 'follow_workflow',
   forced_public: 'forced_public',
@@ -2009,9 +1727,51 @@ export const TicketForcedPublicType = {
 } as const
 
 /**
- * このチケットのワークフロー情報。チケットを一件だけ取得した場合のみ、セクションや共有ユーザーを含むより詳細なワークフロー情報が入ります。
+ * サブステータス
  */
-export type TicketWorkflow = Workflow | WorkflowInTicket
+export interface SubStatus {
+  /** UUID */
+  id: string
+  /** コード */
+  code: string
+  /** 名前 */
+  name: string
+  /**
+   * 説明
+   * @nullable
+   */
+  notes: string | null
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
+
+/**
+ * ラベル
+ */
+export interface Label {
+  /** UUID */
+  id: string
+  /** 名前 */
+  name: string
+  /**
+   * 説明
+   * @nullable
+   */
+  description: string | null
+  /**
+   * ラベルの色。#なしHEXコード（例: ff0000）
+   * @minLength 6
+   * @maxLength 6
+   * @pattern ^[a-f0-9]{6}$
+   */
+  color: string
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
 
 /**
  * チケット
@@ -2019,31 +1779,46 @@ export type TicketWorkflow = Workflow | WorkflowInTicket
 export interface Ticket {
   /** UUID */
   id: string
-  /** チケット番号 */
-  ticketNumber: TicketTicketNumber
-  /** タイトル */
-  title?: TicketTitle
+  /**
+   * チケット番号
+   * @nullable
+   */
+  ticketNumber: string | null
+  /**
+   * タイトル
+   * @nullable
+   */
+  title?: string | null
   /** ステータス */
   status: TicketStatus
   /** サブステータス。処理中のみ値が入ります。 */
-  subStatus?: TicketSubStatus
+  subStatus?: SubStatus | null
   /**
    * 現在のステップ。0が起票者、1が最初の承認ステップ。
    * @minimum 0
    */
   currentStep: number
   /** 申請者。代理申請の場合、代理人が入ります。外部ゲストの場合はnullになります。 */
-  author: TicketAuthor
+  author: User | null
   /** 代理申請を依頼したユーザー。代理申請の場合のみ値が入ります。 */
-  proxyClientUser: TicketProxyClientUser
+  proxyClientUser: User | null
   /** 作成日時 */
   createdAt: string
-  /** 申請日時 */
-  openedAt: TicketOpenedAt
-  /** 完了日時 */
-  completedAt: TicketCompletedAt
-  /** アーカイブ日時 */
-  archivedAt: TicketArchivedAt
+  /**
+   * 申請日時
+   * @nullable
+   */
+  openedAt: string | null
+  /**
+   * 完了日時
+   * @nullable
+   */
+  completedAt: string | null
+  /**
+   * アーカイブ日時
+   * @nullable
+   */
+  archivedAt: string | null
   /** 更新日時 */
   updatedAt: string
   /** チケットがテナント全体に共有の場合true */
@@ -2051,50 +1826,103 @@ export interface Ticket {
   /** チケットの共有範囲の上書き設定 */
   forcedPublicType: TicketForcedPublicType
   /** このチケットのワークフロー情報。チケットを一件だけ取得した場合のみ、セクションや共有ユーザーを含むより詳細なワークフロー情報が入ります。 */
-  workflow: TicketWorkflow
+  workflow: Workflow | WorkflowInTicket
   /** チケットのラベルの配列 */
   labels: Label[]
 }
 
-export type TicketWithStepAllOf = {
+/**
+ * アクションタイプ。承認/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。
+ */
+export type TicketStepActionType =
+  (typeof TicketStepActionType)[keyof typeof TicketStepActionType]
+
+export const TicketStepActionType = {
+  approve: 'approve',
+  confirm: 'confirm',
+  none: 'none',
+} as const
+
+/**
+ * チケット承認者
+ */
+export interface TicketAssignee {
+  /** UUID */
+  id: string
+  /** ステップ番号。1が最初の承認ステップ。 */
+  stepOrder: number
+  /** 現在の承認ステップの場合true */
+  current: boolean
+  /** 承認済みの場合true */
+  completed: boolean
+  /**
+   * 承認日時。古いデータではnullを返します。
+   * @nullable
+   */
+  completedAt: string | null
+  /** 承認を保留中の場合true */
+  pending: boolean
+  user: User
+}
+
+/**
+ * チケット承認ステップ
+ */
+export interface TicketStep {
+  /** UUID */
+  id: string
+  /**
+   * 経路ステップのUUID。カスタムステップの場合、nullになります。
+   * @nullable
+   */
+  routeStepId: string | null
+  /**
+   * ステップのタイトル
+   * @nullable
+   */
+  title: string | null
+  /** アクションタイプ。承認/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。 */
+  actionType: TicketStepActionType
+  /** 必要な承認人数 */
+  requiredApprovalsNumber: number
+  /** 必要な承認割合% */
+  requiredApprovalsPercent: number
+  /** ステップの順序。最初の承認ステップが1。 */
+  stepOrder: number
+  /** スキップ可能な場合true */
+  skip: boolean
+  /** フォールバックした場合true */
+  fallback: boolean
+  /** フォールバックの結果 */
+  fallbackResult:
+    | 'direct_manager'
+    | 'higher_manager'
+    | 'skip'
+    | 'no_fallback'
+    | 'higher_team'
+    | null
+  /** 承認ステップの作成者。カスタムステップの場合のみ、値が入ります。 */
+  author: User | null
+  /** 承認者 */
+  assignees: TicketAssignee[]
+  /** ステップが完了している場合true */
+  completed: boolean
+  /**
+   * ステップが完了した日時。過去のデータではnullを返します。
+   * @nullable
+   */
+  completedAt: string | null
+}
+
+export type TicketWithStep = Ticket & {
   /** ステップの配列 */
   steps: TicketStep[]
 }
 
-export type TicketWithStep = Ticket & TicketWithStepAllOf
-
 /**
- * 申請者の所属チーム. 外部ゲストの場合はnullになります。
+ * 添付されたクラウドサインの書類
  */
-export type TicketDetailAllOfAuthorTeam = Team | null
-
-/**
- * このチケットの承認経路。申請拒否状態の場合、nullになります。
- */
-export type TicketDetailAllOfRoute = RouteDetail | null
-
-/**
- * 元のチケット（パイプラインで作成されたときのみ値が入ります）
- */
-export type TicketDetailAllOfTriggerTicket = Ticket | null
-
-/**
- * クラウドサイン書類のステータス
- */
-export type TicketDetailAllOfCloudSignDocumentAnyOfStatus =
-  (typeof TicketDetailAllOfCloudSignDocumentAnyOfStatus)[keyof typeof TicketDetailAllOfCloudSignDocumentAnyOfStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TicketDetailAllOfCloudSignDocumentAnyOfStatus = {
-  draft: 'draft',
-  in_progress: 'in_progress',
-  rejected: 'rejected',
-  template: 'template',
-  imported: 'imported',
-  completed: 'completed',
-} as const
-
-export type TicketDetailAllOfCloudSignDocumentAnyOf = {
+export type TicketDetailCloudSignDocument = null | {
   /** UUID */
   id: string
   /** クラウドサイン書類のID */
@@ -2102,7 +1930,13 @@ export type TicketDetailAllOfCloudSignDocumentAnyOf = {
   /** クラウドサイン書類のタイトル */
   documentTitle: string
   /** クラウドサイン書類のステータス */
-  status: TicketDetailAllOfCloudSignDocumentAnyOfStatus
+  status:
+    | 'draft'
+    | 'in_progress'
+    | 'rejected'
+    | 'template'
+    | 'imported'
+    | 'completed'
   /** クラウドサインがサンドボックス環境の場合true */
   sandbox: boolean
   /** 作成日時 */
@@ -2114,54 +1948,60 @@ export type TicketDetailAllOfCloudSignDocumentAnyOf = {
 }
 
 /**
- * 添付されたクラウドサインの書類
+ * 添付ファイル
  */
-export type TicketDetailAllOfCloudSignDocument =
-  null | TicketDetailAllOfCloudSignDocumentAnyOf
-
-export type TicketDetailAllOf = {
-  /** 申請者の所属チーム. 外部ゲストの場合はnullになります。 */
-  authorTeam: TicketDetailAllOfAuthorTeam
-  /** このチケットの承認経路。申請拒否状態の場合、nullになります。 */
-  route: TicketDetailAllOfRoute
-  /** 元のチケット（パイプラインで作成されたときのみ値が入ります） */
-  triggerTicket?: TicketDetailAllOfTriggerTicket
-  /** 次のチケット（パイプラインで次のチケットを作成したときのみ値が入ります） */
-  nextTickets?: Ticket[]
-  /** 明細の入力 */
-  slipItems: SlipItem[]
-  /** セクションの配列 */
-  ticketSections: TicketSection[]
-  /** フォームの入力 */
-  inputs: TicketInput[]
-  /** 添付されたクラウドサインの書類 */
-  cloudSignDocument: TicketDetailAllOfCloudSignDocument
-  /** チケットのステップ */
-  steps: TicketStep[]
+export interface Attachment {
+  /** 署名済みID */
+  signedId: string
+  /** ファイル名 */
+  filename: string
+  /** ファイルURL */
+  url: string
 }
 
 /**
- * チケットの詳細
+ * 明細アイテム入力
  */
-export type TicketDetail = Ticket & TicketDetailAllOf
+export interface SlipItemInput {
+  /** UUID */
+  id: string
+  /** 明細フィールドのUUID */
+  slipFieldId: string
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+  /** 入力値
 
-export type TicketInputValueAnyOf = string | null
-
-export type TicketInputValueAnyOfTwo = unknown[] | null
-
-export type TicketInputValueAnyOfThree = number | null
-
-export type TicketInputValueAnyOfFour = number | null
+フィールドの型が汎用マスタアイテムの場合、JSON Arrayがキャッシュとして保存されます。 */
+  value: string | unknown[] | number | null
+  /** 入力値: 汎用マスタアイテム */
+  generalMasterItems: GeneralMasterItem[]
+  /** 入力値: ユーザー */
+  users?: User[]
+  /** 入力値: チーム */
+  teams?: Team[]
+  /** 入力値: チケット */
+  inputTickets?: Ticket[]
+  /** 添付ファイル */
+  attachments: Attachment[]
+}
 
 /**
- * 入力値
-フィールドの型が汎用マスタアイテム、ユーザー、チーム、チケットの場合、JSON Arrayがキャッシュとして保存されます。
+ * 明細アイテム
  */
-export type TicketInputValue =
-  | TicketInputValueAnyOf
-  | TicketInputValueAnyOfTwo
-  | TicketInputValueAnyOfThree
-  | TicketInputValueAnyOfFour
+export interface SlipItem {
+  /** UUID */
+  id: string
+  /** 明細アイテムの入力の配列 */
+  inputs: SlipItemInput[]
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+  /** 明細セクションのUUID */
+  slipSectionId: string
+}
 
 /**
  * チケットのフォーム入力
@@ -2171,7 +2011,7 @@ export interface TicketInput {
   id: string
   /** 入力値
 フィールドの型が汎用マスタアイテム、ユーザー、チーム、チケットの場合、JSON Arrayがキャッシュとして保存されます。 */
-  value: TicketInputValue
+  value: string | null | unknown[] | number
   formField?: FormField
   /** 入力値: 汎用マスタアイテム */
   generalMasterItems?: GeneralMasterItem[]
@@ -2198,226 +2038,28 @@ export interface TicketSection {
 }
 
 /**
- * 経路ステップのUUID。カスタムステップの場合、nullになります。
+ * チケットの詳細
  */
-export type TicketStepRouteStepId = string | null
-
-/**
- * ステップのタイトル
- */
-export type TicketStepTitle = string | null
-
-/**
- * アクションタイプ。承認/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。
- */
-export type TicketStepActionType =
-  (typeof TicketStepActionType)[keyof typeof TicketStepActionType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TicketStepActionType = {
-  approve: 'approve',
-  confirm: 'confirm',
-  none: 'none',
-} as const
-
-/**
- * フォールバックの結果
- */
-export type TicketStepFallbackResult =
-  | 'direct_manager'
-  | 'higher_manager'
-  | 'skip'
-  | 'no_fallback'
-  | 'higher_team'
-  | null
-
-/**
- * 承認ステップの作成者。カスタムステップの場合のみ、値が入ります。
- */
-export type TicketStepAuthor = User | null
-
-/**
- * ステップが完了した日時。過去のデータではnullを返します。
- */
-export type TicketStepCompletedAt = string | null
-
-/**
- * チケット承認ステップ
- */
-export interface TicketStep {
-  /** UUID */
-  id: string
-  /** 経路ステップのUUID。カスタムステップの場合、nullになります。 */
-  routeStepId: TicketStepRouteStepId
-  /** ステップのタイトル */
-  title: TicketStepTitle
-  /** アクションタイプ。承認/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。 */
-  actionType: TicketStepActionType
-  /** 必要な承認人数 */
-  requiredApprovalsNumber: number
-  /** 必要な承認割合% */
-  requiredApprovalsPercent: number
-  /** ステップの順序。最初の承認ステップが1。 */
-  stepOrder: number
-  /** スキップ可能な場合true */
-  skip: boolean
-  /** フォールバックした場合true */
-  fallback: boolean
-  /** フォールバックの結果 */
-  fallbackResult: TicketStepFallbackResult
-  /** 承認ステップの作成者。カスタムステップの場合のみ、値が入ります。 */
-  author: TicketStepAuthor
-  /** 承認者 */
-  assignees: TicketAssignee[]
-  /** ステップが完了している場合true */
-  completed: boolean
-  /** ステップが完了した日時。過去のデータではnullを返します。 */
-  completedAt: TicketStepCompletedAt
+export type TicketDetail = Ticket & {
+  /** 申請者の所属チーム. 外部ゲストの場合はnullになります。 */
+  authorTeam: Team | null
+  /** このチケットの承認経路。申請拒否状態の場合、nullになります。 */
+  route: RouteDetail | null
+  /** 元のチケット（パイプラインで作成されたときのみ値が入ります） */
+  triggerTicket?: Ticket | null
+  /** 次のチケット（パイプラインで次のチケットを作成したときのみ値が入ります） */
+  nextTickets?: Ticket[]
+  /** 明細の入力 */
+  slipItems: SlipItem[]
+  /** セクションの配列 */
+  ticketSections: TicketSection[]
+  /** フォームの入力 */
+  inputs: TicketInput[]
+  /** 添付されたクラウドサインの書類 */
+  cloudSignDocument: TicketDetailCloudSignDocument
+  /** チケットのステップ */
+  steps: TicketStep[]
 }
-
-/**
- * 承認日時。古いデータではnullを返します。
- */
-export type TicketAssigneeCompletedAt = string | null
-
-/**
- * チケット承認者
- */
-export interface TicketAssignee {
-  /** UUID */
-  id: string
-  /** ステップ番号。1が最初の承認ステップ。 */
-  stepOrder: number
-  /** 現在の承認ステップの場合true */
-  current: boolean
-  /** 承認済みの場合true */
-  completed: boolean
-  /** 承認日時。古いデータではnullを返します。 */
-  completedAt: TicketAssigneeCompletedAt
-  /** 承認を保留中の場合true */
-  pending: boolean
-  user: User
-}
-
-/**
- * 添付ファイル
- */
-export interface Attachment {
-  /** 署名済みID */
-  signedId: string
-  /** ファイル名 */
-  filename: string
-  /** ファイルURL */
-  url: string
-}
-
-/**
- * 明細アイテム
- */
-export interface SlipItem {
-  /** UUID */
-  id: string
-  /** 明細アイテムの入力の配列 */
-  inputs: SlipItemInput[]
-  /** 作成日時 */
-  createdAt: string
-  /** 更新日時 */
-  updatedAt: string
-  /** 明細セクションのUUID */
-  slipSectionId: string
-}
-
-/**
- * 入力値
-
-フィールドの型が汎用マスタアイテムの場合、JSON Arrayがキャッシュとして保存されます。
- */
-export type SlipItemInputValue = string | unknown[] | number | number | null
-
-/**
- * 明細アイテム入力
- */
-export interface SlipItemInput {
-  /** UUID */
-  id: string
-  /** 明細フィールドのUUID */
-  slipFieldId: string
-  /** 作成日時 */
-  createdAt: string
-  /** 更新日時 */
-  updatedAt: string
-  /** 入力値
-
-フィールドの型が汎用マスタアイテムの場合、JSON Arrayがキャッシュとして保存されます。 */
-  value: SlipItemInputValue
-  /** 入力値: 汎用マスタアイテム */
-  generalMasterItems: GeneralMasterItem[]
-  /** 入力値: ユーザー */
-  users?: User[]
-  /** 入力値: チーム */
-  teams?: Team[]
-  /** 入力値: チケット */
-  inputTickets?: Ticket[]
-  /** 添付ファイル */
-  attachments: Attachment[]
-}
-
-/**
- * 説明
- */
-export type LabelDescription = string | null
-
-/**
- * ラベル
- */
-export interface Label {
-  /** UUID */
-  id: string
-  /** 名前 */
-  name: string
-  /** 説明 */
-  description: LabelDescription
-  /**
-   * ラベルの色。#なしHEXコード（例: ff0000）
-   * @minLength 6
-   * @maxLength 6
-   * @pattern ^[a-f0-9]{6}$
-   */
-  color: string
-  /** 作成日時 */
-  createdAt: string
-  /** 更新日時 */
-  updatedAt: string
-}
-
-/**
- * 説明
- */
-export type SubStatusNotes = string | null
-
-/**
- * サブステータス
- */
-export interface SubStatus {
-  /** UUID */
-  id: string
-  /** コード */
-  code: string
-  /** 名前 */
-  name: string
-  /** 説明 */
-  notes: SubStatusNotes
-  /** 作成日時 */
-  createdAt: string
-  /** 更新日時 */
-  updatedAt: string
-}
-
-export type TicketViewerUser = User | null
-
-export type TicketViewerTeam = Team | null
-
-export type TicketViewerGrade = Grade | null
 
 /**
  * チケットの共有ユーザー
@@ -2425,17 +2067,12 @@ export type TicketViewerGrade = Grade | null
 export interface TicketViewer {
   /** UUID */
   id: string
-  user: TicketViewerUser
-  team: TicketViewerTeam
-  grade: TicketViewerGrade
+  user: User | null
+  team: Team | null
+  grade: Grade | null
   /** 下位のチームを含めるかどうか */
   descendants: boolean
 }
-
-/**
- * 削除日時
- */
-export type CommentDeletedAt = string | null
 
 /**
  * コメント
@@ -2451,37 +2088,33 @@ export interface Comment {
   createdAt: string
   /** 更新日時 */
   updatedAt: string
-  /** 削除日時 */
-  deletedAt: CommentDeletedAt
+  /**
+   * 削除日時
+   * @nullable
+   */
+  deletedAt: string | null
   user: User
   /** メンションしたユーザーの配列 */
   mentionedUsers: User[]
 }
 
 /**
- * 操作ユーザー。システムによる操作の場合はnull。
- */
-export type AuditLogUser = User | null
-
-/**
  * 操作データ
+ * @nullable
  */
-export type AuditLogDataAnyOf = { [key: string]: unknown }
-
-/**
- * 操作データ
- */
-export type AuditLogData = AuditLogDataAnyOf | null
-
-/**
- * リモートIPアドレス
- */
-export type AuditLogRemoteIp = string | null
+export type AuditLogData = { [key: string]: unknown } | null
 
 /**
  * システムによる操作種別
+ * @nullable
  */
-export type AuditLogSystemType = 'automation' | null
+export type AuditLogSystemType =
+  | (typeof AuditLogSystemType)[keyof typeof AuditLogSystemType]
+  | null
+
+export const AuditLogSystemType = {
+  automation: 'automation',
+} as const
 
 /**
  * 監査ログ
@@ -2490,14 +2123,23 @@ export interface AuditLog {
   /** UUID */
   id: string
   /** 操作ユーザー。システムによる操作の場合はnull。 */
-  user: AuditLogUser
+  user: User | null
   /** 操作種別 */
   action: string
-  /** 操作データ */
+  /**
+   * 操作データ
+   * @nullable
+   */
   data: AuditLogData
-  /** リモートIPアドレス */
-  remoteIp: AuditLogRemoteIp
-  /** システムによる操作種別 */
+  /**
+   * リモートIPアドレス
+   * @nullable
+   */
+  remoteIp: string | null
+  /**
+   * システムによる操作種別
+   * @nullable
+   */
   systemType: AuditLogSystemType
   /** 作成日時 */
   createdAt: string
@@ -2508,6 +2150,18 @@ export interface AuditLog {
 export type WebhookRequestBodyPingData = {
   /** メッセージ。eventTypeがpingの場合に使用されます。 */
   message?: string
+}
+
+/**
+ * Webhookのテナント情報
+ */
+export interface WebhookTenant {
+  /** テナントのUUID */
+  id?: string
+  /** テナントのパブリックID（サブドメイン） */
+  publicId?: string
+  /** テナント名 */
+  name?: string
 }
 
 /**
@@ -2553,89 +2207,6 @@ export interface WebhookRequestBodyComment {
 }
 
 /**
- * Webhookのテナント情報
- */
-export interface WebhookTenant {
-  /** テナントのUUID */
-  id?: string
-  /** テナントのパブリックID（サブドメイン） */
-  publicId?: string
-  /** テナント名 */
-  name?: string
-}
-
-/**
- * kintone連携
- */
-export interface KintoneApp {
-  /** UUID */
-  id: string
-  /** kintoneアプリ名 */
-  name: string
-  /** kintoneドメイン */
-  domain: string
-  /** kintoneアプリID */
-  appId: string
-}
-
-export type KintoneAppSettingMappingsItem = {
-  /** UUID */
-  id: string
-  /** 選択用テーブルで表示する場合true */
-  displayInTable: boolean
-  /** kintoneフィールドコード */
-  kintoneFieldCode: string
-  /** kintoneフィールドコード */
-  kintoneFieldName: string
-  /** kintoneフィールドコード */
-  kintoneFieldType: string
-  formField: FormField
-}
-
-/**
- * kintone連携設定
- */
-export interface KintoneAppSetting {
-  /** UUID */
-  id: string
-  formField: FormField
-  kintoneApp: KintoneApp
-  /** フィールドへのマッピング設定 */
-  mappings: KintoneAppSettingMappingsItem[]
-}
-
-/**
- * 絞り込み先のフィールドのタイプ
- */
-export type GeneralMasterSearchFilterFieldType =
-  (typeof GeneralMasterSearchFilterFieldType)[keyof typeof GeneralMasterSearchFilterFieldType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GeneralMasterSearchFilterFieldType = {
-  free_word: 'free_word',
-  name: 'name',
-  code: 'code',
-  description: 'description',
-  custom_field: 'custom_field',
-} as const
-
-/**
- * fieldType=custom_fieldの場合に絞り込み先の汎用マスタのカスタムフィールドのID（UUID）
- */
-export type GeneralMasterSearchFilterGeneralMasterFieldId = string | null
-
-export interface GeneralMasterSearchFilter {
-  /** UUID */
-  id: string
-  /** 絞り込みに使う汎用フィールドのID（UUID） */
-  filterFormFieldId: string
-  /** 絞り込み先のフィールドのタイプ */
-  fieldType: GeneralMasterSearchFilterFieldType
-  /** fieldType=custom_fieldの場合に絞り込み先の汎用マスタのカスタムフィールドのID（UUID） */
-  generalMasterFieldId: GeneralMasterSearchFilterGeneralMasterFieldId
-}
-
-/**
  * Bad Request
  */
 export type BadRequestResponse = ErrorResponse
@@ -2658,17 +2229,12 @@ export type NotFoundResponse = ErrorResponse
 /**
  * バリデーションエラーの詳細
  */
-export type UnprocessableContentResponseAllOfErrors = {
-  [key: string]: string[]
-}
+export type UnprocessableContentResponseErrors = { [key: string]: string[] }
 
-export type UnprocessableContentResponseAllOf = {
+export type UnprocessableContentResponse = ErrorResponse & {
   /** バリデーションエラーの詳細 */
-  errors?: UnprocessableContentResponseAllOfErrors
+  errors?: UnprocessableContentResponseErrors
 }
-
-export type UnprocessableContentResponse = ErrorResponse &
-  UnprocessableContentResponseAllOf
 
 export type ListCategoriesParams = {
   /**
@@ -2718,11 +2284,6 @@ export type ListFoldersParams = {
   sortBy?: string
 }
 
-/**
- * 親フォルダのID
- */
-export type CreateFolderBodyParentFolderId = string | null
-
 export type CreateFolderBody = {
   /** 名前 */
   name: string
@@ -2730,14 +2291,12 @@ export type CreateFolderBody = {
   code?: string
   /** フォルダの説明 */
   description?: string
-  /** 親フォルダのID */
-  parentFolderId?: CreateFolderBodyParentFolderId
+  /**
+   * 親フォルダのID
+   * @nullable
+   */
+  parentFolderId?: string | null
 }
-
-/**
- * 親フォルダのID
- */
-export type UpdateFolderBodyParentFolderId = string | null
 
 export type UpdateFolderBody = {
   /** 名前 */
@@ -2746,8 +2305,11 @@ export type UpdateFolderBody = {
   code?: string
   /** フォルダの説明 */
   description?: string
-  /** 親フォルダのID */
-  parentFolderId?: UpdateFolderBodyParentFolderId
+  /**
+   * 親フォルダのID
+   * @nullable
+   */
+  parentFolderId?: string | null
 }
 
 export type ListGeneralMastersParams = {
@@ -2770,27 +2332,11 @@ export type ListGeneralMastersParams = {
 }
 
 /**
- * コード。未指定の場合、ランダムな英数字が自動的に設定されます。
- */
-export type CreateGeneralMasterBodyCode = string | null
-
-/**
- * 説明
- */
-export type CreateGeneralMasterBodyDescription = string | null
-
-/**
- * フィールドの説明
- */
-export type CreateGeneralMasterBodyFieldsItemDescription = string | null
-
-/**
  * フィールドの型
  */
 export type CreateGeneralMasterBodyFieldsItemFieldType =
   (typeof CreateGeneralMasterBodyFieldsItemFieldType)[keyof typeof CreateGeneralMasterBodyFieldsItemFieldType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CreateGeneralMasterBodyFieldsItemFieldType = {
   text: 'text',
   text_long: 'text_long',
@@ -2801,24 +2347,25 @@ export const CreateGeneralMasterBodyFieldsItemFieldType = {
   date: 'date',
 } as const
 
-/**
- * 選択肢。fieldTypeがcheckboxまたはpull_downのとき必須。
- */
-export type CreateGeneralMasterBodyFieldsItemOptions = string[] | null
-
 export type CreateGeneralMasterBodyFieldsItem = {
   /** フィールド名 */
   title: string
-  /** フィールドの説明 */
-  description?: CreateGeneralMasterBodyFieldsItemDescription
+  /**
+   * フィールドの説明
+   * @nullable
+   */
+  description?: string | null
   /** フィールドのコード */
   code: string
   /** 入力必須かどうか */
   required: boolean
   /** フィールドの型 */
   fieldType: CreateGeneralMasterBodyFieldsItemFieldType
-  /** 選択肢。fieldTypeがcheckboxまたはpull_downのとき必須。 */
-  options?: CreateGeneralMasterBodyFieldsItemOptions
+  /**
+   * 選択肢。fieldTypeがcheckboxまたはpull_downのとき必須。
+   * @nullable
+   */
+  options?: string[] | null
   /** 管理者以外も閲覧可能な場合true */
   visible?: boolean
 }
@@ -2826,37 +2373,39 @@ export type CreateGeneralMasterBodyFieldsItem = {
 export type CreateGeneralMasterBody = {
   /** 名前 */
   name: string
-  /** コード。未指定の場合、ランダムな英数字が自動的に設定されます。 */
-  code?: CreateGeneralMasterBodyCode
-  /** 説明 */
-  description?: CreateGeneralMasterBodyDescription
+  /**
+   * コード。未指定の場合、ランダムな英数字が自動的に設定されます。
+   * @nullable
+   */
+  code?: string | null
+  /**
+   * 説明
+   * @nullable
+   */
+  description?: string | null
   /** カスタムフィールドの配列 */
   fields?: CreateGeneralMasterBodyFieldsItem[]
 }
 
-/**
- * フィールドの説明
- */
-export type UpdateGeneralMasterBodyFieldsItemDescription = string | null
-
-/**
- * 選択肢。fieldTypeがcheckboxまたはpull_downのときのみ必須。
- */
-export type UpdateGeneralMasterBodyFieldsItemOptions = string[] | null
-
 export type UpdateGeneralMasterBodyFieldsItem = {
   /** フィールド名 */
   title?: string
-  /** フィールドの説明 */
-  description?: UpdateGeneralMasterBodyFieldsItemDescription
+  /**
+   * フィールドの説明
+   * @nullable
+   */
+  description?: string | null
   /** フィールドのコード */
   code: string
   /** 入力必須かどうか */
   required?: boolean
   /** フィールドの型 */
   fieldType?: string
-  /** 選択肢。fieldTypeがcheckboxまたはpull_downのときのみ必須。 */
-  options?: UpdateGeneralMasterBodyFieldsItemOptions
+  /**
+   * 選択肢。fieldTypeがcheckboxまたはpull_downのときのみ必須。
+   * @nullable
+   */
+  options?: string[] | null
   /** 管理者以外も閲覧可能な場合true */
   visible?: boolean
 }
@@ -2891,30 +2440,11 @@ export type ListGeneralMasterItemsParams = {
   sortBy?: string
 }
 
-/**
- * 有効期限の開始日
- */
-export type CreateGeneralMasterItemBodyStartsOn = string | null
-
-/**
- * 有効期限の終了日
- */
-export type CreateGeneralMasterItemBodyEndsOn = string | null
-
-export type CreateGeneralMasterItemBodyInputsItemValueOneOf = string | null
-
-/**
- * 入力値。カスタムフィールドがcheckboxの場合は文字列の配列、それ以外は文字列。
- */
-export type CreateGeneralMasterItemBodyInputsItemValue =
-  | CreateGeneralMasterItemBodyInputsItemValueOneOf
-  | string[]
-
 export type CreateGeneralMasterItemBodyInputsItem = {
   /** フィールドのコード */
   code: string
   /** 入力値。カスタムフィールドがcheckboxの場合は文字列の配列、それ以外は文字列。 */
-  value: CreateGeneralMasterItemBodyInputsItemValue
+  value: string | null | string[]
 }
 
 export type CreateGeneralMasterItemBody = {
@@ -2924,38 +2454,25 @@ export type CreateGeneralMasterItemBody = {
   name: string
   /** 説明 */
   description?: string
-  /** 有効期限の開始日 */
-  startsOn?: CreateGeneralMasterItemBodyStartsOn
-  /** 有効期限の終了日 */
-  endsOn?: CreateGeneralMasterItemBodyEndsOn
+  /**
+   * 有効期限の開始日
+   * @nullable
+   */
+  startsOn?: string | null
+  /**
+   * 有効期限の終了日
+   * @nullable
+   */
+  endsOn?: string | null
   /** カスタムフィールドの入力。必須ではないカスタムフィールドを含む、すべてのカスタムフィールドに対して入力する必要があります。 */
   inputs: CreateGeneralMasterItemBodyInputsItem[]
 }
-
-/**
- * 有効期限の開始日
- */
-export type UpdateGeneralMasterItemBodyStartsOn = string | null
-
-/**
- * 有効期限の終了日
- */
-export type UpdateGeneralMasterItemBodyEndsOn = string | null
-
-export type UpdateGeneralMasterItemBodyInputsItemValueOneOf = string | null
-
-/**
- * 入力値。カスタムフィールドがcheckboxの場合文字列の配列、それ以外の場合文字列。
- */
-export type UpdateGeneralMasterItemBodyInputsItemValue =
-  | UpdateGeneralMasterItemBodyInputsItemValueOneOf
-  | string[]
 
 export type UpdateGeneralMasterItemBodyInputsItem = {
   /** フィールドのコード */
   code: string
   /** 入力値。カスタムフィールドがcheckboxの場合文字列の配列、それ以外の場合文字列。 */
-  value: UpdateGeneralMasterItemBodyInputsItemValue
+  value: string | null | string[]
 }
 
 export type UpdateGeneralMasterItemBody = {
@@ -2965,10 +2482,16 @@ export type UpdateGeneralMasterItemBody = {
   name?: string
   /** 説明 */
   description?: string
-  /** 有効期限の開始日 */
-  startsOn?: UpdateGeneralMasterItemBodyStartsOn
-  /** 有効期限の終了日 */
-  endsOn?: UpdateGeneralMasterItemBodyEndsOn
+  /**
+   * 有効期限の開始日
+   * @nullable
+   */
+  startsOn?: string | null
+  /**
+   * 有効期限の終了日
+   * @nullable
+   */
+  endsOn?: string | null
   /** カスタムフィールドの入力。必須ではないカスタムフィールドを含む、すべてのカスタムフィールドに対して入力する必要があります。 */
   inputs?: UpdateGeneralMasterItemBodyInputsItem[]
 }
@@ -3157,7 +2680,14 @@ export type ListTicketsParams = {
     | 'completed'
     | 'denied'
     | 'archived'
-    | ListTicketsStatusOneOfItem[]
+    | (
+        | 'draft'
+        | 'in_progress'
+        | 'rejected'
+        | 'completed'
+        | 'denied'
+        | 'archived'
+      )[]
   /**
    * サブステータスのUUIDの配列
    */
@@ -3232,23 +2762,9 @@ export type ListTicketsParams = {
   stepTitle?: string
 }
 
-export type ListTicketsStatusOneOfItem =
-  (typeof ListTicketsStatusOneOfItem)[keyof typeof ListTicketsStatusOneOfItem]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListTicketsStatusOneOfItem = {
-  draft: 'draft',
-  in_progress: 'in_progress',
-  rejected: 'rejected',
-  completed: 'completed',
-  denied: 'denied',
-  archived: 'archived',
-} as const
-
 export type ListTicketsAssigneeStatusItem =
   (typeof ListTicketsAssigneeStatusItem)[keyof typeof ListTicketsAssigneeStatusItem]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListTicketsAssigneeStatusItem = {
   all: 'all',
   current: 'current',
@@ -3261,205 +2777,86 @@ export const ListTicketsAssigneeStatusItem = {
 export type CreateTicketBodyStatus =
   (typeof CreateTicketBodyStatus)[keyof typeof CreateTicketBodyStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CreateTicketBodyStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
 } as const
 
 /**
- * 依頼者となるユーザーのUUID。代理申請の場合のみ指定してください。
- */
-export type CreateTicketBodyProxyClientUserId = string | null
-
-/**
- * チケットのタイトル。ワークフローでtitleInputModeがinputのときのみ設定可能です。
- */
-export type CreateTicketBodyTitle = string | null
-
-/**
- * 明細セクションのUUID。
- */
-export type CreateTicketBodySlipItemsItemSlipSectionId = string | null
-
-/**
- * 明細フィールドのUUID。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
- */
-export type CreateTicketBodySlipItemsItemInputsItemSlipFieldId = string | null
-
-/**
- * 明細フィールドのコード。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
- */
-export type CreateTicketBodySlipItemsItemInputsItemSlipFieldCode = string | null
-
-export type CreateTicketBodySlipItemsItemInputsItemValueOneOf = string | null
-
-/**
- * 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
- */
-export type CreateTicketBodySlipItemsItemInputsItemValue =
-  | CreateTicketBodySlipItemsItemInputsItemValueOneOf
-  | string[]
-
-export type CreateTicketBodySlipItemsItemInputsItemGeneralMasterItemIdOneOf =
-  | string
-  | null
-
-/**
- * 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
- */
-export type CreateTicketBodySlipItemsItemInputsItemGeneralMasterItemId =
-  | CreateTicketBodySlipItemsItemInputsItemGeneralMasterItemIdOneOf
-  | string[]
-
-export type CreateTicketBodySlipItemsItemInputsItemUserIdOneOf = string | null
-
-/**
- * ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
- */
-export type CreateTicketBodySlipItemsItemInputsItemUserId =
-  | CreateTicketBodySlipItemsItemInputsItemUserIdOneOf
-  | string[]
-
-export type CreateTicketBodySlipItemsItemInputsItemTeamIdOneOf = string | null
-
-/**
- * チームUUID。フィールドがチームタイプのときのみ指定してください。
- */
-export type CreateTicketBodySlipItemsItemInputsItemTeamId =
-  | CreateTicketBodySlipItemsItemInputsItemTeamIdOneOf
-  | string[]
-
-export type CreateTicketBodySlipItemsItemInputsItemTicketIdOneOf = string | null
-
-/**
- * チケットUUID。フィールドがチケットタイプのときのみ指定してください。
- */
-export type CreateTicketBodySlipItemsItemInputsItemTicketId =
-  | CreateTicketBodySlipItemsItemInputsItemTicketIdOneOf
-  | string[]
-
-/**
- * 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。
- */
-export type CreateTicketBodySlipItemsItemInputsItemFiles = string[] | null
-
-/**
  * 明細アイテム入力
  */
 export type CreateTicketBodySlipItemsItemInputsItem = {
-  /** 明細フィールドのUUID。slipFieldIdまたはslipFieldCodeは片方のみ必須です。 */
-  slipFieldId?: CreateTicketBodySlipItemsItemInputsItemSlipFieldId
-  /** 明細フィールドのコード。slipFieldIdまたはslipFieldCodeは片方のみ必須です。 */
-  slipFieldCode?: CreateTicketBodySlipItemsItemInputsItemSlipFieldCode
+  /**
+   * 明細フィールドのUUID。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
+   * @nullable
+   */
+  slipFieldId?: string | null
+  /**
+   * 明細フィールドのコード。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
+   * @nullable
+   */
+  slipFieldCode?: string | null
   /** 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。 */
-  value?: CreateTicketBodySlipItemsItemInputsItemValue
+  value?: string | null | string[]
   /** 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。 */
-  generalMasterItemId?: CreateTicketBodySlipItemsItemInputsItemGeneralMasterItemId
+  generalMasterItemId?: string | null | string[]
   /** ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。 */
-  userId?: CreateTicketBodySlipItemsItemInputsItemUserId
+  userId?: string | null | string[]
   /** チームUUID。フィールドがチームタイプのときのみ指定してください。 */
-  teamId?: CreateTicketBodySlipItemsItemInputsItemTeamId
+  teamId?: string | null | string[]
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
-  ticketId?: CreateTicketBodySlipItemsItemInputsItemTicketId
-  /** 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。 */
-  files?: CreateTicketBodySlipItemsItemInputsItemFiles
+  ticketId?: string | null | string[]
+  /**
+   * 添付ファイルの署名済みID。
+フィールドがファイルタイプのときのみ指定してください。
+   * @nullable
+   */
+  files?: string[] | null
 }
 
 /**
  * 明細アイテム
  */
 export type CreateTicketBodySlipItemsItem = {
-  /** 明細セクションのUUID。 */
-  slipSectionId?: CreateTicketBodySlipItemsItemSlipSectionId
+  /**
+   * 明細セクションのUUID。
+   * @nullable
+   */
+  slipSectionId?: string | null
   /** 明細アイテム入力の配列 */
   inputs: CreateTicketBodySlipItemsItemInputsItem[]
 }
 
 /**
- * フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。
- */
-export type CreateTicketBodyInputsItemFormFieldId = string | null
-
-/**
- * フォームフィールドのコード。formFieldIdまたはformFieldCodeは片方のみ必須です。
- */
-export type CreateTicketBodyInputsItemFormFieldCode = string | null
-
-export type CreateTicketBodyInputsItemValueOneOf = string | null
-
-/**
- * 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
- */
-export type CreateTicketBodyInputsItemValue =
-  | CreateTicketBodyInputsItemValueOneOf
-  | string[]
-
-export type CreateTicketBodyInputsItemGeneralMasterItemIdOneOf = string | null
-
-/**
- * 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
- */
-export type CreateTicketBodyInputsItemGeneralMasterItemId =
-  | CreateTicketBodyInputsItemGeneralMasterItemIdOneOf
-  | string[]
-
-export type CreateTicketBodyInputsItemUserIdOneOf = string | null
-
-/**
- * ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
- */
-export type CreateTicketBodyInputsItemUserId =
-  | CreateTicketBodyInputsItemUserIdOneOf
-  | string[]
-
-export type CreateTicketBodyInputsItemTeamIdOneOf = string | null
-
-/**
- * チームUUID。フィールドがチームタイプのときのみ指定してください。
- */
-export type CreateTicketBodyInputsItemTeamId =
-  | CreateTicketBodyInputsItemTeamIdOneOf
-  | string[]
-
-export type CreateTicketBodyInputsItemTicketIdOneOf = string | null
-
-/**
- * チケットUUID。フィールドがチケットタイプのときのみ指定してください。
- */
-export type CreateTicketBodyInputsItemTicketId =
-  | CreateTicketBodyInputsItemTicketIdOneOf
-  | string[]
-
-/**
- * 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。
- */
-export type CreateTicketBodyInputsItemFiles = string[] | null
-
-/**
  * フォームの入力
  */
 export type CreateTicketBodyInputsItem = {
-  /** フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。 */
-  formFieldId?: CreateTicketBodyInputsItemFormFieldId
-  /** フォームフィールドのコード。formFieldIdまたはformFieldCodeは片方のみ必須です。 */
-  formFieldCode?: CreateTicketBodyInputsItemFormFieldCode
+  /**
+   * フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。
+   * @nullable
+   */
+  formFieldId?: string | null
+  /**
+   * フォームフィールドのコード。formFieldIdまたはformFieldCodeは片方のみ必須です。
+   * @nullable
+   */
+  formFieldCode?: string | null
   /** 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。 */
-  value?: CreateTicketBodyInputsItemValue
+  value?: string | null | string[]
   /** 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。 */
-  generalMasterItemId?: CreateTicketBodyInputsItemGeneralMasterItemId
+  generalMasterItemId?: string | null | string[]
   /** ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。 */
-  userId?: CreateTicketBodyInputsItemUserId
+  userId?: string | null | string[]
   /** チームUUID。フィールドがチームタイプのときのみ指定してください。 */
-  teamId?: CreateTicketBodyInputsItemTeamId
+  teamId?: string | null | string[]
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
-  ticketId?: CreateTicketBodyInputsItemTicketId
-  /** 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。 */
-  files?: CreateTicketBodyInputsItemFiles
+  ticketId?: string | null | string[]
+  /**
+   * 添付ファイルの署名済みID。
+フィールドがファイルタイプのときのみ指定してください。
+   * @nullable
+   */
+  files?: string[] | null
 }
 
 /**
@@ -3474,19 +2871,12 @@ export type CreateTicketBodyCloudSignDocument = {
   sandbox: string
 }
 
-export type CreateTicketBodyApproversAnyOfItem = {
+export type CreateTicketBodyApproversItem = {
   /** 承認者を指定する経路ステップのコード */
   routeStepCode: string
   /** 承認者として指定するユーザーのUUID */
   userId: string[]
 }
-
-/**
- * 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。
- */
-export type CreateTicketBodyApprovers =
-  | CreateTicketBodyApproversAnyOfItem[]
-  | null
 
 export type CreateTicketBody = {
   /** ステータス。作成ではdraftまたはin_progressのみ選択可能です。 */
@@ -3495,18 +2885,27 @@ export type CreateTicketBody = {
   workflowId: string
   /** 申請チームのUUID */
   authorTeamId: string
-  /** 依頼者となるユーザーのUUID。代理申請の場合のみ指定してください。 */
-  proxyClientUserId?: CreateTicketBodyProxyClientUserId
-  /** チケットのタイトル。ワークフローでtitleInputModeがinputのときのみ設定可能です。 */
-  title?: CreateTicketBodyTitle
+  /**
+   * 依頼者となるユーザーのUUID。代理申請の場合のみ指定してください。
+   * @nullable
+   */
+  proxyClientUserId?: string | null
+  /**
+   * チケットのタイトル。ワークフローでtitleInputModeがinputのときのみ設定可能です。
+   * @nullable
+   */
+  title?: string | null
   /** 明細アイテムの配列。明細ワークフローの場合、このフィールドは必須です。 */
   slipItems?: CreateTicketBodySlipItemsItem[]
   /** フォームの入力の配列。ワークフローのすべてのフォームフィールドに対応する入力を入れてください。 */
   inputs: CreateTicketBodyInputsItem[]
   /** クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。 */
   cloudSignDocument?: CreateTicketBodyCloudSignDocument
-  /** 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。 */
-  approvers?: CreateTicketBodyApprovers
+  /**
+   * 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。
+   * @nullable
+   */
+  approvers?: CreateTicketBodyApproversItem[] | null
 }
 
 export type ListTasksParams = {
@@ -3613,7 +3012,6 @@ export type ListTasksParams = {
 export type ListTasksStatusItem =
   (typeof ListTasksStatusItem)[keyof typeof ListTasksStatusItem]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListTasksStatusItem = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -3625,7 +3023,6 @@ export const ListTasksStatusItem = {
 export type ListTasksPending =
   (typeof ListTasksPending)[keyof typeof ListTasksPending]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListTasksPending = {
   true: 'true',
   false: 'false',
@@ -3637,7 +3034,6 @@ export const ListTasksPending = {
 export type UpdateTicketBodyStatus =
   (typeof UpdateTicketBodyStatus)[keyof typeof UpdateTicketBodyStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UpdateTicketBodyStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
@@ -3645,89 +3041,35 @@ export const UpdateTicketBodyStatus = {
 } as const
 
 /**
- * 明細フィールドのUUID。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
- */
-export type UpdateTicketBodySlipItemsItemInputsItemSlipFieldId = string | null
-
-/**
- * 明細フィールドのコード。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
- */
-export type UpdateTicketBodySlipItemsItemInputsItemSlipFieldCode = string | null
-
-export type UpdateTicketBodySlipItemsItemInputsItemValueOneOf = string | null
-
-/**
- * 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
- */
-export type UpdateTicketBodySlipItemsItemInputsItemValue =
-  | UpdateTicketBodySlipItemsItemInputsItemValueOneOf
-  | string[]
-
-export type UpdateTicketBodySlipItemsItemInputsItemGeneralMasterItemIdOneOf =
-  | string
-  | null
-
-/**
- * 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
- */
-export type UpdateTicketBodySlipItemsItemInputsItemGeneralMasterItemId =
-  | UpdateTicketBodySlipItemsItemInputsItemGeneralMasterItemIdOneOf
-  | string[]
-
-export type UpdateTicketBodySlipItemsItemInputsItemUserIdOneOf = string | null
-
-/**
- * ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
- */
-export type UpdateTicketBodySlipItemsItemInputsItemUserId =
-  | UpdateTicketBodySlipItemsItemInputsItemUserIdOneOf
-  | string[]
-
-export type UpdateTicketBodySlipItemsItemInputsItemTeamIdOneOf = string | null
-
-/**
- * チームUUID。フィールドがチームタイプのときのみ指定してください。
- */
-export type UpdateTicketBodySlipItemsItemInputsItemTeamId =
-  | UpdateTicketBodySlipItemsItemInputsItemTeamIdOneOf
-  | string[]
-
-export type UpdateTicketBodySlipItemsItemInputsItemTicketIdOneOf = string | null
-
-/**
- * チケットUUID。フィールドがチケットタイプのときのみ指定してください。
- */
-export type UpdateTicketBodySlipItemsItemInputsItemTicketId =
-  | UpdateTicketBodySlipItemsItemInputsItemTicketIdOneOf
-  | string[]
-
-/**
- * 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。
- */
-export type UpdateTicketBodySlipItemsItemInputsItemFiles = string[] | null
-
-/**
  * 明細アイテム入力
  */
 export type UpdateTicketBodySlipItemsItemInputsItem = {
-  /** 明細フィールドのUUID。slipFieldIdまたはslipFieldCodeは片方のみ必須です。 */
-  slipFieldId?: UpdateTicketBodySlipItemsItemInputsItemSlipFieldId
-  /** 明細フィールドのコード。slipFieldIdまたはslipFieldCodeは片方のみ必須です。 */
-  slipFieldCode?: UpdateTicketBodySlipItemsItemInputsItemSlipFieldCode
+  /**
+   * 明細フィールドのUUID。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
+   * @nullable
+   */
+  slipFieldId?: string | null
+  /**
+   * 明細フィールドのコード。slipFieldIdまたはslipFieldCodeは片方のみ必須です。
+   * @nullable
+   */
+  slipFieldCode?: string | null
   /** 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。 */
-  value?: UpdateTicketBodySlipItemsItemInputsItemValue
+  value?: string | null | string[]
   /** 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。 */
-  generalMasterItemId?: UpdateTicketBodySlipItemsItemInputsItemGeneralMasterItemId
+  generalMasterItemId?: string | null | string[]
   /** ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。 */
-  userId?: UpdateTicketBodySlipItemsItemInputsItemUserId
+  userId?: string | null | string[]
   /** チームUUID。フィールドがチームタイプのときのみ指定してください。 */
-  teamId?: UpdateTicketBodySlipItemsItemInputsItemTeamId
+  teamId?: string | null | string[]
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
-  ticketId?: UpdateTicketBodySlipItemsItemInputsItemTicketId
-  /** 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。 */
-  files?: UpdateTicketBodySlipItemsItemInputsItemFiles
+  ticketId?: string | null | string[]
+  /**
+   * 添付ファイルの署名済みID。
+フィールドがファイルタイプのときのみ指定してください。
+   * @nullable
+   */
+  files?: string[] | null
 }
 
 /**
@@ -3739,87 +3081,35 @@ export type UpdateTicketBodySlipItemsItem = {
 }
 
 /**
- * フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。
- */
-export type UpdateTicketBodyInputsItemFormFieldId = string | null
-
-/**
- * フォームフィールドのコード。formFieldIdまたはformFieldCodeは片方のみ必須です。
- */
-export type UpdateTicketBodyInputsItemFormFieldCode = string | null
-
-export type UpdateTicketBodyInputsItemValueOneOf = string | null
-
-/**
- * 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。
- */
-export type UpdateTicketBodyInputsItemValue =
-  | UpdateTicketBodyInputsItemValueOneOf
-  | string[]
-
-export type UpdateTicketBodyInputsItemGeneralMasterItemIdOneOf = string | null
-
-/**
- * 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
- */
-export type UpdateTicketBodyInputsItemGeneralMasterItemId =
-  | UpdateTicketBodyInputsItemGeneralMasterItemIdOneOf
-  | string[]
-
-export type UpdateTicketBodyInputsItemUserIdOneOf = string | null
-
-/**
- * ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
- */
-export type UpdateTicketBodyInputsItemUserId =
-  | UpdateTicketBodyInputsItemUserIdOneOf
-  | string[]
-
-export type UpdateTicketBodyInputsItemTeamIdOneOf = string | null
-
-/**
- * チームUUID。フィールドがチームタイプのときのみ指定してください。
- */
-export type UpdateTicketBodyInputsItemTeamId =
-  | UpdateTicketBodyInputsItemTeamIdOneOf
-  | string[]
-
-export type UpdateTicketBodyInputsItemTicketIdOneOf = string | null
-
-/**
- * チケットUUID。フィールドがチケットタイプのときのみ指定してください。
- */
-export type UpdateTicketBodyInputsItemTicketId =
-  | UpdateTicketBodyInputsItemTicketIdOneOf
-  | string[]
-
-/**
- * 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。
- */
-export type UpdateTicketBodyInputsItemFiles = string[] | null
-
-/**
  * フォームの入力
  */
 export type UpdateTicketBodyInputsItem = {
-  /** フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。 */
-  formFieldId?: UpdateTicketBodyInputsItemFormFieldId
-  /** フォームフィールドのコード。formFieldIdまたはformFieldCodeは片方のみ必須です。 */
-  formFieldCode?: UpdateTicketBodyInputsItemFormFieldCode
+  /**
+   * フォームフィールドのUUID。formFieldIdまたはformFieldCodeは片方のみ必須です。
+   * @nullable
+   */
+  formFieldId?: string | null
+  /**
+   * フォームフィールドのコード。formFieldIdまたはformFieldCodeは片方のみ必須です。
+   * @nullable
+   */
+  formFieldCode?: string | null
   /** 入力値。フィールドがチェックボックスタイプのときは配列で指定してください。 */
-  value?: UpdateTicketBodyInputsItemValue
+  value?: string | null | string[]
   /** 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。 */
-  generalMasterItemId?: UpdateTicketBodyInputsItemGeneralMasterItemId
+  generalMasterItemId?: string | null | string[]
   /** ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。 */
-  userId?: UpdateTicketBodyInputsItemUserId
+  userId?: string | null | string[]
   /** チームUUID。フィールドがチームタイプのときのみ指定してください。 */
-  teamId?: UpdateTicketBodyInputsItemTeamId
+  teamId?: string | null | string[]
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
-  ticketId?: UpdateTicketBodyInputsItemTicketId
-  /** 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。 */
-  files?: UpdateTicketBodyInputsItemFiles
+  ticketId?: string | null | string[]
+  /**
+   * 添付ファイルの署名済みID。
+フィールドがファイルタイプのときのみ指定してください。
+   * @nullable
+   */
+  files?: string[] | null
 }
 
 /**
@@ -3834,19 +3124,12 @@ export type UpdateTicketBodyCloudSignDocument = {
   sandbox: boolean
 }
 
-export type UpdateTicketBodyApproversAnyOfItem = {
+export type UpdateTicketBodyApproversItem = {
   /** 承認者を指定する経路ステップのコード */
   routeStepCode: string
   /** 承認者として指定するユーザーのUUID */
   userId: string[]
 }
-
-/**
- * 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。
- */
-export type UpdateTicketBodyApprovers =
-  | UpdateTicketBodyApproversAnyOfItem[]
-  | null
 
 export type UpdateTicketBody = {
   /** ステータス。更新ではdraft, in_progress, rejectedのみ選択可能です。 */
@@ -3866,8 +3149,11 @@ export type UpdateTicketBody = {
   inputs?: UpdateTicketBodyInputsItem[]
   /** クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。 */
   cloudSignDocument?: UpdateTicketBodyCloudSignDocument
-  /** 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。 */
-  approvers?: UpdateTicketBodyApprovers
+  /**
+   * 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。
+   * @nullable
+   */
+  approvers?: UpdateTicketBodyApproversItem[] | null
 }
 
 export type RejectTicketBody = {
@@ -3910,35 +3196,21 @@ export type ListViewersParams = {
   sortBy?: string
 }
 
-/**
- * ユーザーのUUID。userIdとteamIdは片方のみ必須です。
- */
-export type CreateViewerBodyUserId = string | string[] | null
-
-/**
- * チームのUUID。userIdとteamIdは片方のみ必須です。
- */
-export type CreateViewerBodyTeamId = string | string[] | null
-
-/**
- * 役職のUUID。teamId指定時のみ、任意で指定できます。
- */
-export type CreateViewerBodyGradeId = string | null
-
-/**
- * 下位のチームを含めるかどうかをteamId指定時のみ指定できます。未指定時はfalse扱いです。
- */
-export type CreateViewerBodyDescendants = boolean | null
-
 export type CreateViewerBody = {
   /** ユーザーのUUID。userIdとteamIdは片方のみ必須です。 */
-  userId?: CreateViewerBodyUserId
+  userId?: string | string[] | null
   /** チームのUUID。userIdとteamIdは片方のみ必須です。 */
-  teamId?: CreateViewerBodyTeamId
-  /** 役職のUUID。teamId指定時のみ、任意で指定できます。 */
-  gradeId?: CreateViewerBodyGradeId
-  /** 下位のチームを含めるかどうかをteamId指定時のみ指定できます。未指定時はfalse扱いです。 */
-  descendants?: CreateViewerBodyDescendants
+  teamId?: string | string[] | null
+  /**
+   * 役職のUUID。teamId指定時のみ、任意で指定できます。
+   * @nullable
+   */
+  gradeId?: string | null
+  /**
+   * 下位のチームを含めるかどうかをteamId指定時のみ指定できます。未指定時はfalse扱いです。
+   * @nullable
+   */
+  descendants?: boolean | null
 }
 
 export type ListCommentsParams = {
@@ -3960,16 +3232,14 @@ export type ListCommentsParams = {
   sortBy?: string
 }
 
-/**
- * 添付ファイルの署名済みID
- */
-export type CreateCommentBodyFiles = string[] | null
-
 export type CreateCommentBody = {
   /** 本文 */
   body: string
-  /** 添付ファイルの署名済みID */
-  files?: CreateCommentBodyFiles
+  /**
+   * 添付ファイルの署名済みID
+   * @nullable
+   */
+  files?: string[] | null
 }
 
 export type UpdateCommentBody = {
@@ -4003,19 +3273,12 @@ export type ListUsersParams = {
 export type ListUsersStatusItem =
   (typeof ListUsersStatusItem)[keyof typeof ListUsersStatusItem]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListUsersStatusItem = {
   invited: 'invited',
   activated: 'activated',
   suspended: 'suspended',
   deactivated: 'deactivated',
 } as const
-
-/**
- * 社員番号
- * @maxLength 30
- */
-export type CreateUserBodyEmployeeId = string | null
 
 export type CreateUserBody = {
   /** メールアドレス */
@@ -4040,15 +3303,10 @@ export type CreateUserBody = {
   /**
    * 社員番号
    * @maxLength 30
+   * @nullable
    */
-  employeeId?: CreateUserBodyEmployeeId
+  employeeId?: string | null
 }
-
-/**
- * 社員番号
- * @maxLength 30
- */
-export type UpdateUserBodyEmployeeId = string | null
 
 export type UpdateUserBody = {
   /**
@@ -4074,8 +3332,9 @@ export type UpdateUserBody = {
   /**
    * 社員番号
    * @maxLength 30
+   * @nullable
    */
-  employeeId?: UpdateUserBodyEmployeeId
+  employeeId?: string | null
 }
 
 export type LookupUserByEmailParams = {
@@ -4147,7 +3406,6 @@ export type ListRoutesParams = {
 export type ListRoutesStatusItem =
   (typeof ListRoutesStatusItem)[keyof typeof ListRoutesStatusItem]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListRoutesStatusItem = {
   visible: 'visible',
   error: 'error',
@@ -4179,7 +3437,6 @@ export type ListWorkflowsParams = {
 export type ListWorkflowsStatusItem =
   (typeof ListWorkflowsStatusItem)[keyof typeof ListWorkflowsStatusItem]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListWorkflowsStatusItem = {
   visible: 'visible',
   invisible: 'invisible',
@@ -4199,25 +3456,21 @@ export type ListProxyApplicantsParams = {
   perPage?: number
 }
 
-/**
- * 開始日。nullの場合、すでに開始しているものとして扱います。
- */
-export type CreateProxyApplicantBodyStartsOn = string | null
-
-/**
- * 終了日。nullの場合、無期限のものとして扱います。
- */
-export type CreateProxyApplicantBodyEndsOn = string | null
-
 export type CreateProxyApplicantBody = {
   /** 代理されるユーザーID */
   userId: string
   /** 代理するユーザーID */
   proxyUserId: string
-  /** 開始日。nullの場合、すでに開始しているものとして扱います。 */
-  startsOn?: CreateProxyApplicantBodyStartsOn
-  /** 終了日。nullの場合、無期限のものとして扱います。 */
-  endsOn?: CreateProxyApplicantBodyEndsOn
+  /**
+   * 開始日。nullの場合、すでに開始しているものとして扱います。
+   * @nullable
+   */
+  startsOn?: string | null
+  /**
+   * 終了日。nullの場合、無期限のものとして扱います。
+   * @nullable
+   */
+  endsOn?: string | null
   /** 対象ワークフローのID */
   workflowIds?: string[]
 }
@@ -4236,25 +3489,21 @@ export type ListProxyApproversParams = {
   perPage?: number
 }
 
-/**
- * 開始日。nullの場合、すでに始まっているものとして扱います。
- */
-export type CreateProxyApproverBodyStartsOn = string | null
-
-/**
- * 終了日。nullの場合、無期限として扱います。
- */
-export type CreateProxyApproverBodyEndsOn = string | null
-
 export type CreateProxyApproverBody = {
   /** 代理されるユーザーID */
   userId: string
   /** 代理するユーザーID */
   proxyUserId: string
-  /** 開始日。nullの場合、すでに始まっているものとして扱います。 */
-  startsOn?: CreateProxyApproverBodyStartsOn
-  /** 終了日。nullの場合、無期限として扱います。 */
-  endsOn?: CreateProxyApproverBodyEndsOn
+  /**
+   * 開始日。nullの場合、すでに始まっているものとして扱います。
+   * @nullable
+   */
+  startsOn?: string | null
+  /**
+   * 終了日。nullの場合、無期限として扱います。
+   * @nullable
+   */
+  endsOn?: string | null
   /** 対象ワークフローのID */
   workflowIds?: string[]
 }
