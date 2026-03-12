@@ -882,7 +882,7 @@ paths:
                           - type: array
                             items:
                               type: string
-                        description: 入力値。カスタムフィールドがcheckboxまたはpull_downの場合は文字列の配列、それ以外は文字列。
+                        description: 入力値。カスタムフィールドがcheckboxの場合は文字列の配列、それ以外は文字列。
                     required:
                       - code
                       - value
@@ -1008,7 +1008,7 @@ paths:
                           - type: array
                             items:
                               type: string
-                        description: 入力値。カスタムフィールドがcheckboxまたはpull_downの場合文字列の配列、それ以外の場合文字列。
+                        description: 入力値。カスタムフィールドがcheckboxの場合文字列の配列、それ以外の場合文字列。
                     required:
                       - code
                       - value
@@ -2896,10 +2896,10 @@ paths:
           description: 1ページあたりの件数
         - schema:
             type: string
-            pattern: ^(createdAt|updatedAt)(-asc|-desc)?$
+            pattern: ^(createdAt|updatedAt|openedAt|assignedToMeAt)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt, openedAt, assignedToMeAt'
         - schema:
             type: array
             items:
@@ -2977,6 +2977,18 @@ paths:
           in: query
           name: openedAtEnd
           description: 申請日時の終点
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: assignedToMeAtStart
+          description: 承認依頼日時の起点
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: assignedToMeAtEnd
+          description: 承認依頼日時の終点
         - schema:
             type: string
             format: date-time
@@ -6935,14 +6947,10 @@ components:
             required:
               - formField
               - order
-              - climberCloudColumnName
       required:
         - id
-        - httpMethod
-        - url
-        - headers
-        - responseArray
-        - arrayJsonPath
+        - contentsId
+        - formField
         - mappings
     SlipField:
       title: SlipField
@@ -7424,22 +7432,26 @@ components:
           type: boolean
           description: 'stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'
         gradeSymbol:
-          type: string
+          anyOf:
+            - type: string
+              enum:
+                - equal
+                - greater_than
+                - greater_than_or_equal
+                - less_than
+                - less_than_or_equal
+                - any_of
+            - type: 'null'
           description: 役職の比較条件。役職が指定されているときのみ値が入ります。
-          enum:
-            - equal
-            - greater_than
-            - greater_than_or_equal
-            - less_than
-            - less_than_or_equal
-            - any_of
         grades:
           type: array
           description: 承認者の指定に使う役職の配列
           items:
             $ref: '#/components/schemas/Grade'
         variable:
-          type: string
+          type:
+            - string
+            - 'null'
           description: 承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。
     RouteStepCondition:
       title: RouteStepCondition
@@ -7464,9 +7476,9 @@ components:
             - all
             - any
         routeStepConditionFields:
-          anyOf:
-            - $ref: '#/components/schemas/RouteStepConditionField'
-            - properties: {}
+          type: array
+          items:
+            $ref: '#/components/schemas/RouteStepConditionField'
     RouteStepConditionField:
       title: RouteStepConditionField
       type: object
@@ -8336,7 +8348,7 @@ components:
           type: object
           properties:
             ticket:
-              $ref: '#/components/schemas/TicketWithStep'
+              $ref: '#/components/schemas/TicketDetail'
     WebhookRequestBodyComment:
       title: WebhookRequestBodyComment
       description: Webhookのリクエストボディ（comment_*）

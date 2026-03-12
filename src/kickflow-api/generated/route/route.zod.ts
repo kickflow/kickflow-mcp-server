@@ -193,28 +193,28 @@ export const getRouteResponseStepsItemTargetsItemGradesItemLevelMax = 255;
 
 export const getRouteResponseStepsItemTargetsItemGradesItemCodeMax = 100;
 
-export const getRouteResponseStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 300;
+export const getRouteResponseStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax = 300;
 
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin = 0;
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax = 255;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin = 0;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax = 255;
 
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 100;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax = 100;
 
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 300;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeIsDefaultDefault = false;export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax = 300;
 
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 100;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax = 100;
 
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax = 10000;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax = 10000;
 
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin = 0;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin = 0;
 
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 100;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax = 100;
 
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 100;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax = 100;
 
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 300;
 
-export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 
 
@@ -323,7 +323,7 @@ export const getRouteResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).optional().describe('チーム'),
   "descendants": zod.boolean().optional().describe('stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'),
-  "gradeSymbol": zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
+  "gradeSymbol": zod.union([zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']),zod.null()]).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
   "grades": zod.array(zod.object({
   "id": zod.uuid().describe('UUID'),
   "name": zod.string().max(getRouteResponseStepsItemTargetsItemGradesItemNameMax).describe('名前'),
@@ -333,13 +333,13 @@ export const getRouteResponse = zod.object({
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職')).optional().describe('承認者の指定に使う役職の配列'),
-  "variable": zod.string().optional().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
+  "variable": zod.string().nullish().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
 })).optional().describe('承認者の指定に使うチームと役職の条件'),
   "routeStepCondition": zod.union([zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "conditionType": zod.enum(['always', 'conditional', 'conditional_skip']).optional().describe('実行タイプ'),
   "combinationType": zod.enum(['all', 'any']).optional().describe('条件の組み合わせタイプ'),
-  "routeStepConditionFields": zod.union([zod.object({
+  "routeStepConditionFields": zod.array(zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "variable": zod.string().optional().describe('変数'),
   "fieldKey": zod.enum(['author_grade', 'author_team', 'text_variable', 'number_variable', 'checkbox_variable', 'general_master_variable', 'other_variable']).optional().describe('変数のフィールド'),
@@ -347,28 +347,28 @@ export const getRouteResponse = zod.object({
   "value": zod.string().optional().describe('しきい値'),
   "grade": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax).describe('名前'),
-  "level": zod.number().min(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin).max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax).describe('レベル'),
-  "code": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax).nullable().describe('コード'),
+  "name": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax).describe('名前'),
+  "level": zod.number().min(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin).max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax).describe('レベル'),
+  "code": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax).nullable().describe('コード'),
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職').optional().describe('しきい値として使う役職'),
   "team": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax).describe('名前'),
+  "name": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax).describe('コード'),
-  "notes": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax).nullish().describe('管理用メモ'),
+  "code": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax).describe('コード'),
+  "notes": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin).describe('ユーザー数'),
+  "usersCount": zod.number().min(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('チーム').optional().describe('しきい値として使うチーム'),
   "generalMasterItem": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "code": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax).describe('コード'),
-  "name": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax).describe('名前'),
+  "code": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax).describe('コード'),
+  "name": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax).describe('名前'),
   "description": zod.string().nullable().describe('説明'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
@@ -381,9 +381,9 @@ export const getRouteResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
   "field": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "title": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
+  "title": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
   "description": zod.string().nullable().describe('フィールドの説明'),
-  "code": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
+  "code": zod.string().max(getRouteResponseStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
   "fieldType": zod.enum(['text', 'text_long', 'number', 'integer', 'checkbox', 'pull_down', 'date']).describe('フィールドの型'),
   "required": zod.boolean().describe('必須項目かどうか'),
   "visible": zod.boolean().describe('管理者以外も閲覧可能な場合true'),
@@ -393,9 +393,7 @@ export const getRouteResponse = zod.object({
 }).describe('汎用マスタのカスタムフィールド')
 })).describe('カスタムフィールドの入力の配列')
 }).describe('汎用マスタのアイテム').optional().describe('しきい値として使う汎用マスタアイテム')
-}).describe('ステップごとに設定できる実行条件の詳細'),zod.object({
-
-})]).optional()
+}).describe('ステップごとに設定できる実行条件の詳細')).optional()
 }).describe('ステップごとに設定できる実行条件'),zod.null()]).optional(),
   "code": zod.string().describe('コード')
 }).describe('経路ステップ')).describe('経路ステップ')

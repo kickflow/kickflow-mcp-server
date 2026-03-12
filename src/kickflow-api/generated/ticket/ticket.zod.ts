@@ -689,7 +689,7 @@ export const listTicketsResponseItem = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(listTicketsResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -714,7 +714,7 @@ export const listTicketsResponseItem = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -1284,28 +1284,28 @@ export const createTicketResponseRouteStepsItemTargetsItemGradesItemLevelMax = 2
 
 export const createTicketResponseRouteStepsItemTargetsItemGradesItemCodeMax = 100;
 
-export const createTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 300;
+export const createTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax = 300;
 
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin = 0;
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax = 255;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin = 0;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax = 255;
 
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 100;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax = 100;
 
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 300;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeIsDefaultDefault = false;export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax = 300;
 
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 100;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax = 100;
 
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax = 10000;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax = 10000;
 
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin = 0;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin = 0;
 
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 100;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax = 100;
 
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 100;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax = 100;
 
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 300;
 
-export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 export const createTicketResponseTriggerTicketCurrentStepMin = 0;
 
@@ -2952,7 +2952,7 @@ export const createTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(createTicketResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -2977,7 +2977,7 @@ export const createTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -3261,7 +3261,7 @@ export const createTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).optional().describe('チーム'),
   "descendants": zod.boolean().optional().describe('stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'),
-  "gradeSymbol": zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
+  "gradeSymbol": zod.union([zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']),zod.null()]).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
   "grades": zod.array(zod.object({
   "id": zod.uuid().describe('UUID'),
   "name": zod.string().max(createTicketResponseRouteStepsItemTargetsItemGradesItemNameMax).describe('名前'),
@@ -3271,13 +3271,13 @@ export const createTicketResponse = zod.object({
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職')).optional().describe('承認者の指定に使う役職の配列'),
-  "variable": zod.string().optional().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
+  "variable": zod.string().nullish().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
 })).optional().describe('承認者の指定に使うチームと役職の条件'),
   "routeStepCondition": zod.union([zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "conditionType": zod.enum(['always', 'conditional', 'conditional_skip']).optional().describe('実行タイプ'),
   "combinationType": zod.enum(['all', 'any']).optional().describe('条件の組み合わせタイプ'),
-  "routeStepConditionFields": zod.union([zod.object({
+  "routeStepConditionFields": zod.array(zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "variable": zod.string().optional().describe('変数'),
   "fieldKey": zod.enum(['author_grade', 'author_team', 'text_variable', 'number_variable', 'checkbox_variable', 'general_master_variable', 'other_variable']).optional().describe('変数のフィールド'),
@@ -3285,28 +3285,28 @@ export const createTicketResponse = zod.object({
   "value": zod.string().optional().describe('しきい値'),
   "grade": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax).describe('名前'),
-  "level": zod.number().min(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin).max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax).describe('レベル'),
-  "code": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax).nullable().describe('コード'),
+  "name": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax).describe('名前'),
+  "level": zod.number().min(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin).max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax).describe('レベル'),
+  "code": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax).nullable().describe('コード'),
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職').optional().describe('しきい値として使う役職'),
   "team": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax).describe('名前'),
+  "name": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax).describe('コード'),
-  "notes": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax).nullish().describe('管理用メモ'),
+  "code": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax).describe('コード'),
+  "notes": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin).describe('ユーザー数'),
+  "usersCount": zod.number().min(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('チーム').optional().describe('しきい値として使うチーム'),
   "generalMasterItem": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "code": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax).describe('コード'),
-  "name": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax).describe('名前'),
+  "code": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax).describe('コード'),
+  "name": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax).describe('名前'),
   "description": zod.string().nullable().describe('説明'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
@@ -3319,9 +3319,9 @@ export const createTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
   "field": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "title": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
+  "title": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
   "description": zod.string().nullable().describe('フィールドの説明'),
-  "code": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
+  "code": zod.string().max(createTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
   "fieldType": zod.enum(['text', 'text_long', 'number', 'integer', 'checkbox', 'pull_down', 'date']).describe('フィールドの型'),
   "required": zod.boolean().describe('必須項目かどうか'),
   "visible": zod.boolean().describe('管理者以外も閲覧可能な場合true'),
@@ -3331,9 +3331,7 @@ export const createTicketResponse = zod.object({
 }).describe('汎用マスタのカスタムフィールド')
 })).describe('カスタムフィールドの入力の配列')
 }).describe('汎用マスタのアイテム').optional().describe('しきい値として使う汎用マスタアイテム')
-}).describe('ステップごとに設定できる実行条件の詳細'),zod.object({
-
-})]).optional()
+}).describe('ステップごとに設定できる実行条件の詳細')).optional()
 }).describe('ステップごとに設定できる実行条件'),zod.null()]).optional(),
   "code": zod.string().describe('コード')
 }).describe('経路ステップ')).describe('経路ステップ')
@@ -3733,7 +3731,7 @@ export const createTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(createTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -3758,7 +3756,7 @@ export const createTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -4321,7 +4319,7 @@ export const createTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(createTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -4346,7 +4344,7 @@ export const createTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -4975,7 +4973,7 @@ export const createTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(createTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -5000,7 +4998,7 @@ export const createTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -5662,7 +5660,7 @@ export const createTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(createTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -5687,7 +5685,7 @@ export const createTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -6343,7 +6341,7 @@ export const createTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(createTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -6368,7 +6366,7 @@ export const createTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -6626,13 +6624,13 @@ export const listTasksQueryPageDefault = 1;
 export const listTasksQueryPerPageDefault = 25;
 export const listTasksQueryPerPageMax = 100;
 
-export const listTasksQuerySortByRegExp = new RegExp('^(createdAt|updatedAt)(-asc|-desc)?$');
+export const listTasksQuerySortByRegExp = new RegExp('^(createdAt|updatedAt|openedAt|assignedToMeAt)(-asc|-desc)?$');
 
 
 export const listTasksQueryParams = zod.object({
   "page": zod.number().min(1).default(listTasksQueryPageDefault).describe('ページ'),
   "perPage": zod.number().min(1).max(listTasksQueryPerPageMax).default(listTasksQueryPerPageDefault).describe('1ページあたりの件数'),
-  "sortBy": zod.string().regex(listTasksQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt'),
+  "sortBy": zod.string().regex(listTasksQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: createdAt, updatedAt, openedAt, assignedToMeAt'),
   "status": zod.array(zod.enum(['draft', 'in_progress', 'rejected', 'completed', 'deleted'])).optional().describe('ステータスの配列'),
   "subStatusIds": zod.array(zod.uuid()).optional().describe('サブステータスのUUIDの配列'),
   "workflowId": zod.string().optional().describe('ワークフローのUUID'),
@@ -6645,6 +6643,8 @@ export const listTasksQueryParams = zod.object({
   "updatedAtEnd": zod.iso.datetime({}).optional().describe('更新日時の終点'),
   "openedAtStart": zod.iso.datetime({}).optional().describe('申請日時の起点'),
   "openedAtEnd": zod.iso.datetime({}).optional().describe('申請日時の終点'),
+  "assignedToMeAtStart": zod.iso.datetime({}).optional().describe('承認依頼日時の起点'),
+  "assignedToMeAtEnd": zod.iso.datetime({}).optional().describe('承認依頼日時の終点'),
   "completedAtStart": zod.iso.datetime({}).optional().describe('完了日時の起点'),
   "completedAtEnd": zod.iso.datetime({}).optional().describe('完了日時の終点'),
   "archivedAtStart": zod.iso.datetime({}).optional().describe('アーカイブ日時の起点'),
@@ -7298,7 +7298,7 @@ export const listTasksResponseItem = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(listTasksResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -7323,7 +7323,7 @@ export const listTasksResponseItem = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -7857,28 +7857,28 @@ export const getTicketResponseRouteStepsItemTargetsItemGradesItemLevelMax = 255;
 
 export const getTicketResponseRouteStepsItemTargetsItemGradesItemCodeMax = 100;
 
-export const getTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 300;
+export const getTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax = 300;
 
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin = 0;
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax = 255;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin = 0;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax = 255;
 
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 100;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax = 100;
 
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 300;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeIsDefaultDefault = false;export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax = 300;
 
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 100;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax = 100;
 
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax = 10000;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax = 10000;
 
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin = 0;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin = 0;
 
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 100;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax = 100;
 
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 100;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax = 100;
 
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 300;
 
-export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 export const getTicketResponseTriggerTicketCurrentStepMin = 0;
 
@@ -9525,7 +9525,7 @@ export const getTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(getTicketResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -9550,7 +9550,7 @@ export const getTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -9834,7 +9834,7 @@ export const getTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).optional().describe('チーム'),
   "descendants": zod.boolean().optional().describe('stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'),
-  "gradeSymbol": zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
+  "gradeSymbol": zod.union([zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']),zod.null()]).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
   "grades": zod.array(zod.object({
   "id": zod.uuid().describe('UUID'),
   "name": zod.string().max(getTicketResponseRouteStepsItemTargetsItemGradesItemNameMax).describe('名前'),
@@ -9844,13 +9844,13 @@ export const getTicketResponse = zod.object({
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職')).optional().describe('承認者の指定に使う役職の配列'),
-  "variable": zod.string().optional().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
+  "variable": zod.string().nullish().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
 })).optional().describe('承認者の指定に使うチームと役職の条件'),
   "routeStepCondition": zod.union([zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "conditionType": zod.enum(['always', 'conditional', 'conditional_skip']).optional().describe('実行タイプ'),
   "combinationType": zod.enum(['all', 'any']).optional().describe('条件の組み合わせタイプ'),
-  "routeStepConditionFields": zod.union([zod.object({
+  "routeStepConditionFields": zod.array(zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "variable": zod.string().optional().describe('変数'),
   "fieldKey": zod.enum(['author_grade', 'author_team', 'text_variable', 'number_variable', 'checkbox_variable', 'general_master_variable', 'other_variable']).optional().describe('変数のフィールド'),
@@ -9858,28 +9858,28 @@ export const getTicketResponse = zod.object({
   "value": zod.string().optional().describe('しきい値'),
   "grade": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax).describe('名前'),
-  "level": zod.number().min(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin).max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax).describe('レベル'),
-  "code": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax).nullable().describe('コード'),
+  "name": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax).describe('名前'),
+  "level": zod.number().min(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin).max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax).describe('レベル'),
+  "code": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax).nullable().describe('コード'),
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職').optional().describe('しきい値として使う役職'),
   "team": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax).describe('名前'),
+  "name": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax).describe('コード'),
-  "notes": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax).nullish().describe('管理用メモ'),
+  "code": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax).describe('コード'),
+  "notes": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin).describe('ユーザー数'),
+  "usersCount": zod.number().min(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('チーム').optional().describe('しきい値として使うチーム'),
   "generalMasterItem": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "code": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax).describe('コード'),
-  "name": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax).describe('名前'),
+  "code": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax).describe('コード'),
+  "name": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax).describe('名前'),
   "description": zod.string().nullable().describe('説明'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
@@ -9892,9 +9892,9 @@ export const getTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
   "field": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "title": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
+  "title": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
   "description": zod.string().nullable().describe('フィールドの説明'),
-  "code": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
+  "code": zod.string().max(getTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
   "fieldType": zod.enum(['text', 'text_long', 'number', 'integer', 'checkbox', 'pull_down', 'date']).describe('フィールドの型'),
   "required": zod.boolean().describe('必須項目かどうか'),
   "visible": zod.boolean().describe('管理者以外も閲覧可能な場合true'),
@@ -9904,9 +9904,7 @@ export const getTicketResponse = zod.object({
 }).describe('汎用マスタのカスタムフィールド')
 })).describe('カスタムフィールドの入力の配列')
 }).describe('汎用マスタのアイテム').optional().describe('しきい値として使う汎用マスタアイテム')
-}).describe('ステップごとに設定できる実行条件の詳細'),zod.object({
-
-})]).optional()
+}).describe('ステップごとに設定できる実行条件の詳細')).optional()
 }).describe('ステップごとに設定できる実行条件'),zod.null()]).optional(),
   "code": zod.string().describe('コード')
 }).describe('経路ステップ')).describe('経路ステップ')
@@ -10306,7 +10304,7 @@ export const getTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(getTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -10331,7 +10329,7 @@ export const getTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -10894,7 +10892,7 @@ export const getTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(getTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -10919,7 +10917,7 @@ export const getTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -11548,7 +11546,7 @@ export const getTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(getTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -11573,7 +11571,7 @@ export const getTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -12235,7 +12233,7 @@ export const getTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(getTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -12260,7 +12258,7 @@ export const getTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -12916,7 +12914,7 @@ export const getTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(getTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -12941,7 +12939,7 @@ export const getTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -13534,28 +13532,28 @@ export const updateTicketResponseRouteStepsItemTargetsItemGradesItemLevelMax = 2
 
 export const updateTicketResponseRouteStepsItemTargetsItemGradesItemCodeMax = 100;
 
-export const updateTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 300;
+export const updateTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax = 300;
 
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin = 0;
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax = 255;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin = 0;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax = 255;
 
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 100;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax = 100;
 
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 300;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeIsDefaultDefault = false;export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax = 300;
 
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 100;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax = 100;
 
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax = 10000;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax = 10000;
 
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin = 0;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin = 0;
 
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 100;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax = 100;
 
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 100;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax = 100;
 
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 300;
 
-export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 export const updateTicketResponseTriggerTicketCurrentStepMin = 0;
 
@@ -15202,7 +15200,7 @@ export const updateTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(updateTicketResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -15227,7 +15225,7 @@ export const updateTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -15511,7 +15509,7 @@ export const updateTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).optional().describe('チーム'),
   "descendants": zod.boolean().optional().describe('stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'),
-  "gradeSymbol": zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
+  "gradeSymbol": zod.union([zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']),zod.null()]).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
   "grades": zod.array(zod.object({
   "id": zod.uuid().describe('UUID'),
   "name": zod.string().max(updateTicketResponseRouteStepsItemTargetsItemGradesItemNameMax).describe('名前'),
@@ -15521,13 +15519,13 @@ export const updateTicketResponse = zod.object({
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職')).optional().describe('承認者の指定に使う役職の配列'),
-  "variable": zod.string().optional().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
+  "variable": zod.string().nullish().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
 })).optional().describe('承認者の指定に使うチームと役職の条件'),
   "routeStepCondition": zod.union([zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "conditionType": zod.enum(['always', 'conditional', 'conditional_skip']).optional().describe('実行タイプ'),
   "combinationType": zod.enum(['all', 'any']).optional().describe('条件の組み合わせタイプ'),
-  "routeStepConditionFields": zod.union([zod.object({
+  "routeStepConditionFields": zod.array(zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "variable": zod.string().optional().describe('変数'),
   "fieldKey": zod.enum(['author_grade', 'author_team', 'text_variable', 'number_variable', 'checkbox_variable', 'general_master_variable', 'other_variable']).optional().describe('変数のフィールド'),
@@ -15535,28 +15533,28 @@ export const updateTicketResponse = zod.object({
   "value": zod.string().optional().describe('しきい値'),
   "grade": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax).describe('名前'),
-  "level": zod.number().min(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin).max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax).describe('レベル'),
-  "code": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax).nullable().describe('コード'),
+  "name": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax).describe('名前'),
+  "level": zod.number().min(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin).max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax).describe('レベル'),
+  "code": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax).nullable().describe('コード'),
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職').optional().describe('しきい値として使う役職'),
   "team": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax).describe('名前'),
+  "name": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax).describe('コード'),
-  "notes": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax).nullish().describe('管理用メモ'),
+  "code": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax).describe('コード'),
+  "notes": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin).describe('ユーザー数'),
+  "usersCount": zod.number().min(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('チーム').optional().describe('しきい値として使うチーム'),
   "generalMasterItem": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "code": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax).describe('コード'),
-  "name": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax).describe('名前'),
+  "code": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax).describe('コード'),
+  "name": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax).describe('名前'),
   "description": zod.string().nullable().describe('説明'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
@@ -15569,9 +15567,9 @@ export const updateTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
   "field": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "title": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
+  "title": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
   "description": zod.string().nullable().describe('フィールドの説明'),
-  "code": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
+  "code": zod.string().max(updateTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
   "fieldType": zod.enum(['text', 'text_long', 'number', 'integer', 'checkbox', 'pull_down', 'date']).describe('フィールドの型'),
   "required": zod.boolean().describe('必須項目かどうか'),
   "visible": zod.boolean().describe('管理者以外も閲覧可能な場合true'),
@@ -15581,9 +15579,7 @@ export const updateTicketResponse = zod.object({
 }).describe('汎用マスタのカスタムフィールド')
 })).describe('カスタムフィールドの入力の配列')
 }).describe('汎用マスタのアイテム').optional().describe('しきい値として使う汎用マスタアイテム')
-}).describe('ステップごとに設定できる実行条件の詳細'),zod.object({
-
-})]).optional()
+}).describe('ステップごとに設定できる実行条件の詳細')).optional()
 }).describe('ステップごとに設定できる実行条件'),zod.null()]).optional(),
   "code": zod.string().describe('コード')
 }).describe('経路ステップ')).describe('経路ステップ')
@@ -15983,7 +15979,7 @@ export const updateTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(updateTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -16008,7 +16004,7 @@ export const updateTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -16571,7 +16567,7 @@ export const updateTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(updateTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -16596,7 +16592,7 @@ export const updateTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -17225,7 +17221,7 @@ export const updateTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(updateTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -17250,7 +17246,7 @@ export const updateTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -17912,7 +17908,7 @@ export const updateTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(updateTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -17937,7 +17933,7 @@ export const updateTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -18593,7 +18589,7 @@ export const updateTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(updateTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -18618,7 +18614,7 @@ export const updateTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -19168,28 +19164,28 @@ export const approveTicketResponseRouteStepsItemTargetsItemGradesItemLevelMax = 
 
 export const approveTicketResponseRouteStepsItemTargetsItemGradesItemCodeMax = 100;
 
-export const approveTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 300;
+export const approveTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax = 300;
 
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin = 0;
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax = 255;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin = 0;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax = 255;
 
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 100;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax = 100;
 
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 300;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeIsDefaultDefault = false;export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax = 300;
 
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 100;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax = 100;
 
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax = 10000;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax = 10000;
 
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin = 0;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin = 0;
 
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 100;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax = 100;
 
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 100;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax = 100;
 
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 300;
 
-export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 export const approveTicketResponseTriggerTicketCurrentStepMin = 0;
 
@@ -20836,7 +20832,7 @@ export const approveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(approveTicketResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -20861,7 +20857,7 @@ export const approveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -21145,7 +21141,7 @@ export const approveTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).optional().describe('チーム'),
   "descendants": zod.boolean().optional().describe('stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'),
-  "gradeSymbol": zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
+  "gradeSymbol": zod.union([zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']),zod.null()]).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
   "grades": zod.array(zod.object({
   "id": zod.uuid().describe('UUID'),
   "name": zod.string().max(approveTicketResponseRouteStepsItemTargetsItemGradesItemNameMax).describe('名前'),
@@ -21155,13 +21151,13 @@ export const approveTicketResponse = zod.object({
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職')).optional().describe('承認者の指定に使う役職の配列'),
-  "variable": zod.string().optional().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
+  "variable": zod.string().nullish().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
 })).optional().describe('承認者の指定に使うチームと役職の条件'),
   "routeStepCondition": zod.union([zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "conditionType": zod.enum(['always', 'conditional', 'conditional_skip']).optional().describe('実行タイプ'),
   "combinationType": zod.enum(['all', 'any']).optional().describe('条件の組み合わせタイプ'),
-  "routeStepConditionFields": zod.union([zod.object({
+  "routeStepConditionFields": zod.array(zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "variable": zod.string().optional().describe('変数'),
   "fieldKey": zod.enum(['author_grade', 'author_team', 'text_variable', 'number_variable', 'checkbox_variable', 'general_master_variable', 'other_variable']).optional().describe('変数のフィールド'),
@@ -21169,28 +21165,28 @@ export const approveTicketResponse = zod.object({
   "value": zod.string().optional().describe('しきい値'),
   "grade": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax).describe('名前'),
-  "level": zod.number().min(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin).max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax).describe('レベル'),
-  "code": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax).nullable().describe('コード'),
+  "name": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax).describe('名前'),
+  "level": zod.number().min(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin).max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax).describe('レベル'),
+  "code": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax).nullable().describe('コード'),
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職').optional().describe('しきい値として使う役職'),
   "team": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax).describe('名前'),
+  "name": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax).describe('コード'),
-  "notes": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax).nullish().describe('管理用メモ'),
+  "code": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax).describe('コード'),
+  "notes": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin).describe('ユーザー数'),
+  "usersCount": zod.number().min(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('チーム').optional().describe('しきい値として使うチーム'),
   "generalMasterItem": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "code": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax).describe('コード'),
-  "name": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax).describe('名前'),
+  "code": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax).describe('コード'),
+  "name": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax).describe('名前'),
   "description": zod.string().nullable().describe('説明'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
@@ -21203,9 +21199,9 @@ export const approveTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
   "field": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "title": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
+  "title": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
   "description": zod.string().nullable().describe('フィールドの説明'),
-  "code": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
+  "code": zod.string().max(approveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
   "fieldType": zod.enum(['text', 'text_long', 'number', 'integer', 'checkbox', 'pull_down', 'date']).describe('フィールドの型'),
   "required": zod.boolean().describe('必須項目かどうか'),
   "visible": zod.boolean().describe('管理者以外も閲覧可能な場合true'),
@@ -21215,9 +21211,7 @@ export const approveTicketResponse = zod.object({
 }).describe('汎用マスタのカスタムフィールド')
 })).describe('カスタムフィールドの入力の配列')
 }).describe('汎用マスタのアイテム').optional().describe('しきい値として使う汎用マスタアイテム')
-}).describe('ステップごとに設定できる実行条件の詳細'),zod.object({
-
-})]).optional()
+}).describe('ステップごとに設定できる実行条件の詳細')).optional()
 }).describe('ステップごとに設定できる実行条件'),zod.null()]).optional(),
   "code": zod.string().describe('コード')
 }).describe('経路ステップ')).describe('経路ステップ')
@@ -21617,7 +21611,7 @@ export const approveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(approveTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -21642,7 +21636,7 @@ export const approveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -22205,7 +22199,7 @@ export const approveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(approveTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -22230,7 +22224,7 @@ export const approveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -22859,7 +22853,7 @@ export const approveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(approveTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -22884,7 +22878,7 @@ export const approveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -23546,7 +23540,7 @@ export const approveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(approveTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -23571,7 +23565,7 @@ export const approveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -24227,7 +24221,7 @@ export const approveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(approveTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -24252,7 +24246,7 @@ export const approveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -24806,28 +24800,28 @@ export const rejectTicketResponseRouteStepsItemTargetsItemGradesItemLevelMax = 2
 
 export const rejectTicketResponseRouteStepsItemTargetsItemGradesItemCodeMax = 100;
 
-export const rejectTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 300;
+export const rejectTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax = 300;
 
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin = 0;
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax = 255;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin = 0;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax = 255;
 
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 100;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax = 100;
 
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 300;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeIsDefaultDefault = false;export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax = 300;
 
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 100;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax = 100;
 
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax = 10000;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax = 10000;
 
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin = 0;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin = 0;
 
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 100;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax = 100;
 
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 100;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax = 100;
 
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 300;
 
-export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 export const rejectTicketResponseTriggerTicketCurrentStepMin = 0;
 
@@ -26474,7 +26468,7 @@ export const rejectTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(rejectTicketResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -26499,7 +26493,7 @@ export const rejectTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -26783,7 +26777,7 @@ export const rejectTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).optional().describe('チーム'),
   "descendants": zod.boolean().optional().describe('stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'),
-  "gradeSymbol": zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
+  "gradeSymbol": zod.union([zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']),zod.null()]).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
   "grades": zod.array(zod.object({
   "id": zod.uuid().describe('UUID'),
   "name": zod.string().max(rejectTicketResponseRouteStepsItemTargetsItemGradesItemNameMax).describe('名前'),
@@ -26793,13 +26787,13 @@ export const rejectTicketResponse = zod.object({
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職')).optional().describe('承認者の指定に使う役職の配列'),
-  "variable": zod.string().optional().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
+  "variable": zod.string().nullish().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
 })).optional().describe('承認者の指定に使うチームと役職の条件'),
   "routeStepCondition": zod.union([zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "conditionType": zod.enum(['always', 'conditional', 'conditional_skip']).optional().describe('実行タイプ'),
   "combinationType": zod.enum(['all', 'any']).optional().describe('条件の組み合わせタイプ'),
-  "routeStepConditionFields": zod.union([zod.object({
+  "routeStepConditionFields": zod.array(zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "variable": zod.string().optional().describe('変数'),
   "fieldKey": zod.enum(['author_grade', 'author_team', 'text_variable', 'number_variable', 'checkbox_variable', 'general_master_variable', 'other_variable']).optional().describe('変数のフィールド'),
@@ -26807,28 +26801,28 @@ export const rejectTicketResponse = zod.object({
   "value": zod.string().optional().describe('しきい値'),
   "grade": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax).describe('名前'),
-  "level": zod.number().min(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin).max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax).describe('レベル'),
-  "code": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax).nullable().describe('コード'),
+  "name": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax).describe('名前'),
+  "level": zod.number().min(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin).max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax).describe('レベル'),
+  "code": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax).nullable().describe('コード'),
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職').optional().describe('しきい値として使う役職'),
   "team": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax).describe('名前'),
+  "name": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax).describe('コード'),
-  "notes": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax).nullish().describe('管理用メモ'),
+  "code": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax).describe('コード'),
+  "notes": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin).describe('ユーザー数'),
+  "usersCount": zod.number().min(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('チーム').optional().describe('しきい値として使うチーム'),
   "generalMasterItem": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "code": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax).describe('コード'),
-  "name": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax).describe('名前'),
+  "code": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax).describe('コード'),
+  "name": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax).describe('名前'),
   "description": zod.string().nullable().describe('説明'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
@@ -26841,9 +26835,9 @@ export const rejectTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
   "field": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "title": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
+  "title": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
   "description": zod.string().nullable().describe('フィールドの説明'),
-  "code": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
+  "code": zod.string().max(rejectTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
   "fieldType": zod.enum(['text', 'text_long', 'number', 'integer', 'checkbox', 'pull_down', 'date']).describe('フィールドの型'),
   "required": zod.boolean().describe('必須項目かどうか'),
   "visible": zod.boolean().describe('管理者以外も閲覧可能な場合true'),
@@ -26853,9 +26847,7 @@ export const rejectTicketResponse = zod.object({
 }).describe('汎用マスタのカスタムフィールド')
 })).describe('カスタムフィールドの入力の配列')
 }).describe('汎用マスタのアイテム').optional().describe('しきい値として使う汎用マスタアイテム')
-}).describe('ステップごとに設定できる実行条件の詳細'),zod.object({
-
-})]).optional()
+}).describe('ステップごとに設定できる実行条件の詳細')).optional()
 }).describe('ステップごとに設定できる実行条件'),zod.null()]).optional(),
   "code": zod.string().describe('コード')
 }).describe('経路ステップ')).describe('経路ステップ')
@@ -27255,7 +27247,7 @@ export const rejectTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(rejectTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -27280,7 +27272,7 @@ export const rejectTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -27843,7 +27835,7 @@ export const rejectTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(rejectTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -27868,7 +27860,7 @@ export const rejectTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -28497,7 +28489,7 @@ export const rejectTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(rejectTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -28522,7 +28514,7 @@ export const rejectTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -29184,7 +29176,7 @@ export const rejectTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(rejectTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -29209,7 +29201,7 @@ export const rejectTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -29865,7 +29857,7 @@ export const rejectTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(rejectTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -29890,7 +29882,7 @@ export const rejectTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -30444,28 +30436,28 @@ export const denyTicketResponseRouteStepsItemTargetsItemGradesItemLevelMax = 255
 
 export const denyTicketResponseRouteStepsItemTargetsItemGradesItemCodeMax = 100;
 
-export const denyTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 300;
+export const denyTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax = 300;
 
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin = 0;
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax = 255;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin = 0;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax = 255;
 
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 100;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax = 100;
 
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 300;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeIsDefaultDefault = false;export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax = 300;
 
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 100;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax = 100;
 
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax = 10000;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax = 10000;
 
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin = 0;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin = 0;
 
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 100;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax = 100;
 
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 100;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax = 100;
 
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 300;
 
-export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 export const denyTicketResponseTriggerTicketCurrentStepMin = 0;
 
@@ -32112,7 +32104,7 @@ export const denyTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(denyTicketResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -32137,7 +32129,7 @@ export const denyTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -32421,7 +32413,7 @@ export const denyTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).optional().describe('チーム'),
   "descendants": zod.boolean().optional().describe('stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'),
-  "gradeSymbol": zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
+  "gradeSymbol": zod.union([zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']),zod.null()]).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
   "grades": zod.array(zod.object({
   "id": zod.uuid().describe('UUID'),
   "name": zod.string().max(denyTicketResponseRouteStepsItemTargetsItemGradesItemNameMax).describe('名前'),
@@ -32431,13 +32423,13 @@ export const denyTicketResponse = zod.object({
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職')).optional().describe('承認者の指定に使う役職の配列'),
-  "variable": zod.string().optional().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
+  "variable": zod.string().nullish().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
 })).optional().describe('承認者の指定に使うチームと役職の条件'),
   "routeStepCondition": zod.union([zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "conditionType": zod.enum(['always', 'conditional', 'conditional_skip']).optional().describe('実行タイプ'),
   "combinationType": zod.enum(['all', 'any']).optional().describe('条件の組み合わせタイプ'),
-  "routeStepConditionFields": zod.union([zod.object({
+  "routeStepConditionFields": zod.array(zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "variable": zod.string().optional().describe('変数'),
   "fieldKey": zod.enum(['author_grade', 'author_team', 'text_variable', 'number_variable', 'checkbox_variable', 'general_master_variable', 'other_variable']).optional().describe('変数のフィールド'),
@@ -32445,28 +32437,28 @@ export const denyTicketResponse = zod.object({
   "value": zod.string().optional().describe('しきい値'),
   "grade": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax).describe('名前'),
-  "level": zod.number().min(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin).max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax).describe('レベル'),
-  "code": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax).nullable().describe('コード'),
+  "name": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax).describe('名前'),
+  "level": zod.number().min(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin).max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax).describe('レベル'),
+  "code": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax).nullable().describe('コード'),
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職').optional().describe('しきい値として使う役職'),
   "team": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax).describe('名前'),
+  "name": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax).describe('コード'),
-  "notes": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax).nullish().describe('管理用メモ'),
+  "code": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax).describe('コード'),
+  "notes": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin).describe('ユーザー数'),
+  "usersCount": zod.number().min(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('チーム').optional().describe('しきい値として使うチーム'),
   "generalMasterItem": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "code": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax).describe('コード'),
-  "name": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax).describe('名前'),
+  "code": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax).describe('コード'),
+  "name": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax).describe('名前'),
   "description": zod.string().nullable().describe('説明'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
@@ -32479,9 +32471,9 @@ export const denyTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
   "field": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "title": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
+  "title": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
   "description": zod.string().nullable().describe('フィールドの説明'),
-  "code": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
+  "code": zod.string().max(denyTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
   "fieldType": zod.enum(['text', 'text_long', 'number', 'integer', 'checkbox', 'pull_down', 'date']).describe('フィールドの型'),
   "required": zod.boolean().describe('必須項目かどうか'),
   "visible": zod.boolean().describe('管理者以外も閲覧可能な場合true'),
@@ -32491,9 +32483,7 @@ export const denyTicketResponse = zod.object({
 }).describe('汎用マスタのカスタムフィールド')
 })).describe('カスタムフィールドの入力の配列')
 }).describe('汎用マスタのアイテム').optional().describe('しきい値として使う汎用マスタアイテム')
-}).describe('ステップごとに設定できる実行条件の詳細'),zod.object({
-
-})]).optional()
+}).describe('ステップごとに設定できる実行条件の詳細')).optional()
 }).describe('ステップごとに設定できる実行条件'),zod.null()]).optional(),
   "code": zod.string().describe('コード')
 }).describe('経路ステップ')).describe('経路ステップ')
@@ -32893,7 +32883,7 @@ export const denyTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(denyTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -32918,7 +32908,7 @@ export const denyTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -33481,7 +33471,7 @@ export const denyTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(denyTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -33506,7 +33496,7 @@ export const denyTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -34135,7 +34125,7 @@ export const denyTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(denyTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -34160,7 +34150,7 @@ export const denyTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -34822,7 +34812,7 @@ export const denyTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(denyTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -34847,7 +34837,7 @@ export const denyTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -35503,7 +35493,7 @@ export const denyTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(denyTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -35528,7 +35518,7 @@ export const denyTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -36077,28 +36067,28 @@ export const withdrawTicketResponseRouteStepsItemTargetsItemGradesItemLevelMax =
 
 export const withdrawTicketResponseRouteStepsItemTargetsItemGradesItemCodeMax = 100;
 
-export const withdrawTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 300;
+export const withdrawTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax = 300;
 
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin = 0;
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax = 255;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin = 0;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax = 255;
 
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 100;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax = 100;
 
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 300;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeIsDefaultDefault = false;export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax = 300;
 
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 100;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax = 100;
 
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax = 10000;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax = 10000;
 
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin = 0;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin = 0;
 
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 100;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax = 100;
 
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 100;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax = 100;
 
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 300;
 
-export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 export const withdrawTicketResponseTriggerTicketCurrentStepMin = 0;
 
@@ -37745,7 +37735,7 @@ export const withdrawTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(withdrawTicketResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -37770,7 +37760,7 @@ export const withdrawTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -38054,7 +38044,7 @@ export const withdrawTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).optional().describe('チーム'),
   "descendants": zod.boolean().optional().describe('stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'),
-  "gradeSymbol": zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
+  "gradeSymbol": zod.union([zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']),zod.null()]).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
   "grades": zod.array(zod.object({
   "id": zod.uuid().describe('UUID'),
   "name": zod.string().max(withdrawTicketResponseRouteStepsItemTargetsItemGradesItemNameMax).describe('名前'),
@@ -38064,13 +38054,13 @@ export const withdrawTicketResponse = zod.object({
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職')).optional().describe('承認者の指定に使う役職の配列'),
-  "variable": zod.string().optional().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
+  "variable": zod.string().nullish().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
 })).optional().describe('承認者の指定に使うチームと役職の条件'),
   "routeStepCondition": zod.union([zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "conditionType": zod.enum(['always', 'conditional', 'conditional_skip']).optional().describe('実行タイプ'),
   "combinationType": zod.enum(['all', 'any']).optional().describe('条件の組み合わせタイプ'),
-  "routeStepConditionFields": zod.union([zod.object({
+  "routeStepConditionFields": zod.array(zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "variable": zod.string().optional().describe('変数'),
   "fieldKey": zod.enum(['author_grade', 'author_team', 'text_variable', 'number_variable', 'checkbox_variable', 'general_master_variable', 'other_variable']).optional().describe('変数のフィールド'),
@@ -38078,28 +38068,28 @@ export const withdrawTicketResponse = zod.object({
   "value": zod.string().optional().describe('しきい値'),
   "grade": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax).describe('名前'),
-  "level": zod.number().min(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin).max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax).describe('レベル'),
-  "code": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax).nullable().describe('コード'),
+  "name": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax).describe('名前'),
+  "level": zod.number().min(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin).max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax).describe('レベル'),
+  "code": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax).nullable().describe('コード'),
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職').optional().describe('しきい値として使う役職'),
   "team": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax).describe('名前'),
+  "name": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax).describe('コード'),
-  "notes": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax).nullish().describe('管理用メモ'),
+  "code": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax).describe('コード'),
+  "notes": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin).describe('ユーザー数'),
+  "usersCount": zod.number().min(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('チーム').optional().describe('しきい値として使うチーム'),
   "generalMasterItem": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "code": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax).describe('コード'),
-  "name": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax).describe('名前'),
+  "code": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax).describe('コード'),
+  "name": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax).describe('名前'),
   "description": zod.string().nullable().describe('説明'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
@@ -38112,9 +38102,9 @@ export const withdrawTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
   "field": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "title": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
+  "title": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
   "description": zod.string().nullable().describe('フィールドの説明'),
-  "code": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
+  "code": zod.string().max(withdrawTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
   "fieldType": zod.enum(['text', 'text_long', 'number', 'integer', 'checkbox', 'pull_down', 'date']).describe('フィールドの型'),
   "required": zod.boolean().describe('必須項目かどうか'),
   "visible": zod.boolean().describe('管理者以外も閲覧可能な場合true'),
@@ -38124,9 +38114,7 @@ export const withdrawTicketResponse = zod.object({
 }).describe('汎用マスタのカスタムフィールド')
 })).describe('カスタムフィールドの入力の配列')
 }).describe('汎用マスタのアイテム').optional().describe('しきい値として使う汎用マスタアイテム')
-}).describe('ステップごとに設定できる実行条件の詳細'),zod.object({
-
-})]).optional()
+}).describe('ステップごとに設定できる実行条件の詳細')).optional()
 }).describe('ステップごとに設定できる実行条件'),zod.null()]).optional(),
   "code": zod.string().describe('コード')
 }).describe('経路ステップ')).describe('経路ステップ')
@@ -38526,7 +38514,7 @@ export const withdrawTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(withdrawTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -38551,7 +38539,7 @@ export const withdrawTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -39114,7 +39102,7 @@ export const withdrawTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(withdrawTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -39139,7 +39127,7 @@ export const withdrawTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -39768,7 +39756,7 @@ export const withdrawTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(withdrawTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -39793,7 +39781,7 @@ export const withdrawTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -40455,7 +40443,7 @@ export const withdrawTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(withdrawTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -40480,7 +40468,7 @@ export const withdrawTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -41136,7 +41124,7 @@ export const withdrawTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(withdrawTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -41161,7 +41149,7 @@ export const withdrawTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -41712,28 +41700,28 @@ export const archiveTicketResponseRouteStepsItemTargetsItemGradesItemLevelMax = 
 
 export const archiveTicketResponseRouteStepsItemTargetsItemGradesItemCodeMax = 100;
 
-export const archiveTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax = 300;
+export const archiveTicketResponseRouteStepsItemTargetsItemGradesItemIsDefaultDefault = false;export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax = 300;
 
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin = 0;
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax = 255;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin = 0;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax = 255;
 
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax = 100;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax = 100;
 
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeIsDefaultDefault = false;export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax = 300;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeIsDefaultDefault = false;export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax = 300;
 
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax = 100;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax = 100;
 
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax = 10000;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax = 10000;
 
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin = 0;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin = 0;
 
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax = 100;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax = 100;
 
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax = 100;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax = 100;
 
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax = 300;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax = 300;
 
-export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax = 100;
+export const archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax = 100;
 
 export const archiveTicketResponseTriggerTicketCurrentStepMin = 0;
 
@@ -43380,7 +43368,7 @@ export const archiveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(archiveTicketResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -43405,7 +43393,7 @@ export const archiveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -43689,7 +43677,7 @@ export const archiveTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).optional().describe('チーム'),
   "descendants": zod.boolean().optional().describe('stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'),
-  "gradeSymbol": zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
+  "gradeSymbol": zod.union([zod.enum(['equal', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'any_of']),zod.null()]).optional().describe('役職の比較条件。役職が指定されているときのみ値が入ります。'),
   "grades": zod.array(zod.object({
   "id": zod.uuid().describe('UUID'),
   "name": zod.string().max(archiveTicketResponseRouteStepsItemTargetsItemGradesItemNameMax).describe('名前'),
@@ -43699,13 +43687,13 @@ export const archiveTicketResponse = zod.object({
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職')).optional().describe('承認者の指定に使う役職の配列'),
-  "variable": zod.string().optional().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
+  "variable": zod.string().nullish().describe('承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。')
 })).optional().describe('承認者の指定に使うチームと役職の条件'),
   "routeStepCondition": zod.union([zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "conditionType": zod.enum(['always', 'conditional', 'conditional_skip']).optional().describe('実行タイプ'),
   "combinationType": zod.enum(['all', 'any']).optional().describe('条件の組み合わせタイプ'),
-  "routeStepConditionFields": zod.union([zod.object({
+  "routeStepConditionFields": zod.array(zod.object({
   "id": zod.uuid().optional().describe('UUID'),
   "variable": zod.string().optional().describe('変数'),
   "fieldKey": zod.enum(['author_grade', 'author_team', 'text_variable', 'number_variable', 'checkbox_variable', 'general_master_variable', 'other_variable']).optional().describe('変数のフィールド'),
@@ -43713,28 +43701,28 @@ export const archiveTicketResponse = zod.object({
   "value": zod.string().optional().describe('しきい値'),
   "grade": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeNameMax).describe('名前'),
-  "level": zod.number().min(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMin).max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeLevelMax).describe('レベル'),
-  "code": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGradeCodeMax).nullable().describe('コード'),
+  "name": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeNameMax).describe('名前'),
+  "level": zod.number().min(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMin).max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeLevelMax).describe('レベル'),
+  "code": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGradeCodeMax).nullable().describe('コード'),
   "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('役職').optional().describe('しきい値として使う役職'),
   "team": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNameMax).describe('名前'),
+  "name": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNameMax).describe('名前'),
   "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamCodeMax).describe('コード'),
-  "notes": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamNotesMax).nullish().describe('管理用メモ'),
+  "code": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamCodeMax).describe('コード'),
+  "notes": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamNotesMax).nullish().describe('管理用メモ'),
   "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsTeamUsersCountMin).describe('ユーザー数'),
+  "usersCount": zod.number().min(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemTeamUsersCountMin).describe('ユーザー数'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時')
 }).describe('チーム').optional().describe('しきい値として使うチーム'),
   "generalMasterItem": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "code": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemCodeMax).describe('コード'),
-  "name": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemNameMax).describe('名前'),
+  "code": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemCodeMax).describe('コード'),
+  "name": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemNameMax).describe('名前'),
   "description": zod.string().nullable().describe('説明'),
   "createdAt": zod.iso.datetime({}).describe('作成日時'),
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
@@ -43747,9 +43735,9 @@ export const archiveTicketResponse = zod.object({
   "updatedAt": zod.iso.datetime({}).describe('更新日時'),
   "field": zod.object({
   "id": zod.uuid().describe('UUID'),
-  "title": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
+  "title": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldTitleMax).describe('フィールド名'),
   "description": zod.string().nullable().describe('フィールドの説明'),
-  "code": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
+  "code": zod.string().max(archiveTicketResponseRouteStepsItemRouteStepConditionRouteStepConditionFieldsItemGeneralMasterItemInputsItemFieldCodeMax).describe('フィールドのコード'),
   "fieldType": zod.enum(['text', 'text_long', 'number', 'integer', 'checkbox', 'pull_down', 'date']).describe('フィールドの型'),
   "required": zod.boolean().describe('必須項目かどうか'),
   "visible": zod.boolean().describe('管理者以外も閲覧可能な場合true'),
@@ -43759,9 +43747,7 @@ export const archiveTicketResponse = zod.object({
 }).describe('汎用マスタのカスタムフィールド')
 })).describe('カスタムフィールドの入力の配列')
 }).describe('汎用マスタのアイテム').optional().describe('しきい値として使う汎用マスタアイテム')
-}).describe('ステップごとに設定できる実行条件の詳細'),zod.object({
-
-})]).optional()
+}).describe('ステップごとに設定できる実行条件の詳細')).optional()
 }).describe('ステップごとに設定できる実行条件'),zod.null()]).optional(),
   "code": zod.string().describe('コード')
 }).describe('経路ステップ')).describe('経路ステップ')
@@ -44161,7 +44147,7 @@ export const archiveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(archiveTicketResponseTriggerTicketWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -44186,7 +44172,7 @@ export const archiveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -44749,7 +44735,7 @@ export const archiveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(archiveTicketResponseNextTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -44774,7 +44760,7 @@ export const archiveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -45403,7 +45389,7 @@ export const archiveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(archiveTicketResponseSlipItemsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -45428,7 +45414,7 @@ export const archiveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -46090,7 +46076,7 @@ export const archiveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(archiveTicketResponseTicketSectionsItemInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -46115,7 +46101,7 @@ export const archiveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -46771,7 +46757,7 @@ export const archiveTicketResponse = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(archiveTicketResponseInputsItemInputTicketsItemWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -46796,7 +46782,7 @@ export const archiveTicketResponse = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
@@ -47683,7 +47669,7 @@ export const listTicketLinksResponseItem = zod.object({
 }).describe('kintone連携設定'),zod.null()]).optional().describe('外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。'),
   "climberCloudSetting": zod.union([zod.object({
   "id": zod.uuid().describe('UUID'),
-  "contentsId": zod.string().optional().describe('ファイル付きリストID'),
+  "contentsId": zod.string().describe('ファイル付きリストID'),
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
   "title": zod.string().max(listTicketLinksResponseWorkflowSectionListItemFormFieldsItemClimberCloudSettingFormFieldTitleMax).describe('説明'),
@@ -47708,7 +47694,7 @@ export const listTicketLinksResponseItem = zod.object({
   "suffix": zod.string().nullable().describe('単位（接尾辞）'),
   "hidden": zod.boolean().nullish().describe('隠しフィールドである場合true'),
   "readonlyOnUi": zod.boolean().nullish().describe('trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。')
-}).optional().describe('フォームフィールド'),
+}).describe('フォームフィールド'),
   "mappings": zod.array(zod.object({
   "formField": zod.object({
   "id": zod.uuid().describe('UUID'),
