@@ -1,5 +1,4 @@
-import * as zod from 'zod';
-
+import * as zod from 'zod'
 
 /**
  * 指定した組織図内のチーム一覧を取得します。
@@ -9,45 +8,59 @@ parentIdを指定した場合は指定した親チームの配下チームの一
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チーム一覧を取得
  */
-export const listTeamsParams = zod.object({
-  "organizationChartId": zod.uuid().describe('組織図のUUID')
+export const ListTeamsParams = zod.object({
+  organizationChartId: zod.uuid().describe('組織図のUUID'),
 })
 
-export const listTeamsQueryPageDefault = 1;
+export const listTeamsQueryPageDefault = 1
 
-export const listTeamsQueryPerPageDefault = 25;
-export const listTeamsQueryPerPageMax = 100;
+export const listTeamsQueryPerPageDefault = 25
+export const listTeamsQueryPerPageMax = 100
 
-
-
-export const listTeamsQueryParams = zod.object({
-  "parentId": zod.string().optional().describe('親チームのUUID'),
-  "page": zod.number().min(1).default(listTeamsQueryPageDefault).describe('ページ'),
-  "perPage": zod.number().min(1).max(listTeamsQueryPerPageMax).default(listTeamsQueryPerPageDefault).describe('1ページあたりの件数')
+export const ListTeamsQueryParams = zod.object({
+  parentId: zod.string().optional().describe('親チームのUUID'),
+  page: zod
+    .number()
+    .min(1)
+    .default(listTeamsQueryPageDefault)
+    .describe('ページ'),
+  perPage: zod
+    .number()
+    .min(1)
+    .max(listTeamsQueryPerPageMax)
+    .default(listTeamsQueryPerPageDefault)
+    .describe('1ページあたりの件数'),
 })
 
-export const listTeamsResponseNameMax = 300;
+export const listTeamsResponseNameMax = 300
 
-export const listTeamsResponseCodeMax = 100;
+export const listTeamsResponseCodeMax = 100
 
-export const listTeamsResponseNotesMax = 10000;
+export const listTeamsResponseNotesMax = 10000
 
-export const listTeamsResponseUsersCountMin = 0;
+export const listTeamsResponseUsersCountMin = 0
 
-
-
-export const listTeamsResponseItem = zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(listTeamsResponseNameMax).describe('名前'),
-  "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(listTeamsResponseCodeMax).describe('コード'),
-  "notes": zod.string().max(listTeamsResponseNotesMax).nullish().describe('管理用メモ'),
-  "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(listTeamsResponseUsersCountMin).describe('ユーザー数'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('チーム')
-export const listTeamsResponse = zod.array(listTeamsResponseItem)
+export const ListTeamsResponseItem = zod
+  .object({
+    id: zod.uuid().describe('UUID'),
+    name: zod.string().max(listTeamsResponseNameMax).describe('名前'),
+    fullName: zod.string().describe('上位組織を含む名前'),
+    code: zod.string().max(listTeamsResponseCodeMax).describe('コード'),
+    notes: zod
+      .string()
+      .max(listTeamsResponseNotesMax)
+      .nullish()
+      .describe('管理用メモ'),
+    approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+    usersCount: zod
+      .number()
+      .min(listTeamsResponseUsersCountMin)
+      .describe('ユーザー数'),
+    createdAt: zod.iso.datetime({}).describe('作成日時'),
+    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+  })
+  .describe('チーム')
+export const ListTeamsResponse = zod.array(ListTeamsResponseItem)
 
 /**
  * 指定した組織図内にチームを作成します。
@@ -55,128 +68,259 @@ export const listTeamsResponse = zod.array(listTeamsResponseItem)
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを作成
  */
-export const createTeamParams = zod.object({
-  "organizationChartId": zod.uuid().describe('組織図のUUID')
+export const CreateTeamParams = zod.object({
+  organizationChartId: zod.uuid().describe('組織図のUUID'),
 })
 
-export const createTeamBody = zod.object({
-  "name": zod.string().describe('名前'),
-  "code": zod.string().optional().describe('コード。未指定の場合、ランダムな英数字が自動的に設定されます。'),
-  "notes": zod.string().nullish().describe('管理用メモ'),
-  "parentId": zod.uuid().optional().describe('親チームのUUID。nullの場合、作成したチームはルートになります。'),
-  "approveOnly": zod.boolean().optional().describe('承認専用チームかどうか')
-}).describe('チームを作成するときのrequest body')
+export const CreateTeamBody = zod
+  .object({
+    name: zod.string().describe('名前'),
+    code: zod
+      .string()
+      .optional()
+      .describe(
+        'コード。未指定の場合、ランダムな英数字が自動的に設定されます。',
+      ),
+    notes: zod.string().nullish().describe('管理用メモ'),
+    parentId: zod
+      .uuid()
+      .optional()
+      .describe(
+        '親チームのUUID。nullの場合、作成したチームはルートになります。',
+      ),
+    approveOnly: zod.boolean().optional().describe('承認専用チームかどうか'),
+  })
+  .describe('チームを作成するときのrequest body')
 
-export const createTeamResponseNameMax = 300;
+export const createTeamResponseOneNameMax = 300
 
-export const createTeamResponseCodeMax = 100;
+export const createTeamResponseOneCodeMax = 100
 
-export const createTeamResponseNotesMax = 10000;
+export const createTeamResponseOneNotesMax = 10000
 
-export const createTeamResponseUsersCountMin = 0;
+export const createTeamResponseOneUsersCountMin = 0
 
-export const createTeamResponseParentNameMax = 300;
+export const createTeamResponseTwoParentOneNameMax = 300
 
-export const createTeamResponseParentCodeMax = 100;
+export const createTeamResponseTwoParentOneCodeMax = 100
 
-export const createTeamResponseParentNotesMax = 10000;
+export const createTeamResponseTwoParentOneNotesMax = 10000
 
-export const createTeamResponseParentUsersCountMin = 0;
+export const createTeamResponseTwoParentOneUsersCountMin = 0
 
-export const createTeamResponseChildrenItemNameMax = 300;
+export const createTeamResponseTwoChildrenItemNameMax = 300
 
-export const createTeamResponseChildrenItemCodeMax = 100;
+export const createTeamResponseTwoChildrenItemCodeMax = 100
 
-export const createTeamResponseChildrenItemNotesMax = 10000;
+export const createTeamResponseTwoChildrenItemNotesMax = 10000
 
-export const createTeamResponseChildrenItemUsersCountMin = 0;
+export const createTeamResponseTwoChildrenItemUsersCountMin = 0
 
-export const createTeamResponseUsersItemGradesItemNameMax = 300;
+export const createTeamResponseTwoUsersItemOneGradesItemNameMax = 300
 
-export const createTeamResponseUsersItemGradesItemLevelMin = 0;
-export const createTeamResponseUsersItemGradesItemLevelMax = 255;
+export const createTeamResponseTwoUsersItemOneGradesItemLevelMin = 0
+export const createTeamResponseTwoUsersItemOneGradesItemLevelMax = 255
 
-export const createTeamResponseUsersItemGradesItemCodeMax = 100;
+export const createTeamResponseTwoUsersItemOneGradesItemCodeMax = 100
 
-export const createTeamResponseUsersItemGradesItemIsDefaultDefault = false;
-export const createTeamResponseUsersItemEmailMax = 254;
+export const createTeamResponseTwoUsersItemOneGradesItemIsDefaultDefault = false
+export const createTeamResponseTwoUsersItemTwoEmailMax = 254
 
-export const createTeamResponseUsersItemCodeMax = 100;
+export const createTeamResponseTwoUsersItemTwoCodeMax = 100
 
-export const createTeamResponseUsersItemFirstNameMax = 255;
+export const createTeamResponseTwoUsersItemTwoFirstNameMax = 255
 
-export const createTeamResponseUsersItemLastNameMax = 255;
+export const createTeamResponseTwoUsersItemTwoLastNameMax = 255
 
-export const createTeamResponseUsersItemFullNameMax = 255;
+export const createTeamResponseTwoUsersItemTwoFullNameMax = 255
 
-export const createTeamResponseUsersItemEmployeeIdMax = 30;
+export const createTeamResponseTwoUsersItemTwoEmployeeIdMax = 30
 
-
-
-export const createTeamResponse = zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(createTeamResponseNameMax).describe('名前'),
-  "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(createTeamResponseCodeMax).describe('コード'),
-  "notes": zod.string().max(createTeamResponseNotesMax).nullish().describe('管理用メモ'),
-  "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(createTeamResponseUsersCountMin).describe('ユーザー数'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('チーム').and(zod.object({
-  "parent": zod.union([zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(createTeamResponseParentNameMax).describe('名前'),
-  "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(createTeamResponseParentCodeMax).describe('コード'),
-  "notes": zod.string().max(createTeamResponseParentNotesMax).nullish().describe('管理用メモ'),
-  "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(createTeamResponseParentUsersCountMin).describe('ユーザー数'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('チーム'),zod.null()]).optional().describe('親チーム'),
-  "children": zod.array(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(createTeamResponseChildrenItemNameMax).describe('名前'),
-  "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(createTeamResponseChildrenItemCodeMax).describe('コード'),
-  "notes": zod.string().max(createTeamResponseChildrenItemNotesMax).nullish().describe('管理用メモ'),
-  "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(createTeamResponseChildrenItemUsersCountMin).describe('ユーザー数'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('チーム')).describe('子チーム'),
-  "users": zod.array(zod.object({
-  "grades": zod.array(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(createTeamResponseUsersItemGradesItemNameMax).describe('名前'),
-  "level": zod.number().min(createTeamResponseUsersItemGradesItemLevelMin).max(createTeamResponseUsersItemGradesItemLevelMax).describe('レベル'),
-  "code": zod.string().max(createTeamResponseUsersItemGradesItemCodeMax).nullable().describe('コード'),
-  "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('役職')).min(1).describe('役職'),
-  "leader": zod.boolean().describe('上長かどうか')
-}).and(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "email": zod.email().max(createTeamResponseUsersItemEmailMax).describe('メールアドレス'),
-  "code": zod.string().max(createTeamResponseUsersItemCodeMax).describe('コード'),
-  "firstName": zod.string().max(createTeamResponseUsersItemFirstNameMax).describe('名'),
-  "lastName": zod.string().max(createTeamResponseUsersItemLastNameMax).describe('姓'),
-  "fullName": zod.string().max(createTeamResponseUsersItemFullNameMax).describe('フルネーム'),
-  "employeeId": zod.string().max(createTeamResponseUsersItemEmployeeIdMax).nullish().describe('社員番号'),
-  "image": zod.object({
-  "100x100": zod.string().nullable(),
-  "64x64": zod.string().nullable(),
-  "32x32": zod.string().nullable()
-}).describe('ユーザー画像のURL。サイズごとに複数のURLを返します。'),
-  "status": zod.enum(['invited', 'activated', 'suspended', 'deactivated']).describe('ステータス'),
-  "locale": zod.string().describe('ロケール（jaまたはen）'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時'),
-  "deactivatedAt": zod.iso.datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー')).describe('チームの所属メンバー')).describe('メンバーの配列。\n\n注意：パフォーマンス上の理由から、100件を超えるメンバーを返すことはできません。101件以上のメンバーをすべて取得したい場合は、別途メンバー取得APIを呼び出してください。')
-})).describe('チームの詳細')
+export const CreateTeamResponse = zod
+  .object({
+    id: zod.uuid().describe('UUID'),
+    name: zod.string().max(createTeamResponseOneNameMax).describe('名前'),
+    fullName: zod.string().describe('上位組織を含む名前'),
+    code: zod.string().max(createTeamResponseOneCodeMax).describe('コード'),
+    notes: zod
+      .string()
+      .max(createTeamResponseOneNotesMax)
+      .nullish()
+      .describe('管理用メモ'),
+    approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+    usersCount: zod
+      .number()
+      .min(createTeamResponseOneUsersCountMin)
+      .describe('ユーザー数'),
+    createdAt: zod.iso.datetime({}).describe('作成日時'),
+    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+  })
+  .describe('チーム')
+  .and(
+    zod.object({
+      parent: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              name: zod
+                .string()
+                .max(createTeamResponseTwoParentOneNameMax)
+                .describe('名前'),
+              fullName: zod.string().describe('上位組織を含む名前'),
+              code: zod
+                .string()
+                .max(createTeamResponseTwoParentOneCodeMax)
+                .describe('コード'),
+              notes: zod
+                .string()
+                .max(createTeamResponseTwoParentOneNotesMax)
+                .nullish()
+                .describe('管理用メモ'),
+              approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+              usersCount: zod
+                .number()
+                .min(createTeamResponseTwoParentOneUsersCountMin)
+                .describe('ユーザー数'),
+              createdAt: zod.iso.datetime({}).describe('作成日時'),
+              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            })
+            .describe('チーム'),
+          zod.null(),
+        ])
+        .optional()
+        .describe('親チーム'),
+      children: zod
+        .array(
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              name: zod
+                .string()
+                .max(createTeamResponseTwoChildrenItemNameMax)
+                .describe('名前'),
+              fullName: zod.string().describe('上位組織を含む名前'),
+              code: zod
+                .string()
+                .max(createTeamResponseTwoChildrenItemCodeMax)
+                .describe('コード'),
+              notes: zod
+                .string()
+                .max(createTeamResponseTwoChildrenItemNotesMax)
+                .nullish()
+                .describe('管理用メモ'),
+              approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+              usersCount: zod
+                .number()
+                .min(createTeamResponseTwoChildrenItemUsersCountMin)
+                .describe('ユーザー数'),
+              createdAt: zod.iso.datetime({}).describe('作成日時'),
+              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            })
+            .describe('チーム'),
+        )
+        .describe('子チーム'),
+      users: zod
+        .array(
+          zod
+            .object({
+              grades: zod
+                .array(
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      name: zod
+                        .string()
+                        .max(createTeamResponseTwoUsersItemOneGradesItemNameMax)
+                        .describe('名前'),
+                      level: zod
+                        .number()
+                        .min(
+                          createTeamResponseTwoUsersItemOneGradesItemLevelMin,
+                        )
+                        .max(
+                          createTeamResponseTwoUsersItemOneGradesItemLevelMax,
+                        )
+                        .describe('レベル'),
+                      code: zod
+                        .string()
+                        .max(createTeamResponseTwoUsersItemOneGradesItemCodeMax)
+                        .nullable()
+                        .describe('コード'),
+                      isDefault: zod
+                        .boolean()
+                        .default(
+                          createTeamResponseTwoUsersItemOneGradesItemIsDefaultDefault,
+                        )
+                        .describe('デフォルトの役職かどうか'),
+                      createdAt: zod.iso.datetime({}).describe('作成日時'),
+                      updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    })
+                    .describe('役職'),
+                )
+                .min(1)
+                .describe('役職'),
+              leader: zod.boolean().describe('上長かどうか'),
+            })
+            .and(
+              zod
+                .object({
+                  id: zod.uuid().describe('UUID'),
+                  email: zod
+                    .email()
+                    .max(createTeamResponseTwoUsersItemTwoEmailMax)
+                    .describe('メールアドレス'),
+                  code: zod
+                    .string()
+                    .max(createTeamResponseTwoUsersItemTwoCodeMax)
+                    .describe('コード'),
+                  firstName: zod
+                    .string()
+                    .max(createTeamResponseTwoUsersItemTwoFirstNameMax)
+                    .describe('名'),
+                  lastName: zod
+                    .string()
+                    .max(createTeamResponseTwoUsersItemTwoLastNameMax)
+                    .describe('姓'),
+                  fullName: zod
+                    .string()
+                    .max(createTeamResponseTwoUsersItemTwoFullNameMax)
+                    .describe('フルネーム'),
+                  employeeId: zod
+                    .string()
+                    .max(createTeamResponseTwoUsersItemTwoEmployeeIdMax)
+                    .nullish()
+                    .describe('社員番号'),
+                  image: zod
+                    .object({
+                      '100x100': zod.string().nullable(),
+                      '64x64': zod.string().nullable(),
+                      '32x32': zod.string().nullable(),
+                    })
+                    .describe(
+                      'ユーザー画像のURL。サイズごとに複数のURLを返します。',
+                    ),
+                  status: zod
+                    .enum(['invited', 'activated', 'suspended', 'deactivated'])
+                    .describe('ステータス'),
+                  locale: zod.string().describe('ロケール（jaまたはen）'),
+                  createdAt: zod.iso.datetime({}).describe('作成日時'),
+                  updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                  deactivatedAt: zod.iso
+                    .datetime({})
+                    .nullish()
+                    .describe('削除日時'),
+                })
+                .describe('ユーザー'),
+            )
+            .describe('チームの所属メンバー'),
+        )
+        .describe(
+          'メンバーの配列。\n\n注意：パフォーマンス上の理由から、100件を超えるメンバーを返すことはできません。101件以上のメンバーをすべて取得したい場合は、別途メンバー取得APIを呼び出してください。',
+        ),
+    }),
+  )
+  .describe('チームの詳細')
 
 /**
  * チームを一件取得します。
@@ -184,121 +328,236 @@ export const createTeamResponse = zod.object({
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを取得
  */
-export const getTeamParams = zod.object({
-  "organizationChartId": zod.uuid().describe('組織図のUUID'),
-  "teamId": zod.string().describe('チームのUUIDまたはコード')
+export const GetTeamParams = zod.object({
+  organizationChartId: zod.uuid().describe('組織図のUUID'),
+  teamId: zod.string().describe('チームのUUIDまたはコード'),
 })
 
-export const getTeamResponseNameMax = 300;
+export const getTeamResponseOneNameMax = 300
 
-export const getTeamResponseCodeMax = 100;
+export const getTeamResponseOneCodeMax = 100
 
-export const getTeamResponseNotesMax = 10000;
+export const getTeamResponseOneNotesMax = 10000
 
-export const getTeamResponseUsersCountMin = 0;
+export const getTeamResponseOneUsersCountMin = 0
 
-export const getTeamResponseParentNameMax = 300;
+export const getTeamResponseTwoParentOneNameMax = 300
 
-export const getTeamResponseParentCodeMax = 100;
+export const getTeamResponseTwoParentOneCodeMax = 100
 
-export const getTeamResponseParentNotesMax = 10000;
+export const getTeamResponseTwoParentOneNotesMax = 10000
 
-export const getTeamResponseParentUsersCountMin = 0;
+export const getTeamResponseTwoParentOneUsersCountMin = 0
 
-export const getTeamResponseChildrenItemNameMax = 300;
+export const getTeamResponseTwoChildrenItemNameMax = 300
 
-export const getTeamResponseChildrenItemCodeMax = 100;
+export const getTeamResponseTwoChildrenItemCodeMax = 100
 
-export const getTeamResponseChildrenItemNotesMax = 10000;
+export const getTeamResponseTwoChildrenItemNotesMax = 10000
 
-export const getTeamResponseChildrenItemUsersCountMin = 0;
+export const getTeamResponseTwoChildrenItemUsersCountMin = 0
 
-export const getTeamResponseUsersItemGradesItemNameMax = 300;
+export const getTeamResponseTwoUsersItemOneGradesItemNameMax = 300
 
-export const getTeamResponseUsersItemGradesItemLevelMin = 0;
-export const getTeamResponseUsersItemGradesItemLevelMax = 255;
+export const getTeamResponseTwoUsersItemOneGradesItemLevelMin = 0
+export const getTeamResponseTwoUsersItemOneGradesItemLevelMax = 255
 
-export const getTeamResponseUsersItemGradesItemCodeMax = 100;
+export const getTeamResponseTwoUsersItemOneGradesItemCodeMax = 100
 
-export const getTeamResponseUsersItemGradesItemIsDefaultDefault = false;
-export const getTeamResponseUsersItemEmailMax = 254;
+export const getTeamResponseTwoUsersItemOneGradesItemIsDefaultDefault = false
+export const getTeamResponseTwoUsersItemTwoEmailMax = 254
 
-export const getTeamResponseUsersItemCodeMax = 100;
+export const getTeamResponseTwoUsersItemTwoCodeMax = 100
 
-export const getTeamResponseUsersItemFirstNameMax = 255;
+export const getTeamResponseTwoUsersItemTwoFirstNameMax = 255
 
-export const getTeamResponseUsersItemLastNameMax = 255;
+export const getTeamResponseTwoUsersItemTwoLastNameMax = 255
 
-export const getTeamResponseUsersItemFullNameMax = 255;
+export const getTeamResponseTwoUsersItemTwoFullNameMax = 255
 
-export const getTeamResponseUsersItemEmployeeIdMax = 30;
+export const getTeamResponseTwoUsersItemTwoEmployeeIdMax = 30
 
-
-
-export const getTeamResponse = zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(getTeamResponseNameMax).describe('名前'),
-  "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(getTeamResponseCodeMax).describe('コード'),
-  "notes": zod.string().max(getTeamResponseNotesMax).nullish().describe('管理用メモ'),
-  "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(getTeamResponseUsersCountMin).describe('ユーザー数'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('チーム').and(zod.object({
-  "parent": zod.union([zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(getTeamResponseParentNameMax).describe('名前'),
-  "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(getTeamResponseParentCodeMax).describe('コード'),
-  "notes": zod.string().max(getTeamResponseParentNotesMax).nullish().describe('管理用メモ'),
-  "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(getTeamResponseParentUsersCountMin).describe('ユーザー数'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('チーム'),zod.null()]).optional().describe('親チーム'),
-  "children": zod.array(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(getTeamResponseChildrenItemNameMax).describe('名前'),
-  "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(getTeamResponseChildrenItemCodeMax).describe('コード'),
-  "notes": zod.string().max(getTeamResponseChildrenItemNotesMax).nullish().describe('管理用メモ'),
-  "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(getTeamResponseChildrenItemUsersCountMin).describe('ユーザー数'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('チーム')).describe('子チーム'),
-  "users": zod.array(zod.object({
-  "grades": zod.array(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(getTeamResponseUsersItemGradesItemNameMax).describe('名前'),
-  "level": zod.number().min(getTeamResponseUsersItemGradesItemLevelMin).max(getTeamResponseUsersItemGradesItemLevelMax).describe('レベル'),
-  "code": zod.string().max(getTeamResponseUsersItemGradesItemCodeMax).nullable().describe('コード'),
-  "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('役職')).min(1).describe('役職'),
-  "leader": zod.boolean().describe('上長かどうか')
-}).and(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "email": zod.email().max(getTeamResponseUsersItemEmailMax).describe('メールアドレス'),
-  "code": zod.string().max(getTeamResponseUsersItemCodeMax).describe('コード'),
-  "firstName": zod.string().max(getTeamResponseUsersItemFirstNameMax).describe('名'),
-  "lastName": zod.string().max(getTeamResponseUsersItemLastNameMax).describe('姓'),
-  "fullName": zod.string().max(getTeamResponseUsersItemFullNameMax).describe('フルネーム'),
-  "employeeId": zod.string().max(getTeamResponseUsersItemEmployeeIdMax).nullish().describe('社員番号'),
-  "image": zod.object({
-  "100x100": zod.string().nullable(),
-  "64x64": zod.string().nullable(),
-  "32x32": zod.string().nullable()
-}).describe('ユーザー画像のURL。サイズごとに複数のURLを返します。'),
-  "status": zod.enum(['invited', 'activated', 'suspended', 'deactivated']).describe('ステータス'),
-  "locale": zod.string().describe('ロケール（jaまたはen）'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時'),
-  "deactivatedAt": zod.iso.datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー')).describe('チームの所属メンバー')).describe('メンバーの配列。\n\n注意：パフォーマンス上の理由から、100件を超えるメンバーを返すことはできません。101件以上のメンバーをすべて取得したい場合は、別途メンバー取得APIを呼び出してください。')
-})).describe('チームの詳細')
+export const GetTeamResponse = zod
+  .object({
+    id: zod.uuid().describe('UUID'),
+    name: zod.string().max(getTeamResponseOneNameMax).describe('名前'),
+    fullName: zod.string().describe('上位組織を含む名前'),
+    code: zod.string().max(getTeamResponseOneCodeMax).describe('コード'),
+    notes: zod
+      .string()
+      .max(getTeamResponseOneNotesMax)
+      .nullish()
+      .describe('管理用メモ'),
+    approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+    usersCount: zod
+      .number()
+      .min(getTeamResponseOneUsersCountMin)
+      .describe('ユーザー数'),
+    createdAt: zod.iso.datetime({}).describe('作成日時'),
+    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+  })
+  .describe('チーム')
+  .and(
+    zod.object({
+      parent: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              name: zod
+                .string()
+                .max(getTeamResponseTwoParentOneNameMax)
+                .describe('名前'),
+              fullName: zod.string().describe('上位組織を含む名前'),
+              code: zod
+                .string()
+                .max(getTeamResponseTwoParentOneCodeMax)
+                .describe('コード'),
+              notes: zod
+                .string()
+                .max(getTeamResponseTwoParentOneNotesMax)
+                .nullish()
+                .describe('管理用メモ'),
+              approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+              usersCount: zod
+                .number()
+                .min(getTeamResponseTwoParentOneUsersCountMin)
+                .describe('ユーザー数'),
+              createdAt: zod.iso.datetime({}).describe('作成日時'),
+              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            })
+            .describe('チーム'),
+          zod.null(),
+        ])
+        .optional()
+        .describe('親チーム'),
+      children: zod
+        .array(
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              name: zod
+                .string()
+                .max(getTeamResponseTwoChildrenItemNameMax)
+                .describe('名前'),
+              fullName: zod.string().describe('上位組織を含む名前'),
+              code: zod
+                .string()
+                .max(getTeamResponseTwoChildrenItemCodeMax)
+                .describe('コード'),
+              notes: zod
+                .string()
+                .max(getTeamResponseTwoChildrenItemNotesMax)
+                .nullish()
+                .describe('管理用メモ'),
+              approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+              usersCount: zod
+                .number()
+                .min(getTeamResponseTwoChildrenItemUsersCountMin)
+                .describe('ユーザー数'),
+              createdAt: zod.iso.datetime({}).describe('作成日時'),
+              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            })
+            .describe('チーム'),
+        )
+        .describe('子チーム'),
+      users: zod
+        .array(
+          zod
+            .object({
+              grades: zod
+                .array(
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      name: zod
+                        .string()
+                        .max(getTeamResponseTwoUsersItemOneGradesItemNameMax)
+                        .describe('名前'),
+                      level: zod
+                        .number()
+                        .min(getTeamResponseTwoUsersItemOneGradesItemLevelMin)
+                        .max(getTeamResponseTwoUsersItemOneGradesItemLevelMax)
+                        .describe('レベル'),
+                      code: zod
+                        .string()
+                        .max(getTeamResponseTwoUsersItemOneGradesItemCodeMax)
+                        .nullable()
+                        .describe('コード'),
+                      isDefault: zod
+                        .boolean()
+                        .default(
+                          getTeamResponseTwoUsersItemOneGradesItemIsDefaultDefault,
+                        )
+                        .describe('デフォルトの役職かどうか'),
+                      createdAt: zod.iso.datetime({}).describe('作成日時'),
+                      updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    })
+                    .describe('役職'),
+                )
+                .min(1)
+                .describe('役職'),
+              leader: zod.boolean().describe('上長かどうか'),
+            })
+            .and(
+              zod
+                .object({
+                  id: zod.uuid().describe('UUID'),
+                  email: zod
+                    .email()
+                    .max(getTeamResponseTwoUsersItemTwoEmailMax)
+                    .describe('メールアドレス'),
+                  code: zod
+                    .string()
+                    .max(getTeamResponseTwoUsersItemTwoCodeMax)
+                    .describe('コード'),
+                  firstName: zod
+                    .string()
+                    .max(getTeamResponseTwoUsersItemTwoFirstNameMax)
+                    .describe('名'),
+                  lastName: zod
+                    .string()
+                    .max(getTeamResponseTwoUsersItemTwoLastNameMax)
+                    .describe('姓'),
+                  fullName: zod
+                    .string()
+                    .max(getTeamResponseTwoUsersItemTwoFullNameMax)
+                    .describe('フルネーム'),
+                  employeeId: zod
+                    .string()
+                    .max(getTeamResponseTwoUsersItemTwoEmployeeIdMax)
+                    .nullish()
+                    .describe('社員番号'),
+                  image: zod
+                    .object({
+                      '100x100': zod.string().nullable(),
+                      '64x64': zod.string().nullable(),
+                      '32x32': zod.string().nullable(),
+                    })
+                    .describe(
+                      'ユーザー画像のURL。サイズごとに複数のURLを返します。',
+                    ),
+                  status: zod
+                    .enum(['invited', 'activated', 'suspended', 'deactivated'])
+                    .describe('ステータス'),
+                  locale: zod.string().describe('ロケール（jaまたはen）'),
+                  createdAt: zod.iso.datetime({}).describe('作成日時'),
+                  updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                  deactivatedAt: zod.iso
+                    .datetime({})
+                    .nullish()
+                    .describe('削除日時'),
+                })
+                .describe('ユーザー'),
+            )
+            .describe('チームの所属メンバー'),
+        )
+        .describe(
+          'メンバーの配列。\n\n注意：パフォーマンス上の理由から、100件を超えるメンバーを返すことはできません。101件以上のメンバーをすべて取得したい場合は、別途メンバー取得APIを呼び出してください。',
+        ),
+    }),
+  )
+  .describe('チームの詳細')
 
 /**
  * チームを更新します。
@@ -306,129 +565,255 @@ export const getTeamResponse = zod.object({
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを編集
  */
-export const updateTeamParams = zod.object({
-  "organizationChartId": zod.uuid().describe('組織図のUUID'),
-  "teamId": zod.string().describe('チームのUUIDまたはコード')
+export const UpdateTeamParams = zod.object({
+  organizationChartId: zod.uuid().describe('組織図のUUID'),
+  teamId: zod.string().describe('チームのUUIDまたはコード'),
 })
 
-export const updateTeamBody = zod.object({
-  "name": zod.string().optional().describe('名前'),
-  "code": zod.string().optional().describe('コード。未指定の場合、ランダムな英数字が自動的に設定されます。'),
-  "notes": zod.string().optional().describe('管理用メモ'),
-  "parentId": zod.uuid().optional().describe('親チームのID'),
-  "approveOnly": zod.boolean().optional().describe('承認専用チームかどうか')
-}).describe('チームを更新するときのrequest body')
+export const UpdateTeamBody = zod
+  .object({
+    name: zod.string().optional().describe('名前'),
+    code: zod
+      .string()
+      .optional()
+      .describe(
+        'コード。未指定の場合、ランダムな英数字が自動的に設定されます。',
+      ),
+    notes: zod.string().optional().describe('管理用メモ'),
+    parentId: zod.uuid().optional().describe('親チームのID'),
+    approveOnly: zod.boolean().optional().describe('承認専用チームかどうか'),
+  })
+  .describe('チームを更新するときのrequest body')
 
-export const updateTeamResponseNameMax = 300;
+export const updateTeamResponseOneNameMax = 300
 
-export const updateTeamResponseCodeMax = 100;
+export const updateTeamResponseOneCodeMax = 100
 
-export const updateTeamResponseNotesMax = 10000;
+export const updateTeamResponseOneNotesMax = 10000
 
-export const updateTeamResponseUsersCountMin = 0;
+export const updateTeamResponseOneUsersCountMin = 0
 
-export const updateTeamResponseParentNameMax = 300;
+export const updateTeamResponseTwoParentOneNameMax = 300
 
-export const updateTeamResponseParentCodeMax = 100;
+export const updateTeamResponseTwoParentOneCodeMax = 100
 
-export const updateTeamResponseParentNotesMax = 10000;
+export const updateTeamResponseTwoParentOneNotesMax = 10000
 
-export const updateTeamResponseParentUsersCountMin = 0;
+export const updateTeamResponseTwoParentOneUsersCountMin = 0
 
-export const updateTeamResponseChildrenItemNameMax = 300;
+export const updateTeamResponseTwoChildrenItemNameMax = 300
 
-export const updateTeamResponseChildrenItemCodeMax = 100;
+export const updateTeamResponseTwoChildrenItemCodeMax = 100
 
-export const updateTeamResponseChildrenItemNotesMax = 10000;
+export const updateTeamResponseTwoChildrenItemNotesMax = 10000
 
-export const updateTeamResponseChildrenItemUsersCountMin = 0;
+export const updateTeamResponseTwoChildrenItemUsersCountMin = 0
 
-export const updateTeamResponseUsersItemGradesItemNameMax = 300;
+export const updateTeamResponseTwoUsersItemOneGradesItemNameMax = 300
 
-export const updateTeamResponseUsersItemGradesItemLevelMin = 0;
-export const updateTeamResponseUsersItemGradesItemLevelMax = 255;
+export const updateTeamResponseTwoUsersItemOneGradesItemLevelMin = 0
+export const updateTeamResponseTwoUsersItemOneGradesItemLevelMax = 255
 
-export const updateTeamResponseUsersItemGradesItemCodeMax = 100;
+export const updateTeamResponseTwoUsersItemOneGradesItemCodeMax = 100
 
-export const updateTeamResponseUsersItemGradesItemIsDefaultDefault = false;
-export const updateTeamResponseUsersItemEmailMax = 254;
+export const updateTeamResponseTwoUsersItemOneGradesItemIsDefaultDefault = false
+export const updateTeamResponseTwoUsersItemTwoEmailMax = 254
 
-export const updateTeamResponseUsersItemCodeMax = 100;
+export const updateTeamResponseTwoUsersItemTwoCodeMax = 100
 
-export const updateTeamResponseUsersItemFirstNameMax = 255;
+export const updateTeamResponseTwoUsersItemTwoFirstNameMax = 255
 
-export const updateTeamResponseUsersItemLastNameMax = 255;
+export const updateTeamResponseTwoUsersItemTwoLastNameMax = 255
 
-export const updateTeamResponseUsersItemFullNameMax = 255;
+export const updateTeamResponseTwoUsersItemTwoFullNameMax = 255
 
-export const updateTeamResponseUsersItemEmployeeIdMax = 30;
+export const updateTeamResponseTwoUsersItemTwoEmployeeIdMax = 30
 
-
-
-export const updateTeamResponse = zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(updateTeamResponseNameMax).describe('名前'),
-  "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(updateTeamResponseCodeMax).describe('コード'),
-  "notes": zod.string().max(updateTeamResponseNotesMax).nullish().describe('管理用メモ'),
-  "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(updateTeamResponseUsersCountMin).describe('ユーザー数'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('チーム').and(zod.object({
-  "parent": zod.union([zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(updateTeamResponseParentNameMax).describe('名前'),
-  "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(updateTeamResponseParentCodeMax).describe('コード'),
-  "notes": zod.string().max(updateTeamResponseParentNotesMax).nullish().describe('管理用メモ'),
-  "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(updateTeamResponseParentUsersCountMin).describe('ユーザー数'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('チーム'),zod.null()]).optional().describe('親チーム'),
-  "children": zod.array(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(updateTeamResponseChildrenItemNameMax).describe('名前'),
-  "fullName": zod.string().describe('上位組織を含む名前'),
-  "code": zod.string().max(updateTeamResponseChildrenItemCodeMax).describe('コード'),
-  "notes": zod.string().max(updateTeamResponseChildrenItemNotesMax).nullish().describe('管理用メモ'),
-  "approveOnly": zod.boolean().describe('承認専用チームかどうか'),
-  "usersCount": zod.number().min(updateTeamResponseChildrenItemUsersCountMin).describe('ユーザー数'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('チーム')).describe('子チーム'),
-  "users": zod.array(zod.object({
-  "grades": zod.array(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(updateTeamResponseUsersItemGradesItemNameMax).describe('名前'),
-  "level": zod.number().min(updateTeamResponseUsersItemGradesItemLevelMin).max(updateTeamResponseUsersItemGradesItemLevelMax).describe('レベル'),
-  "code": zod.string().max(updateTeamResponseUsersItemGradesItemCodeMax).nullable().describe('コード'),
-  "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('役職')).min(1).describe('役職'),
-  "leader": zod.boolean().describe('上長かどうか')
-}).and(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "email": zod.email().max(updateTeamResponseUsersItemEmailMax).describe('メールアドレス'),
-  "code": zod.string().max(updateTeamResponseUsersItemCodeMax).describe('コード'),
-  "firstName": zod.string().max(updateTeamResponseUsersItemFirstNameMax).describe('名'),
-  "lastName": zod.string().max(updateTeamResponseUsersItemLastNameMax).describe('姓'),
-  "fullName": zod.string().max(updateTeamResponseUsersItemFullNameMax).describe('フルネーム'),
-  "employeeId": zod.string().max(updateTeamResponseUsersItemEmployeeIdMax).nullish().describe('社員番号'),
-  "image": zod.object({
-  "100x100": zod.string().nullable(),
-  "64x64": zod.string().nullable(),
-  "32x32": zod.string().nullable()
-}).describe('ユーザー画像のURL。サイズごとに複数のURLを返します。'),
-  "status": zod.enum(['invited', 'activated', 'suspended', 'deactivated']).describe('ステータス'),
-  "locale": zod.string().describe('ロケール（jaまたはen）'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時'),
-  "deactivatedAt": zod.iso.datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー')).describe('チームの所属メンバー')).describe('メンバーの配列。\n\n注意：パフォーマンス上の理由から、100件を超えるメンバーを返すことはできません。101件以上のメンバーをすべて取得したい場合は、別途メンバー取得APIを呼び出してください。')
-})).describe('チームの詳細')
+export const UpdateTeamResponse = zod
+  .object({
+    id: zod.uuid().describe('UUID'),
+    name: zod.string().max(updateTeamResponseOneNameMax).describe('名前'),
+    fullName: zod.string().describe('上位組織を含む名前'),
+    code: zod.string().max(updateTeamResponseOneCodeMax).describe('コード'),
+    notes: zod
+      .string()
+      .max(updateTeamResponseOneNotesMax)
+      .nullish()
+      .describe('管理用メモ'),
+    approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+    usersCount: zod
+      .number()
+      .min(updateTeamResponseOneUsersCountMin)
+      .describe('ユーザー数'),
+    createdAt: zod.iso.datetime({}).describe('作成日時'),
+    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+  })
+  .describe('チーム')
+  .and(
+    zod.object({
+      parent: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              name: zod
+                .string()
+                .max(updateTeamResponseTwoParentOneNameMax)
+                .describe('名前'),
+              fullName: zod.string().describe('上位組織を含む名前'),
+              code: zod
+                .string()
+                .max(updateTeamResponseTwoParentOneCodeMax)
+                .describe('コード'),
+              notes: zod
+                .string()
+                .max(updateTeamResponseTwoParentOneNotesMax)
+                .nullish()
+                .describe('管理用メモ'),
+              approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+              usersCount: zod
+                .number()
+                .min(updateTeamResponseTwoParentOneUsersCountMin)
+                .describe('ユーザー数'),
+              createdAt: zod.iso.datetime({}).describe('作成日時'),
+              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            })
+            .describe('チーム'),
+          zod.null(),
+        ])
+        .optional()
+        .describe('親チーム'),
+      children: zod
+        .array(
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              name: zod
+                .string()
+                .max(updateTeamResponseTwoChildrenItemNameMax)
+                .describe('名前'),
+              fullName: zod.string().describe('上位組織を含む名前'),
+              code: zod
+                .string()
+                .max(updateTeamResponseTwoChildrenItemCodeMax)
+                .describe('コード'),
+              notes: zod
+                .string()
+                .max(updateTeamResponseTwoChildrenItemNotesMax)
+                .nullish()
+                .describe('管理用メモ'),
+              approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+              usersCount: zod
+                .number()
+                .min(updateTeamResponseTwoChildrenItemUsersCountMin)
+                .describe('ユーザー数'),
+              createdAt: zod.iso.datetime({}).describe('作成日時'),
+              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            })
+            .describe('チーム'),
+        )
+        .describe('子チーム'),
+      users: zod
+        .array(
+          zod
+            .object({
+              grades: zod
+                .array(
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      name: zod
+                        .string()
+                        .max(updateTeamResponseTwoUsersItemOneGradesItemNameMax)
+                        .describe('名前'),
+                      level: zod
+                        .number()
+                        .min(
+                          updateTeamResponseTwoUsersItemOneGradesItemLevelMin,
+                        )
+                        .max(
+                          updateTeamResponseTwoUsersItemOneGradesItemLevelMax,
+                        )
+                        .describe('レベル'),
+                      code: zod
+                        .string()
+                        .max(updateTeamResponseTwoUsersItemOneGradesItemCodeMax)
+                        .nullable()
+                        .describe('コード'),
+                      isDefault: zod
+                        .boolean()
+                        .default(
+                          updateTeamResponseTwoUsersItemOneGradesItemIsDefaultDefault,
+                        )
+                        .describe('デフォルトの役職かどうか'),
+                      createdAt: zod.iso.datetime({}).describe('作成日時'),
+                      updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    })
+                    .describe('役職'),
+                )
+                .min(1)
+                .describe('役職'),
+              leader: zod.boolean().describe('上長かどうか'),
+            })
+            .and(
+              zod
+                .object({
+                  id: zod.uuid().describe('UUID'),
+                  email: zod
+                    .email()
+                    .max(updateTeamResponseTwoUsersItemTwoEmailMax)
+                    .describe('メールアドレス'),
+                  code: zod
+                    .string()
+                    .max(updateTeamResponseTwoUsersItemTwoCodeMax)
+                    .describe('コード'),
+                  firstName: zod
+                    .string()
+                    .max(updateTeamResponseTwoUsersItemTwoFirstNameMax)
+                    .describe('名'),
+                  lastName: zod
+                    .string()
+                    .max(updateTeamResponseTwoUsersItemTwoLastNameMax)
+                    .describe('姓'),
+                  fullName: zod
+                    .string()
+                    .max(updateTeamResponseTwoUsersItemTwoFullNameMax)
+                    .describe('フルネーム'),
+                  employeeId: zod
+                    .string()
+                    .max(updateTeamResponseTwoUsersItemTwoEmployeeIdMax)
+                    .nullish()
+                    .describe('社員番号'),
+                  image: zod
+                    .object({
+                      '100x100': zod.string().nullable(),
+                      '64x64': zod.string().nullable(),
+                      '32x32': zod.string().nullable(),
+                    })
+                    .describe(
+                      'ユーザー画像のURL。サイズごとに複数のURLを返します。',
+                    ),
+                  status: zod
+                    .enum(['invited', 'activated', 'suspended', 'deactivated'])
+                    .describe('ステータス'),
+                  locale: zod.string().describe('ロケール（jaまたはen）'),
+                  createdAt: zod.iso.datetime({}).describe('作成日時'),
+                  updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                  deactivatedAt: zod.iso
+                    .datetime({})
+                    .nullish()
+                    .describe('削除日時'),
+                })
+                .describe('ユーザー'),
+            )
+            .describe('チームの所属メンバー'),
+        )
+        .describe(
+          'メンバーの配列。\n\n注意：パフォーマンス上の理由から、100件を超えるメンバーを返すことはできません。101件以上のメンバーをすべて取得したい場合は、別途メンバー取得APIを呼び出してください。',
+        ),
+    }),
+  )
+  .describe('チームの詳細')
 
 /**
  * チームを削除します。同時に、このチームの所属もすべて削除されます。
@@ -436,9 +821,9 @@ export const updateTeamResponse = zod.object({
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを削除
  */
-export const deleteTeamParams = zod.object({
-  "organizationChartId": zod.uuid().describe('組織図のUUID'),
-  "teamId": zod.string().describe('チームのUUIDまたはコード')
+export const DeleteTeamParams = zod.object({
+  organizationChartId: zod.uuid().describe('組織図のUUID'),
+  teamId: zod.string().describe('チームのUUIDまたはコード'),
 })
 
 /**
@@ -447,76 +832,132 @@ export const deleteTeamParams = zod.object({
 このAPIの実行には、チームの管理権限が必要です。
  * @summary チームのメンバー一覧を取得
  */
-export const listTeamMembersParams = zod.object({
-  "organizationChartId": zod.uuid().describe('組織図のUUID'),
-  "teamId": zod.string().describe('チームのUUIDまたはコード')
+export const ListTeamMembersParams = zod.object({
+  organizationChartId: zod.uuid().describe('組織図のUUID'),
+  teamId: zod.string().describe('チームのUUIDまたはコード'),
 })
 
-export const listTeamMembersQueryPageDefault = 1;
+export const listTeamMembersQueryPageDefault = 1
 
-export const listTeamMembersQueryPerPageDefault = 25;
-export const listTeamMembersQueryPerPageMax = 100;
+export const listTeamMembersQueryPerPageDefault = 25
+export const listTeamMembersQueryPerPageMax = 100
 
-
-
-export const listTeamMembersQueryParams = zod.object({
-  "page": zod.number().min(1).default(listTeamMembersQueryPageDefault).describe('ページ。1が先頭のページ。'),
-  "perPage": zod.number().min(1).max(listTeamMembersQueryPerPageMax).default(listTeamMembersQueryPerPageDefault).describe('1ページあたりの件数')
+export const ListTeamMembersQueryParams = zod.object({
+  page: zod
+    .number()
+    .min(1)
+    .default(listTeamMembersQueryPageDefault)
+    .describe('ページ。1が先頭のページ。'),
+  perPage: zod
+    .number()
+    .min(1)
+    .max(listTeamMembersQueryPerPageMax)
+    .default(listTeamMembersQueryPerPageDefault)
+    .describe('1ページあたりの件数'),
 })
 
-export const listTeamMembersResponseGradesItemNameMax = 300;
+export const listTeamMembersResponseOneGradesItemNameMax = 300
 
-export const listTeamMembersResponseGradesItemLevelMin = 0;
-export const listTeamMembersResponseGradesItemLevelMax = 255;
+export const listTeamMembersResponseOneGradesItemLevelMin = 0
+export const listTeamMembersResponseOneGradesItemLevelMax = 255
 
-export const listTeamMembersResponseGradesItemCodeMax = 100;
+export const listTeamMembersResponseOneGradesItemCodeMax = 100
 
-export const listTeamMembersResponseGradesItemIsDefaultDefault = false;
-export const listTeamMembersResponseEmailMax = 254;
+export const listTeamMembersResponseOneGradesItemIsDefaultDefault = false
+export const listTeamMembersResponseTwoEmailMax = 254
 
-export const listTeamMembersResponseCodeMax = 100;
+export const listTeamMembersResponseTwoCodeMax = 100
 
-export const listTeamMembersResponseFirstNameMax = 255;
+export const listTeamMembersResponseTwoFirstNameMax = 255
 
-export const listTeamMembersResponseLastNameMax = 255;
+export const listTeamMembersResponseTwoLastNameMax = 255
 
-export const listTeamMembersResponseFullNameMax = 255;
+export const listTeamMembersResponseTwoFullNameMax = 255
 
-export const listTeamMembersResponseEmployeeIdMax = 30;
+export const listTeamMembersResponseTwoEmployeeIdMax = 30
 
-
-
-export const listTeamMembersResponseItem = zod.object({
-  "grades": zod.array(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "name": zod.string().max(listTeamMembersResponseGradesItemNameMax).describe('名前'),
-  "level": zod.number().min(listTeamMembersResponseGradesItemLevelMin).max(listTeamMembersResponseGradesItemLevelMax).describe('レベル'),
-  "code": zod.string().max(listTeamMembersResponseGradesItemCodeMax).nullable().describe('コード'),
-  "isDefault": zod.boolean().describe('デフォルトの役職かどうか'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時')
-}).describe('役職')).min(1).describe('役職'),
-  "leader": zod.boolean().describe('上長かどうか')
-}).and(zod.object({
-  "id": zod.uuid().describe('UUID'),
-  "email": zod.email().max(listTeamMembersResponseEmailMax).describe('メールアドレス'),
-  "code": zod.string().max(listTeamMembersResponseCodeMax).describe('コード'),
-  "firstName": zod.string().max(listTeamMembersResponseFirstNameMax).describe('名'),
-  "lastName": zod.string().max(listTeamMembersResponseLastNameMax).describe('姓'),
-  "fullName": zod.string().max(listTeamMembersResponseFullNameMax).describe('フルネーム'),
-  "employeeId": zod.string().max(listTeamMembersResponseEmployeeIdMax).nullish().describe('社員番号'),
-  "image": zod.object({
-  "100x100": zod.string().nullable(),
-  "64x64": zod.string().nullable(),
-  "32x32": zod.string().nullable()
-}).describe('ユーザー画像のURL。サイズごとに複数のURLを返します。'),
-  "status": zod.enum(['invited', 'activated', 'suspended', 'deactivated']).describe('ステータス'),
-  "locale": zod.string().describe('ロケール（jaまたはen）'),
-  "createdAt": zod.iso.datetime({}).describe('作成日時'),
-  "updatedAt": zod.iso.datetime({}).describe('更新日時'),
-  "deactivatedAt": zod.iso.datetime({}).nullish().describe('削除日時')
-}).describe('ユーザー')).describe('チームの所属メンバー')
-export const listTeamMembersResponse = zod.array(listTeamMembersResponseItem)
+export const ListTeamMembersResponseItem = zod
+  .object({
+    grades: zod
+      .array(
+        zod
+          .object({
+            id: zod.uuid().describe('UUID'),
+            name: zod
+              .string()
+              .max(listTeamMembersResponseOneGradesItemNameMax)
+              .describe('名前'),
+            level: zod
+              .number()
+              .min(listTeamMembersResponseOneGradesItemLevelMin)
+              .max(listTeamMembersResponseOneGradesItemLevelMax)
+              .describe('レベル'),
+            code: zod
+              .string()
+              .max(listTeamMembersResponseOneGradesItemCodeMax)
+              .nullable()
+              .describe('コード'),
+            isDefault: zod
+              .boolean()
+              .default(listTeamMembersResponseOneGradesItemIsDefaultDefault)
+              .describe('デフォルトの役職かどうか'),
+            createdAt: zod.iso.datetime({}).describe('作成日時'),
+            updatedAt: zod.iso.datetime({}).describe('更新日時'),
+          })
+          .describe('役職'),
+      )
+      .min(1)
+      .describe('役職'),
+    leader: zod.boolean().describe('上長かどうか'),
+  })
+  .and(
+    zod
+      .object({
+        id: zod.uuid().describe('UUID'),
+        email: zod
+          .email()
+          .max(listTeamMembersResponseTwoEmailMax)
+          .describe('メールアドレス'),
+        code: zod
+          .string()
+          .max(listTeamMembersResponseTwoCodeMax)
+          .describe('コード'),
+        firstName: zod
+          .string()
+          .max(listTeamMembersResponseTwoFirstNameMax)
+          .describe('名'),
+        lastName: zod
+          .string()
+          .max(listTeamMembersResponseTwoLastNameMax)
+          .describe('姓'),
+        fullName: zod
+          .string()
+          .max(listTeamMembersResponseTwoFullNameMax)
+          .describe('フルネーム'),
+        employeeId: zod
+          .string()
+          .max(listTeamMembersResponseTwoEmployeeIdMax)
+          .nullish()
+          .describe('社員番号'),
+        image: zod
+          .object({
+            '100x100': zod.string().nullable(),
+            '64x64': zod.string().nullable(),
+            '32x32': zod.string().nullable(),
+          })
+          .describe('ユーザー画像のURL。サイズごとに複数のURLを返します。'),
+        status: zod
+          .enum(['invited', 'activated', 'suspended', 'deactivated'])
+          .describe('ステータス'),
+        locale: zod.string().describe('ロケール（jaまたはen）'),
+        createdAt: zod.iso.datetime({}).describe('作成日時'),
+        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+      })
+      .describe('ユーザー'),
+  )
+  .describe('チームの所属メンバー')
+export const ListTeamMembersResponse = zod.array(ListTeamMembersResponseItem)
 
 /**
  * 指定したチームにメンバーを追加します。最大10人まで同時に追加可能です。
@@ -526,22 +967,29 @@ export const listTeamMembersResponse = zod.array(listTeamMembersResponseItem)
 注意: チームに上長は最低一人必要です。上長が不在の場合、APIは422 Unprocessable Contentを返します。
  * @summary チームにメンバーを追加
  */
-export const createTeamMembersParams = zod.object({
-  "organizationChartId": zod.uuid().describe('組織図のUUID'),
-  "teamId": zod.string().describe('チームのUUIDまたはコード')
+export const CreateTeamMembersParams = zod.object({
+  organizationChartId: zod.uuid().describe('組織図のUUID'),
+  teamId: zod.string().describe('チームのUUIDまたはコード'),
 })
 
+export const createTeamMembersBodyUsersMax = 10
 
-export const createTeamMembersBodyUsersMax = 10;
-
-
-
-export const createTeamMembersBody = zod.object({
-  "users": zod.array(zod.object({
-  "id": zod.uuid().describe('ユーザーのUUID'),
-  "leader": zod.boolean().describe('上長の場合、true'),
-  "gradeIds": zod.array(zod.uuid()).min(1).optional().describe('役職のUUID')
-})).min(1).max(createTeamMembersBodyUsersMax).describe('メンバーに追加したいユーザー情報の配列')
+export const CreateTeamMembersBody = zod.object({
+  users: zod
+    .array(
+      zod.object({
+        id: zod.uuid().describe('ユーザーのUUID'),
+        leader: zod.boolean().describe('上長の場合、true'),
+        gradeIds: zod
+          .array(zod.uuid())
+          .min(1)
+          .optional()
+          .describe('役職のUUID'),
+      }),
+    )
+    .min(1)
+    .max(createTeamMembersBodyUsersMax)
+    .describe('メンバーに追加したいユーザー情報の配列'),
 })
 
 /**
@@ -552,17 +1000,19 @@ export const createTeamMembersBody = zod.object({
 注意: 削除後もメンバーが残る場合、チームに上長は最低一人必要です。メンバー削除によって上長が不在になる場合、APIは422 Unprocessable Contentを返します。
  * @summary チームからメンバーを削除
  */
-export const deleteTeamMembersParams = zod.object({
-  "organizationChartId": zod.uuid().describe('組織図のUUID'),
-  "teamId": zod.string().describe('チームのUUIDまたはコード')
+export const DeleteTeamMembersParams = zod.object({
+  organizationChartId: zod.uuid().describe('組織図のUUID'),
+  teamId: zod.string().describe('チームのUUIDまたはコード'),
 })
 
-export const deleteTeamMembersBodyUserIdsMax = 10;
+export const deleteTeamMembersBodyUserIdsMax = 10
 
-
-
-export const deleteTeamMembersBody = zod.object({
-  "userIds": zod.array(zod.uuid()).min(1).max(deleteTeamMembersBodyUserIdsMax).describe('ユーザーのUUIDの配列')
+export const DeleteTeamMembersBody = zod.object({
+  userIds: zod
+    .array(zod.uuid())
+    .min(1)
+    .max(deleteTeamMembersBodyUserIdsMax)
+    .describe('ユーザーのUUIDの配列'),
 })
 
 /**
@@ -573,17 +1023,13 @@ export const deleteTeamMembersBody = zod.object({
 注意: チームに上長は最低一人は必要です。上長が不在の場合、APIは422 Unprocessable Contentを返します。
  * @summary チームのメンバーを更新
  */
-export const updateTeamMemberParams = zod.object({
-  "organizationChartId": zod.uuid().describe('組織図のUUID'),
-  "teamId": zod.string().describe('チームのUUIDまたはコード'),
-  "userId": zod.string().describe('ユーザーのUUIDまたはコード')
+export const UpdateTeamMemberParams = zod.object({
+  organizationChartId: zod.uuid().describe('組織図のUUID'),
+  teamId: zod.string().describe('チームのUUIDまたはコード'),
+  userId: zod.string().describe('ユーザーのUUIDまたはコード'),
 })
 
-
-
-
-export const updateTeamMemberBody = zod.object({
-  "leader": zod.boolean().describe('上長の場合、true'),
-  "gradeIds": zod.array(zod.uuid()).min(1).describe('役職のUUID')
+export const UpdateTeamMemberBody = zod.object({
+  leader: zod.boolean().describe('上長の場合、true'),
+  gradeIds: zod.array(zod.uuid()).min(1).describe('役職のUUID'),
 })
-

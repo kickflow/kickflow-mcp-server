@@ -14,9 +14,14 @@ export interface ZodSchemaSet {
   requestBody?: ZodShapeObject
 }
 
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
 export function findZodSchema(operationId: string): ZodSchemaSet {
-  const queryParamsKey = `${operationId}QueryParams`
-  const bodyKey = `${operationId}Body`
+  const pascalId = capitalize(operationId)
+  const queryParamsKey = `${pascalId}QueryParams`
+  const bodyKey = `${pascalId}Body`
 
   let pathParams: ZodShapeObject | undefined
   let queryParams: ZodShapeObject | undefined
