@@ -1,10 +1,10 @@
 import { z } from 'zod'
 import * as fs from 'fs'
 import * as path from 'path'
-import { AxiosError } from 'axios'
-import { getKickflowRESTAPIV1 } from './generated/kickflowRESTAPIV1.js'
+import * as kickflowApi from './generated/kickflowRESTAPIV1.js'
+import { FetchError } from './custom-fetch-instance.js'
 
-type KickflowApi = ReturnType<typeof getKickflowRESTAPIV1>
+type KickflowApi = typeof kickflowApi
 
 export type SpecialHandler = {
   schema: z.ZodObject<z.ZodRawShape>
@@ -47,7 +47,8 @@ export const specialHandlers: Record<string, SpecialHandler> = {
       const blob = new Blob([binaryData], { type: contentType })
       const file = new File([blob], filename, { type: contentType })
 
-      return api.uploadFile({ file })
+      const response = await api.uploadFile({ file })
+      return response.data
     },
   },
 }
@@ -75,14 +76,14 @@ export async function executeSpecialHandler(
     }
   }
 
-  const api = getKickflowRESTAPIV1()
   try {
-    const response = await handler.handler(api, validated.data)
+    const response = await handler.handler(kickflowApi, validated.data)
     return { success: true, data: response }
   } catch (error) {
     let errorMessage = 'An unknown error occurred'
-    if (error instanceof AxiosError) {
-      errorMessage = error.response?.data?.message || error.message
+    if (error instanceof FetchError) {
+      const data = error.data as { message?: string } | undefined
+      errorMessage = data?.message || error.message
     } else if (error instanceof Error) {
       errorMessage = error.message
     }

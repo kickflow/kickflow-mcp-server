@@ -45,14 +45,12 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.27.1",
-    "axios": "1.13.5",
     "zod": "4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/node": "22.19.15",
     "@vitest/eslint-plugin": "1.6.12",
-    "axios-mock-adapter": "2.1.0",
     "eslint": "10.0.3",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",

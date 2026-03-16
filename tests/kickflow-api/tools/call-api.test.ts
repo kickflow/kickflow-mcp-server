@@ -1,5 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { AxiosError, AxiosHeaders } from 'axios'
+import { FetchError } from '../../../src/kickflow-api/custom-fetch-instance.js'
+
+const { mockApiMethod } = vi.hoisted(() => ({
+  mockApiMethod: vi.fn(),
+}))
 
 vi.mock('fs', () => ({
   readFileSync: vi.fn(),
@@ -7,18 +11,14 @@ vi.mock('fs', () => ({
   realpathSync: vi.fn(),
 }))
 
-const mockApiMethod = vi.fn()
-
 vi.mock('../../../src/kickflow-api/generated/kickflowRESTAPIV1.js', () => ({
-  getKickflowRESTAPIV1: vi.fn(
-    () =>
-      new Proxy(
-        {},
-        {
-          get: () => mockApiMethod,
-        },
-      ),
-  ),
+  listCategories: mockApiMethod,
+  listTickets: mockApiMethod,
+  listTeams: mockApiMethod,
+  getTicket: mockApiMethod,
+  getFolder: mockApiMethod,
+  getCurrentUser: mockApiMethod,
+  uploadFile: mockApiMethod,
 }))
 
 import * as fs from 'fs'
@@ -63,7 +63,10 @@ describe('call-api tool', () => {
       })
 
       it('有効なoperationIdの場合はAPIを呼び出す', async () => {
-        mockApiMethod.mockResolvedValue({ categories: [] })
+        mockApiMethod.mockResolvedValue({
+          data: { categories: [] },
+          status: 200,
+        })
 
         const result = await callApiTool.callback({
           operationId: 'listCategories',
@@ -85,7 +88,10 @@ describe('call-api tool', () => {
             p === cwd ? cwd : testFilePath,
           )
           vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
-          mockApiMethod.mockResolvedValue({ signedId: 'abc123' })
+          mockApiMethod.mockResolvedValue({
+            data: { signedId: 'abc123' },
+            status: 200,
+          })
 
           const result = await callApiTool.callback({
             operationId: 'uploadFile',
@@ -140,8 +146,11 @@ describe('call-api tool', () => {
 
       it('uuid形式のパスパラメータに有効な値を渡すと成功', async () => {
         mockApiMethod.mockResolvedValue({
-          id: '550e8400-e29b-41d4-a716-446655440000',
-          name: 'Test Ticket',
+          data: {
+            id: '550e8400-e29b-41d4-a716-446655440000',
+            name: 'Test Ticket',
+          },
+          status: 200,
         })
 
         const result = await callApiTool.callback({
@@ -166,8 +175,11 @@ describe('call-api tool', () => {
 
       it('pattern制約のあるパスパラメータに有効な値を渡すと成功', async () => {
         mockApiMethod.mockResolvedValue({
-          id: 'valid-folder_123',
-          name: 'Test Folder',
+          data: {
+            id: 'valid-folder_123',
+            name: 'Test Folder',
+          },
+          status: 200,
         })
 
         const result = await callApiTool.callback({
@@ -184,7 +196,8 @@ describe('call-api tool', () => {
     describe('API呼び出し', () => {
       it('パラメータなしのAPIを正しく呼び出せる', async () => {
         mockApiMethod.mockResolvedValue({
-          categories: [{ id: '1', name: 'Test' }],
+          data: { categories: [{ id: '1', name: 'Test' }] },
+          status: 200,
         })
 
         const result = await callApiTool.callback({
@@ -198,7 +211,10 @@ describe('call-api tool', () => {
       })
 
       it('クエリパラメータ付きのAPIを正しく呼び出せる', async () => {
-        mockApiMethod.mockResolvedValue({ tickets: [] })
+        mockApiMethod.mockResolvedValue({
+          data: { tickets: [] },
+          status: 200,
+        })
 
         await callApiTool.callback({
           operationId: 'listTickets',
@@ -209,7 +225,10 @@ describe('call-api tool', () => {
       })
 
       it('パスパラメータとクエリパラメータの両方を渡せる', async () => {
-        mockApiMethod.mockResolvedValue({ teams: [] })
+        mockApiMethod.mockResolvedValue({
+          data: { teams: [] },
+          status: 200,
+        })
 
         await callApiTool.callback({
           operationId: 'listTeams',
@@ -228,7 +247,10 @@ describe('call-api tool', () => {
       })
 
       it('パラメータが省略された場合でも正しく動作する', async () => {
-        mockApiMethod.mockResolvedValue({ user: { id: '1' } })
+        mockApiMethod.mockResolvedValue({
+          data: { user: { id: '1' } },
+          status: 200,
+        })
 
         const result = await callApiTool.callback({
           operationId: 'getCurrentUser',
@@ -240,16 +262,10 @@ describe('call-api tool', () => {
     })
 
     describe('エラーハンドリング', () => {
-      it('AxiosErrorでresponse.data.messageがある場合はそれを返す', async () => {
-        const axiosError = new AxiosError('Request failed')
-        axiosError.response = {
-          data: { message: 'Unauthorized' },
-          status: 401,
-          statusText: 'Unauthorized',
-          headers: {},
-          config: { headers: new AxiosHeaders() },
-        }
-        mockApiMethod.mockRejectedValue(axiosError)
+      it('FetchErrorでdata.messageがある場合はそれを返す', async () => {
+        mockApiMethod.mockRejectedValue(
+          new FetchError('Unauthorized', 401, { message: 'Unauthorized' }),
+        )
 
         const result = await callApiTool.callback({
           operationId: 'listCategories',
@@ -259,16 +275,10 @@ describe('call-api tool', () => {
         expect(text).toContain('API Error: Unauthorized')
       })
 
-      it('AxiosErrorでresponse.data.messageがない場合はerror.messageを返す', async () => {
-        const axiosError = new AxiosError('Network Error')
-        axiosError.response = {
-          data: {},
-          status: 500,
-          statusText: 'Internal Server Error',
-          headers: {},
-          config: { headers: new AxiosHeaders() },
-        }
-        mockApiMethod.mockRejectedValue(axiosError)
+      it('FetchErrorでdata.messageがない場合はerror.messageを返す', async () => {
+        mockApiMethod.mockRejectedValue(
+          new FetchError('Network Error', 500, {}),
+        )
 
         const result = await callApiTool.callback({
           operationId: 'listCategories',

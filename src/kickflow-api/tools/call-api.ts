@@ -1,10 +1,10 @@
 import { z } from 'zod'
-import { AxiosError } from 'axios'
 import { RegisterTool } from '../../types.js'
-import { getKickflowRESTAPIV1 } from '../generated/kickflowRESTAPIV1.js'
+import * as kickflowApi from '../generated/kickflowRESTAPIV1.js'
 import { findApiByOperationId } from '../generated/api-definitions.js'
 import { findZodSchema } from '../schema-registry.js'
 import { specialHandlers, executeSpecialHandler } from '../special-handlers.js'
+import { FetchError } from '../custom-fetch-instance.js'
 
 const inputSchema = z.object({
   operationId: z
@@ -171,8 +171,7 @@ const callApiTool: RegisterTool = {
       }
     }
 
-    const api = getKickflowRESTAPIV1()
-    const apiMethod = api[operationId as keyof typeof api] as
+    const apiMethod = kickflowApi[operationId as keyof typeof kickflowApi] as
       | ApiFunction
       | undefined
 
@@ -194,19 +193,22 @@ const callApiTool: RegisterTool = {
         queryParams: validatedQueryParams,
         requestBody: validatedRequestBody,
       })
-      const response = await apiMethod.call(api, ...apiArgs)
+      const response = (await apiMethod(...apiArgs)) as {
+        data: unknown
+      }
       return {
         content: [
           {
             type: 'text',
-            text: JSON.stringify(response, null, 2),
+            text: JSON.stringify(response.data, null, 2),
           },
         ],
       }
     } catch (error) {
       let errorMessage = 'An unknown error occurred'
-      if (error instanceof AxiosError) {
-        errorMessage = error.response?.data?.message || error.message
+      if (error instanceof FetchError) {
+        const data = error.data as { message?: string } | undefined
+        errorMessage = data?.message || error.message
       } else if (error instanceof Error) {
         errorMessage = error.message
       }

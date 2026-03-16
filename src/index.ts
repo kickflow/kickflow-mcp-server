@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
-import { setKickflowAccessToken } from './kickflow-api/custom-axios-instance.js'
+import { setKickflowAccessToken } from './kickflow-api/custom-fetch-instance.js'
 import { createServer } from './server.js'
 
 // コマンドライン引数からトークンを取得

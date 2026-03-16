@@ -11,13 +11,13 @@ export default defineConfig({
     output: {
       mode: 'split',
       target: OUTPUT_DIR,
-      client: 'axios',
+      client: 'fetch',
       prettier: true,
       override: {
         header: false,
         mutator: {
-          path: 'src/kickflow-api/custom-axios-instance.ts',
-          name: 'customAxiosInstance',
+          path: 'src/kickflow-api/custom-fetch-instance.ts',
+          name: 'customFetchInstance',
           extension: '.js',
         },
       },

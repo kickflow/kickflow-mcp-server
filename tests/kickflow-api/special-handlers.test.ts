@@ -1,5 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { AxiosError, AxiosHeaders } from 'axios'
+import { FetchError } from '../../src/kickflow-api/custom-fetch-instance.js'
+
+const { mockUploadFile } = vi.hoisted(() => ({
+  mockUploadFile: vi.fn(),
+}))
 
 vi.mock('fs', () => ({
   readFileSync: vi.fn(),
@@ -7,12 +11,8 @@ vi.mock('fs', () => ({
   realpathSync: vi.fn(),
 }))
 
-const mockUploadFile = vi.fn()
-
 vi.mock('../../src/kickflow-api/generated/kickflowRESTAPIV1.js', () => ({
-  getKickflowRESTAPIV1: vi.fn(() => ({
-    uploadFile: mockUploadFile,
-  })),
+  uploadFile: mockUploadFile,
 }))
 
 import * as fs from 'fs'
@@ -82,7 +82,10 @@ describe('special-handlers', () => {
         p === cwd ? cwd : testFilePath,
       )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
-      mockUploadFile.mockResolvedValue({ signedId: 'abc123' })
+      mockUploadFile.mockResolvedValue({
+        data: { signedId: 'abc123' },
+        status: 200,
+      })
 
       const result = await executeSpecialHandler('uploadFile', {
         filePath: testFilePath,
@@ -107,7 +110,10 @@ describe('special-handlers', () => {
         p === cwd ? cwd : testFilePath,
       )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
-      mockUploadFile.mockResolvedValue({ signedId: 'abc123' })
+      mockUploadFile.mockResolvedValue({
+        data: { signedId: 'abc123' },
+        status: 200,
+      })
 
       await executeSpecialHandler('uploadFile', {
         filePath: testFilePath,
@@ -127,7 +133,10 @@ describe('special-handlers', () => {
         p === cwd ? cwd : testFilePath,
       )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
-      mockUploadFile.mockResolvedValue({ signedId: 'abc123' })
+      mockUploadFile.mockResolvedValue({
+        data: { signedId: 'abc123' },
+        status: 200,
+      })
 
       await executeSpecialHandler('uploadFile', {
         filePath: testFilePath,
@@ -137,7 +146,7 @@ describe('special-handlers', () => {
       expect(callArgs.file.type).toBe('application/octet-stream')
     })
 
-    it('AxiosError発生時はエラーメッセージを返す', async () => {
+    it('FetchError発生時はエラーメッセージを返す', async () => {
       const cwd = process.cwd()
       const testFilePath = `${cwd}/large.pdf`
       const mockFileContent = Buffer.from('file content')
@@ -147,15 +156,9 @@ describe('special-handlers', () => {
       )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
 
-      const axiosError = new AxiosError('Request failed')
-      axiosError.response = {
-        data: { message: 'File too large' },
-        status: 413,
-        statusText: 'Payload Too Large',
-        headers: {},
-        config: { headers: new AxiosHeaders() },
-      }
-      mockUploadFile.mockRejectedValue(axiosError)
+      mockUploadFile.mockRejectedValue(
+        new FetchError('File too large', 413, { message: 'File too large' }),
+      )
 
       const result = await executeSpecialHandler('uploadFile', {
         filePath: testFilePath,
@@ -169,7 +172,7 @@ describe('special-handlers', () => {
       )
     })
 
-    it('AxiosErrorでresponse.data.messageがない場合はerror.messageを使用', async () => {
+    it('FetchErrorでdata.messageがない場合はerror.messageを使用', async () => {
       const cwd = process.cwd()
       const testFilePath = `${cwd}/file.pdf`
       const mockFileContent = Buffer.from('file content')
@@ -179,15 +182,7 @@ describe('special-handlers', () => {
       )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
 
-      const axiosError = new AxiosError('Network Error')
-      axiosError.response = {
-        data: {},
-        status: 500,
-        statusText: 'Internal Server Error',
-        headers: {},
-        config: { headers: new AxiosHeaders() },
-      }
-      mockUploadFile.mockRejectedValue(axiosError)
+      mockUploadFile.mockRejectedValue(new FetchError('Network Error', 500, {}))
 
       const result = await executeSpecialHandler('uploadFile', {
         filePath: testFilePath,
@@ -258,7 +253,10 @@ describe('special-handlers', () => {
         p === cwd ? cwd : testFilePath,
       )
       vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
-      mockUploadFile.mockResolvedValue({ signedId: 'abc123' })
+      mockUploadFile.mockResolvedValue({
+        data: { signedId: 'abc123' },
+        status: 200,
+      })
 
       await executeSpecialHandler('uploadFile', {
         filePath: testFilePath,
