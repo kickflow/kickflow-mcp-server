@@ -1,7 +1,8 @@
-import * as zod from 'zod'
+import * as zod from 'zod';
+
 
 /**
- * 添付ファイルをアップロードします。最大2MBまでのファイルをアップロード可能です。
+ * 添付ファイルをアップロードします。最大50MBまでのファイルをアップロード可能です。
 
 注意：このAPIはエンタープライズプランのお客様のみ利用可能です。
 
@@ -9,11 +10,11 @@ import * as zod from 'zod'
  * @summary 添付ファイルをアップロード
  */
 export const UploadFileBody = zod.object({
-  file: zod.instanceof(File).optional().describe('添付ファイル'),
+  "file": zod.instanceof(File).optional().describe('添付ファイル')
 })
 
 export const UploadFileResponse = zod.object({
-  signedId: zod.string().describe('添付ファイルの署名済みID'),
+  "signedId": zod.string().describe('添付ファイルの署名済みID')
 })
 
 /**
@@ -25,14 +26,15 @@ export const UploadFileResponse = zod.object({
  * @summary 添付ファイルの情報を取得
  */
 export const GetFileParams = zod.object({
-  signedId: zod.string().describe('添付ファイルの署名済みID'),
+  "signedId": zod.string().describe('添付ファイルの署名済みID')
 })
 
 export const GetFileResponse = zod.object({
-  url: zod.url().describe('Amazon S3のURL'),
-  filename: zod.string().describe('ファイル名'),
-  checksum: zod.string().describe('チェックサム'),
-  byteSize: zod.number().describe('バイト数'),
-  contentType: zod.string().describe('Content-Type'),
-  createdAt: zod.iso.datetime({}).describe('作成日時'),
+  "url": zod.url().describe('Amazon S3のURL'),
+  "filename": zod.string().describe('ファイル名'),
+  "checksum": zod.string().describe('チェックサム'),
+  "byteSize": zod.number().describe('バイト数'),
+  "contentType": zod.string().describe('Content-Type'),
+  "createdAt": zod.iso.datetime({}).describe('作成日時')
 })
+

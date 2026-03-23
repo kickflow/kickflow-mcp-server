@@ -1957,6 +1957,10 @@ export interface Attachment {
   filename: string
   /** ファイルURL */
   url: string
+  /** バイト数 */
+  byteSize: number
+  /** Content-Type */
+  contentType: string
 }
 
 /**

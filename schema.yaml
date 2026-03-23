@@ -5095,7 +5095,7 @@ paths:
           $ref: '#/components/responses/UnprocessableContent'
       operationId: uploadFile
       description: |-
-        添付ファイルをアップロードします。最大2MBまでのファイルをアップロード可能です。
+        添付ファイルをアップロードします。最大50MBまでのファイルをアップロード可能です。
 
         注意：このAPIはエンタープライズプランのお客様のみ利用可能です。
 
@@ -7989,10 +7989,18 @@ components:
           type: string
           description: ファイルURL
           format: uri
+        byteSize:
+          type: integer
+          description: バイト数
+        contentType:
+          type: string
+          description: Content-Type
       required:
         - signedId
         - filename
         - url
+        - byteSize
+        - contentType
     SlipItem:
       title: SlipItem
       type: object
