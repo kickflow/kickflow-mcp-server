@@ -1,49 +1,34 @@
-import * as zod from 'zod'
+import * as zod from 'zod';
+
 
 /**
  * カテゴリの一覧を取得します。
  * @summary カテゴリの一覧を取得
  */
-export const listCategoriesQueryPageDefault = 1
+export const listCategoriesQueryPageDefault = 1;
 
-export const listCategoriesQueryPerPageDefault = 25
-export const listCategoriesQueryPerPageMax = 100
+export const listCategoriesQueryPerPageDefault = 25;
+export const listCategoriesQueryPerPageMax = 100;
 
-export const listCategoriesQuerySortByRegExp = new RegExp(
-  '^(name|createdAt|updatedAt)(-asc|-desc)?$',
-)
+export const listCategoriesQuerySortByRegExp = new RegExp('^(name|createdAt|updatedAt)(-asc|-desc)?$');
+
 
 export const ListCategoriesQueryParams = zod.object({
-  page: zod
-    .number()
-    .min(1)
-    .default(listCategoriesQueryPageDefault)
-    .describe('ページ'),
-  perPage: zod
-    .number()
-    .min(1)
-    .max(listCategoriesQueryPerPageMax)
-    .default(listCategoriesQueryPerPageDefault)
-    .describe('1ページあたりの件数'),
-  sortBy: zod
-    .string()
-    .regex(listCategoriesQuerySortByRegExp)
-    .optional()
-    .describe(
-      'ソート対象のフィールドと順序。指定可能なフィールド: name, createdAt, updatedAt',
-    ),
+  "page": zod.number().min(1).default(listCategoriesQueryPageDefault).describe('ページ'),
+  "perPage": zod.number().min(1).max(listCategoriesQueryPerPageMax).default(listCategoriesQueryPerPageDefault).describe('1ページあたりの件数'),
+  "sortBy": zod.string().regex(listCategoriesQuerySortByRegExp).optional().describe('ソート対象のフィールドと順序。指定可能なフィールド: name, createdAt, updatedAt')
 })
 
-export const listCategoriesResponseNameMax = 100
+export const listCategoriesResponseNameMax = 100;
 
-export const ListCategoriesResponseItem = zod
-  .object({
-    id: zod.uuid().describe('UUID'),
-    name: zod.string().max(listCategoriesResponseNameMax).describe('名前'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-  })
-  .describe('カテゴリ')
+
+
+export const ListCategoriesResponseItem = zod.object({
+  "id": zod.uuid().describe('UUID'),
+  "name": zod.string().max(listCategoriesResponseNameMax).describe('名前'),
+  "createdAt": zod.iso.datetime({}).describe('作成日時'),
+  "updatedAt": zod.iso.datetime({}).describe('更新日時')
+}).describe('カテゴリ')
 export const ListCategoriesResponse = zod.array(ListCategoriesResponseItem)
 
 /**
@@ -53,19 +38,19 @@ export const ListCategoriesResponse = zod.array(ListCategoriesResponseItem)
  * @summary カテゴリを作成
  */
 export const CreateCategoryBody = zod.object({
-  name: zod.string().describe('名前'),
+  "name": zod.string().describe('名前')
 })
 
-export const createCategoryResponseNameMax = 100
+export const createCategoryResponseNameMax = 100;
 
-export const CreateCategoryResponse = zod
-  .object({
-    id: zod.uuid().describe('UUID'),
-    name: zod.string().max(createCategoryResponseNameMax).describe('名前'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-  })
-  .describe('カテゴリ')
+
+
+export const CreateCategoryResponse = zod.object({
+  "id": zod.uuid().describe('UUID'),
+  "name": zod.string().max(createCategoryResponseNameMax).describe('名前'),
+  "createdAt": zod.iso.datetime({}).describe('作成日時'),
+  "updatedAt": zod.iso.datetime({}).describe('更新日時')
+}).describe('カテゴリ')
 
 /**
  * カテゴリを削除します。
@@ -74,7 +59,7 @@ export const CreateCategoryResponse = zod
  * @summary カテゴリを削除
  */
 export const DeleteCategoryParams = zod.object({
-  categoryId: zod.uuid().describe('カテゴリのUUID'),
+  "categoryId": zod.uuid().describe('カテゴリのUUID')
 })
 
 /**
@@ -84,20 +69,21 @@ export const DeleteCategoryParams = zod.object({
  * @summary カテゴリを更新
  */
 export const UpdateCategoryParams = zod.object({
-  categoryId: zod.uuid().describe('カテゴリのUUID'),
+  "categoryId": zod.uuid().describe('カテゴリのUUID')
 })
 
 export const UpdateCategoryBody = zod.object({
-  name: zod.string().describe('名前'),
+  "name": zod.string().describe('名前')
 })
 
-export const updateCategoryResponseNameMax = 100
+export const updateCategoryResponseNameMax = 100;
 
-export const UpdateCategoryResponse = zod
-  .object({
-    id: zod.uuid().describe('UUID'),
-    name: zod.string().max(updateCategoryResponseNameMax).describe('名前'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-  })
-  .describe('カテゴリ')
+
+
+export const UpdateCategoryResponse = zod.object({
+  "id": zod.uuid().describe('UUID'),
+  "name": zod.string().max(updateCategoryResponseNameMax).describe('名前'),
+  "createdAt": zod.iso.datetime({}).describe('作成日時'),
+  "updatedAt": zod.iso.datetime({}).describe('更新日時')
+}).describe('カテゴリ')
+
