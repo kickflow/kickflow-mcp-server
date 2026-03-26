@@ -4,7 +4,7 @@ import * as kickflowApi from '../generated/kickflowRESTAPIV1.js'
 import { findApiByOperationId } from '../generated/api-definitions.js'
 import { findZodSchema } from '../schema-registry.js'
 import { specialHandlers, executeSpecialHandler } from '../special-handlers.js'
-import { FetchError } from '../custom-fetch-instance.js'
+import { extractErrorMessage } from '../custom-fetch-instance.js'
 
 const inputSchema = z.object({
   operationId: z
@@ -205,18 +205,11 @@ const callApiTool: RegisterTool = {
         ],
       }
     } catch (error) {
-      let errorMessage = 'An unknown error occurred'
-      if (error instanceof FetchError) {
-        const data = error.data as { message?: string } | undefined
-        errorMessage = data?.message || error.message
-      } else if (error instanceof Error) {
-        errorMessage = error.message
-      }
       return {
         content: [
           {
             type: 'text',
-            text: `API Error: ${errorMessage}`,
+            text: `API Error: ${extractErrorMessage(error)}`,
           },
         ],
       }

@@ -16,7 +16,9 @@ export const customFetchInstance = async <T>(
 
   const headers = new Headers(options?.headers)
 
-  if (!headers.has('Content-Type') && !(options?.body instanceof FormData)) {
+  if (options?.body instanceof FormData) {
+    headers.delete('Content-Type')
+  } else if (!headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json')
   }
 
@@ -55,6 +57,17 @@ export class FetchError extends Error {
     super(message)
     this.name = 'FetchError'
   }
+}
+
+export function extractErrorMessage(error: unknown): string {
+  if (error instanceof FetchError) {
+    const data = error.data as { message?: string } | undefined
+    return data?.message || error.message
+  }
+  if (error instanceof Error) {
+    return error.message
+  }
+  return 'An unknown error occurred'
 }
 
 export type ErrorType<Error> = Error

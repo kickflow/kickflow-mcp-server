@@ -173,5 +173,22 @@ describe('custom-fetch-instance', () => {
       const headers = new Headers(requestInit.headers)
       expect(headers.get('Content-Type')).toBeNull()
     })
+
+    it('FormDataの場合は既存のContent-Typeヘッダーが削除される', async () => {
+      mockFetchResponse({ signedId: 'abc' })
+
+      const formData = new FormData()
+      formData.append('file', new Blob(['test']), 'test.txt')
+
+      await customFetchInstance('/api/upload', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+
+      const requestInit = fetchSpy.mock.calls[0][1] as RequestInit
+      const headers = new Headers(requestInit.headers)
+      expect(headers.get('Content-Type')).toBeNull()
+    })
   })
 })
