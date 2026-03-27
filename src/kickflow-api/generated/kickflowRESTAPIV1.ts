@@ -149,7 +149,16 @@ export const getListCategoriesUrl = (params?: ListCategoriesParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -441,7 +450,16 @@ export const getListFoldersUrl = (params?: ListFoldersParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -800,7 +818,16 @@ export const getListGeneralMastersUrl = (params?: ListGeneralMastersParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -1172,7 +1199,16 @@ export const getListGeneralMasterItemsUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -1555,7 +1591,16 @@ export const getListGradesUrl = (params?: ListGradesParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -1984,7 +2029,16 @@ export const getListOrganizationChartsUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -2512,7 +2566,16 @@ export const getListTeamsUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -2892,7 +2955,16 @@ export const getListTeamMembersUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -3215,7 +3287,16 @@ export const getListRolesUrl = (params?: ListRolesParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -3641,7 +3722,16 @@ export const getListRoleMembersUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -3799,7 +3889,16 @@ export const getListTicketsUrl = (params?: ListTicketsParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -3946,7 +4045,16 @@ export const getListTasksUrl = (params?: ListTasksParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -4516,7 +4624,16 @@ export const getListTicketLinksUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -4600,7 +4717,16 @@ export const getListViewersUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -4824,7 +4950,16 @@ export const getListCommentsUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -5250,7 +5385,16 @@ export const getListUsersUrl = (params?: ListUsersParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -5599,7 +5743,16 @@ export const getLookupUserByEmailUrl = (params: LookupUserByEmailParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -5888,7 +6041,16 @@ export const getListUserTeamsUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -5974,7 +6136,16 @@ export const getListUserRolesUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -6055,7 +6226,16 @@ export const getListRoutesUrl = (params?: ListRoutesParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -6195,7 +6375,16 @@ export const getListWorkflowsUrl = (params?: ListWorkflowsParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -6348,7 +6537,16 @@ export const getListProxyApplicantsUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -6575,7 +6773,16 @@ export const getListProxyApproversUrl = (params?: ListProxyApproversParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 
@@ -6941,7 +7148,16 @@ export const getListAuditLogsUrl = (params?: ListAuditLogsParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      if (Array.isArray(value)) {
+        value.forEach((v) =>
+          normalizedParams.append(
+            `${key}[]`,
+            v === null ? 'null' : v.toString(),
+          ),
+        )
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
     }
   })
 

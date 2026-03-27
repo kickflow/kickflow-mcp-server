@@ -212,9 +212,47 @@ ${exportEntries.join('\n')}
   console.log(`Generated ${outputPath}`)
 }
 
+function patchArrayQueryParams() {
+  const filePath = path.join(generatedDir, 'kickflowRESTAPIV1.ts')
+  if (!fs.existsSync(filePath)) {
+    console.warn(`File not found, skipping patch: ${filePath}`)
+    return
+  }
+
+  console.log('Patching array query parameter serialization...')
+  let content = fs.readFileSync(filePath, 'utf-8')
+
+  const original = `Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  })`
+
+  const patched = `Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      if (Array.isArray(value)) {
+        value.forEach(v => normalizedParams.append(\`\${key}[]\`, v === null ? 'null' : v.toString()))
+      } else {
+        normalizedParams.append(key, value === null ? 'null' : value.toString())
+      }
+    }
+  })`
+
+  const count = content.split(original).length - 1
+  if (count === 0) {
+    console.warn('No matching pattern found for array query param patch')
+    return
+  }
+
+  content = content.replaceAll(original, patched)
+  fs.writeFileSync(filePath, content, 'utf-8')
+  console.log(`Patched ${count} occurrences in ${filePath}`)
+}
+
 console.log(`Starting rename process in ${generatedDir}...`)
 renameItems(generatedDir)
 console.log('Rename process completed.')
 
 generateApiDefinitions()
 generateZodSchemasIndex()
+patchArrayQueryParams()
