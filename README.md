@@ -70,6 +70,7 @@ Kickflow APIを実行します。`operationId`、`pathParams`、`queryParams`、
 #### 1. discover_apis でAPIの一覧を確認
 
 結果例:
+
 ```text
 listCategories: カテゴリの一覧を取得
 createCategory: カテゴリを作成
@@ -80,6 +81,7 @@ getTicket: チケットを取得
 #### 2. get_api_info で必要なパラメータを確認
 
 入力例:
+
 ```json
 {
   "operationId": "getTicket"
@@ -87,6 +89,7 @@ getTicket: チケットを取得
 ```
 
 結果例:
+
 ```json
 {
   "pathParams": {
@@ -102,6 +105,7 @@ getTicket: チケットを取得
 #### 3. call_api でAPIを実行
 
 パラメータなしの例:
+
 ```json
 {
   "operationId": "listCategories"
@@ -109,6 +113,7 @@ getTicket: チケットを取得
 ```
 
 パスパラメータありの例:
+
 ```json
 {
   "operationId": "getTicket",
@@ -119,6 +124,7 @@ getTicket: チケットを取得
 ```
 
 クエリパラメータありの例:
+
 ```json
 {
   "operationId": "listTickets",
@@ -130,6 +136,7 @@ getTicket: チケットを取得
 ```
 
 リクエストボディありの例:
+
 ```json
 {
   "operationId": "createCategory",

@@ -24,7 +24,7 @@
     "test:inspector": "npx @modelcontextprotocol/inspector node dist/index.js",
     "typecheck": "tsc --noEmit",
     "update-schema": "curl -s https://developer.kickflow.com/rest/schema.yaml -o schema.yaml",
-    "generate-api": "rm -rf ./src/kickflow-api/generated && orval --config orval.config.ts",
+    "generate-api": "rm -rf ./src/kickflow-api/generated && orval --config orval.config.ts && npm run format",
     "lint": "eslint . --ext .ts,.mts,.cts --fix",
     "format": "prettier --write \"**/*.{ts,mts,cts,js,mjs,cjs,json,md}\""
   },
