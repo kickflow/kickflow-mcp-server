@@ -8,10 +8,7 @@ import globals from 'globals'
 
 export default defineConfig(
   {
-    ignores: [
-      'dist/**',
-      'src/kickflow-api/generated/**',
-    ],
+    ignores: ['dist/**', 'src/kickflow-api/generated/**'],
   },
   eslint.configs.recommended,
   tseslint.configs.recommended,
