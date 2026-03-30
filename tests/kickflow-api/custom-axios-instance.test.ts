@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vite-plus/test'
 import MockAdapter from 'axios-mock-adapter'
 import {
   AXIOS_INSTANCE,

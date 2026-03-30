@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vite-plus/test'
 
 import getApiInfoTool from '../../../src/kickflow-api/tools/get-api-info.js'
 
