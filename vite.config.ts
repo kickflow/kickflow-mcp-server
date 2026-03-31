@@ -1,6 +1,10 @@
 import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
+  pack: {
+    dts: false,
+    sourcemap: true,
+  },
   staged: {
     '*': 'vp check --fix',
   },

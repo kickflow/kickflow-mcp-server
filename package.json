@@ -3,7 +3,6 @@
   "version": "1.0.7",
   "description": "MCP Server for kickflow API",
   "main": "dist/index.mjs",
-  "types": "dist/index.d.mts",
   "bin": {
     "@kickflow/mcp-server": "dist/index.mjs"
   },
@@ -53,6 +52,7 @@
     "axios-mock-adapter": "2.1.0",
     "orval": "8.5.2",
     "tsx": "4.21.0",
+    "typescript": "5.9.3",
     "yaml": "2.8.2",
     "vite-plus": "0.1.14"
   },
