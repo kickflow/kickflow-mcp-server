@@ -1957,6 +1957,10 @@ export interface Attachment {
   filename: string
   /** ファイルURL */
   url: string
+  /** バイト数 */
+  byteSize: number
+  /** Content-Type */
+  contentType: string
 }
 
 /**
@@ -2819,10 +2823,15 @@ export type CreateTicketBodySlipItemsItemInputsItem = {
  */
 export type CreateTicketBodySlipItemsItem = {
   /**
-   * 明細セクションのUUID。
+   * 明細セクションのUUID。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
    * @nullable
    */
   slipSectionId?: string | null
+  /**
+   * 明細セクションのコード。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
+   * @nullable
+   */
+  slipSectionCode?: string | null
   /** 明細アイテム入力の配列 */
   inputs: CreateTicketBodySlipItemsItemInputsItem[]
 }
@@ -3076,6 +3085,16 @@ export type UpdateTicketBodySlipItemsItemInputsItem = {
  * 明細アイテム
  */
 export type UpdateTicketBodySlipItemsItem = {
+  /**
+   * 明細セクションのUUID。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
+   * @nullable
+   */
+  slipSectionId?: string | null
+  /**
+   * 明細セクションのコード。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
+   * @nullable
+   */
+  slipSectionCode?: string | null
   /** 明細アイテム入力の配列 */
   inputs: UpdateTicketBodySlipItemsItemInputsItem[]
 }
