@@ -194,7 +194,7 @@ npm run test:inspector
 #### Lint と型チェック
 
 ```bash
-# ESLint によるコードチェック（Type-Aware Linting により型チェックも同時に行われる）
+# vp lint によるコードチェック（Type-Aware Linting により型チェックも同時に行われる）
 npm run lint
 ```
 

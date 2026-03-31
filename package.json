@@ -2,10 +2,10 @@
   "name": "@kickflow/mcp-server",
   "version": "1.0.7",
   "description": "MCP Server for kickflow API",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index.mjs",
+  "types": "dist/index.d.mts",
   "bin": {
-    "@kickflow/mcp-server": "dist/index.js"
+    "@kickflow/mcp-server": "dist/index.mjs"
   },
   "files": [
     "dist",
@@ -16,15 +16,15 @@
     "url": "https://github.com/kickflow/kickflow-mcp-server"
   },
   "scripts": {
-    "build": "vp build",
+    "build": "vp pack",
     "dev": "vp exec tsx src/index.ts",
-    "start": "node dist/index.js",
+    "start": "node dist/index.mjs",
     "test": "vp test",
     "test:watch": "vp test watch",
-    "test:inspector": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "test:inspector": "npx @modelcontextprotocol/inspector node dist/index.mjs",
     "update-schema": "curl -s https://developer.kickflow.com/rest/schema.yaml -o schema.yaml",
     "generate-api": "rm -rf ./src/kickflow-api/generated && orval --config orval.config.ts && vp fmt",
-    "lint": "vp lint",
+    "lint": "vp lint --fix",
     "format": "vp fmt",
     "prepare": "vp config"
   },
