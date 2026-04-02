@@ -249,6 +249,9 @@ export const CreateRoleResponse = zod
                       )
                       .describe('名前'),
                     description: zod.string().nullable().describe('説明'),
+                    defaultSortBy: zod
+                      .enum(['name', 'code'])
+                      .describe('アイテム一覧のデフォルト並び順'),
                     createdAt: zod.iso.datetime({}).describe('作成日時'),
                     updatedAt: zod.iso.datetime({}).describe('更新日時'),
                     fields: zod
@@ -503,6 +506,9 @@ export const GetRoleResponse = zod
                       )
                       .describe('名前'),
                     description: zod.string().nullable().describe('説明'),
+                    defaultSortBy: zod
+                      .enum(['name', 'code'])
+                      .describe('アイテム一覧のデフォルト並び順'),
                     createdAt: zod.iso.datetime({}).describe('作成日時'),
                     updatedAt: zod.iso.datetime({}).describe('更新日時'),
                     fields: zod
@@ -801,6 +807,9 @@ export const UpdateRoleResponse = zod
                       )
                       .describe('名前'),
                     description: zod.string().nullable().describe('説明'),
+                    defaultSortBy: zod
+                      .enum(['name', 'code'])
+                      .describe('アイテム一覧のデフォルト並び順'),
                     createdAt: zod.iso.datetime({}).describe('作成日時'),
                     updatedAt: zod.iso.datetime({}).describe('更新日時'),
                     fields: zod

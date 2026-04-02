@@ -550,6 +550,12 @@ paths:
                     - string
                     - 'null'
                   description: 説明
+                defaultSortBy:
+                  type: string
+                  enum:
+                    - name
+                    - code
+                  description: アイテム一覧のデフォルト並び順
                 fields:
                   type: array
                   description: カスタムフィールドの配列
@@ -684,6 +690,12 @@ paths:
                 description:
                   type: string
                   description: 説明
+                defaultSortBy:
+                  type: string
+                  enum:
+                    - name
+                    - code
+                  description: アイテム一覧のデフォルト並び順
                 fields:
                   type: array
                   description: カスタムフィールドの配列
@@ -2638,7 +2650,12 @@ paths:
                           - string
                           - 'null'
                         format: uuid
-                        description: 明細セクションのUUID。
+                        description: 明細セクションのUUID。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
+                      slipSectionCode:
+                        type:
+                          - string
+                          - 'null'
+                        description: 明細セクションのコード。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
                       inputs:
                         type: array
                         description: 明細アイテム入力の配列
@@ -3132,6 +3149,17 @@ paths:
                     type: object
                     description: 明細アイテム
                     properties:
+                      slipSectionId:
+                        type:
+                          - string
+                          - 'null'
+                        format: uuid
+                        description: 明細セクションのUUID。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
+                      slipSectionCode:
+                        type:
+                          - string
+                          - 'null'
+                        description: 明細セクションのコード。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
                       inputs:
                         type: array
                         description: 明細アイテム入力の配列
@@ -5095,7 +5123,7 @@ paths:
           $ref: '#/components/responses/UnprocessableContent'
       operationId: uploadFile
       description: |-
-        添付ファイルをアップロードします。最大2MBまでのファイルをアップロード可能です。
+        添付ファイルをアップロードします。最大50MBまでのファイルをアップロード可能です。
 
         注意：このAPIはエンタープライズプランのお客様のみ利用可能です。
 
@@ -6232,6 +6260,12 @@ components:
             - string
             - 'null'
           description: 説明
+        defaultSortBy:
+          type: string
+          enum:
+            - name
+            - code
+          description: アイテム一覧のデフォルト並び順
         createdAt:
           type: string
           description: 作成日時
@@ -6252,6 +6286,7 @@ components:
         - description
         - createdAt
         - updatedAt
+        - defaultSortBy
         - fields
     GeneralMasterItem:
       title: GeneralMasterItem
@@ -7989,10 +8024,18 @@ components:
           type: string
           description: ファイルURL
           format: uri
+        byteSize:
+          type: integer
+          description: バイト数
+        contentType:
+          type: string
+          description: Content-Type
       required:
         - signedId
         - filename
         - url
+        - byteSize
+        - contentType
     SlipItem:
       title: SlipItem
       type: object
