@@ -194,11 +194,8 @@ npm run test:inspector
 #### Lint と型チェック
 
 ```bash
-# ESLint によるコードチェック
+# vp lint によるコードチェック（Type-Aware Linting により型チェックも同時に行われる）
 npm run lint
-
-# TypeScript の型チェック
-npm run typecheck
 ```
 
 #### OpenAPI型定義の更新

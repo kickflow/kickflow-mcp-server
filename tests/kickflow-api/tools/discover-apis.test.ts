@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'vite-plus/test'
 import { apiDefinitions } from '../../../src/kickflow-api/generated/api-definitions.js'
 import discoverApisTool from '../../../src/kickflow-api/tools/discover-apis.js'
 

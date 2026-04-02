@@ -12,7 +12,7 @@ export default defineConfig({
       mode: 'split',
       target: OUTPUT_DIR,
       client: 'axios',
-      prettier: true,
+      prettier: false,
       override: {
         header: false,
         mutator: {
@@ -30,7 +30,7 @@ export default defineConfig({
     output: {
       mode: 'tags-split',
       client: 'zod',
-      prettier: true,
+      prettier: false,
       target: OUTPUT_DIR,
       fileExtension: '.zod.ts',
       override: {
@@ -38,7 +38,7 @@ export default defineConfig({
       },
     },
     hooks: {
-      afterAllFilesWrite: 'node scripts/orval-hook.js && npm run format',
+      afterAllFilesWrite: 'node scripts/orval-hook.js',
     },
   },
 })

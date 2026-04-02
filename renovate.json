@@ -16,19 +16,12 @@
       "internalChecksFilter": "strict"
     },
     {
-      "matchPackageNames": [
-        "@eslint/js",
-        "@types/node",
-        "@vitest/eslint-plugin",
-        "axios-mock-adapter",
-        "eslint",
-        "eslint-config-prettier",
-        "eslint-plugin-prettier",
-        "globals",
-        "prettier",
-        "typescript-eslint",
-        "vitest"
-      ],
+      "matchPackageNames": ["@types/node", "axios-mock-adapter"],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": ["vite-plus"],
+      "matchUpdateTypes": ["patch", "minor"],
       "automerge": true
     }
   ]
