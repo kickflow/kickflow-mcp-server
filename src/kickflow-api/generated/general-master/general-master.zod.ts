@@ -53,6 +53,9 @@ export const ListGeneralMastersResponseItem = zod
       .describe('コード'),
     name: zod.string().max(listGeneralMastersResponseNameMax).describe('名前'),
     description: zod.string().nullable().describe('説明'),
+    defaultSortBy: zod
+      .enum(['name', 'code'])
+      .describe('アイテム一覧のデフォルト並び順'),
     createdAt: zod.iso.datetime({}).describe('作成日時'),
     updatedAt: zod.iso.datetime({}).describe('更新日時'),
     fields: zod
@@ -113,6 +116,10 @@ export const CreateGeneralMasterBody = zod.object({
     .nullish()
     .describe('コード。未指定の場合、ランダムな英数字が自動的に設定されます。'),
   description: zod.string().nullish().describe('説明'),
+  defaultSortBy: zod
+    .enum(['name', 'code'])
+    .optional()
+    .describe('アイテム一覧のデフォルト並び順'),
   fields: zod
     .array(
       zod.object({
@@ -162,6 +169,9 @@ export const CreateGeneralMasterResponse = zod
       .describe('コード'),
     name: zod.string().max(createGeneralMasterResponseNameMax).describe('名前'),
     description: zod.string().nullable().describe('説明'),
+    defaultSortBy: zod
+      .enum(['name', 'code'])
+      .describe('アイテム一覧のデフォルト並び順'),
     createdAt: zod.iso.datetime({}).describe('作成日時'),
     updatedAt: zod.iso.datetime({}).describe('更新日時'),
     fields: zod
@@ -237,6 +247,9 @@ export const GetGeneralMasterResponse = zod
     code: zod.string().max(getGeneralMasterResponseCodeMax).describe('コード'),
     name: zod.string().max(getGeneralMasterResponseNameMax).describe('名前'),
     description: zod.string().nullable().describe('説明'),
+    defaultSortBy: zod
+      .enum(['name', 'code'])
+      .describe('アイテム一覧のデフォルト並び順'),
     createdAt: zod.iso.datetime({}).describe('作成日時'),
     updatedAt: zod.iso.datetime({}).describe('更新日時'),
     fields: zod
@@ -305,6 +318,10 @@ export const UpdateGeneralMasterBody = zod.object({
     .describe('コード。未指定の場合、ランダムな英数字が自動的に設定されます。'),
   name: zod.string().optional().describe('名前'),
   description: zod.string().optional().describe('説明'),
+  defaultSortBy: zod
+    .enum(['name', 'code'])
+    .optional()
+    .describe('アイテム一覧のデフォルト並び順'),
   fields: zod
     .array(
       zod.object({
@@ -346,6 +363,9 @@ export const UpdateGeneralMasterResponse = zod
       .describe('コード'),
     name: zod.string().max(updateGeneralMasterResponseNameMax).describe('名前'),
     description: zod.string().nullable().describe('説明'),
+    defaultSortBy: zod
+      .enum(['name', 'code'])
+      .describe('アイテム一覧のデフォルト並び順'),
     createdAt: zod.iso.datetime({}).describe('作成日時'),
     updatedAt: zod.iso.datetime({}).describe('更新日時'),
     fields: zod

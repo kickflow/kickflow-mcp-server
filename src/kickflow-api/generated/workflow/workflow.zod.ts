@@ -855,6 +855,9 @@ export const GetWorkflowResponse = zod
                                   .string()
                                   .nullable()
                                   .describe('説明'),
+                                defaultSortBy: zod
+                                  .enum(['name', 'code'])
+                                  .describe('アイテム一覧のデフォルト並び順'),
                                 createdAt: zod.iso
                                   .datetime({})
                                   .describe('作成日時'),
@@ -1998,6 +2001,9 @@ export const GetWorkflowResponse = zod
                                   .string()
                                   .nullable()
                                   .describe('説明'),
+                                defaultSortBy: zod
+                                  .enum(['name', 'code'])
+                                  .describe('アイテム一覧のデフォルト並び順'),
                                 createdAt: zod.iso
                                   .datetime({})
                                   .describe('作成日時'),

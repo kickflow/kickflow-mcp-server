@@ -435,7 +435,7 @@ export type TeamDetail = Team & {
   children: Team[]
   /** メンバーの配列。
 
-注意：パフォーマンス上の理由から、100件を超えるメンバーを返すことはできません。101件以上のメンバーをすべて取得したい場合は、別途メンバー取得APIを呼び出してください。 */
+  注意：パフォーマンス上の理由から、100件を超えるメンバーを返すことはできません。101件以上のメンバーをすべて取得したい場合は、別途メンバー取得APIを呼び出してください。 */
   users: MemberUser[]
 }
 
@@ -582,6 +582,17 @@ export const RoleDetailPermissionListItemPermission = {
 } as const
 
 /**
+ * アイテム一覧のデフォルト並び順
+ */
+export type GeneralMasterDefaultSortBy =
+  (typeof GeneralMasterDefaultSortBy)[keyof typeof GeneralMasterDefaultSortBy]
+
+export const GeneralMasterDefaultSortBy = {
+  name: 'name',
+  code: 'code',
+} as const
+
+/**
  * フィールドの型
  */
 export type GeneralMasterFieldFieldType =
@@ -656,6 +667,8 @@ export interface GeneralMaster {
    * @nullable
    */
   description: string | null
+  /** アイテム一覧のデフォルト並び順 */
+  defaultSortBy: GeneralMasterDefaultSortBy
   /** 作成日時 */
   createdAt: string
   /** 更新日時 */
@@ -938,10 +951,10 @@ export interface FormField {
    */
   regexpFormat: string | null
   /**
-   * 計算式。
-型がcalculationのときのみ値が入ります。
-   * @nullable
-   */
+     * 計算式。
+  型がcalculationのときのみ値が入ります。
+     * @nullable
+     */
   formula: string | null
   /**
    * 初期値
@@ -977,10 +990,10 @@ export interface FormField {
    */
   decimalDigit: number | null
   /**
-   * カンマ区切りで表示する場合true。
-整数、数値、自動計算フィールド以外ではnullが入ります。
-   * @nullable
-   */
+     * カンマ区切りで表示する場合true。
+  整数、数値、自動計算フィールド以外ではnullが入ります。
+     * @nullable
+     */
   delimited: boolean | null
   /**
    * 単位（接頭辞）
@@ -998,10 +1011,10 @@ export interface FormField {
    */
   hidden?: boolean | null
   /**
-   * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
-外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
-   * @nullable
-   */
+     * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
+  外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
+     * @nullable
+     */
   readonlyOnUi?: boolean | null
 }
 
@@ -1252,10 +1265,10 @@ export interface SlipField {
    */
   decimalDigit: number | null
   /**
-   * カンマ区切りで表示する場合true。
-整数、数値、自動計算フィールド以外ではnullが入ります。
-   * @nullable
-   */
+     * カンマ区切りで表示する場合true。
+  整数、数値、自動計算フィールド以外ではnullが入ります。
+     * @nullable
+     */
   delimited: boolean | null
   /** 添付可能な拡張子リスト */
   allowedExtensions: string[]
@@ -1279,10 +1292,10 @@ export interface SlipField {
    */
   hidden?: boolean | null
   /**
-   * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
-外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
-   * @nullable
-   */
+     * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
+  外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
+     * @nullable
+     */
   readonlyOnUi?: boolean | null
 }
 
@@ -1957,6 +1970,10 @@ export interface Attachment {
   filename: string
   /** ファイルURL */
   url: string
+  /** バイト数 */
+  byteSize: number
+  /** Content-Type */
+  contentType: string
 }
 
 /**
@@ -1973,7 +1990,7 @@ export interface SlipItemInput {
   updatedAt: string
   /** 入力値
 
-フィールドの型が汎用マスタアイテムの場合、JSON Arrayがキャッシュとして保存されます。 */
+  フィールドの型が汎用マスタアイテムの場合、JSON Arrayがキャッシュとして保存されます。 */
   value: string | unknown[] | number | null
   /** 入力値: 汎用マスタアイテム */
   generalMasterItems: GeneralMasterItem[]
@@ -2010,7 +2027,7 @@ export interface TicketInput {
   /** UUID */
   id: string
   /** 入力値
-フィールドの型が汎用マスタアイテム、ユーザー、チーム、チケットの場合、JSON Arrayがキャッシュとして保存されます。 */
+  フィールドの型が汎用マスタアイテム、ユーザー、チーム、チケットの場合、JSON Arrayがキャッシュとして保存されます。 */
   value: string | null | unknown[] | number
   formField?: FormField
   /** 入力値: 汎用マスタアイテム */
@@ -2332,6 +2349,17 @@ export type ListGeneralMastersParams = {
 }
 
 /**
+ * アイテム一覧のデフォルト並び順
+ */
+export type CreateGeneralMasterBodyDefaultSortBy =
+  (typeof CreateGeneralMasterBodyDefaultSortBy)[keyof typeof CreateGeneralMasterBodyDefaultSortBy]
+
+export const CreateGeneralMasterBodyDefaultSortBy = {
+  name: 'name',
+  code: 'code',
+} as const
+
+/**
  * フィールドの型
  */
 export type CreateGeneralMasterBodyFieldsItemFieldType =
@@ -2383,9 +2411,22 @@ export type CreateGeneralMasterBody = {
    * @nullable
    */
   description?: string | null
+  /** アイテム一覧のデフォルト並び順 */
+  defaultSortBy?: CreateGeneralMasterBodyDefaultSortBy
   /** カスタムフィールドの配列 */
   fields?: CreateGeneralMasterBodyFieldsItem[]
 }
+
+/**
+ * アイテム一覧のデフォルト並び順
+ */
+export type UpdateGeneralMasterBodyDefaultSortBy =
+  (typeof UpdateGeneralMasterBodyDefaultSortBy)[keyof typeof UpdateGeneralMasterBodyDefaultSortBy]
+
+export const UpdateGeneralMasterBodyDefaultSortBy = {
+  name: 'name',
+  code: 'code',
+} as const
 
 export type UpdateGeneralMasterBodyFieldsItem = {
   /** フィールド名 */
@@ -2417,6 +2458,8 @@ export type UpdateGeneralMasterBody = {
   name?: string
   /** 説明 */
   description?: string
+  /** アイテム一覧のデフォルト並び順 */
+  defaultSortBy?: UpdateGeneralMasterBodyDefaultSortBy
   /** カスタムフィールドの配列 */
   fields?: UpdateGeneralMasterBodyFieldsItem[]
 }
@@ -2807,10 +2850,10 @@ export type CreateTicketBodySlipItemsItemInputsItem = {
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
   ticketId?: string | null | string[]
   /**
-   * 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。
-   * @nullable
-   */
+     * 添付ファイルの署名済みID。
+  フィールドがファイルタイプのときのみ指定してください。
+     * @nullable
+     */
   files?: string[] | null
 }
 
@@ -2819,10 +2862,15 @@ export type CreateTicketBodySlipItemsItemInputsItem = {
  */
 export type CreateTicketBodySlipItemsItem = {
   /**
-   * 明細セクションのUUID。
+   * 明細セクションのUUID。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
    * @nullable
    */
   slipSectionId?: string | null
+  /**
+   * 明細セクションのコード。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
+   * @nullable
+   */
+  slipSectionCode?: string | null
   /** 明細アイテム入力の配列 */
   inputs: CreateTicketBodySlipItemsItemInputsItem[]
 }
@@ -2852,10 +2900,10 @@ export type CreateTicketBodyInputsItem = {
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
   ticketId?: string | null | string[]
   /**
-   * 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。
-   * @nullable
-   */
+     * 添付ファイルの署名済みID。
+  フィールドがファイルタイプのときのみ指定してください。
+     * @nullable
+     */
   files?: string[] | null
 }
 
@@ -3065,10 +3113,10 @@ export type UpdateTicketBodySlipItemsItemInputsItem = {
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
   ticketId?: string | null | string[]
   /**
-   * 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。
-   * @nullable
-   */
+     * 添付ファイルの署名済みID。
+  フィールドがファイルタイプのときのみ指定してください。
+     * @nullable
+     */
   files?: string[] | null
 }
 
@@ -3076,6 +3124,16 @@ export type UpdateTicketBodySlipItemsItemInputsItem = {
  * 明細アイテム
  */
 export type UpdateTicketBodySlipItemsItem = {
+  /**
+   * 明細セクションのUUID。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
+   * @nullable
+   */
+  slipSectionId?: string | null
+  /**
+   * 明細セクションのコード。slipSectionIdまたはslipSectionCodeのいずれかを指定してください。省略時は最初の明細セクションが使用されます。
+   * @nullable
+   */
+  slipSectionCode?: string | null
   /** 明細アイテム入力の配列 */
   inputs: UpdateTicketBodySlipItemsItemInputsItem[]
 }
@@ -3105,10 +3163,10 @@ export type UpdateTicketBodyInputsItem = {
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
   ticketId?: string | null | string[]
   /**
-   * 添付ファイルの署名済みID。
-フィールドがファイルタイプのときのみ指定してください。
-   * @nullable
-   */
+     * 添付ファイルの署名済みID。
+  フィールドがファイルタイプのときのみ指定してください。
+     * @nullable
+     */
   files?: string[] | null
 }
 
@@ -3143,9 +3201,9 @@ export type UpdateTicketBody = {
   /** 明細アイテムの配列 */
   slipItems?: UpdateTicketBodySlipItemsItem[]
   /** フォームの入力の配列。
-注意：申請者による更新時は、ワークフローのすべてのフォームフィールドに対応する入力を入れてください。
-注意：承認者による更新時は、承認者用フィールドに対応する入力のみ入れてください。
-注意：明細ワークフローの場合、slipItemsも同時にリクエストボディに入れてください。 */
+  注意：申請者による更新時は、ワークフローのすべてのフォームフィールドに対応する入力を入れてください。
+  注意：承認者による更新時は、承認者用フィールドに対応する入力のみ入れてください。
+  注意：明細ワークフローの場合、slipItemsも同時にリクエストボディに入れてください。 */
   inputs?: UpdateTicketBodyInputsItem[]
   /** クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。 */
   cloudSignDocument?: UpdateTicketBodyCloudSignDocument
