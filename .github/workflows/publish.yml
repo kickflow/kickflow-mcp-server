@@ -19,9 +19,6 @@ jobs:
           cache: true
           registry-url: 'https://registry.npmjs.org/'
 
-      - name: Install npm 11.5.1 or later
-        run: npm install -g npm@latest
-
       - name: Install dependencies
         run: vp install
 
@@ -29,4 +26,4 @@ jobs:
         run: vp pack
 
       - name: Publish to npm
-        run: npm publish --provenance --access public
+        run: npx --yes npm@11.12.1 publish --provenance --access public
