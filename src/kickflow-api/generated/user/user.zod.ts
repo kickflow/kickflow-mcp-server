@@ -161,6 +161,8 @@ export const createUserBodyLastNameMax = 255
 
 export const createUserBodyEmployeeIdMax = 30
 
+export const createUserBodyMembershipsMax = 5
+
 export const CreateUserBody = zod.object({
   email: zod.email().describe('メールアドレス'),
   code: zod
@@ -180,6 +182,25 @@ export const CreateUserBody = zod.object({
     .max(createUserBodyEmployeeIdMax)
     .nullish()
     .describe('社員番号'),
+  memberships: zod
+    .array(
+      zod
+        .object({
+          teamCode: zod.string().describe('所属先チームのコード'),
+          gradeCodes: zod
+            .array(zod.string())
+            .optional()
+            .describe('役職コードの配列'),
+          leader: zod
+            .boolean()
+            .optional()
+            .describe('上長フラグ（デフォルト: false）'),
+        })
+        .describe('招待時に作成する所属'),
+    )
+    .max(createUserBodyMembershipsMax)
+    .optional()
+    .describe('招待時に作成する所属の配列（最大5件）'),
 })
 
 export const createUserResponseOneEmailMax = 254

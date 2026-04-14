@@ -4163,6 +4163,12 @@ paths:
                     - 'null'
                   description: 社員番号
                   maxLength: 30
+                memberships:
+                  type: array
+                  description: 招待時に作成する所属の配列（最大5件）
+                  maxItems: 5
+                  items:
+                    $ref: '#/components/schemas/InviteMembershipBody'
               required:
                 - email
                 - code
@@ -6236,6 +6242,24 @@ components:
               items:
                 $ref: '#/components/schemas/Folder'
       description: フォルダの詳細
+    InviteMembershipBody:
+      title: InviteMembershipBody
+      description: 招待時に作成する所属
+      type: object
+      properties:
+        teamCode:
+          type: string
+          description: 所属先チームのコード
+        gradeCodes:
+          type: array
+          items:
+            type: string
+          description: 役職コードの配列
+        leader:
+          type: boolean
+          description: '上長フラグ（デフォルト: false）'
+      required:
+        - teamCode
     GeneralMaster:
       title: GeneralMaster
       type: object
