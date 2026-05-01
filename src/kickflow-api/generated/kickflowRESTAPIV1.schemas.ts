@@ -808,6 +808,18 @@ export type FolderDetail = Folder & {
   children?: Folder[]
 }
 
+/**
+ * 招待時に作成する所属
+ */
+export interface InviteMembershipBody {
+  /** 所属先チームのコード */
+  teamCode: string
+  /** 役職コードの配列 */
+  gradeCodes?: string[]
+  /** 上長フラグ（デフォルト: false） */
+  leader?: boolean
+}
+
 export type GeneralMasterItemInputsItem = {
   /** UUID */
   id: string
@@ -3364,6 +3376,11 @@ export type CreateUserBody = {
    * @nullable
    */
   employeeId?: string | null
+  /**
+   * 招待時に作成する所属の配列（最大5件）
+   * @maxItems 5
+   */
+  memberships?: InviteMembershipBody[]
 }
 
 export type UpdateUserBody = {
