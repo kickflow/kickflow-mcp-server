@@ -25,6 +25,9 @@ AXIOS_INSTANCE.interceptors.request.use((config) => {
     config.headers = config.headers || {}
     config.headers['Authorization'] = `Bearer ${accessToken}`
   }
+  if (config.data instanceof FormData) {
+    config.headers.delete('Content-Type')
+  }
   return config
 })
 
