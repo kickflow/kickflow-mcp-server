@@ -6,7 +6,7 @@ export default defineConfig({
     sourcemap: true,
   },
   staged: {
-    '*': 'vp check --fix',
+    '*': 'vp check --fix --no-error-on-unmatched-pattern',
   },
   lint: {
     plugins: ['oxc', 'typescript', 'unicorn'],
