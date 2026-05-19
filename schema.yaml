@@ -79,6 +79,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listCategories
       parameters:
         - schema:
@@ -129,6 +135,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createCategory
       requestBody:
         content:
@@ -176,6 +188,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteCategory
       description: |-
         カテゴリを削除します。
@@ -207,6 +225,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: updateCategory
       requestBody:
         content:
@@ -252,6 +276,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listFolders
       parameters:
         - schema:
@@ -302,6 +332,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createFolder
       requestBody:
         content:
@@ -361,6 +397,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteFolder
       description: |-
         フォルダを削除します。
@@ -394,6 +436,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: updateFolder
       requestBody:
         content:
@@ -445,6 +493,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       tags:
         - フォルダ
       description: フォルダを一件取得します。
@@ -477,6 +531,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listGeneralMasters
       parameters:
         - schema:
@@ -530,6 +590,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createGeneralMaster
       requestBody:
         content:
@@ -643,6 +709,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getGeneralMaster
       description: |-
         汎用マスタを一件取得します。
@@ -674,6 +746,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: updateGeneralMaster
       requestBody:
         content:
@@ -757,6 +835,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteGeneralMaster
       description: |-
         汎用マスタを削除します。この汎用マスタのすべてのアイテムも同時に削除されます。
@@ -798,6 +882,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       parameters:
         - schema:
             type: integer
@@ -849,6 +939,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createGeneralMasterItem
       requestBody:
         content:
@@ -947,6 +1043,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getGeneralMasterItem
       description: 汎用マスタアイテムを一件取得します。
     patch:
@@ -975,6 +1077,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: updateGeneralMasterItem
       requestBody:
         content:
@@ -1050,6 +1158,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteGeneralMasterItem
       description: |-
         汎用マスタアイテムを削除します。
@@ -1084,6 +1198,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listGrades
       parameters:
         - schema:
@@ -1137,6 +1257,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createGrade
       requestBody:
         content:
@@ -1182,6 +1308,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getGrade
       description: |-
         役職を一件取得します。
@@ -1209,6 +1341,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteGrade
       description: |-
         役職を削除します。
@@ -1241,6 +1379,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       tags:
         - 役職
       requestBody:
@@ -1282,6 +1426,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       description: |-
         指定した役職をデフォルトにします。
         同時に、これまでデフォルトだった役職は自動的にデフォルトではなくなります。
@@ -1318,6 +1468,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listOrganizationCharts
       parameters:
         - schema:
@@ -1374,6 +1530,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createOrganizationChart
       requestBody:
         content:
@@ -1415,6 +1577,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteOrganizationChart
       description: |-
         組織図を削除します。同時に、組織図内のチームや所属もすべて削除されます。
@@ -1448,6 +1616,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       tags:
         - 組織図
       description: |-
@@ -1479,6 +1653,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       tags:
         - 組織図
       requestBody:
@@ -1517,6 +1697,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getCurrentOrganizationChart
       description: |-
         現在有効になっている組織図を取得します。
@@ -1556,6 +1742,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       tags:
         - 組織図
       description: |-
@@ -1611,6 +1803,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       description: |-
         指定した組織図内のチーム一覧を取得します。
 
@@ -1666,6 +1864,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createTeam
       description: |-
         指定した組織図内にチームを作成します。
@@ -1717,6 +1921,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getTeam
       description: |-
         チームを一件取得します。
@@ -1747,6 +1957,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       tags:
         - チーム
       requestBody:
@@ -1780,6 +1996,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteTeam
       description: |-
         チームを削除します。同時に、このチームの所属もすべて削除されます。
@@ -1827,6 +2049,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       description: |-
         チームのメンバー一覧を取得します。
 
@@ -1871,6 +2099,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createTeamMembers
       description: |-
         指定したチームにメンバーを追加します。最大10人まで同時に追加可能です。
@@ -1933,6 +2167,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       tags:
         - チーム
       description: |-
@@ -2000,6 +2240,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       tags:
         - チーム
       description: |-
@@ -2056,6 +2302,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listRoles
       parameters:
         - schema:
@@ -2109,6 +2361,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createRole
       requestBody:
         content:
@@ -2154,6 +2412,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getRole
       description: |-
         管理者ロールを一件取得します。
@@ -2185,6 +2449,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: updateRole
       requestBody:
         content:
@@ -2217,6 +2487,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteRole
       description: |-
         管理者ロールを削除します。
@@ -2253,6 +2529,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createRoleMembers
       requestBody:
         content:
@@ -2302,6 +2584,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       parameters:
         - schema:
             type: integer
@@ -2361,6 +2649,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteRoleMember
       description: |-
         管理者ロールからメンバーを削除します。
@@ -2395,6 +2689,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listTickets
       description: |-
         チケットの一覧を取得します。複数の条件を組み合わせて、フィルタ可能です。
@@ -2604,6 +2904,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       description: チケットを作成します。
       tags:
         - チケット
@@ -2889,6 +3195,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listTasks
       description: |-
         現在のユーザーにアサインされている承認リクエストの一覧を取得します。複数の条件を組み合わせて、フィルタ可能です。
@@ -3081,6 +3393,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getTicket
       description: チケットを一件取得します。フォームの入力や承認経路などを含む詳細なデータを返します。
     patch:
@@ -3108,6 +3426,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       description: |-
         チケットを更新します。
 
@@ -3397,6 +3721,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: approveTicket
       description: |-
         指定したチケットを承認もしくは確認します。
@@ -3436,6 +3766,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: rejectTicket
       requestBody:
         content:
@@ -3486,6 +3822,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: denyTicket
       requestBody:
         content:
@@ -3530,6 +3872,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: withdrawTicket
       description: 自分が作成したチケットを取り下げます。
   /v1/tickets/{ticketId}/archive:
@@ -3567,6 +3915,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: archiveTicket
       description: |-
         チケットをアーカイブします。チケットのステータスがアーカイブステータスに変わりますが、引き続きUIやAPIでチケットにはアクセス可能です。
@@ -3609,6 +3963,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listTicketLinks
       description: 指定したチケットの関連チケットを取得します。
       parameters:
@@ -3664,6 +4024,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listViewers
       description: チケットの共有ユーザー一覧を取得します。
       parameters:
@@ -3710,6 +4076,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createViewer
       description: チケットに共有ユーザーを追加します。
       requestBody:
@@ -3787,6 +4159,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteViewer
       description: チケットの共有ユーザーを削除します。
   /v1/tickets/{ticketId}/comments:
@@ -3826,6 +4204,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listComments
       description: チケットのコメント一覧を取得します。
       parameters:
@@ -3876,6 +4260,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createComment
       description: チケットにコメントを投稿します。
       requestBody:
@@ -3938,6 +4328,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getComment
       description: チケットのコメントを取得します。
     patch:
@@ -3966,6 +4362,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: updateComment
       description: チケットのコメントを更新します。添付ファイルは更新できません。
       requestBody:
@@ -4001,6 +4403,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteComment
       description: チケットのコメントを削除します。
   /v1/user:
@@ -4030,6 +4438,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getCurrentUser
       description: 現在のユーザーを取得します。
   /v1/users:
@@ -4066,6 +4480,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listUsers
       parameters:
         - schema:
@@ -4127,6 +4547,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       description: |-
         ユーザーを作成します。
         作成されたユーザーは招待済みステータスとなり、招待メールが送信されます。
@@ -4211,6 +4637,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getUser
       description: ユーザーを一件取得します。
     delete:
@@ -4239,6 +4671,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteUser
       description: |-
         ユーザーを削除します（論理削除）。
@@ -4270,6 +4708,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       requestBody:
         content:
           application/json:
@@ -4332,6 +4776,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: lookupUserByEmail
       parameters:
         - schema:
@@ -4376,6 +4826,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: reinviteUser
       description: |-
         削除されたユーザーを再び招待します。
@@ -4416,6 +4872,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: suspendUser
       description: |-
         有効なユーザーを一時停止します。
@@ -4456,6 +4918,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: reactivateUser
       description: |-
         一時停止中のユーザーを有効化します。
@@ -4499,6 +4967,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       tags:
         - ユーザー
       description: |-
@@ -4562,6 +5036,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       tags:
         - ユーザー
       description: |-
@@ -4613,6 +5093,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listRoutes
       description: 経路の一覧を取得します。ステータスやフォルダによる絞り込みが可能です。
       parameters:
@@ -4688,6 +5174,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getRoute
       description: 指定した経路を取得します。
   /v1/workflows:
@@ -4719,6 +5211,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listWorkflows
       parameters:
         - schema:
@@ -4788,6 +5286,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getWorkflow
       description: 指定したIDのワークフローを取得します。
   /v1/proxyApplicants:
@@ -4835,6 +5339,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listProxyApplicants
       description: |-
         テナント内の代理申請の一覧を取得します。
@@ -4866,6 +5376,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createProxyApplicant
       requestBody:
         content:
@@ -4937,6 +5453,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteProxyApplicant
       description: |-
         指定した代理申請を削除します。
@@ -4987,6 +5509,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listProxyApprovers
       description: |-
         テナント内の代理承認の一覧を取得します。
@@ -5018,6 +5546,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: createProxyApprover
       description: |-
         代理承認を新規作成します。
@@ -5089,6 +5623,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: deleteProxyApprover
       description: |-
         指定した代理承認を削除します。
@@ -5127,6 +5667,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: uploadFile
       description: |-
         添付ファイルをアップロードします。最大50MBまでのファイルをアップロード可能です。
@@ -5205,6 +5751,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: getFile
       description: |-
         添付ファイルのAmazon S3上のURLを含む情報を取得します。
@@ -5243,6 +5795,12 @@ paths:
         '422':
           description: Unprocessable Content
           $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
       operationId: listAuditLogs
       parameters:
         - schema:
@@ -8617,3 +9175,15 @@ components:
                         - can't be blank
                       email:
                         - is invalid
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    GatewayTimeout:
+      description: Gateway Timeout
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
