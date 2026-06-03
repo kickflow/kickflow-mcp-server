@@ -2265,6 +2265,16 @@ export type UnprocessableContentResponse = ErrorResponse & {
   errors?: UnprocessableContentResponseErrors
 }
 
+/**
+ * Internal Server Error
+ */
+export type InternalServerErrorResponse = ErrorResponse
+
+/**
+ * Gateway Timeout
+ */
+export type GatewayTimeoutResponse = ErrorResponse
+
 export type ListCategoriesParams = {
   /**
    * ページ
