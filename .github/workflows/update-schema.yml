@@ -32,7 +32,7 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          if git diff --quiet; then
+          if git diff --quiet -- schema.yaml src/kickflow-api/generated; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
@@ -44,6 +44,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore: update kickflow API schema'
+          add-paths: |
+            schema.yaml
+            src/kickflow-api/generated/**
           title: 'chore: update kickflow API schema'
           body: |
             This PR was automatically created by the schema update workflow.
