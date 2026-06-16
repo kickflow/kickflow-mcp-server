@@ -1338,6 +1338,8 @@ export interface SectionListItem {
   description: string | null
   /** フォームセクションのID（UUID）。明細セクションには含まれません。 */
   id?: string
+  /** 明細セクションのコード。フォームセクションには含まれません。 */
+  code?: string
   /** フォームフィールド。明細セクションには含まれません。 */
   formFields?: FormFieldDetail[]
   /** 表示条件があるかどうか。明細セクションには含まれません。 */

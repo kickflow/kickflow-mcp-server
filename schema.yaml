@@ -7225,6 +7225,9 @@ components:
           type: string
           format: uuid
           description: フォームセクションのID（UUID）。明細セクションには含まれません。
+        code:
+          type: string
+          description: 明細セクションのコード。フォームセクションには含まれません。
         formFields:
           type: array
           description: フォームフィールド。明細セクションには含まれません。
