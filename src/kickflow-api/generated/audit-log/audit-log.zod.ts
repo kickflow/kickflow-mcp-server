@@ -93,9 +93,12 @@ export const ListAuditLogsResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -108,8 +111,8 @@ export const ListAuditLogsResponseItem = zod
       .union([zod.literal('automation'), zod.literal(null)])
       .nullable()
       .describe('システムによる操作種別'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('監査ログ')
 export const ListAuditLogsResponse = zod.array(ListAuditLogsResponseItem)

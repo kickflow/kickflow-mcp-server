@@ -125,9 +125,12 @@ export const ListRoutesResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -175,9 +178,12 @@ export const ListRoutesResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -207,8 +213,8 @@ export const ListRoutesResponseItem = zod
           .number()
           .min(listRoutesResponseFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .describe('フォルダ')
       .describe('フォルダ'),
@@ -369,9 +375,12 @@ export const GetRouteResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -419,9 +428,12 @@ export const GetRouteResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -451,8 +463,8 @@ export const GetRouteResponse = zod
           .number()
           .min(getRouteResponseOneFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .describe('フォルダ')
       .describe('フォルダ'),
@@ -563,10 +575,14 @@ export const GetRouteResponse = zod
                         ])
                         .describe('ステータス'),
                       locale: zod.string().describe('ロケール（jaまたはen）'),
-                      createdAt: zod.iso.datetime({}).describe('作成日時'),
-                      updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
                       deactivatedAt: zod.iso
-                        .datetime({})
+                        .datetime({ offset: true })
                         .nullish()
                         .describe('削除日時'),
                     })
@@ -608,8 +624,12 @@ export const GetRouteResponse = zod
                             getRouteResponseTwoStepsItemTargetsItemTeamUsersCountMin,
                           )
                           .describe('ユーザー数'),
-                        createdAt: zod.iso.datetime({}).describe('作成日時'),
-                        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                        createdAt: zod.iso
+                          .datetime({ offset: true })
+                          .describe('作成日時'),
+                        updatedAt: zod.iso
+                          .datetime({ offset: true })
+                          .describe('更新日時'),
                       })
                       .optional()
                       .describe('チーム'),
@@ -669,10 +689,10 @@ export const GetRouteResponse = zod
                               )
                               .describe('デフォルトの役職かどうか'),
                             createdAt: zod.iso
-                              .datetime({})
+                              .datetime({ offset: true })
                               .describe('作成日時'),
                             updatedAt: zod.iso
-                              .datetime({})
+                              .datetime({ offset: true })
                               .describe('更新日時'),
                           })
                           .describe('役職'),
@@ -776,10 +796,10 @@ export const GetRouteResponse = zod
                                     )
                                     .describe('デフォルトの役職かどうか'),
                                   createdAt: zod.iso
-                                    .datetime({})
+                                    .datetime({ offset: true })
                                     .describe('作成日時'),
                                   updatedAt: zod.iso
-                                    .datetime({})
+                                    .datetime({ offset: true })
                                     .describe('更新日時'),
                                 })
                                 .describe('役職')
@@ -820,10 +840,10 @@ export const GetRouteResponse = zod
                                     )
                                     .describe('ユーザー数'),
                                   createdAt: zod.iso
-                                    .datetime({})
+                                    .datetime({ offset: true })
                                     .describe('作成日時'),
                                   updatedAt: zod.iso
-                                    .datetime({})
+                                    .datetime({ offset: true })
                                     .describe('更新日時'),
                                 })
                                 .describe('チーム')
@@ -849,10 +869,10 @@ export const GetRouteResponse = zod
                                     .nullable()
                                     .describe('説明'),
                                   createdAt: zod.iso
-                                    .datetime({})
+                                    .datetime({ offset: true })
                                     .describe('作成日時'),
                                   updatedAt: zod.iso
-                                    .datetime({})
+                                    .datetime({ offset: true })
                                     .describe('更新日時'),
                                   startsOn: zod.iso
                                     .date()
@@ -873,10 +893,10 @@ export const GetRouteResponse = zod
                                           ])
                                           .describe('入力値'),
                                         createdAt: zod.iso
-                                          .datetime({})
+                                          .datetime({ offset: true })
                                           .describe('作成日時'),
                                         updatedAt: zod.iso
-                                          .datetime({})
+                                          .datetime({ offset: true })
                                           .describe('更新日時'),
                                         field: zod
                                           .object({
@@ -923,10 +943,10 @@ export const GetRouteResponse = zod
                                                 '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                                               ),
                                             createdAt: zod.iso
-                                              .datetime({})
+                                              .datetime({ offset: true })
                                               .describe('作成日時'),
                                             updatedAt: zod.iso
-                                              .datetime({})
+                                              .datetime({ offset: true })
                                               .describe('更新日時'),
                                           })
                                           .describe(

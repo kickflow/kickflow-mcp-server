@@ -2,10 +2,10 @@ import * as zod from 'zod'
 
 /**
  * 指定した組織図内のチーム一覧を取得します。
-
-parentIdを指定した場合は指定した親チームの配下チームの一覧を、parentIdを指定しない場合は組織図内のルートのチーム一覧を返します。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * parentIdを指定した場合は指定した親チームの配下チームの一覧を、parentIdを指定しない場合は組織図内のルートのチーム一覧を返します。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary チーム一覧を取得
  */
 export const ListTeamsParams = zod.object({
@@ -56,16 +56,16 @@ export const ListTeamsResponseItem = zod
       .number()
       .min(listTeamsResponseUsersCountMin)
       .describe('ユーザー数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('チーム')
 export const ListTeamsResponse = zod.array(ListTeamsResponseItem)
 
 /**
  * 指定した組織図内にチームを作成します。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを作成
  */
 export const CreateTeamParams = zod.object({
@@ -152,8 +152,8 @@ export const CreateTeamResponse = zod
       .number()
       .min(createTeamResponseOneUsersCountMin)
       .describe('ユーザー数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('チーム')
   .and(
@@ -182,8 +182,12 @@ export const CreateTeamResponse = zod
                 .number()
                 .min(createTeamResponseTwoParentOneUsersCountMin)
                 .describe('ユーザー数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('チーム'),
           zod.null(),
@@ -214,8 +218,12 @@ export const CreateTeamResponse = zod
                 .number()
                 .min(createTeamResponseTwoChildrenItemUsersCountMin)
                 .describe('ユーザー数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('チーム'),
         )
@@ -253,8 +261,12 @@ export const CreateTeamResponse = zod
                           createTeamResponseTwoUsersItemOneGradesItemIsDefaultDefault,
                         )
                         .describe('デフォルトの役職かどうか'),
-                      createdAt: zod.iso.datetime({}).describe('作成日時'),
-                      updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
                     })
                     .describe('役職'),
                 )
@@ -304,10 +316,14 @@ export const CreateTeamResponse = zod
                     .enum(['invited', 'activated', 'suspended', 'deactivated'])
                     .describe('ステータス'),
                   locale: zod.string().describe('ロケール（jaまたはen）'),
-                  createdAt: zod.iso.datetime({}).describe('作成日時'),
-                  updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                  createdAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('作成日時'),
+                  updatedAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('更新日時'),
                   deactivatedAt: zod.iso
-                    .datetime({})
+                    .datetime({ offset: true })
                     .nullish()
                     .describe('削除日時'),
                 })
@@ -324,8 +340,8 @@ export const CreateTeamResponse = zod
 
 /**
  * チームを一件取得します。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを取得
  */
 export const GetTeamParams = zod.object({
@@ -393,8 +409,8 @@ export const GetTeamResponse = zod
       .number()
       .min(getTeamResponseOneUsersCountMin)
       .describe('ユーザー数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('チーム')
   .and(
@@ -423,8 +439,12 @@ export const GetTeamResponse = zod
                 .number()
                 .min(getTeamResponseTwoParentOneUsersCountMin)
                 .describe('ユーザー数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('チーム'),
           zod.null(),
@@ -455,8 +475,12 @@ export const GetTeamResponse = zod
                 .number()
                 .min(getTeamResponseTwoChildrenItemUsersCountMin)
                 .describe('ユーザー数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('チーム'),
         )
@@ -490,8 +514,12 @@ export const GetTeamResponse = zod
                           getTeamResponseTwoUsersItemOneGradesItemIsDefaultDefault,
                         )
                         .describe('デフォルトの役職かどうか'),
-                      createdAt: zod.iso.datetime({}).describe('作成日時'),
-                      updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
                     })
                     .describe('役職'),
                 )
@@ -541,10 +569,14 @@ export const GetTeamResponse = zod
                     .enum(['invited', 'activated', 'suspended', 'deactivated'])
                     .describe('ステータス'),
                   locale: zod.string().describe('ロケール（jaまたはen）'),
-                  createdAt: zod.iso.datetime({}).describe('作成日時'),
-                  updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                  createdAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('作成日時'),
+                  updatedAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('更新日時'),
                   deactivatedAt: zod.iso
-                    .datetime({})
+                    .datetime({ offset: true })
                     .nullish()
                     .describe('削除日時'),
                 })
@@ -561,8 +593,8 @@ export const GetTeamResponse = zod
 
 /**
  * チームを更新します。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを編集
  */
 export const UpdateTeamParams = zod.object({
@@ -645,8 +677,8 @@ export const UpdateTeamResponse = zod
       .number()
       .min(updateTeamResponseOneUsersCountMin)
       .describe('ユーザー数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('チーム')
   .and(
@@ -675,8 +707,12 @@ export const UpdateTeamResponse = zod
                 .number()
                 .min(updateTeamResponseTwoParentOneUsersCountMin)
                 .describe('ユーザー数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('チーム'),
           zod.null(),
@@ -707,8 +743,12 @@ export const UpdateTeamResponse = zod
                 .number()
                 .min(updateTeamResponseTwoChildrenItemUsersCountMin)
                 .describe('ユーザー数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('チーム'),
         )
@@ -746,8 +786,12 @@ export const UpdateTeamResponse = zod
                           updateTeamResponseTwoUsersItemOneGradesItemIsDefaultDefault,
                         )
                         .describe('デフォルトの役職かどうか'),
-                      createdAt: zod.iso.datetime({}).describe('作成日時'),
-                      updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
                     })
                     .describe('役職'),
                 )
@@ -797,10 +841,14 @@ export const UpdateTeamResponse = zod
                     .enum(['invited', 'activated', 'suspended', 'deactivated'])
                     .describe('ステータス'),
                   locale: zod.string().describe('ロケール（jaまたはen）'),
-                  createdAt: zod.iso.datetime({}).describe('作成日時'),
-                  updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                  createdAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('作成日時'),
+                  updatedAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('更新日時'),
                   deactivatedAt: zod.iso
-                    .datetime({})
+                    .datetime({ offset: true })
                     .nullish()
                     .describe('削除日時'),
                 })
@@ -817,8 +865,8 @@ export const UpdateTeamResponse = zod
 
 /**
  * チームを削除します。同時に、このチームの所属もすべて削除されます。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary チームを削除
  */
 export const DeleteTeamParams = zod.object({
@@ -826,10 +874,12 @@ export const DeleteTeamParams = zod.object({
   teamId: zod.string().describe('チームのUUIDまたはコード'),
 })
 
+export const DeleteTeamResponse = zod.unknown()
+
 /**
  * チームのメンバー一覧を取得します。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary チームのメンバー一覧を取得
  */
 export const ListTeamMembersParams = zod.object({
@@ -901,8 +951,8 @@ export const ListTeamMembersResponseItem = zod
               .boolean()
               .default(listTeamMembersResponseOneGradesItemIsDefaultDefault)
               .describe('デフォルトの役職かどうか'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           })
           .describe('役職'),
       )
@@ -950,9 +1000,12 @@ export const ListTeamMembersResponseItem = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
-        deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
       })
       .describe('ユーザー'),
   )
@@ -961,10 +1014,10 @@ export const ListTeamMembersResponse = zod.array(ListTeamMembersResponseItem)
 
 /**
  * 指定したチームにメンバーを追加します。最大10人まで同時に追加可能です。
-
-このAPIの実行には、チームの管理権限が必要です。
-
-注意: チームに上長は最低一人必要です。上長が不在の場合、APIは422 Unprocessable Contentを返します。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
+ *
+ * 注意: チームに上長は最低一人必要です。上長が不在の場合、APIは422 Unprocessable Contentを返します。
  * @summary チームにメンバーを追加
  */
 export const CreateTeamMembersParams = zod.object({
@@ -992,12 +1045,14 @@ export const CreateTeamMembersBody = zod.object({
     .describe('メンバーに追加したいユーザー情報の配列'),
 })
 
+export const CreateTeamMembersResponse = zod.unknown()
+
 /**
  * 指定したチームからメンバーを削除します。最大10人まで同時に削除可能です。
-
-このAPIの実行には、チームの管理権限が必要です。
-
-注意: 削除後もメンバーが残る場合、チームに上長は最低一人必要です。メンバー削除によって上長が不在になる場合、APIは422 Unprocessable Contentを返します。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
+ *
+ * 注意: 削除後もメンバーが残る場合、チームに上長は最低一人必要です。メンバー削除によって上長が不在になる場合、APIは422 Unprocessable Contentを返します。
  * @summary チームからメンバーを削除
  */
 export const DeleteTeamMembersParams = zod.object({
@@ -1015,12 +1070,14 @@ export const DeleteTeamMembersBody = zod.object({
     .describe('ユーザーのUUIDの配列'),
 })
 
+export const DeleteTeamMembersResponse = zod.unknown()
+
 /**
  * 指定したメンバーを更新します。
-
-このAPIの実行には、チームの管理権限が必要です。
-
-注意: チームに上長は最低一人は必要です。上長が不在の場合、APIは422 Unprocessable Contentを返します。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
+ *
+ * 注意: チームに上長は最低一人は必要です。上長が不在の場合、APIは422 Unprocessable Contentを返します。
  * @summary チームのメンバーを更新
  */
 export const UpdateTeamMemberParams = zod.object({
@@ -1033,3 +1090,5 @@ export const UpdateTeamMemberBody = zod.object({
   leader: zod.boolean().describe('上長の場合、true'),
   gradeIds: zod.array(zod.uuid()).min(1).describe('役職のUUID'),
 })
+
+export const UpdateTeamMemberResponse = zod.unknown()

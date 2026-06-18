@@ -12,7 +12,6 @@ export default defineConfig({
       mode: 'split',
       target: OUTPUT_DIR,
       client: 'axios',
-      prettier: false,
       override: {
         header: false,
         mutator: {
@@ -30,7 +29,6 @@ export default defineConfig({
     output: {
       mode: 'tags-split',
       client: 'zod',
-      prettier: false,
       target: OUTPUT_DIR,
       fileExtension: '.zod.ts',
       override: {

@@ -433,9 +433,11 @@ export type TeamDetail = Team & {
   parent?: Team | null
   /** 子チーム */
   children: Team[]
-  /** メンバーの配列。
-
-  注意：パフォーマンス上の理由から、100件を超えるメンバーを返すことはできません。101件以上のメンバーをすべて取得したい場合は、別途メンバー取得APIを呼び出してください。 */
+  /**
+   * メンバーの配列。
+   *
+   * 注意：パフォーマンス上の理由から、100件を超えるメンバーを返すことはできません。101件以上のメンバーをすべて取得したい場合は、別途メンバー取得APIを呼び出してください。
+   */
   users: MemberUser[]
 }
 
@@ -963,10 +965,10 @@ export interface FormField {
    */
   regexpFormat: string | null
   /**
-     * 計算式。
-  型がcalculationのときのみ値が入ります。
-     * @nullable
-     */
+   * 計算式。
+   * 型がcalculationのときのみ値が入ります。
+   * @nullable
+   */
   formula: string | null
   /**
    * 初期値
@@ -1002,10 +1004,10 @@ export interface FormField {
    */
   decimalDigit: number | null
   /**
-     * カンマ区切りで表示する場合true。
-  整数、数値、自動計算フィールド以外ではnullが入ります。
-     * @nullable
-     */
+   * カンマ区切りで表示する場合true。
+   * 整数、数値、自動計算フィールド以外ではnullが入ります。
+   * @nullable
+   */
   delimited: boolean | null
   /**
    * 単位（接頭辞）
@@ -1023,10 +1025,10 @@ export interface FormField {
    */
   hidden?: boolean | null
   /**
-     * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
-  外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
-     * @nullable
-     */
+   * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
+   * 外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
+   * @nullable
+   */
   readonlyOnUi?: boolean | null
 }
 
@@ -1277,10 +1279,10 @@ export interface SlipField {
    */
   decimalDigit: number | null
   /**
-     * カンマ区切りで表示する場合true。
-  整数、数値、自動計算フィールド以外ではnullが入ります。
-     * @nullable
-     */
+   * カンマ区切りで表示する場合true。
+   * 整数、数値、自動計算フィールド以外ではnullが入ります。
+   * @nullable
+   */
   delimited: boolean | null
   /** 添付可能な拡張子リスト */
   allowedExtensions: string[]
@@ -1304,10 +1306,10 @@ export interface SlipField {
    */
   hidden?: boolean | null
   /**
-     * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
-  外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
-     * @nullable
-     */
+   * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
+   * 外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
+   * @nullable
+   */
   readonlyOnUi?: boolean | null
 }
 
@@ -1546,19 +1548,43 @@ export const RouteStepActionType = {
   none: 'none',
 } as const
 
+/**
+ * フォールバックのタイプ
+ */
+export type RouteStepFallbackType =
+  | (typeof RouteStepFallbackType)[keyof typeof RouteStepFallbackType]
+  | null
+
+export const RouteStepFallbackType = {
+  direct_manager: 'direct_manager',
+  higher_manager: 'higher_manager',
+  skip: 'skip',
+  no_fallback: 'no_fallback',
+  higher_team: 'higher_team',
+} as const
+
+/**
+ * 役職の比較条件。役職が指定されているときのみ値が入ります。
+ */
+export type RouteStepTargetGradeSymbol =
+  | (typeof RouteStepTargetGradeSymbol)[keyof typeof RouteStepTargetGradeSymbol]
+  | null
+
+export const RouteStepTargetGradeSymbol = {
+  equal: 'equal',
+  greater_than: 'greater_than',
+  greater_than_or_equal: 'greater_than_or_equal',
+  less_than: 'less_than',
+  less_than_or_equal: 'less_than_or_equal',
+  any_of: 'any_of',
+} as const
+
 export interface RouteStepTarget {
   team?: Team
   /** stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない） */
   descendants?: boolean
   /** 役職の比較条件。役職が指定されているときのみ値が入ります。 */
-  gradeSymbol?:
-    | 'equal'
-    | 'greater_than'
-    | 'greater_than_or_equal'
-    | 'less_than'
-    | 'less_than_or_equal'
-    | 'any_of'
-    | null
+  gradeSymbol?: RouteStepTargetGradeSymbol
   /** 承認者の指定に使う役職の配列 */
   grades?: Grade[]
   /**
@@ -1687,13 +1713,7 @@ export interface RouteStep {
   /** 必要な承認割合（%） */
   requiredApprovalsPercent: number
   /** フォールバックのタイプ */
-  fallbackType:
-    | 'direct_manager'
-    | 'higher_manager'
-    | 'skip'
-    | 'no_fallback'
-    | 'higher_team'
-    | null
+  fallbackType: RouteStepFallbackType
   /** 自己承認を許可するか */
   allowSelfApproval: boolean
   /**
@@ -1869,6 +1889,21 @@ export const TicketStepActionType = {
 } as const
 
 /**
+ * フォールバックの結果
+ */
+export type TicketStepFallbackResult =
+  | (typeof TicketStepFallbackResult)[keyof typeof TicketStepFallbackResult]
+  | null
+
+export const TicketStepFallbackResult = {
+  direct_manager: 'direct_manager',
+  higher_manager: 'higher_manager',
+  skip: 'skip',
+  no_fallback: 'no_fallback',
+  higher_team: 'higher_team',
+} as const
+
+/**
  * チケット承認者
  */
 export interface TicketAssignee {
@@ -1919,13 +1954,7 @@ export interface TicketStep {
   /** フォールバックした場合true */
   fallback: boolean
   /** フォールバックの結果 */
-  fallbackResult:
-    | 'direct_manager'
-    | 'higher_manager'
-    | 'skip'
-    | 'no_fallback'
-    | 'higher_team'
-    | null
+  fallbackResult: TicketStepFallbackResult
   /** 承認ステップの作成者。カスタムステップの場合のみ、値が入ります。 */
   author: User | null
   /** 承認者 */
@@ -1945,9 +1974,24 @@ export type TicketWithStep = Ticket & {
 }
 
 /**
+ * クラウドサイン書類のステータス
+ */
+export type TicketDetailCloudSignDocumentStatus =
+  (typeof TicketDetailCloudSignDocumentStatus)[keyof typeof TicketDetailCloudSignDocumentStatus]
+
+export const TicketDetailCloudSignDocumentStatus = {
+  draft: 'draft',
+  in_progress: 'in_progress',
+  rejected: 'rejected',
+  template: 'template',
+  imported: 'imported',
+  completed: 'completed',
+} as const
+
+/**
  * 添付されたクラウドサインの書類
  */
-export type TicketDetailCloudSignDocument = null | {
+export type TicketDetailCloudSignDocument = {
   /** UUID */
   id: string
   /** クラウドサイン書類のID */
@@ -1955,13 +1999,7 @@ export type TicketDetailCloudSignDocument = null | {
   /** クラウドサイン書類のタイトル */
   documentTitle: string
   /** クラウドサイン書類のステータス */
-  status:
-    | 'draft'
-    | 'in_progress'
-    | 'rejected'
-    | 'template'
-    | 'imported'
-    | 'completed'
+  status: TicketDetailCloudSignDocumentStatus
   /** クラウドサインがサンドボックス環境の場合true */
   sandbox: boolean
   /** 作成日時 */
@@ -1970,7 +2008,7 @@ export type TicketDetailCloudSignDocument = null | {
   updatedAt: string
   /** クラウドサイン書類のURL */
   url: string
-}
+} | null
 
 /**
  * 添付ファイル
@@ -2000,9 +2038,11 @@ export interface SlipItemInput {
   createdAt: string
   /** 更新日時 */
   updatedAt: string
-  /** 入力値
-
-  フィールドの型が汎用マスタアイテムの場合、JSON Arrayがキャッシュとして保存されます。 */
+  /**
+   * 入力値
+   *
+   * フィールドの型が汎用マスタアイテムの場合、JSON Arrayがキャッシュとして保存されます。
+   */
   value: string | unknown[] | number | null
   /** 入力値: 汎用マスタアイテム */
   generalMasterItems: GeneralMasterItem[]
@@ -2038,8 +2078,10 @@ export interface SlipItem {
 export interface TicketInput {
   /** UUID */
   id: string
-  /** 入力値
-  フィールドの型が汎用マスタアイテム、ユーザー、チーム、チケットの場合、JSON Arrayがキャッシュとして保存されます。 */
+  /**
+   * 入力値
+   * フィールドの型が汎用マスタアイテム、ユーザー、チーム、チケットの場合、JSON Arrayがキャッシュとして保存されます。
+   */
   value: string | null | unknown[] | number
   formField?: FormField
   /** 入力値: 汎用マスタアイテム */
@@ -2872,10 +2914,10 @@ export type CreateTicketBodySlipItemsItemInputsItem = {
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
   ticketId?: string | null | string[]
   /**
-     * 添付ファイルの署名済みID。
-  フィールドがファイルタイプのときのみ指定してください。
-     * @nullable
-     */
+   * 添付ファイルの署名済みID。
+   * フィールドがファイルタイプのときのみ指定してください。
+   * @nullable
+   */
   files?: string[] | null
 }
 
@@ -2922,10 +2964,10 @@ export type CreateTicketBodyInputsItem = {
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
   ticketId?: string | null | string[]
   /**
-     * 添付ファイルの署名済みID。
-  フィールドがファイルタイプのときのみ指定してください。
-     * @nullable
-     */
+   * 添付ファイルの署名済みID。
+   * フィールドがファイルタイプのときのみ指定してください。
+   * @nullable
+   */
   files?: string[] | null
 }
 
@@ -3072,10 +3114,10 @@ export type ListTasksParams = {
    */
   stepTitle?: string
   /**
- * 承認の保留状態でチケットを絞り込みます。
-- true: 保留中のチケットのみを取得
-- false: 保留されていないチケットのみを取得
- */
+   * 承認の保留状態でチケットを絞り込みます。
+   * - true: 保留中のチケットのみを取得
+   * - false: 保留されていないチケットのみを取得
+   */
   pending?: ListTasksPending
 }
 
@@ -3135,10 +3177,10 @@ export type UpdateTicketBodySlipItemsItemInputsItem = {
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
   ticketId?: string | null | string[]
   /**
-     * 添付ファイルの署名済みID。
-  フィールドがファイルタイプのときのみ指定してください。
-     * @nullable
-     */
+   * 添付ファイルの署名済みID。
+   * フィールドがファイルタイプのときのみ指定してください。
+   * @nullable
+   */
   files?: string[] | null
 }
 
@@ -3185,10 +3227,10 @@ export type UpdateTicketBodyInputsItem = {
   /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
   ticketId?: string | null | string[]
   /**
-     * 添付ファイルの署名済みID。
-  フィールドがファイルタイプのときのみ指定してください。
-     * @nullable
-     */
+   * 添付ファイルの署名済みID。
+   * フィールドがファイルタイプのときのみ指定してください。
+   * @nullable
+   */
   files?: string[] | null
 }
 
@@ -3222,10 +3264,12 @@ export type UpdateTicketBody = {
   title?: string
   /** 明細アイテムの配列 */
   slipItems?: UpdateTicketBodySlipItemsItem[]
-  /** フォームの入力の配列。
-  注意：申請者による更新時は、ワークフローのすべてのフォームフィールドに対応する入力を入れてください。
-  注意：承認者による更新時は、承認者用フィールドに対応する入力のみ入れてください。
-  注意：明細ワークフローの場合、slipItemsも同時にリクエストボディに入れてください。 */
+  /**
+   * フォームの入力の配列。
+   * 注意：申請者による更新時は、ワークフローのすべてのフォームフィールドに対応する入力を入れてください。
+   * 注意：承認者による更新時は、承認者用フィールドに対応する入力のみ入れてください。
+   * 注意：明細ワークフローの場合、slipItemsも同時にリクエストボディに入れてください。
+   */
   inputs?: UpdateTicketBodyInputsItem[]
   /** クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。 */
   cloudSignDocument?: UpdateTicketBodyCloudSignDocument
