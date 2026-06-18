@@ -728,6 +728,12 @@ export const GetWorkflowResponse = zod
                 .describe(
                   'フォームセクションのID（UUID）。明細セクションには含まれません。',
                 ),
+              code: zod
+                .string()
+                .optional()
+                .describe(
+                  '明細セクションのコード。フォームセクションには含まれません。',
+                ),
               formFields: zod
                 .array(
                   zod
