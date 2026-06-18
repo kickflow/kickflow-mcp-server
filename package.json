@@ -49,7 +49,7 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "@types/node": "22.19.20",
+    "@types/node": "22.19.21",
     "axios-mock-adapter": "2.1.0",
     "orval": "8.6.2",
     "tsx": "4.22.4",
