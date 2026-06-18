@@ -2,8 +2,8 @@ import * as zod from 'zod'
 
 /**
  * 汎用マスタの一覧を取得します。
-
-このAPIの実行には、汎用マスタの管理権限が必要です。
+ *
+ * このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタの一覧を取得
  */
 export const listGeneralMastersQueryPageDefault = 1
@@ -56,8 +56,8 @@ export const ListGeneralMastersResponseItem = zod
     defaultSortBy: zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     fields: zod
       .array(
         zod
@@ -91,8 +91,8 @@ export const ListGeneralMastersResponseItem = zod
               .describe(
                 '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
               ),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           })
           .describe('汎用マスタのカスタムフィールド'),
       )
@@ -105,8 +105,8 @@ export const ListGeneralMastersResponse = zod.array(
 
 /**
  * 汎用マスタを作成します。
-
-このAPIの実行には、汎用マスタの管理権限が必要です。
+ *
+ * このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタを作成
  */
 export const CreateGeneralMasterBody = zod.object({
@@ -172,8 +172,8 @@ export const CreateGeneralMasterResponse = zod
     defaultSortBy: zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     fields: zod
       .array(
         zod
@@ -207,8 +207,8 @@ export const CreateGeneralMasterResponse = zod
               .describe(
                 '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
               ),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           })
           .describe('汎用マスタのカスタムフィールド'),
       )
@@ -218,8 +218,8 @@ export const CreateGeneralMasterResponse = zod
 
 /**
  * 汎用マスタを一件取得します。
-
-このAPIの実行には、汎用マスタの管理権限が必要です。
+ *
+ * このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタを取得
  */
 export const getGeneralMasterPathGeneralMasterIdRegExp = new RegExp(
@@ -250,8 +250,8 @@ export const GetGeneralMasterResponse = zod
     defaultSortBy: zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     fields: zod
       .array(
         zod
@@ -285,8 +285,8 @@ export const GetGeneralMasterResponse = zod
               .describe(
                 '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
               ),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           })
           .describe('汎用マスタのカスタムフィールド'),
       )
@@ -296,8 +296,8 @@ export const GetGeneralMasterResponse = zod
 
 /**
  * 汎用マスタを更新します。
-
-このAPIの実行には、汎用マスタの管理権限が必要です。
+ *
+ * このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタを更新
  */
 export const updateGeneralMasterPathGeneralMasterIdRegExp = new RegExp(
@@ -366,8 +366,8 @@ export const UpdateGeneralMasterResponse = zod
     defaultSortBy: zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     fields: zod
       .array(
         zod
@@ -401,8 +401,8 @@ export const UpdateGeneralMasterResponse = zod
               .describe(
                 '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
               ),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           })
           .describe('汎用マスタのカスタムフィールド'),
       )
@@ -412,8 +412,8 @@ export const UpdateGeneralMasterResponse = zod
 
 /**
  * 汎用マスタを削除します。この汎用マスタのすべてのアイテムも同時に削除されます。
-
-このAPIの実行には、汎用マスタの管理権限が必要です。
+ *
+ * このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタを削除
  */
 export const deleteGeneralMasterPathGeneralMasterIdRegExp = new RegExp(
@@ -426,6 +426,8 @@ export const DeleteGeneralMasterParams = zod.object({
     .regex(deleteGeneralMasterPathGeneralMasterIdRegExp)
     .describe('汎用マスタのUUIDまたはコード'),
 })
+
+export const DeleteGeneralMasterResponse = zod.unknown()
 
 /**
  * 汎用マスタアイテムの一覧を取得します。
@@ -492,8 +494,8 @@ export const ListGeneralMasterItemsResponseItem = zod
       .max(listGeneralMasterItemsResponseNameMax)
       .describe('名前'),
     description: zod.string().nullable().describe('説明'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     startsOn: zod.iso.date().nullable().describe('有効期限の開始日'),
     endsOn: zod.iso.date().nullable().describe('有効期限の終了日'),
     inputs: zod
@@ -503,8 +505,8 @@ export const ListGeneralMasterItemsResponseItem = zod
           value: zod
             .union([zod.string().nullable(), zod.array(zod.string())])
             .describe('入力値'),
-          createdAt: zod.iso.datetime({}).describe('作成日時'),
-          updatedAt: zod.iso.datetime({}).describe('更新日時'),
+          createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+          updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           field: zod
             .object({
               id: zod.uuid().describe('UUID'),
@@ -536,8 +538,12 @@ export const ListGeneralMasterItemsResponseItem = zod
                 .describe(
                   '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                 ),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('汎用マスタのカスタムフィールド'),
         }),
@@ -551,8 +557,8 @@ export const ListGeneralMasterItemsResponse = zod.array(
 
 /**
  * 汎用マスタアイテムを作成します。
-
-このAPIの実行には、汎用マスタの管理権限が必要です。
+ *
+ * このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタアイテムを作成
  */
 export const createGeneralMasterItemPathGeneralMasterIdRegExp = new RegExp(
@@ -611,8 +617,8 @@ export const CreateGeneralMasterItemResponse = zod
       .max(createGeneralMasterItemResponseNameMax)
       .describe('名前'),
     description: zod.string().nullable().describe('説明'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     startsOn: zod.iso.date().nullable().describe('有効期限の開始日'),
     endsOn: zod.iso.date().nullable().describe('有効期限の終了日'),
     inputs: zod
@@ -622,8 +628,8 @@ export const CreateGeneralMasterItemResponse = zod
           value: zod
             .union([zod.string().nullable(), zod.array(zod.string())])
             .describe('入力値'),
-          createdAt: zod.iso.datetime({}).describe('作成日時'),
-          updatedAt: zod.iso.datetime({}).describe('更新日時'),
+          createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+          updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           field: zod
             .object({
               id: zod.uuid().describe('UUID'),
@@ -655,8 +661,12 @@ export const CreateGeneralMasterItemResponse = zod
                 .describe(
                   '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                 ),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('汎用マスタのカスタムフィールド'),
         }),
@@ -701,8 +711,8 @@ export const GetGeneralMasterItemResponse = zod
       .max(getGeneralMasterItemResponseNameMax)
       .describe('名前'),
     description: zod.string().nullable().describe('説明'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     startsOn: zod.iso.date().nullable().describe('有効期限の開始日'),
     endsOn: zod.iso.date().nullable().describe('有効期限の終了日'),
     inputs: zod
@@ -712,8 +722,8 @@ export const GetGeneralMasterItemResponse = zod
           value: zod
             .union([zod.string().nullable(), zod.array(zod.string())])
             .describe('入力値'),
-          createdAt: zod.iso.datetime({}).describe('作成日時'),
-          updatedAt: zod.iso.datetime({}).describe('更新日時'),
+          createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+          updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           field: zod
             .object({
               id: zod.uuid().describe('UUID'),
@@ -745,8 +755,12 @@ export const GetGeneralMasterItemResponse = zod
                 .describe(
                   '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                 ),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('汎用マスタのカスタムフィールド'),
         }),
@@ -757,8 +771,8 @@ export const GetGeneralMasterItemResponse = zod
 
 /**
  * 汎用マスタアイテムを更新します。
-
-このAPIの実行には、汎用マスタの管理権限が必要です。
+ *
+ * このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタアイテムを更新
  */
 export const updateGeneralMasterItemPathGeneralMasterIdRegExp = new RegExp(
@@ -819,8 +833,8 @@ export const UpdateGeneralMasterItemResponse = zod
       .max(updateGeneralMasterItemResponseNameMax)
       .describe('名前'),
     description: zod.string().nullable().describe('説明'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     startsOn: zod.iso.date().nullable().describe('有効期限の開始日'),
     endsOn: zod.iso.date().nullable().describe('有効期限の終了日'),
     inputs: zod
@@ -830,8 +844,8 @@ export const UpdateGeneralMasterItemResponse = zod
           value: zod
             .union([zod.string().nullable(), zod.array(zod.string())])
             .describe('入力値'),
-          createdAt: zod.iso.datetime({}).describe('作成日時'),
-          updatedAt: zod.iso.datetime({}).describe('更新日時'),
+          createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+          updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           field: zod
             .object({
               id: zod.uuid().describe('UUID'),
@@ -863,8 +877,12 @@ export const UpdateGeneralMasterItemResponse = zod
                 .describe(
                   '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                 ),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('汎用マスタのカスタムフィールド'),
         }),
@@ -875,8 +893,8 @@ export const UpdateGeneralMasterItemResponse = zod
 
 /**
  * 汎用マスタアイテムを削除します。
-
-このAPIの実行には、汎用マスタの管理権限が必要です。
+ *
+ * このAPIの実行には、汎用マスタの管理権限が必要です。
  * @summary 汎用マスタアイテムを削除
  */
 export const deleteGeneralMasterItemPathGeneralMasterIdRegExp = new RegExp(
@@ -890,3 +908,5 @@ export const DeleteGeneralMasterItemParams = zod.object({
     .describe('汎用マスタのUUIDまたはコード'),
   itemId: zod.string().describe('汎用マスタアイテムのUUIDまたはコード'),
 })
+
+export const DeleteGeneralMasterItemResponse = zod.unknown()

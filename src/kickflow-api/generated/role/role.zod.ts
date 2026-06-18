@@ -2,8 +2,8 @@ import * as zod from 'zod'
 
 /**
  * 管理者ロールの一覧を取得します。
-
-このAPIの実行には、ロールの管理権限が必要です。
+ *
+ * このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールの一覧を取得
  */
 export const listRolesQueryPageDefault = 1
@@ -53,16 +53,16 @@ export const ListRolesResponseItem = zod
       .number()
       .min(listRolesResponseUsersCountMin)
       .describe('この管理者ロールに所属するユーザー数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('管理者ロール')
 export const ListRolesResponse = zod.array(ListRolesResponseItem)
 
 /**
  * 管理者ロールを作成します。
-
-このAPIの実行には、ロールの管理権限が必要です。
+ *
+ * このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールを作成
  */
 export const CreateRoleBody = zod
@@ -155,8 +155,8 @@ export const CreateRoleResponse = zod
       .number()
       .min(createRoleResponseOneUsersCountMin)
       .describe('この管理者ロールに所属するユーザー数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('管理者ロール')
   .and(
@@ -225,8 +225,12 @@ export const CreateRoleResponse = zod
                         createRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin,
                       )
                       .describe('フォルダ内のパイプライン数'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                   })
                   .describe('フォルダ'),
               )
@@ -252,8 +256,12 @@ export const CreateRoleResponse = zod
                     defaultSortBy: zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                     fields: zod
                       .array(
                         zod
@@ -299,10 +307,10 @@ export const CreateRoleResponse = zod
                                 '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                               ),
                             createdAt: zod.iso
-                              .datetime({})
+                              .datetime({ offset: true })
                               .describe('作成日時'),
                             updatedAt: zod.iso
-                              .datetime({})
+                              .datetime({ offset: true })
                               .describe('更新日時'),
                           })
                           .describe('汎用マスタのカスタムフィールド'),
@@ -346,8 +354,12 @@ export const CreateRoleResponse = zod
                         createRoleResponseTwoPermissionListItemTeamsItemUsersCountMin,
                       )
                       .describe('ユーザー数'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                   })
                   .describe('チーム'),
               )
@@ -361,8 +373,8 @@ export const CreateRoleResponse = zod
 
 /**
  * 管理者ロールを一件取得します。
-
-このAPIの実行には、ロールの管理権限が必要です。
+ *
+ * このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールを取得
  */
 export const GetRoleParams = zod.object({
@@ -412,8 +424,8 @@ export const GetRoleResponse = zod
       .number()
       .min(getRoleResponseOneUsersCountMin)
       .describe('この管理者ロールに所属するユーザー数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('管理者ロール')
   .and(
@@ -482,8 +494,12 @@ export const GetRoleResponse = zod
                         getRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin,
                       )
                       .describe('フォルダ内のパイプライン数'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                   })
                   .describe('フォルダ'),
               )
@@ -509,8 +525,12 @@ export const GetRoleResponse = zod
                     defaultSortBy: zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                     fields: zod
                       .array(
                         zod
@@ -556,10 +576,10 @@ export const GetRoleResponse = zod
                                 '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                               ),
                             createdAt: zod.iso
-                              .datetime({})
+                              .datetime({ offset: true })
                               .describe('作成日時'),
                             updatedAt: zod.iso
-                              .datetime({})
+                              .datetime({ offset: true })
                               .describe('更新日時'),
                           })
                           .describe('汎用マスタのカスタムフィールド'),
@@ -599,8 +619,12 @@ export const GetRoleResponse = zod
                         getRoleResponseTwoPermissionListItemTeamsItemUsersCountMin,
                       )
                       .describe('ユーザー数'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                   })
                   .describe('チーム'),
               )
@@ -614,8 +638,8 @@ export const GetRoleResponse = zod
 
 /**
  * 管理者ロールを更新します。
-
-このAPIの実行には、ロールの管理権限が必要です。
+ *
+ * このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールを更新
  */
 export const UpdateRoleParams = zod.object({
@@ -713,8 +737,8 @@ export const UpdateRoleResponse = zod
       .number()
       .min(updateRoleResponseOneUsersCountMin)
       .describe('この管理者ロールに所属するユーザー数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('管理者ロール')
   .and(
@@ -783,8 +807,12 @@ export const UpdateRoleResponse = zod
                         updateRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin,
                       )
                       .describe('フォルダ内のパイプライン数'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                   })
                   .describe('フォルダ'),
               )
@@ -810,8 +838,12 @@ export const UpdateRoleResponse = zod
                     defaultSortBy: zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                     fields: zod
                       .array(
                         zod
@@ -857,10 +889,10 @@ export const UpdateRoleResponse = zod
                                 '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                               ),
                             createdAt: zod.iso
-                              .datetime({})
+                              .datetime({ offset: true })
                               .describe('作成日時'),
                             updatedAt: zod.iso
-                              .datetime({})
+                              .datetime({ offset: true })
                               .describe('更新日時'),
                           })
                           .describe('汎用マスタのカスタムフィールド'),
@@ -904,8 +936,12 @@ export const UpdateRoleResponse = zod
                         updateRoleResponseTwoPermissionListItemTeamsItemUsersCountMin,
                       )
                       .describe('ユーザー数'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                   })
                   .describe('チーム'),
               )
@@ -919,18 +955,20 @@ export const UpdateRoleResponse = zod
 
 /**
  * 管理者ロールを削除します。
-
-このAPIの実行には、ロールの管理権限が必要です。
+ *
+ * このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールを削除
  */
 export const DeleteRoleParams = zod.object({
   roleId: zod.uuid().describe('管理者ロールのUUID'),
 })
 
+export const DeleteRoleResponse = zod.unknown()
+
 /**
  * 管理者ロールにメンバーを追加します。最大10人まで複数のメンバーを同時に追加可能です。
-
-このAPIの実行には、ロールの管理権限が必要です。
+ *
+ * このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールにメンバーを追加
  */
 export const CreateRoleMembersParams = zod.object({
@@ -947,10 +985,12 @@ export const CreateRoleMembersBody = zod.object({
     .describe('ユーザーUUIDの配列'),
 })
 
+export const CreateRoleMembersResponse = zod.unknown()
+
 /**
  * 管理者ロールのメンバー一覧を取得します。
-
-このAPIの実行には、ロールの管理権限が必要です。
+ *
+ * このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールのメンバー一覧を取得
  */
 export const ListRoleMembersParams = zod.object({
@@ -1024,20 +1064,25 @@ export const ListRoleMembersResponseItem = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
 export const ListRoleMembersResponse = zod.array(ListRoleMembersResponseItem)
 
 /**
  * 管理者ロールからメンバーを削除します。
-
-このAPIの実行には、ロールの管理権限が必要です。
+ *
+ * このAPIの実行には、ロールの管理権限が必要です。
  * @summary 管理者ロールからメンバーを削除
  */
 export const DeleteRoleMemberParams = zod.object({
   roleId: zod.uuid().describe('管理者ロールのUUID'),
   userId: zod.string().describe('ユーザーのUUIDまたはコード'),
 })
+
+export const DeleteRoleMemberResponse = zod.unknown()
