@@ -164,9 +164,12 @@ export const ListWorkflowsResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -213,9 +216,12 @@ export const ListWorkflowsResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -245,8 +251,8 @@ export const ListWorkflowsResponseItem = zod
           .number()
           .min(listWorkflowsResponseFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .describe('フォルダ')
       .describe('フォルダ'),
@@ -259,8 +265,8 @@ export const ListWorkflowsResponseItem = zod
               .string()
               .max(listWorkflowsResponseCategoriesItemNameMax)
               .describe('名前'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           })
           .describe('カテゴリ'),
       )
@@ -598,9 +604,12 @@ export const GetWorkflowResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -647,9 +656,12 @@ export const GetWorkflowResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -679,8 +691,8 @@ export const GetWorkflowResponse = zod
           .number()
           .min(getWorkflowResponseOneOneFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .describe('フォルダ')
       .describe('フォルダ'),
@@ -693,8 +705,8 @@ export const GetWorkflowResponse = zod
               .string()
               .max(getWorkflowResponseOneOneCategoriesItemNameMax)
               .describe('名前'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
           })
           .describe('カテゴリ'),
       )
@@ -715,6 +727,12 @@ export const GetWorkflowResponse = zod
                 .optional()
                 .describe(
                   'フォームセクションのID（UUID）。明細セクションには含まれません。',
+                ),
+              code: zod
+                .string()
+                .optional()
+                .describe(
+                  '明細セクションのコード。フォームセクションには含まれません。',
                 ),
               formFields: zod
                 .array(
@@ -859,10 +877,10 @@ export const GetWorkflowResponse = zod
                                   .enum(['name', 'code'])
                                   .describe('アイテム一覧のデフォルト並び順'),
                                 createdAt: zod.iso
-                                  .datetime({})
+                                  .datetime({ offset: true })
                                   .describe('作成日時'),
                                 updatedAt: zod.iso
-                                  .datetime({})
+                                  .datetime({ offset: true })
                                   .describe('更新日時'),
                                 fields: zod
                                   .array(
@@ -911,10 +929,10 @@ export const GetWorkflowResponse = zod
                                             '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                                           ),
                                         createdAt: zod.iso
-                                          .datetime({})
+                                          .datetime({ offset: true })
                                           .describe('作成日時'),
                                         updatedAt: zod.iso
-                                          .datetime({})
+                                          .datetime({ offset: true })
                                           .describe('更新日時'),
                                       })
                                       .describe(
@@ -950,10 +968,10 @@ export const GetWorkflowResponse = zod
                                   .nullable()
                                   .describe('説明'),
                                 createdAt: zod.iso
-                                  .datetime({})
+                                  .datetime({ offset: true })
                                   .describe('作成日時'),
                                 updatedAt: zod.iso
-                                  .datetime({})
+                                  .datetime({ offset: true })
                                   .describe('更新日時'),
                                 startsOn: zod.iso
                                   .date()
@@ -974,10 +992,10 @@ export const GetWorkflowResponse = zod
                                         ])
                                         .describe('入力値'),
                                       createdAt: zod.iso
-                                        .datetime({})
+                                        .datetime({ offset: true })
                                         .describe('作成日時'),
                                       updatedAt: zod.iso
-                                        .datetime({})
+                                        .datetime({ offset: true })
                                         .describe('更新日時'),
                                       field: zod
                                         .object({
@@ -1024,10 +1042,10 @@ export const GetWorkflowResponse = zod
                                               '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                                             ),
                                           createdAt: zod.iso
-                                            .datetime({})
+                                            .datetime({ offset: true })
                                             .describe('作成日時'),
                                           updatedAt: zod.iso
-                                            .datetime({})
+                                            .datetime({ offset: true })
                                             .describe('更新日時'),
                                         })
                                         .describe(
@@ -2005,10 +2023,10 @@ export const GetWorkflowResponse = zod
                                   .enum(['name', 'code'])
                                   .describe('アイテム一覧のデフォルト並び順'),
                                 createdAt: zod.iso
-                                  .datetime({})
+                                  .datetime({ offset: true })
                                   .describe('作成日時'),
                                 updatedAt: zod.iso
-                                  .datetime({})
+                                  .datetime({ offset: true })
                                   .describe('更新日時'),
                                 fields: zod
                                   .array(
@@ -2057,10 +2075,10 @@ export const GetWorkflowResponse = zod
                                             '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                                           ),
                                         createdAt: zod.iso
-                                          .datetime({})
+                                          .datetime({ offset: true })
                                           .describe('作成日時'),
                                         updatedAt: zod.iso
-                                          .datetime({})
+                                          .datetime({ offset: true })
                                           .describe('更新日時'),
                                       })
                                       .describe(
@@ -2098,10 +2116,10 @@ export const GetWorkflowResponse = zod
                                   .nullable()
                                   .describe('説明'),
                                 createdAt: zod.iso
-                                  .datetime({})
+                                  .datetime({ offset: true })
                                   .describe('作成日時'),
                                 updatedAt: zod.iso
-                                  .datetime({})
+                                  .datetime({ offset: true })
                                   .describe('更新日時'),
                                 startsOn: zod.iso
                                   .date()
@@ -2122,10 +2140,10 @@ export const GetWorkflowResponse = zod
                                         ])
                                         .describe('入力値'),
                                       createdAt: zod.iso
-                                        .datetime({})
+                                        .datetime({ offset: true })
                                         .describe('作成日時'),
                                       updatedAt: zod.iso
-                                        .datetime({})
+                                        .datetime({ offset: true })
                                         .describe('更新日時'),
                                       field: zod
                                         .object({
@@ -2172,10 +2190,10 @@ export const GetWorkflowResponse = zod
                                               '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                                             ),
                                           createdAt: zod.iso
-                                            .datetime({})
+                                            .datetime({ offset: true })
                                             .describe('作成日時'),
                                           updatedAt: zod.iso
-                                            .datetime({})
+                                            .datetime({ offset: true })
                                             .describe('更新日時'),
                                         })
                                         .describe(
@@ -2270,10 +2288,14 @@ export const GetWorkflowResponse = zod
                         ])
                         .describe('ステータス'),
                       locale: zod.string().describe('ロケール（jaまたはen）'),
-                      createdAt: zod.iso.datetime({}).describe('作成日時'),
-                      updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
                       deactivatedAt: zod.iso
-                        .datetime({})
+                        .datetime({ offset: true })
                         .nullish()
                         .describe('削除日時'),
                     })
@@ -2315,8 +2337,12 @@ export const GetWorkflowResponse = zod
                           getWorkflowResponseOneTwoTicketViewersItemTeamOneUsersCountMin,
                         )
                         .describe('ユーザー数'),
-                      createdAt: zod.iso.datetime({}).describe('作成日時'),
-                      updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
                     })
                     .describe('チーム'),
                   zod.null(),
@@ -2355,8 +2381,12 @@ export const GetWorkflowResponse = zod
                           getWorkflowResponseOneTwoTicketViewersItemGradeOneIsDefaultDefault,
                         )
                         .describe('デフォルトの役職かどうか'),
-                      createdAt: zod.iso.datetime({}).describe('作成日時'),
-                      updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
                     })
                     .describe('役職'),
                   zod.null(),
@@ -2473,13 +2503,13 @@ export const GetWorkflowResponse = zod
                                 .string()
                                 .describe('ロケール（jaまたはen）'),
                               createdAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .describe('作成日時'),
                               updatedAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .describe('更新日時'),
                               deactivatedAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .nullish()
                                 .describe('削除日時'),
                             })
@@ -2551,13 +2581,13 @@ export const GetWorkflowResponse = zod
                                 .string()
                                 .describe('ロケール（jaまたはen）'),
                               createdAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .describe('作成日時'),
                               updatedAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .describe('更新日時'),
                               deactivatedAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .nullish()
                                 .describe('削除日時'),
                             })
@@ -2599,8 +2629,12 @@ export const GetWorkflowResponse = zod
                               getWorkflowResponseTwoRouteConditionsItemRouteOneFolderOnePipelinesCountMin,
                             )
                             .describe('フォルダ内のパイプライン数'),
-                          createdAt: zod.iso.datetime({}).describe('作成日時'),
-                          updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                          createdAt: zod.iso
+                            .datetime({ offset: true })
+                            .describe('作成日時'),
+                          updatedAt: zod.iso
+                            .datetime({ offset: true })
+                            .describe('更新日時'),
                         })
                         .describe('フォルダ')
                         .describe('フォルダ'),
@@ -2784,10 +2818,10 @@ export const GetWorkflowResponse = zod
                                 )
                                 .describe('デフォルトの役職かどうか'),
                               createdAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .describe('作成日時'),
                               updatedAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .describe('更新日時'),
                             })
                             .describe('役職'),
@@ -2831,10 +2865,10 @@ export const GetWorkflowResponse = zod
                                 )
                                 .describe('ユーザー数'),
                               createdAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .describe('作成日時'),
                               updatedAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .describe('更新日時'),
                             })
                             .describe('チーム'),
@@ -2863,10 +2897,10 @@ export const GetWorkflowResponse = zod
                                 .nullable()
                                 .describe('説明'),
                               createdAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .describe('作成日時'),
                               updatedAt: zod.iso
-                                .datetime({})
+                                .datetime({ offset: true })
                                 .describe('更新日時'),
                               startsOn: zod.iso
                                 .date()
@@ -2887,10 +2921,10 @@ export const GetWorkflowResponse = zod
                                       ])
                                       .describe('入力値'),
                                     createdAt: zod.iso
-                                      .datetime({})
+                                      .datetime({ offset: true })
                                       .describe('作成日時'),
                                     updatedAt: zod.iso
-                                      .datetime({})
+                                      .datetime({ offset: true })
                                       .describe('更新日時'),
                                     field: zod
                                       .object({
@@ -2937,10 +2971,10 @@ export const GetWorkflowResponse = zod
                                             '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
                                           ),
                                         createdAt: zod.iso
-                                          .datetime({})
+                                          .datetime({ offset: true })
                                           .describe('作成日時'),
                                         updatedAt: zod.iso
-                                          .datetime({})
+                                          .datetime({ offset: true })
                                           .describe('更新日時'),
                                       })
                                       .describe(

@@ -77,9 +77,12 @@ export const ListCommentsResponseItem = zod
           .describe('添付ファイル'),
       )
       .describe('添付ファイル'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deletedAt: zod.iso.datetime({}).nullable().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deletedAt: zod.iso
+      .datetime({ offset: true })
+      .nullable()
+      .describe('削除日時'),
     user: zod
       .object({
         id: zod.uuid().describe('UUID'),
@@ -119,9 +122,12 @@ export const ListCommentsResponseItem = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
-        deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
       })
       .describe('ユーザー'),
     mentionedUsers: zod
@@ -165,9 +171,12 @@ export const ListCommentsResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
       )
@@ -230,9 +239,12 @@ export const CreateCommentResponse = zod
           .describe('添付ファイル'),
       )
       .describe('添付ファイル'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deletedAt: zod.iso.datetime({}).nullable().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deletedAt: zod.iso
+      .datetime({ offset: true })
+      .nullable()
+      .describe('削除日時'),
     user: zod
       .object({
         id: zod.uuid().describe('UUID'),
@@ -272,9 +284,12 @@ export const CreateCommentResponse = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
-        deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
       })
       .describe('ユーザー'),
     mentionedUsers: zod
@@ -318,9 +333,12 @@ export const CreateCommentResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
       )
@@ -378,9 +396,12 @@ export const GetCommentResponse = zod
           .describe('添付ファイル'),
       )
       .describe('添付ファイル'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deletedAt: zod.iso.datetime({}).nullable().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deletedAt: zod.iso
+      .datetime({ offset: true })
+      .nullable()
+      .describe('削除日時'),
     user: zod
       .object({
         id: zod.uuid().describe('UUID'),
@@ -420,9 +441,12 @@ export const GetCommentResponse = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
-        deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
       })
       .describe('ユーザー'),
     mentionedUsers: zod
@@ -466,9 +490,12 @@ export const GetCommentResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
       )
@@ -530,9 +557,12 @@ export const UpdateCommentResponse = zod
           .describe('添付ファイル'),
       )
       .describe('添付ファイル'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deletedAt: zod.iso.datetime({}).nullable().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deletedAt: zod.iso
+      .datetime({ offset: true })
+      .nullable()
+      .describe('削除日時'),
     user: zod
       .object({
         id: zod.uuid().describe('UUID'),
@@ -572,9 +602,12 @@ export const UpdateCommentResponse = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
-        deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
       })
       .describe('ユーザー'),
     mentionedUsers: zod
@@ -618,9 +651,12 @@ export const UpdateCommentResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
-            createdAt: zod.iso.datetime({}).describe('作成日時'),
-            updatedAt: zod.iso.datetime({}).describe('更新日時'),
-            deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+            deactivatedAt: zod.iso
+              .datetime({ offset: true })
+              .nullish()
+              .describe('削除日時'),
           })
           .describe('ユーザー'),
       )
@@ -636,3 +672,5 @@ export const DeleteCommentParams = zod.object({
   ticketId: zod.uuid().describe('チケットのUUID'),
   commentId: zod.uuid().describe('コメントのUUID'),
 })
+
+export const DeleteCommentResponse = zod.unknown()

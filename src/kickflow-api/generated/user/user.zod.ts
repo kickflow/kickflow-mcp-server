@@ -52,9 +52,12 @@ export const GetCurrentUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
@@ -139,18 +142,21 @@ export const ListUsersResponseItem = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
 export const ListUsersResponse = zod.array(ListUsersResponseItem)
 
 /**
  * ユーザーを作成します。
-作成されたユーザーは招待済みステータスとなり、招待メールが送信されます。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ * 作成されたユーザーは招待済みステータスとなり、招待メールが送信されます。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを作成（招待）
  */
 export const createUserBodyCodeMax = 100
@@ -248,9 +254,12 @@ export const CreateUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
@@ -310,18 +319,21 @@ export const GetUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
 
 /**
  * ユーザーを削除します（論理削除）。
-削除されたユーザーは削除済ステータスとなりますが、引き続きユーザー情報にアクセス可能です。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ * 削除されたユーザーは削除済ステータスとなりますが、引き続きユーザー情報にアクセス可能です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを削除
  */
 export const deleteUserPathUserIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -378,17 +390,20 @@ export const DeleteUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
 
 /**
  * ユーザーを更新します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを更新
  */
 export const updateUserPathUserIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -479,16 +494,19 @@ export const UpdateUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
 
 /**
  * メールアドレスからユーザーを取得します（完全一致）
-※メールアドレスはURLエンコードしたものを送ってください。
+ * ※メールアドレスはURLエンコードしたものを送ってください。
  * @summary メールアドレスからユーザーを取得
  */
 export const LookupUserByEmailQueryParams = zod.object({
@@ -546,17 +564,20 @@ export const LookupUserByEmailResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
 
 /**
  * 削除されたユーザーを再び招待します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを再招待
  */
 export const reinviteUserPathUserIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -613,16 +634,19 @@ export const ReinviteUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
 
 /**
  * 有効なユーザーを一時停止します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを一時停止
  */
 export const suspendUserPathUserIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -676,16 +700,19 @@ export const SuspendUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
 
 /**
  * 一時停止中のユーザーを有効化します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを再有効化
  */
 export const reactivateUserPathUserIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -745,16 +772,19 @@ export const ReactivateUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
-    deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    deactivatedAt: zod.iso
+      .datetime({ offset: true })
+      .nullish()
+      .describe('削除日時'),
   })
   .describe('ユーザー')
 
 /**
  * ユーザーの所属チーム一覧を取得します。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary ユーザーの所属チーム一覧を取得
  */
 export const listUserTeamsPathUserIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -815,16 +845,16 @@ export const ListUserTeamsResponseItem = zod
       .number()
       .min(listUserTeamsResponseUsersCountMin)
       .describe('ユーザー数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('チーム')
 export const ListUserTeamsResponse = zod.array(ListUserTeamsResponseItem)
 
 /**
  * ユーザーの管理者ロール一覧を取得します。
-
-このAPIの実行には、ロールの管理権限が必要です。
+ *
+ * このAPIの実行には、ロールの管理権限が必要です。
  * @summary ユーザーの管理者ロール一覧を取得
  */
 export const listUserRolesPathUserIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -872,8 +902,8 @@ export const ListUserRolesResponseItem = zod
       .number()
       .min(listUserRolesResponseUsersCountMin)
       .describe('この管理者ロールに所属するユーザー数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('管理者ロール')
 export const ListUserRolesResponse = zod.array(ListUserRolesResponseItem)
