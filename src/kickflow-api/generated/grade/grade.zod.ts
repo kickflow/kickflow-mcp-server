@@ -2,8 +2,8 @@ import * as zod from 'zod'
 
 /**
  * 役職の一覧を取得します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職の一覧を取得
  */
 export const listGradesQueryPageDefault = 1
@@ -63,16 +63,16 @@ export const ListGradesResponseItem = zod
       .boolean()
       .default(listGradesResponseIsDefaultDefault)
       .describe('デフォルトの役職かどうか'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('役職')
 export const ListGradesResponse = zod.array(ListGradesResponseItem)
 
 /**
  * 役職を作成します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職を作成
  */
 export const createGradeBodyNameMax = 300
@@ -127,15 +127,15 @@ export const CreateGradeResponse = zod
       .boolean()
       .default(createGradeResponseIsDefaultDefault)
       .describe('デフォルトの役職かどうか'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('役職')
 
 /**
  * 役職を一件取得します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職を取得
  */
 export const getGradePathGradeIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -174,17 +174,17 @@ export const GetGradeResponse = zod
       .boolean()
       .default(getGradeResponseIsDefaultDefault)
       .describe('デフォルトの役職かどうか'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('役職')
 
 /**
  * 役職を削除します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
-
-注意：この役職を使用しているユーザーがいる場合、エラーとなります。先にユーザーから対象の役職を外してください。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * 注意：この役職を使用しているユーザーがいる場合、エラーとなります。先にユーザーから対象の役職を外してください。
  * @summary 役職を削除
  */
 export const deleteGradePathGradeIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -196,10 +196,12 @@ export const DeleteGradeParams = zod.object({
     .describe('役職のUUIDまたはコード'),
 })
 
+export const DeleteGradeResponse = zod.unknown()
+
 /**
  * 役職を更新します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 役職を更新
  */
 export const updateGradePathGradeIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -264,16 +266,16 @@ export const UpdateGradeResponse = zod
       .boolean()
       .default(updateGradeResponseIsDefaultDefault)
       .describe('デフォルトの役職かどうか'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('役職')
 
 /**
  * 指定した役職をデフォルトにします。
-同時に、これまでデフォルトだった役職は自動的にデフォルトではなくなります。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ * 同時に、これまでデフォルトだった役職は自動的にデフォルトではなくなります。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary デフォルトの役職を変更
  */
 export const setDefaultGradePathGradeIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -284,3 +286,5 @@ export const SetDefaultGradeParams = zod.object({
     .regex(setDefaultGradePathGradeIdRegExp)
     .describe('役職のUUIDまたはコード'),
 })
+
+export const SetDefaultGradeResponse = zod.unknown()

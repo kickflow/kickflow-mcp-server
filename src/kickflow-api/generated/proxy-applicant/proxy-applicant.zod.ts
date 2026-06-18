@@ -2,8 +2,8 @@ import * as zod from 'zod'
 
 /**
  * テナント内の代理申請の一覧を取得します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary 代理申請一覧を取得
  */
 export const listProxyApplicantsQueryPageDefault = 1
@@ -94,8 +94,8 @@ export const listProxyApplicantsResponseWorkflowsItemCategoriesItemNameMax = 100
 export const ListProxyApplicantsResponseItem = zod
   .object({
     id: zod.uuid().describe('UUID'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     user: zod
       .object({
         id: zod.uuid().describe('UUID'),
@@ -135,9 +135,12 @@ export const ListProxyApplicantsResponseItem = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
-        deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
       })
       .describe('ユーザー'),
     proxyUser: zod
@@ -179,9 +182,12 @@ export const ListProxyApplicantsResponseItem = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
-        deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
       })
       .describe('ユーザー'),
     startsOn: zod.iso.date().nullable().describe('開始日'),
@@ -306,10 +312,14 @@ export const ListProxyApplicantsResponseItem = zod
                       ])
                       .describe('ステータス'),
                     locale: zod.string().describe('ロケール（jaまたはen）'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                     deactivatedAt: zod.iso
-                      .datetime({})
+                      .datetime({ offset: true })
                       .nullish()
                       .describe('削除日時'),
                   })
@@ -377,10 +387,14 @@ export const ListProxyApplicantsResponseItem = zod
                       ])
                       .describe('ステータス'),
                     locale: zod.string().describe('ロケール（jaまたはen）'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                     deactivatedAt: zod.iso
-                      .datetime({})
+                      .datetime({ offset: true })
                       .nullish()
                       .describe('削除日時'),
                   })
@@ -418,8 +432,12 @@ export const ListProxyApplicantsResponseItem = zod
                     listProxyApplicantsResponseWorkflowsItemFolderOnePipelinesCountMin,
                   )
                   .describe('フォルダ内のパイプライン数'),
-                createdAt: zod.iso.datetime({}).describe('作成日時'),
-                updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                createdAt: zod.iso
+                  .datetime({ offset: true })
+                  .describe('作成日時'),
+                updatedAt: zod.iso
+                  .datetime({ offset: true })
+                  .describe('更新日時'),
               })
               .describe('フォルダ')
               .describe('フォルダ'),
@@ -434,8 +452,12 @@ export const ListProxyApplicantsResponseItem = zod
                         listProxyApplicantsResponseWorkflowsItemCategoriesItemNameMax,
                       )
                       .describe('名前'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                   })
                   .describe('カテゴリ'),
               )
@@ -452,8 +474,8 @@ export const ListProxyApplicantsResponse = zod.array(
 
 /**
  * 代理申請を新規作成します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理申請の設定をすべてのユーザーに許可している場合、管理権限は不要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理申請の設定をすべてのユーザーに許可している場合、管理権限は不要です。
  * @summary 代理申請を作成
  */
 export const CreateProxyApplicantBody = zod.object({
@@ -542,8 +564,8 @@ export const createProxyApplicantResponseWorkflowsItemCategoriesItemNameMax = 10
 export const CreateProxyApplicantResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     user: zod
       .object({
         id: zod.uuid().describe('UUID'),
@@ -583,9 +605,12 @@ export const CreateProxyApplicantResponse = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
-        deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
       })
       .describe('ユーザー'),
     proxyUser: zod
@@ -627,9 +652,12 @@ export const CreateProxyApplicantResponse = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
-        deactivatedAt: zod.iso.datetime({}).nullish().describe('削除日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
       })
       .describe('ユーザー'),
     startsOn: zod.iso.date().nullable().describe('開始日'),
@@ -754,10 +782,14 @@ export const CreateProxyApplicantResponse = zod
                       ])
                       .describe('ステータス'),
                     locale: zod.string().describe('ロケール（jaまたはen）'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                     deactivatedAt: zod.iso
-                      .datetime({})
+                      .datetime({ offset: true })
                       .nullish()
                       .describe('削除日時'),
                   })
@@ -825,10 +857,14 @@ export const CreateProxyApplicantResponse = zod
                       ])
                       .describe('ステータス'),
                     locale: zod.string().describe('ロケール（jaまたはen）'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                     deactivatedAt: zod.iso
-                      .datetime({})
+                      .datetime({ offset: true })
                       .nullish()
                       .describe('削除日時'),
                   })
@@ -870,8 +906,12 @@ export const CreateProxyApplicantResponse = zod
                     createProxyApplicantResponseWorkflowsItemFolderOnePipelinesCountMin,
                   )
                   .describe('フォルダ内のパイプライン数'),
-                createdAt: zod.iso.datetime({}).describe('作成日時'),
-                updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                createdAt: zod.iso
+                  .datetime({ offset: true })
+                  .describe('作成日時'),
+                updatedAt: zod.iso
+                  .datetime({ offset: true })
+                  .describe('更新日時'),
               })
               .describe('フォルダ')
               .describe('フォルダ'),
@@ -886,8 +926,12 @@ export const CreateProxyApplicantResponse = zod
                         createProxyApplicantResponseWorkflowsItemCategoriesItemNameMax,
                       )
                       .describe('名前'),
-                    createdAt: zod.iso.datetime({}).describe('作成日時'),
-                    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
                   })
                   .describe('カテゴリ'),
               )
@@ -901,10 +945,12 @@ export const CreateProxyApplicantResponse = zod
 
 /**
  * 指定した代理申請を削除します。
-
-このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理申請の設定をすべてのユーザーに許可している場合、管理権限は不要です。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理申請の設定をすべてのユーザーに許可している場合、管理権限は不要です。
  * @summary 代理申請を削除
  */
 export const DeleteProxyApplicantParams = zod.object({
   proxyApplicantId: zod.uuid().describe('代理申請のUUID'),
 })
+
+export const DeleteProxyApplicantResponse = zod.unknown()

@@ -2,11 +2,11 @@ import * as zod from 'zod'
 
 /**
  * 組織図の一覧を取得します。
-
-このAPIの実行には、チームの管理権限が必要です。
-
-注意：パフォーマンス上の理由から、組織図の一覧取得時は組織図内のチームのリストがレスポンスに含まれません。
-組織図のすべての情報を取得したい場合は、組織図を一件だけ取得するAPI経由で取得してください。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
+ *
+ * 注意：パフォーマンス上の理由から、組織図の一覧取得時は組織図内のチームのリストがレスポンスに含まれません。
+ * 組織図のすべての情報を取得したい場合は、組織図を一件だけ取得するAPI経由で取得してください。
  * @summary 組織図の一覧を取得
  */
 export const listOrganizationChartsQueryPageDefault = 1
@@ -51,14 +51,14 @@ export const ListOrganizationChartsResponseItem = zod
     current: zod.boolean().describe('現在有効な組織図かどうか'),
     teamsCount: zod.number().describe('チーム数'),
     membershipsCount: zod.number().describe('所属数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
       .object({
         id: zod.string().describe('UUID'),
         dueOn: zod.iso.date().describe('有効化の予定日'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .nullable()
       .describe('有効化の予定'),
@@ -70,8 +70,8 @@ export const ListOrganizationChartsResponse = zod.array(
 
 /**
  * 組織図を作成します。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary 組織図を作成
  */
 export const CreateOrganizationChartBody = zod
@@ -92,14 +92,14 @@ export const CreateOrganizationChartResponse = zod
     current: zod.boolean().describe('現在有効な組織図かどうか'),
     teamsCount: zod.number().describe('チーム数'),
     membershipsCount: zod.number().describe('所属数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
       .object({
         id: zod.string().describe('UUID'),
         dueOn: zod.iso.date().describe('有効化の予定日'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .nullable()
       .describe('有効化の予定'),
@@ -109,21 +109,23 @@ export const CreateOrganizationChartResponse = zod
 
 /**
  * 組織図を削除します。同時に、組織図内のチームや所属もすべて削除されます。
-
-このAPIの実行には、チームの管理権限が必要です。
-
-注意：現在有効な組織図は削除できません。
-注意：組織図の削除は時間がかかることがあるため、削除は非同期で実行されます。削除の完了前にレスポンスを返すので注意してください。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
+ *
+ * 注意：現在有効な組織図は削除できません。
+ * 注意：組織図の削除は時間がかかることがあるため、削除は非同期で実行されます。削除の完了前にレスポンスを返すので注意してください。
  * @summary 組織図を削除
  */
 export const DeleteOrganizationChartParams = zod.object({
   organizationChartId: zod.uuid().describe('組織図のUUID'),
 })
 
+export const DeleteOrganizationChartResponse = zod.unknown()
+
 /**
  * 組織図を一件取得します。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary 組織図を取得
  */
 export const GetOrganizationChartParams = zod.object({
@@ -142,14 +144,14 @@ export const GetOrganizationChartResponse = zod
     current: zod.boolean().describe('現在有効な組織図かどうか'),
     teamsCount: zod.number().describe('チーム数'),
     membershipsCount: zod.number().describe('所属数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
       .object({
         id: zod.string().describe('UUID'),
         dueOn: zod.iso.date().describe('有効化の予定日'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .nullable()
       .describe('有効化の予定'),
@@ -159,8 +161,8 @@ export const GetOrganizationChartResponse = zod
 
 /**
  * 組織図を更新します。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary 組織図を更新
  */
 export const UpdateOrganizationChartParams = zod.object({
@@ -185,14 +187,14 @@ export const UpdateOrganizationChartResponse = zod
     current: zod.boolean().describe('現在有効な組織図かどうか'),
     teamsCount: zod.number().describe('チーム数'),
     membershipsCount: zod.number().describe('所属数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
       .object({
         id: zod.string().describe('UUID'),
         dueOn: zod.iso.date().describe('有効化の予定日'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .nullable()
       .describe('有効化の予定'),
@@ -202,8 +204,8 @@ export const UpdateOrganizationChartResponse = zod
 
 /**
  * 現在有効になっている組織図を取得します。
-
-このAPIの実行には、チームの管理権限が必要です。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
  * @summary 現在の組織図を取得
  */
 export const getCurrentOrganizationChartResponseOneNameMax = 300
@@ -218,14 +220,14 @@ export const GetCurrentOrganizationChartResponse = zod
     current: zod.boolean().describe('現在有効な組織図かどうか'),
     teamsCount: zod.number().describe('チーム数'),
     membershipsCount: zod.number().describe('所属数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
       .object({
         id: zod.string().describe('UUID'),
         dueOn: zod.iso.date().describe('有効化の予定日'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .nullable()
       .describe('有効化の予定'),
@@ -235,11 +237,11 @@ export const GetCurrentOrganizationChartResponse = zod
 
 /**
  * 指定した組織図を有効化し、ワークフローで使用する組織図を切り替えます。
-他の組織図に有効化の予定がある場合、それらの予定は削除されます。
-
-このAPIの実行には、チームの管理権限が必要です。
-
-注意：組織図の有効化は時間がかかることがあるため、有効化は非同期で実行されます。有効化の完了前にレスポンスを返すので注意してください。
+ * 他の組織図に有効化の予定がある場合、それらの予定は削除されます。
+ *
+ * このAPIの実行には、チームの管理権限が必要です。
+ *
+ * 注意：組織図の有効化は時間がかかることがあるため、有効化は非同期で実行されます。有効化の完了前にレスポンスを返すので注意してください。
  * @summary 組織図を有効化
  */
 export const ActivateOrganizationChartParams = zod.object({
@@ -265,14 +267,14 @@ export const ActivateOrganizationChartResponse = zod
     current: zod.boolean().describe('現在有効な組織図かどうか'),
     teamsCount: zod.number().describe('チーム数'),
     membershipsCount: zod.number().describe('所属数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
       .object({
         id: zod.string().describe('UUID'),
         dueOn: zod.iso.date().describe('有効化の予定日'),
-        createdAt: zod.iso.datetime({}).describe('作成日時'),
-        updatedAt: zod.iso.datetime({}).describe('更新日時'),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .nullable()
       .describe('有効化の予定'),

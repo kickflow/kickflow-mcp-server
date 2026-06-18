@@ -2,10 +2,10 @@ import * as zod from 'zod'
 
 /**
  * 添付ファイルをアップロードします。最大50MBまでのファイルをアップロード可能です。
-
-注意：このAPIはエンタープライズプランのお客様のみ利用可能です。
-
-注意：アップロードしたファイルはすみやかにチケット作成などで使用してください。チケットなどから参照されていないファイルは最短24時間経過後に自動的に削除されます。
+ *
+ * 注意：このAPIはエンタープライズプランのお客様のみ利用可能です。
+ *
+ * 注意：アップロードしたファイルはすみやかにチケット作成などで使用してください。チケットなどから参照されていないファイルは最短24時間経過後に自動的に削除されます。
  * @summary 添付ファイルをアップロード
  */
 export const UploadFileBody = zod.object({
@@ -18,10 +18,10 @@ export const UploadFileResponse = zod.object({
 
 /**
  * 添付ファイルのAmazon S3上のURLを含む情報を取得します。
-
-注意: このAPIが返すURLは、5分間で失効します。
-
-注意: チケットに添付されていないファイルはURLを取得できません。先にチケットに添付してください。
+ *
+ * 注意: このAPIが返すURLは、5分間で失効します。
+ *
+ * 注意: チケットに添付されていないファイルはURLを取得できません。先にチケットに添付してください。
  * @summary 添付ファイルの情報を取得
  */
 export const GetFileParams = zod.object({
@@ -34,5 +34,5 @@ export const GetFileResponse = zod.object({
   checksum: zod.string().describe('チェックサム'),
   byteSize: zod.number().describe('バイト数'),
   contentType: zod.string().describe('Content-Type'),
-  createdAt: zod.iso.datetime({}).describe('作成日時'),
+  createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
 })

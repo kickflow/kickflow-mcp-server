@@ -62,16 +62,16 @@ export const ListFoldersResponseItem = zod
       .number()
       .min(listFoldersResponsePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('フォルダ')
 export const ListFoldersResponse = zod.array(ListFoldersResponseItem)
 
 /**
  * フォルダを作成します。
-
-このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
+ *
+ * このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
  * @summary フォルダを作成
  */
 export const CreateFolderBody = zod.object({
@@ -132,8 +132,8 @@ export const CreateFolderResponse = zod
       .number()
       .min(createFolderResponseOnePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('フォルダ')
   .and(
@@ -164,8 +164,12 @@ export const CreateFolderResponse = zod
                 .number()
                 .min(createFolderResponseTwoAncestorsItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('フォルダ'),
         )
@@ -197,8 +201,12 @@ export const CreateFolderResponse = zod
                 .number()
                 .min(createFolderResponseTwoChildrenItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('フォルダ'),
         )
@@ -210,10 +218,10 @@ export const CreateFolderResponse = zod
 
 /**
  * フォルダを削除します。
-
-このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
-
-注意：このフォルダ以下のすべてのフォルダ・ワークフロー・経路・パイプラインも削除されます。
+ *
+ * このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
+ *
+ * 注意：このフォルダ以下のすべてのフォルダ・ワークフロー・経路・パイプラインも削除されます。
  * @summary フォルダを削除
  */
 export const deleteFolderPathFolderIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -225,10 +233,12 @@ export const DeleteFolderParams = zod.object({
     .describe('フォルダのUUIDまたはコード'),
 })
 
+export const DeleteFolderResponse = zod.unknown()
+
 /**
  * フォルダを更新します。
-
-このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
+ *
+ * このAPIの実行には、ワークフロー関連設定の管理権限が必要です。
  * @summary フォルダを更新
  */
 export const updateFolderPathFolderIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -295,8 +305,8 @@ export const UpdateFolderResponse = zod
       .number()
       .min(updateFolderResponseOnePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('フォルダ')
   .and(
@@ -327,8 +337,12 @@ export const UpdateFolderResponse = zod
                 .number()
                 .min(updateFolderResponseTwoAncestorsItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('フォルダ'),
         )
@@ -360,8 +374,12 @@ export const UpdateFolderResponse = zod
                 .number()
                 .min(updateFolderResponseTwoChildrenItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('フォルダ'),
         )
@@ -432,8 +450,8 @@ export const GetFolderResponse = zod
       .number()
       .min(getFolderResponseOnePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
-    createdAt: zod.iso.datetime({}).describe('作成日時'),
-    updatedAt: zod.iso.datetime({}).describe('更新日時'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
   .describe('フォルダ')
   .and(
@@ -464,8 +482,12 @@ export const GetFolderResponse = zod
                 .number()
                 .min(getFolderResponseTwoAncestorsItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('フォルダ'),
         )
@@ -497,8 +519,12 @@ export const GetFolderResponse = zod
                 .number()
                 .min(getFolderResponseTwoChildrenItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
-              createdAt: zod.iso.datetime({}).describe('作成日時'),
-              updatedAt: zod.iso.datetime({}).describe('更新日時'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
             })
             .describe('フォルダ'),
         )
