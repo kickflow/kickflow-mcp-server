@@ -33,7 +33,9 @@ export const specialHandlers: Record<string, SpecialHandler> = {
 
       const allowedBaseDir = fs.realpathSync(process.cwd())
       const realPath = fs.realpathSync(resolvedPath)
-      if (!realPath.startsWith(allowedBaseDir + path.sep)) {
+      const allowedPrefix =
+        allowedBaseDir === path.sep ? path.sep : allowedBaseDir + path.sep
+      if (!realPath.startsWith(allowedPrefix)) {
         throw new Error(
           `Access denied: file path must be within ${allowedBaseDir}`,
         )

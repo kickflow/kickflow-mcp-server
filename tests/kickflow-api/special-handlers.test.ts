@@ -249,6 +249,47 @@ describe('special-handlers', () => {
       )
     })
 
+    it('cwdがルートディレクトリの場合でもアップロードできる', async () => {
+      const testFilePath = '/Users/yourname/Desktop/image.png'
+      const mockFileContent = Buffer.from('file content')
+      vi.mocked(fs.existsSync).mockReturnValue(true)
+      vi.mocked(fs.realpathSync).mockImplementation((p) =>
+        p === process.cwd() ? '/' : testFilePath,
+      )
+      vi.mocked(fs.readFileSync).mockReturnValue(mockFileContent)
+      mockUploadFile.mockResolvedValue({ signedId: 'abc123' })
+
+      const result = await executeSpecialHandler('uploadFile', {
+        filePath: testFilePath,
+      })
+
+      expect(result).toEqual(
+        expect.objectContaining({
+          success: true,
+          data: { signedId: 'abc123' },
+        }),
+      )
+    })
+
+    it('許可ディレクトリ外のパスはアクセス拒否される', async () => {
+      const cwd = process.cwd()
+      vi.mocked(fs.existsSync).mockReturnValue(true)
+      vi.mocked(fs.realpathSync).mockImplementation((p) =>
+        p === cwd ? cwd : '/etc/passwd',
+      )
+
+      const result = await executeSpecialHandler('uploadFile', {
+        filePath: '/etc/passwd',
+      })
+
+      expect(result).toEqual(
+        expect.objectContaining({
+          success: false,
+          error: expect.stringContaining('Access denied'),
+        }),
+      )
+    })
+
     it('ファイル名がパスから正しく抽出される', async () => {
       const cwd = process.cwd()
       const testFilePath = `${cwd}/documents/report.pdf`
