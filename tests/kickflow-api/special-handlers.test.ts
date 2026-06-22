@@ -272,10 +272,11 @@ describe('special-handlers', () => {
     })
 
     it('許可ディレクトリ外のパスはアクセス拒否される', async () => {
-      const cwd = process.cwd()
+      const mockedCwd = '/workspace/project'
+      const cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue(mockedCwd)
       vi.mocked(fs.existsSync).mockReturnValue(true)
       vi.mocked(fs.realpathSync).mockImplementation((p) =>
-        p === cwd ? cwd : '/etc/passwd',
+        p === mockedCwd ? mockedCwd : '/etc/passwd',
       )
 
       const result = await executeSpecialHandler('uploadFile', {
@@ -288,6 +289,7 @@ describe('special-handlers', () => {
           error: expect.stringContaining('Access denied'),
         }),
       )
+      cwdSpy.mockRestore()
     })
 
     it('ファイル名がパスから正しく抽出される', async () => {
