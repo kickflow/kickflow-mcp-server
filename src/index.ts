@@ -21,6 +21,9 @@ function parseArguments() {
 
 環境変数:
   KICKFLOW_ACCESS_TOKEN          Kickflow アクセストークン（コマンドライン引数が優先されます）
+  KICKFLOW_API_BASE_URL          接続先のベースURL（未指定時は https://api.kickflow.com）
+  KICKFLOW_ACCESS_TOKEN_HEADER   アクセストークンを送信するヘッダー名（未指定時は Authorization）
+  KICKFLOW_API_HEADERS           全リクエストに付与する追加ヘッダー（JSON形式）
 `)
     process.exit(0)
   }
