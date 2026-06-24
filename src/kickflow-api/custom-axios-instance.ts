@@ -42,13 +42,13 @@ export const AXIOS_INSTANCE = Axios.create({
   },
 })
 
-// リクエストインターセプターで認証ヘッダーと追加ヘッダーを設定
+// リクエストインターセプターで追加ヘッダーと認証ヘッダーを設定
 AXIOS_INSTANCE.interceptors.request.use((config) => {
-  if (accessToken) {
-    config.headers[KICKFLOW_ACCESS_TOKEN_HEADER] = `Bearer ${accessToken}`
-  }
   for (const [key, value] of Object.entries(KICKFLOW_API_HEADERS)) {
     config.headers[key] = value
+  }
+  if (accessToken) {
+    config.headers[KICKFLOW_ACCESS_TOKEN_HEADER] = `Bearer ${accessToken}`
   }
   if (config.data instanceof FormData) {
     config.headers.delete('Content-Type')

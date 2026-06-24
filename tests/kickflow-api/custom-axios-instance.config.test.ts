@@ -65,6 +65,23 @@ describe('custom-axios-instance 環境変数による設定', () => {
     mock.restore()
   })
 
+  it('追加ヘッダーがアクセストークンのヘッダーを上書きしない', async () => {
+    vi.stubEnv(
+      'KICKFLOW_API_HEADERS',
+      JSON.stringify({ Authorization: 'should-not-win' }),
+    )
+    const { AXIOS_INSTANCE, setKickflowAccessToken } = await loadModule()
+    const mock = new MockAdapter(AXIOS_INSTANCE)
+    setKickflowAccessToken('tok')
+    mock.onGet('/test').reply(200, {})
+
+    await AXIOS_INSTANCE.get('/test')
+
+    const headers = mock.history.get[0].headers
+    expect(headers?.['Authorization']).toBe('Bearer tok')
+    mock.restore()
+  })
+
   it('不正なJSONのKICKFLOW_API_HEADERSは無視される', async () => {
     vi.stubEnv('KICKFLOW_API_HEADERS', 'not-json')
     const { AXIOS_INSTANCE, setKickflowAccessToken } = await loadModule()
