@@ -45,17 +45,17 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
-    "axios": "1.17.0",
+    "axios": "1.18.0",
     "zod": "4.4.3"
   },
   "devDependencies": {
     "@types/node": "22.19.21",
     "axios-mock-adapter": "2.1.0",
-    "orval": "8.16.0",
+    "orval": "8.17.0",
     "tsx": "4.22.4",
     "typescript": "5.9.3",
     "yaml": "2.9.0",
-    "vite-plus": "0.1.24"
+    "vite-plus": "0.2.0"
   },
-  "packageManager": "npm@11.16.0"
+  "packageManager": "npm@11.17.0"
 }
