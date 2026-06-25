@@ -187,6 +187,8 @@ export const ListCommentsResponse = zod.array(ListCommentsResponseItem)
 
 /**
  * チケットにコメントを投稿します。
+ *
+ * ワークフローの `commentingEnabled` が `false` の場合、`422` (`code: "validation_failed"`) を返します。レスポンスの `errors.base` にエラーメッセージの配列が含まれます。
  * @summary コメントを投稿
  */
 export const CreateCommentParams = zod.object({

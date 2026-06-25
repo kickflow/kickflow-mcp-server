@@ -55,6 +55,7 @@ export const listProxyApplicantsResponseWorkflowsItemCodeRegExp = new RegExp(
 export const listProxyApplicantsResponseWorkflowsItemPublicTicketDefault = false
 export const listProxyApplicantsResponseWorkflowsItemVisibleToTeamMembersDefault = false
 export const listProxyApplicantsResponseWorkflowsItemAllowEditingOfViewersDefault = true
+export const listProxyApplicantsResponseWorkflowsItemCommentingEnabledDefault = true
 export const listProxyApplicantsResponseWorkflowsItemAuthorOneEmailMax = 254
 
 export const listProxyApplicantsResponseWorkflowsItemAuthorOneCodeMax = 100
@@ -252,6 +253,14 @@ export const ListProxyApplicantsResponseItem = zod
                 listProxyApplicantsResponseWorkflowsItemAllowEditingOfViewersDefault,
               )
               .describe('共有ユーザーの編集が可能な場合true'),
+            commentingEnabled: zod
+              .boolean()
+              .default(
+                listProxyApplicantsResponseWorkflowsItemCommentingEnabledDefault,
+              )
+              .describe(
+                '新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。',
+              ),
             author: zod
               .union([
                 zod
@@ -525,6 +534,7 @@ export const createProxyApplicantResponseWorkflowsItemCodeRegExp = new RegExp(
 export const createProxyApplicantResponseWorkflowsItemPublicTicketDefault = false
 export const createProxyApplicantResponseWorkflowsItemVisibleToTeamMembersDefault = false
 export const createProxyApplicantResponseWorkflowsItemAllowEditingOfViewersDefault = true
+export const createProxyApplicantResponseWorkflowsItemCommentingEnabledDefault = true
 export const createProxyApplicantResponseWorkflowsItemAuthorOneEmailMax = 254
 
 export const createProxyApplicantResponseWorkflowsItemAuthorOneCodeMax = 100
@@ -722,6 +732,14 @@ export const CreateProxyApplicantResponse = zod
                 createProxyApplicantResponseWorkflowsItemAllowEditingOfViewersDefault,
               )
               .describe('共有ユーザーの編集が可能な場合true'),
+            commentingEnabled: zod
+              .boolean()
+              .default(
+                createProxyApplicantResponseWorkflowsItemCommentingEnabledDefault,
+              )
+              .describe(
+                '新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。',
+              ),
             author: zod
               .union([
                 zod
