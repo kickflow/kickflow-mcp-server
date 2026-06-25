@@ -12,7 +12,7 @@ jobs:
       contents: read # checkoutアクションのために必要
       id-token: write # npmへの公開に必要 (provenanceを使用する場合)
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: '22'
