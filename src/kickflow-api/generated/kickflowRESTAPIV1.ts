@@ -68,6 +68,7 @@ import type {
   TeamUpdateBody,
   Ticket,
   TicketDetail,
+  TicketFormPartialUpdateBody,
   TicketViewer,
   TicketWithStep,
   UpdateCategoryBody,
@@ -1138,6 +1139,8 @@ export const getKickflowRESTAPIV1 = () => {
    * 注意2: チケットのステータスが処理中の場合、承認者が承認者用フィールドのみ更新可能です。リクエストボディにはslipItemsまたはinputsのみ設定してください（他のパラメータは無視されます）。
    *
    * 注意3: 明細ワークフローの場合、slipItemsは必須です。
+   *
+   * 注意4: inputsおよびslipItemsはフォーム全体を置き換えます。更新対象のフォームに含まれる値はすべて送信してください。フォームの一部のフィールドや明細のみを差分更新したい場合は、`PATCH /tickets/{ticketId}/form`（updateTicketForm）を使用してください。
    * @summary チケットを更新
    */
   const updateTicket = (
@@ -1151,6 +1154,36 @@ export const getKickflowRESTAPIV1 = () => {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         data: updateTicketBody,
+      },
+      options,
+    )
+  }
+
+  /**
+   * チケットのフォームデータ（フォーム入力値`inputs`と明細`slipItems`）を差分更新します。送信した部分のみが上書きされ、未送信部分は既存値が保持されます（`inputs`はフィールド単位、`slipItems`は明細セクション単位の差分更新）。
+   *
+   * 注意1: チケットのステータスが下書きまたは差し戻しの場合、申請者が更新可能です。
+   *
+   * 注意2: チケットのステータスが処理中の場合、承認者が承認者用フィールドのみ更新可能です。
+   *
+   * 注意3: 明細（`slipItems`）の各行の`inputs`には、編集可能なフィールドをすべて含めてください。編集できないフィールド（例: 申請者が更新する場合の承認者用フィールド）は指定せずに省略してください（既存値が保持されます）。
+   *
+   * 注意4: `inputs[]`は`formFieldId`または`formFieldCode`、`slipItems[]`は`slipSectionId`または`slipSectionCode`、`slipItems[].inputs[]`は`slipFieldId`または`slipFieldCode`のいずれか一方を指定してください（両方指定時はIDが優先されます）。
+   *
+   * 注意5: `inputs`と`slipItems`の両方が未指定または空配列の場合はエラーになります。
+   * @summary チケットのフォームデータを差分更新
+   */
+  const updateTicketForm = (
+    ticketId: string,
+    ticketFormPartialUpdateBody: BodyType<TicketFormPartialUpdateBody>,
+    options?: SecondParameter<typeof customAxiosInstance<TicketDetail>>,
+  ) => {
+    return customAxiosInstance<TicketDetail>(
+      {
+        url: `/v1/tickets/${ticketId}/form`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: ticketFormPartialUpdateBody,
       },
       options,
     )
@@ -1325,6 +1358,8 @@ export const getKickflowRESTAPIV1 = () => {
 
   /**
    * チケットにコメントを投稿します。
+   *
+   * ワークフローの `commentingEnabled` が `false` の場合、`422` (`code: "validation_failed"`) を返します。レスポンスの `errors.base` にエラーメッセージの配列が含まれます。
    * @summary コメントを投稿
    */
   const createComment = (
@@ -1873,6 +1908,7 @@ export const getKickflowRESTAPIV1 = () => {
     listTasks,
     getTicket,
     updateTicket,
+    updateTicketForm,
     approveTicket,
     rejectTicket,
     denyTicket,
@@ -2145,6 +2181,11 @@ export type GetTicketResult = NonNullable<
 >
 export type UpdateTicketResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['updateTicket']>>
+>
+export type UpdateTicketFormResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['updateTicketForm']>
+  >
 >
 export type ApproveTicketResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['approveTicket']>>

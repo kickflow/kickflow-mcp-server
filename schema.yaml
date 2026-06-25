@@ -3440,6 +3440,8 @@ paths:
         注意2: チケットのステータスが処理中の場合、承認者が承認者用フィールドのみ更新可能です。リクエストボディにはslipItemsまたはinputsのみ設定してください（他のパラメータは無視されます）。
 
         注意3: 明細ワークフローの場合、slipItemsは必須です。
+
+        注意4: inputsおよびslipItemsはフォーム全体を置き換えます。更新対象のフォームに含まれる値はすべて送信してください。フォームの一部のフィールドや明細のみを差分更新したい場合は、`PATCH /tickets/{ticketId}/form`（updateTicketForm）を使用してください。
       tags:
         - チケット
       requestBody:
@@ -3686,6 +3688,66 @@ paths:
                         items:
                           type: string
                           format: uuid
+  /v1/tickets/{ticketId}/form:
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: ticketId
+        in: path
+        required: true
+        description: チケットのUUID
+    patch:
+      summary: チケットのフォームデータを差分更新
+      operationId: updateTicketForm
+      tags:
+        - チケット
+      description: |-
+        チケットのフォームデータ（フォーム入力値`inputs`と明細`slipItems`）を差分更新します。送信した部分のみが上書きされ、未送信部分は既存値が保持されます（`inputs`はフィールド単位、`slipItems`は明細セクション単位の差分更新）。
+
+        注意1: チケットのステータスが下書きまたは差し戻しの場合、申請者が更新可能です。
+
+        注意2: チケットのステータスが処理中の場合、承認者が承認者用フィールドのみ更新可能です。
+
+        注意3: 明細（`slipItems`）の各行の`inputs`には、編集可能なフィールドをすべて含めてください。編集できないフィールド（例: 申請者が更新する場合の承認者用フィールド）は指定せずに省略してください（既存値が保持されます）。
+
+        注意4: `inputs[]`は`formFieldId`または`formFieldCode`、`slipItems[]`は`slipSectionId`または`slipSectionCode`、`slipItems[].inputs[]`は`slipFieldId`または`slipFieldCode`のいずれか一方を指定してください（両方指定時はIDが優先されます）。
+
+        注意5: `inputs`と`slipItems`の両方が未指定または空配列の場合はエラーになります。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketFormPartialUpdateBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketDetail'
+        '400':
+          description: Bad Request
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          $ref: '#/components/responses/NotFound'
+        '422':
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
   /v1/tickets/{ticketId}/approve:
     parameters:
       - schema:
@@ -4267,7 +4329,10 @@ paths:
           description: Gateway Timeout
           $ref: '#/components/responses/GatewayTimeout'
       operationId: createComment
-      description: チケットにコメントを投稿します。
+      description: |
+        チケットにコメントを投稿します。
+
+        ワークフローの `commentingEnabled` が `false` の場合、`422` (`code: "validation_failed"`) を返します。レスポンスの `errors.base` にエラーメッセージの配列が含まれます。
       requestBody:
         content:
           application/json:
@@ -7109,6 +7174,10 @@ components:
           type: boolean
           description: 共有ユーザーの編集が可能な場合true
           default: true
+        commentingEnabled:
+          type: boolean
+          description: 新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。
+          default: true
         author:
           anyOf:
             - $ref: '#/components/schemas/User'
@@ -8386,6 +8455,264 @@ components:
             - inputs
             - cloudSignDocument
             - steps
+    TicketFormPartialUpdateBody:
+      title: TicketFormPartialUpdateBody
+      type: object
+      x-tags:
+        - tickets
+      description: |-
+        `PATCH /tickets/{ticketId}/form`のリクエストボディ。
+
+        `inputs`と`slipItems`の少なくとも一方を指定してください。両方とも未指定または両方とも空配列の場合は`400`を返します。
+      anyOf:
+        - required:
+            - inputs
+          properties:
+            inputs:
+              type: array
+              minItems: 1
+        - required:
+            - slipItems
+          properties:
+            slipItems:
+              type: array
+              minItems: 1
+      properties:
+        inputs:
+          type: array
+          description: |-
+            更新対象のフォーム入力の配列。差分更新するフォームフィールドのみを指定します。
+            未指定のフォームフィールドは既存値が保持されます。
+            同じフォームフィールドを複数の要素で指定することはできません（重複時は`400`）。
+          items:
+            $ref: '#/components/schemas/TicketFormPartialUpdateInput'
+        slipItems:
+          type: array
+          description: |-
+            更新対象の明細アイテムの配列。各要素は明細の 1 行を表します。
+            同じ`slipSectionId` / `slipSectionCode`を持つ要素を複数指定することで、1つの明細セクションに複数行を送信できます。
+            明示送信した明細セクションの更新ルール（行の追加・削除等）は、既存`PATCH /tickets/{ticketId}`と同等です。
+            未指定の明細セクションは既存値が保持されます。
+          items:
+            $ref: '#/components/schemas/TicketFormPartialUpdateSlipItem'
+    TicketFormPartialUpdateInput:
+      title: TicketFormPartialUpdateInput
+      type: object
+      x-tags:
+        - tickets
+      description: |-
+        `PATCH /tickets/{ticketId}/form`のトップレベル`inputs[]`要素。
+        `formFieldId`または`formFieldCode`のいずれか一方を指定してください。両方指定時は`formFieldId`が優先されます。
+        明細セクション配下の入力には`TicketFormPartialUpdateSlipFieldInput`を使用してください。
+      anyOf:
+        - required:
+            - formFieldId
+        - required:
+            - formFieldCode
+      properties:
+        formFieldId:
+          type: string
+          format: uuid
+          description: フォームフィールドのUUID。`formFieldId`または`formFieldCode`のいずれか一方を指定してください。
+        formFieldCode:
+          type: string
+          description: フォームフィールドのコード。`formFieldId`または`formFieldCode`のいずれか一方を指定してください。
+        value:
+          description: |-
+            入力値。フィールド種別に応じた値（文字列 / 数値 / 真偽値 / 配列など）を指定します。
+            フィールドがチェックボックスタイプのときは配列で指定してください。
+          anyOf:
+            - type:
+                - string
+                - 'null'
+            - type:
+                - number
+                - 'null'
+            - type:
+                - integer
+                - 'null'
+            - type:
+                - boolean
+                - 'null'
+            - type:
+                - array
+                - 'null'
+              items: {}
+        generalMasterItemId:
+          description: 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
+          oneOf:
+            - type:
+                - string
+                - 'null'
+              format: uuid
+            - type: array
+              items:
+                type: string
+                format: uuid
+        userId:
+          description: ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
+          oneOf:
+            - type:
+                - string
+                - 'null'
+              format: uuid
+            - type: array
+              items:
+                type: string
+                format: uuid
+        teamId:
+          description: チームUUID。フィールドがチームタイプのときのみ指定してください。
+          oneOf:
+            - type:
+                - string
+                - 'null'
+              format: uuid
+            - type: array
+              items:
+                type: string
+                format: uuid
+        ticketId:
+          description: チケットUUID。フィールドがチケットタイプのときのみ指定してください。
+          oneOf:
+            - type:
+                - string
+                - 'null'
+              format: uuid
+            - type: array
+              items:
+                type: string
+                format: uuid
+        files:
+          type:
+            - array
+            - 'null'
+          description: 添付ファイルの署名済みID。フィールドがファイルタイプのときのみ指定してください。
+          items:
+            type: string
+    TicketFormPartialUpdateSlipFieldInput:
+      title: TicketFormPartialUpdateSlipFieldInput
+      type: object
+      x-tags:
+        - tickets
+      description: |-
+        `PATCH /tickets/{ticketId}/form`の明細セクション配下（`slipItems[].inputs[]`）の入力要素。
+        `slipFieldId`または`slipFieldCode`のいずれか一方を指定してください。両方指定時は`slipFieldId`が優先されます。
+      anyOf:
+        - required:
+            - slipFieldId
+        - required:
+            - slipFieldCode
+      properties:
+        slipFieldId:
+          type: string
+          format: uuid
+          description: 明細フィールドのUUID。`slipFieldId`または`slipFieldCode`のいずれか一方を指定してください。
+        slipFieldCode:
+          type: string
+          description: 明細フィールドのコード。`slipFieldId`または`slipFieldCode`のいずれか一方を指定してください。
+        value:
+          description: |-
+            入力値。フィールド種別に応じた値（文字列 / 数値 / 真偽値 / 配列など）を指定します。
+            フィールドがチェックボックスタイプのときは配列で指定してください。
+          anyOf:
+            - type:
+                - string
+                - 'null'
+            - type:
+                - number
+                - 'null'
+            - type:
+                - integer
+                - 'null'
+            - type:
+                - boolean
+                - 'null'
+            - type:
+                - array
+                - 'null'
+              items: {}
+        generalMasterItemId:
+          description: 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。
+          oneOf:
+            - type:
+                - string
+                - 'null'
+              format: uuid
+            - type: array
+              items:
+                type: string
+                format: uuid
+        userId:
+          description: ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。
+          oneOf:
+            - type:
+                - string
+                - 'null'
+              format: uuid
+            - type: array
+              items:
+                type: string
+                format: uuid
+        teamId:
+          description: チームUUID。フィールドがチームタイプのときのみ指定してください。
+          oneOf:
+            - type:
+                - string
+                - 'null'
+              format: uuid
+            - type: array
+              items:
+                type: string
+                format: uuid
+        ticketId:
+          description: チケットUUID。フィールドがチケットタイプのときのみ指定してください。
+          oneOf:
+            - type:
+                - string
+                - 'null'
+              format: uuid
+            - type: array
+              items:
+                type: string
+                format: uuid
+        files:
+          type:
+            - array
+            - 'null'
+          description: 添付ファイルの署名済みID。フィールドがファイルタイプのときのみ指定してください。
+          items:
+            type: string
+    TicketFormPartialUpdateSlipItem:
+      title: TicketFormPartialUpdateSlipItem
+      type: object
+      x-tags:
+        - tickets
+      description: |-
+        `PATCH /tickets/{ticketId}/form`の明細アイテム（1 行）。
+        `slipSectionId`または`slipSectionCode`のいずれか一方を指定してください。両方指定時は`slipSectionId`が優先されます。
+        同一の`slipSectionId` / `slipSectionCode`を持つ要素を複数指定すると、それらは同じ明細セクション配下の複数行として扱われます。
+      properties:
+        slipSectionId:
+          type: string
+          format: uuid
+          description: 明細セクションのUUID。`slipSectionId`または`slipSectionCode`のいずれか一方を指定してください。
+        slipSectionCode:
+          type: string
+          description: 明細セクションのコード。`slipSectionId`または`slipSectionCode`のいずれか一方を指定してください。
+        inputs:
+          type: array
+          description: |-
+            その行のフィールド入力値の配列。各要素は`slipFieldId`または`slipFieldCode`で明細フィールドを指定します。
+            編集可能なフィールドはすべて含めてください。編集できないフィールド（例: 申請者が更新する場合の承認者用フィールド）は指定せずに省略してください（既存値が保持されます）。
+          items:
+            $ref: '#/components/schemas/TicketFormPartialUpdateSlipFieldInput'
+      required:
+        - inputs
+      anyOf:
+        - required:
+            - slipSectionId
+        - required:
+            - slipSectionCode
     TicketInput:
       title: TicketInput
       type: object

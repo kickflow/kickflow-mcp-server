@@ -313,6 +313,8 @@ export interface Workflow {
   titleFormula: string | null
   /** 共有ユーザーの編集が可能な場合true */
   allowEditingOfViewers?: boolean
+  /** 新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。 */
+  commentingEnabled?: boolean
   /** 作成者 */
   author: User | null
   /** バージョン作成者 */
@@ -2133,6 +2135,125 @@ export type TicketDetail = Ticket & {
   /** チケットのステップ */
   steps: TicketStep[]
 }
+
+/**
+ * `PATCH /tickets/{ticketId}/form`のトップレベル`inputs[]`要素。
+ * `formFieldId`または`formFieldCode`のいずれか一方を指定してください。両方指定時は`formFieldId`が優先されます。
+ * 明細セクション配下の入力には`TicketFormPartialUpdateSlipFieldInput`を使用してください。
+ */
+export type TicketFormPartialUpdateInput = unknown & {
+  /** フォームフィールドのUUID。`formFieldId`または`formFieldCode`のいずれか一方を指定してください。 */
+  formFieldId?: string
+  /** フォームフィールドのコード。`formFieldId`または`formFieldCode`のいずれか一方を指定してください。 */
+  formFieldCode?: string
+  /**
+   * 入力値。フィールド種別に応じた値（文字列 / 数値 / 真偽値 / 配列など）を指定します。
+   * フィールドがチェックボックスタイプのときは配列で指定してください。
+   */
+  value?: string | null | number | boolean | unknown[]
+  /** 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。 */
+  generalMasterItemId?: string | null | string[]
+  /** ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。 */
+  userId?: string | null | string[]
+  /** チームUUID。フィールドがチームタイプのときのみ指定してください。 */
+  teamId?: string | null | string[]
+  /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
+  ticketId?: string | null | string[]
+  /**
+   * 添付ファイルの署名済みID。フィールドがファイルタイプのときのみ指定してください。
+   * @nullable
+   */
+  files?: string[] | null
+}
+
+/**
+ * `PATCH /tickets/{ticketId}/form`の明細セクション配下（`slipItems[].inputs[]`）の入力要素。
+ * `slipFieldId`または`slipFieldCode`のいずれか一方を指定してください。両方指定時は`slipFieldId`が優先されます。
+ */
+export type TicketFormPartialUpdateSlipFieldInput = unknown & {
+  /** 明細フィールドのUUID。`slipFieldId`または`slipFieldCode`のいずれか一方を指定してください。 */
+  slipFieldId?: string
+  /** 明細フィールドのコード。`slipFieldId`または`slipFieldCode`のいずれか一方を指定してください。 */
+  slipFieldCode?: string
+  /**
+   * 入力値。フィールド種別に応じた値（文字列 / 数値 / 真偽値 / 配列など）を指定します。
+   * フィールドがチェックボックスタイプのときは配列で指定してください。
+   */
+  value?: string | null | number | boolean | unknown[]
+  /** 汎用マスタアイテムのUUID。フィールドが汎用マスタタイプのときのみ指定してください。 */
+  generalMasterItemId?: string | null | string[]
+  /** ユーザーUUID。フィールドがユーザータイプのときのみ指定してください。 */
+  userId?: string | null | string[]
+  /** チームUUID。フィールドがチームタイプのときのみ指定してください。 */
+  teamId?: string | null | string[]
+  /** チケットUUID。フィールドがチケットタイプのときのみ指定してください。 */
+  ticketId?: string | null | string[]
+  /**
+   * 添付ファイルの署名済みID。フィールドがファイルタイプのときのみ指定してください。
+   * @nullable
+   */
+  files?: string[] | null
+}
+
+/**
+ * `PATCH /tickets/{ticketId}/form`の明細アイテム（1 行）。
+ * `slipSectionId`または`slipSectionCode`のいずれか一方を指定してください。両方指定時は`slipSectionId`が優先されます。
+ * 同一の`slipSectionId` / `slipSectionCode`を持つ要素を複数指定すると、それらは同じ明細セクション配下の複数行として扱われます。
+ */
+export type TicketFormPartialUpdateSlipItem = unknown & {
+  /** 明細セクションのUUID。`slipSectionId`または`slipSectionCode`のいずれか一方を指定してください。 */
+  slipSectionId?: string
+  /** 明細セクションのコード。`slipSectionId`または`slipSectionCode`のいずれか一方を指定してください。 */
+  slipSectionCode?: string
+  /**
+   * その行のフィールド入力値の配列。各要素は`slipFieldId`または`slipFieldCode`で明細フィールドを指定します。
+   * 編集可能なフィールドはすべて含めてください。編集できないフィールド（例: 申請者が更新する場合の承認者用フィールド）は指定せずに省略してください（既存値が保持されます）。
+   */
+  inputs: TicketFormPartialUpdateSlipFieldInput[]
+}
+
+/**
+ * `PATCH /tickets/{ticketId}/form`のリクエストボディ。
+ *
+ * `inputs`と`slipItems`の少なくとも一方を指定してください。両方とも未指定または両方とも空配列の場合は`400`を返します。
+ */
+export type TicketFormPartialUpdateBody =
+  | ({
+      /** @minItems 1 */
+      inputs: unknown[]
+    } & {
+      /**
+       * 更新対象のフォーム入力の配列。差分更新するフォームフィールドのみを指定します。
+       * 未指定のフォームフィールドは既存値が保持されます。
+       * 同じフォームフィールドを複数の要素で指定することはできません（重複時は`400`）。
+       */
+      inputs?: TicketFormPartialUpdateInput[]
+      /**
+       * 更新対象の明細アイテムの配列。各要素は明細の 1 行を表します。
+       * 同じ`slipSectionId` / `slipSectionCode`を持つ要素を複数指定することで、1つの明細セクションに複数行を送信できます。
+       * 明示送信した明細セクションの更新ルール（行の追加・削除等）は、既存`PATCH /tickets/{ticketId}`と同等です。
+       * 未指定の明細セクションは既存値が保持されます。
+       */
+      slipItems?: TicketFormPartialUpdateSlipItem[]
+    })
+  | ({
+      /** @minItems 1 */
+      slipItems: unknown[]
+    } & {
+      /**
+       * 更新対象のフォーム入力の配列。差分更新するフォームフィールドのみを指定します。
+       * 未指定のフォームフィールドは既存値が保持されます。
+       * 同じフォームフィールドを複数の要素で指定することはできません（重複時は`400`）。
+       */
+      inputs?: TicketFormPartialUpdateInput[]
+      /**
+       * 更新対象の明細アイテムの配列。各要素は明細の 1 行を表します。
+       * 同じ`slipSectionId` / `slipSectionCode`を持つ要素を複数指定することで、1つの明細セクションに複数行を送信できます。
+       * 明示送信した明細セクションの更新ルール（行の追加・削除等）は、既存`PATCH /tickets/{ticketId}`と同等です。
+       * 未指定の明細セクションは既存値が保持されます。
+       */
+      slipItems?: TicketFormPartialUpdateSlipItem[]
+    })
 
 /**
  * チケットの共有ユーザー

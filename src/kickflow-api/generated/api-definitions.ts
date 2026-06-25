@@ -666,6 +666,19 @@ export const apiDefinitions: ApiDefinition[] = [
     ],
   },
   {
+    operationId: 'updateTicketForm',
+    summary: 'チケットのフォームデータを差分更新',
+    pathParams: [
+      {
+        name: 'ticketId',
+        type: 'string',
+        required: true,
+        description: 'チケットのUUID',
+        format: 'uuid',
+      },
+    ],
+  },
+  {
     operationId: 'approveTicket',
     summary: 'チケットを承認または確認する',
     pathParams: [
