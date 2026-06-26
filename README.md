@@ -178,6 +178,22 @@ npm run dev
 
 _(開発時も `KICKFLOW_ACCESS_TOKEN` 環境変数の設定が必要です)_
 
+#### 環境変数による設定
+
+接続先や送信ヘッダーは、必要に応じて環境変数で変更できます（いずれも任意）。
+
+| 環境変数                       | 説明                                                             |
+| ------------------------------ | ---------------------------------------------------------------- |
+| `KICKFLOW_API_BASE_URL`        | 接続先のベースURL。未指定時は `https://api.kickflow.com`         |
+| `KICKFLOW_ACCESS_TOKEN_HEADER` | アクセストークンを送信するヘッダー名。未指定時は `Authorization` |
+| `KICKFLOW_API_HEADERS`         | 全リクエストに付与する追加ヘッダー（JSON形式の文字列）           |
+
+```bash
+KICKFLOW_API_HEADERS='{"X-Example-Header":"value"}' \
+KICKFLOW_ACCESS_TOKEN=your-token \
+npm run dev
+```
+
 #### テストの実行
 
 ```bash
