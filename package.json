@@ -45,13 +45,13 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
-    "axios": "1.18.0",
+    "axios": "1.18.1",
     "zod": "4.4.3"
   },
   "devDependencies": {
     "@types/node": "22.20.0",
     "axios-mock-adapter": "2.1.0",
-    "orval": "8.18.0",
+    "orval": "8.19.0",
     "tsx": "4.22.4",
     "typescript": "5.9.3",
     "yaml": "2.9.0",
