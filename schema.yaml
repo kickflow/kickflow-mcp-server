@@ -5746,10 +5746,13 @@ paths:
 
         注意：アップロードしたファイルはすみやかにチケット作成などで使用してください。チケットなどから参照されていないファイルは最短24時間経過後に自動的に削除されます。
       requestBody:
+        required: true
         content:
           multipart/form-data:
             schema:
               type: object
+              required:
+                - file
               properties:
                 file:
                   type: string
@@ -7322,6 +7325,9 @@ components:
           description: 明細フィールド。フォームセクションには含まれません。
           items:
             $ref: '#/components/schemas/SlipFieldDetail'
+        allowApproverToAddItems:
+          type: boolean
+          description: 承認者が当該明細セクションに行を追加できるか。明細セクションのみに含まれます。
       required:
         - sectionType
         - title

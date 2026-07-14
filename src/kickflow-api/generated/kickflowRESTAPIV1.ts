@@ -1802,13 +1802,11 @@ export const getKickflowRESTAPIV1 = () => {
    * @summary 添付ファイルをアップロード
    */
   const uploadFile = (
-    uploadFileBody?: BodyType<UploadFileBody>,
+    uploadFileBody: BodyType<UploadFileBody>,
     options?: SecondParameter<typeof customAxiosInstance<UploadFile200>>,
   ) => {
     const formData = new FormData()
-    if (uploadFileBody?.file !== undefined) {
-      formData.append(`file`, uploadFileBody.file)
-    }
+    formData.append(`file`, uploadFileBody.file)
 
     return customAxiosInstance<UploadFile200>(
       {

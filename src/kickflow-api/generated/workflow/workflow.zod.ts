@@ -2230,6 +2230,12 @@ export const GetWorkflowResponse = zod
                 .describe(
                   '明細フィールド。フォームセクションには含まれません。',
                 ),
+              allowApproverToAddItems: zod
+                .boolean()
+                .optional()
+                .describe(
+                  '承認者が当該明細セクションに行を追加できるか。明細セクションのみに含まれます。',
+                ),
             })
             .describe('明細セクションまたはフォームセクション'),
         )
