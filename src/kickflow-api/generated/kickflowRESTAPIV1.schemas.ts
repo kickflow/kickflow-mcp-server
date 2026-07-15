@@ -1357,6 +1357,8 @@ export interface SectionListItem {
   combinationExpression?: string | null
   /** 明細フィールド。フォームセクションには含まれません。 */
   slipFields?: SlipFieldDetail[]
+  /** 承認者が当該明細セクションに行を追加できるか。明細セクションのみに含まれます。 */
+  allowApproverToAddItems?: boolean
 }
 
 /**
@@ -3762,7 +3764,7 @@ export type CreateProxyApproverBody = {
 
 export type UploadFileBody = {
   /** 添付ファイル */
-  file?: Blob
+  file: Blob
 }
 
 export type UploadFile200 = {
