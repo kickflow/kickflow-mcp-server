@@ -3046,7 +3046,7 @@ paths:
                       - inputs
                 inputs:
                   type: array
-                  description: フォームの入力の配列。ワークフローのすべてのフォームフィールドに対応する入力を入れてください。
+                  description: フォームの入力の配列。ワークフローのすべてのフォームフィールドに対応する入力を入れてください。フォームフィールドが存在しないワークフロー（明細セクションのみ）の場合は省略可能です。それ以外のワークフローでは必須です。
                   items:
                     type: object
                     description: フォームの入力
@@ -3165,7 +3165,6 @@ paths:
                 - status
                 - workflowId
                 - authorTeamId
-                - inputs
   /v1/tickets/tasks:
     get:
       summary: 承認リクエスト一覧を取得
