@@ -3134,8 +3134,8 @@ export type CreateTicketBody = {
   title?: string | null
   /** 明細アイテムの配列。明細ワークフローの場合、このフィールドは必須です。 */
   slipItems?: CreateTicketBodySlipItemsItem[]
-  /** フォームの入力の配列。ワークフローのすべてのフォームフィールドに対応する入力を入れてください。 */
-  inputs: CreateTicketBodyInputsItem[]
+  /** フォームの入力の配列。ワークフローのすべてのフォームフィールドに対応する入力を入れてください。フォームフィールドが存在しないワークフロー（明細セクションのみ）の場合は省略可能です。それ以外のワークフローでは必須です。 */
+  inputs?: CreateTicketBodyInputsItem[]
   /** クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。 */
   cloudSignDocument?: CreateTicketBodyCloudSignDocument
   /**
