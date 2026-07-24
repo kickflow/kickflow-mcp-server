@@ -57,5 +57,5 @@
     "yaml": "2.9.0",
     "vite-plus": "0.2.5"
   },
-  "packageManager": "npm@11.18.0"
+  "packageManager": "npm@12.0.1"
 }
