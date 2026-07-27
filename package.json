@@ -55,7 +55,7 @@
     "tsx": "4.23.0",
     "typescript": "5.9.3",
     "yaml": "2.9.0",
-    "vite-plus": "0.2.4"
+    "vite-plus": "0.2.5"
   },
   "packageManager": "npm@11.18.0"
 }
