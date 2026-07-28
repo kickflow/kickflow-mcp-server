@@ -2769,6 +2769,7 @@ paths:
           description: 申請者のUUID
         - schema:
             type: string
+            maxLength: 300
           in: query
           name: authorTeamFullName
           description: 申請時に選択したチームの上位組織を含む名前
@@ -2876,6 +2877,7 @@ paths:
           description: 承認者の状態。assigneeUserIdとセットで指定してください。
         - schema:
             type: string
+            maxLength: 300
           in: query
           name: stepTitle
           description: 現在の承認ステップ名
@@ -3261,6 +3263,7 @@ paths:
           description: 申請者のUUID
         - schema:
             type: string
+            maxLength: 300
           in: query
           name: authorTeamFullName
           description: 申請時に選択したチームの上位組織を含む名前
@@ -3343,6 +3346,7 @@ paths:
           description: アーカイブ日時の終点
         - schema:
             type: string
+            maxLength: 300
           in: query
           name: stepTitle
           description: 現在の承認ステップ名
@@ -4659,6 +4663,36 @@ paths:
                   maxItems: 5
                   items:
                     $ref: '#/components/schemas/InviteMembershipBody'
+                customFields:
+                  type: array
+                  description: |
+                    ユーザーカスタムフィールドの値の一覧。各要素は { code, value }。
+                    code は UserCustomField#code を指定します。
+                    value は fieldType に応じた値 (string / number / string[] / null)。
+                    value に null を指定すると、そのフィールドの値をクリアします。
+                    このパラメータは、エンタープライズ/トライアル契約テナントでのみ有効です。
+                  items:
+                    type: object
+                    required:
+                      - code
+                      - value
+                    properties:
+                      code:
+                        type: string
+                        description: UserCustomField#code
+                      value:
+                        description: |
+                          fieldType に応じた値。number / integer は文字列で送信する
+                          (JSON 数値も互換のため許容するが、保存時に文字列へ正規化される)。
+                          number / integer では桁区切りのカンマは使用できず、通常表記の数値文字列のみ受け付ける (指定した場合は 422)。
+                          null でクリア。
+                        anyOf:
+                          - type: string
+                          - type: number
+                          - type: array
+                            items:
+                              type: string
+                          - type: 'null'
               required:
                 - email
                 - code
@@ -4807,6 +4841,36 @@ paths:
                     - 'null'
                   description: 社員番号
                   maxLength: 30
+                customFields:
+                  type: array
+                  description: |
+                    ユーザーカスタムフィールドの値の一覧。各要素は { code, value }。
+                    code は UserCustomField#code を指定します。
+                    value は fieldType に応じた値 (string / number / string[] / null)。
+                    value に null を指定すると、そのフィールドの値をクリアします。
+                    このパラメータは、エンタープライズ/トライアル契約テナントでのみ有効です。
+                  items:
+                    type: object
+                    required:
+                      - code
+                      - value
+                    properties:
+                      code:
+                        type: string
+                        description: UserCustomField#code
+                      value:
+                        description: |
+                          fieldType に応じた値。number / integer は文字列で送信する
+                          (JSON 数値も互換のため許容するが、保存時に文字列へ正規化される)。
+                          number / integer では桁区切りのカンマは使用できず、通常表記の数値文字列のみ受け付ける (指定した場合は 422)。
+                          null でクリア。
+                        anyOf:
+                          - type: string
+                          - type: number
+                          - type: array
+                            items:
+                              type: string
+                          - type: 'null'
       tags:
         - ユーザー
       description: |-
@@ -6183,6 +6247,53 @@ components:
             - 'null'
           format: date-time
           description: 削除日時
+        customFields:
+          type: array
+          description: |
+            ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。
+            code は UserCustomField#code を変換せずそのまま持つ。
+            fieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。
+            value は fieldType に応じた型 (string / number / string[] / null)。
+            number / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。
+            値がセットされているフィールドのみを含む。
+            エンタープライズ/トライアル契約テナントでのみ含まれる。
+            ユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。
+            ロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。
+          items:
+            type: object
+            required:
+              - code
+              - value
+              - fieldType
+            properties:
+              code:
+                type: string
+                description: UserCustomField#code（変換せずそのまま）
+              fieldType:
+                type:
+                  - string
+                  - 'null'
+                enum:
+                  - text
+                  - textLong
+                  - number
+                  - integer
+                  - checkbox
+                  - pullDown
+                  - date
+                  - null
+                description: ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。
+              value:
+                description: |
+                  fieldType に応じた値。number / integer は新規に保存された値は文字列で返る
+                  (旧仕様で保存された既存データは number で返ることがあるため、利用側は string / number の両方を受け付けて扱うこと)。
+                anyOf:
+                  - type: string
+                  - type: number
+                  - type: array
+                    items:
+                      type: string
+                  - type: 'null'
       required:
         - id
         - email
@@ -7199,6 +7310,52 @@ components:
           description: カテゴリの配列
           items:
             $ref: '#/components/schemas/Category'
+        availableToEveryone:
+          type: boolean
+          description: 全ユーザーが申請可能な場合true
+        reportFormats:
+          type: array
+          description: 帳票のフォーマット
+          items:
+            type: string
+            enum:
+              - pdf
+              - excel
+        hiddenOnWorkflowFilterForTicket:
+          type: boolean
+          description: チケット検索のワークフローフィルタに表示しない場合true
+        hiddenOnWorkflowSelectionScreen:
+          type: boolean
+          description: ワークフロー選択画面に表示しない場合true
+        approvalCancellable:
+          type: boolean
+          description: 承認の取り消しが可能な場合true
+        reportFileNameFormat:
+          type:
+            - string
+            - 'null'
+          description: 帳票のファイル名フォーマット
+        current:
+          type: boolean
+          description: 現在のバージョンの場合true
+        notes:
+          type:
+            - string
+            - 'null'
+          description: 管理用メモ
+        versionCreatedAt:
+          type: string
+          format: date-time
+          description: バージョンの作成日時
+        collectEmailOnExternalPublish:
+          type: boolean
+          description: 外部公開時にメールアドレスを収集する場合true
+        notifyGuestOnCompletion:
+          type: boolean
+          description: 外部ゲストに申請結果（完了/却下）を通知する場合true
+        allowCustomSteps:
+          type: boolean
+          description: カスタムステップの追加を許可する場合true
       required:
         - id
         - code
@@ -7221,6 +7378,18 @@ components:
         - versionAuthor
         - folder
         - categories
+        - availableToEveryone
+        - reportFormats
+        - hiddenOnWorkflowFilterForTicket
+        - hiddenOnWorkflowSelectionScreen
+        - approvalCancellable
+        - reportFileNameFormat
+        - current
+        - notes
+        - versionCreatedAt
+        - collectEmailOnExternalPublish
+        - notifyGuestOnCompletion
+        - allowCustomSteps
     WorkflowInTicket:
       title: WorkflowInTicket
       x-tags:
@@ -7319,6 +7488,11 @@ components:
             - string
             - 'null'
           description: 高度な条件式
+        conditionFields:
+          type: array
+          description: フォームセクションの表示条件。明細セクションには含まれません。
+          items:
+            $ref: '#/components/schemas/SectionConditionField'
         slipFields:
           type: array
           description: 明細フィールド。フォームセクションには含まれません。
@@ -7331,6 +7505,65 @@ components:
         - sectionType
         - title
         - description
+    SectionConditionField:
+      title: SectionConditionField
+      type: object
+      x-tags:
+        - workflows
+      description: フォームセクションの表示条件
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        symbol:
+          type: string
+          description: 演算子
+          enum:
+            - equal
+            - not_equal
+            - greater_than
+            - greater_than_or_equal
+            - less_than
+            - less_than_or_equal
+            - include
+            - exclude
+            - is_empty
+            - is_not_empty
+            - descendants_or_equal
+        value:
+          type:
+            - string
+            - 'null'
+          description: しきい値
+        formField:
+          anyOf:
+            - $ref: '#/components/schemas/FormField'
+            - type: 'null'
+          description: 条件対象のフォームフィールド
+        grade:
+          anyOf:
+            - $ref: '#/components/schemas/Grade'
+            - type: 'null'
+          description: しきい値として使う役職
+        team:
+          anyOf:
+            - $ref: '#/components/schemas/Team'
+            - type: 'null'
+          description: しきい値として使うチーム
+        generalMasterItem:
+          anyOf:
+            - $ref: '#/components/schemas/GeneralMasterItem'
+            - type: 'null'
+          description: しきい値として使う汎用マスタアイテム
+      required:
+        - id
+        - symbol
+        - value
+        - formField
+        - grade
+        - team
+        - generalMasterItem
     FormField:
       title: FormField
       type: object
@@ -7470,6 +7703,15 @@ components:
           description: |-
             trueの時、申請者・承認者が画面上から値を入力することを禁止します。
             外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
+        orientation:
+          type: string
+          description: |-
+            チェックボックス等の選択肢の並び方向。
+            vertical=縦に並べる、horizontal=横に並べて折り返す。
+            選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。
+          enum:
+            - vertical
+            - horizontal
       required:
         - id
         - title
@@ -7491,6 +7733,7 @@ components:
         - delimited
         - prefix
         - suffix
+        - orientation
     FormFieldDetail:
       title: FormFieldDetail
       x-tags:
@@ -7532,6 +7775,42 @@ components:
               items:
                 $ref: '#/components/schemas/GeneralMasterSearchFilter'
               description: 汎用マスタ型フィールドの自動絞り込みの設定
+            allowedExtensions:
+              type:
+                - array
+                - 'null'
+              description: |-
+                添付可能な拡張子リスト。fieldTypeがfileのときのみ値が入ります。
+                古いフィールドではnullを返す場合があります。
+              items:
+                type: string
+            multiple:
+              type: boolean
+              description: 複数選択を許可するかどうか
+            autoLink:
+              type: boolean
+              description: チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか
+            useTodayForDefaultValue:
+              type: boolean
+              description: 日付型フィールドで、当日の日付を初期値にするかどうか
+            allowedTicketStatus:
+              type: array
+              description: チケット型フィールドで、選択可能なチケットのステータス
+              items:
+                type: string
+                enum:
+                  - draft
+                  - in_progress
+                  - completed
+                  - rejected
+                  - archived
+                  - denied
+          required:
+            - allowedExtensions
+            - multiple
+            - autoLink
+            - useTodayForDefaultValue
+            - allowedTicketStatus
     ExternalApiSetting:
       title: ExternalApiSetting
       type: object
@@ -7798,6 +8077,44 @@ components:
                 - $ref: '#/components/schemas/GeneralMasterItem'
                 - type: 'null'
               description: 汎用マスタアイテムの初期値
+            minLength:
+              type:
+                - number
+                - 'null'
+              description: 最小文字数
+              minimum: 0
+            maxLength:
+              type:
+                - number
+                - 'null'
+              description: 最大文字数
+              minimum: 0
+            multiple:
+              type: boolean
+              description: 複数選択を許可するかどうか
+            autoLink:
+              type: boolean
+              description: チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか
+            useTodayForDefaultValue:
+              type: boolean
+              description: 日付型フィールドで、当日の日付を初期値にするかどうか
+            allowedTicketStatus:
+              type: array
+              description: チケット型フィールドで、選択可能なチケットのステータス
+              items:
+                type: string
+                enum:
+                  - draft
+                  - in_progress
+                  - completed
+                  - rejected
+                  - archived
+                  - denied
+          required:
+            - multiple
+            - autoLink
+            - useTodayForDefaultValue
+            - allowedTicketStatus
     WorkflowRouteCondition:
       title: WorkflowRouteCondition
       type: object
@@ -8325,6 +8642,33 @@ components:
           uniqueItems: true
           items:
             $ref: '#/components/schemas/Label'
+        authorTeamId:
+          type:
+            - string
+            - 'null'
+          description: 申請者の所属チームのID。外部ゲストの場合や所属チームがない場合はnullになります。
+          format: uuid
+        commentsCount:
+          type: integer
+          description: コメント数
+        logsCount:
+          type: integer
+          description: ログ数
+        linkedTicketsCount:
+          type: integer
+          description: 関連チケット数
+        closedAt:
+          type:
+            - string
+            - 'null'
+          description: クローズ日時。完了日時またはアーカイブ日時が入ります。どちらもない場合はnullになります。
+          format: date-time
+        deniedAt:
+          type:
+            - string
+            - 'null'
+          description: 申請拒否日時
+          format: date-time
       required:
         - id
         - ticketNumber
@@ -8341,6 +8685,12 @@ components:
         - forcedPublicType
         - workflow
         - labels
+        - authorTeamId
+        - commentsCount
+        - logsCount
+        - linkedTicketsCount
+        - closedAt
+        - deniedAt
     TicketWithStep:
       allOf:
         - $ref: '#/components/schemas/Ticket'
@@ -8452,6 +8802,11 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/TicketStep'
+            customNumberingValues:
+              description: チケットに割り当てられたカスタム採番の値の配列
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomNumberingValue'
           required:
             - authorTeam
             - route
@@ -8728,6 +9083,10 @@ components:
         id:
           type: string
           description: UUID
+        formFieldId:
+          type: string
+          format: uuid
+          description: フォームフィールドのUUID
         value:
           description: |-
             入力値
@@ -8775,6 +9134,7 @@ components:
             $ref: '#/components/schemas/Attachment'
       required:
         - id
+        - formFieldId
         - value
     TicketSection:
       title: TicketSection
@@ -8783,6 +9143,10 @@ components:
         - tickets
       description: チケットのセクション
       properties:
+        id:
+          type: string
+          description: チケットセクションID
+          format: uuid
         sectionId:
           type: string
           description: ワークフローのセクションID
@@ -8790,14 +9154,31 @@ components:
         visible:
           type: boolean
           description: セクションの表示状態
+        viewRestriction:
+          type: boolean
+          description: セクションの閲覧を制限するか
+        allowViewAuthor:
+          type: boolean
+          description: 申請者に閲覧を許可するか
+        allowViewApprover:
+          type: boolean
+          description: 承認者に閲覧を許可するか
+        viewable:
+          type: boolean
+          description: 閲覧可能かどうか
         inputs:
           type: array
           description: このセクションの入力の配列
           items:
             $ref: '#/components/schemas/TicketInput'
       required:
+        - id
         - sectionId
         - visible
+        - viewRestriction
+        - allowViewAuthor
+        - allowViewApprover
+        - viewable
         - inputs
     TicketStep:
       title: TicketStep
@@ -8871,6 +9252,23 @@ components:
             - 'null'
           description: ステップが完了した日時。過去のデータではnullを返します。
           format: date-time
+        instruction:
+          type:
+            - string
+            - 'null'
+          description: 承認者への指示メッセージ
+        displayOrder:
+          type: integer
+          description: ステップの表示順序
+        status:
+          type: string
+          description: ステップのステータス。承認前の場合pending、進行中の場合in_progress、完了した場合completed、スキップされた場合skipped、引き上げられた場合raisedになります。
+          enum:
+            - pending
+            - in_progress
+            - completed
+            - skipped
+            - raised
       required:
         - id
         - routeStepId
@@ -8886,6 +9284,9 @@ components:
         - assignees
         - completed
         - completedAt
+        - instruction
+        - displayOrder
+        - status
     TicketAssignee:
       title: TicketAssignee
       type: object
@@ -8916,6 +9317,20 @@ components:
           description: 承認を保留中の場合true
         user:
           $ref: '#/components/schemas/User'
+        proxyUserIds:
+          type: array
+          description: 代理承認者のユーザーID（UUID）の配列。代理承認者がいない場合は空配列を返します。
+          items:
+            type: string
+            format: uuid
+        actualApprover:
+          anyOf:
+            - $ref: '#/components/schemas/User'
+            - type: 'null'
+          description: |-
+            実際に承認操作を行ったユーザー。代理承認の場合は代理人が入ります。
+            承認完了時のみ設定され、それ以外はnullを返します。
+            チケット詳細を返すAPIにのみ含まれ、一覧系API（チケット一覧・タスク一覧）のレスポンスには含まれません。
       required:
         - id
         - stepOrder
@@ -8924,6 +9339,60 @@ components:
         - completedAt
         - pending
         - user
+        - proxyUserIds
+    CustomNumberingValue:
+      title: CustomNumberingValue
+      type: object
+      x-tags:
+        - tickets
+      description: チケットに割り当てられたカスタム採番の値
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        formattedNumber:
+          type: string
+          description: フォーマットを適用したカスタム採番の値
+        customNumbering:
+          description: カスタム採番
+          $ref: '#/components/schemas/CustomNumbering'
+      required:
+        - id
+        - formattedNumber
+        - customNumbering
+    CustomNumbering:
+      title: CustomNumbering
+      type: object
+      x-tags:
+        - tickets
+      description: カスタム採番
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        code:
+          type: string
+          description: カスタム採番のコード
+        name:
+          type: string
+          description: カスタム採番の名前
+        value:
+          type: integer
+          description: 次に採番される番号
+        ticketNumberKeyId:
+          description: 採番グループ（チケット番号キー）のID。採番グループを使用しない場合はnullになります。
+          type:
+            - string
+            - 'null'
+          format: uuid
+      required:
+        - id
+        - code
+        - name
+        - value
+        - ticketNumberKeyId
     Attachment:
       title: Attachment
       type: object

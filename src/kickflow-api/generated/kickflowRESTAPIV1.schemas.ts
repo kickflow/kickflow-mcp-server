@@ -108,6 +108,39 @@ export const UserStatus = {
 } as const
 
 /**
+ * ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。
+ * @nullable
+ */
+export type UserCustomFieldsItemFieldType =
+  | (typeof UserCustomFieldsItemFieldType)[keyof typeof UserCustomFieldsItemFieldType]
+  | null
+
+export const UserCustomFieldsItemFieldType = {
+  text: 'text',
+  textLong: 'textLong',
+  number: 'number',
+  integer: 'integer',
+  checkbox: 'checkbox',
+  pullDown: 'pullDown',
+  date: 'date',
+} as const
+
+export type UserCustomFieldsItem = {
+  /** UserCustomField#code（変換せずそのまま） */
+  code: string
+  /**
+   * ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。
+   * @nullable
+   */
+  fieldType: UserCustomFieldsItemFieldType
+  /**
+   * fieldType に応じた値。number / integer は新規に保存された値は文字列で返る
+   * (旧仕様で保存された既存データは number で返ることがあるため、利用側は string / number の両方を受け付けて扱うこと)。
+   */
+  value: string | number | string[] | null
+}
+
+/**
  * ユーザー
  */
 export interface User {
@@ -159,6 +192,18 @@ export interface User {
    * @nullable
    */
   deactivatedAt?: string | null
+  /**
+   * ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。
+   * code は UserCustomField#code を変換せずそのまま持つ。
+   * fieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。
+   * value は fieldType に応じた型 (string / number / string[] / null)。
+   * number / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。
+   * 値がセットされているフィールドのみを含む。
+   * エンタープライズ/トライアル契約テナントでのみ含まれる。
+   * ユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。
+   * ロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。
+   */
+  customFields?: UserCustomFieldsItem[]
 }
 
 /**
@@ -261,6 +306,14 @@ export interface Category {
   updatedAt: string
 }
 
+export type WorkflowReportFormatsItem =
+  (typeof WorkflowReportFormatsItem)[keyof typeof WorkflowReportFormatsItem]
+
+export const WorkflowReportFormatsItem = {
+  pdf: 'pdf',
+  excel: 'excel',
+} as const
+
 /**
  * ワークフロー
  */
@@ -323,6 +376,36 @@ export interface Workflow {
   folder: Folder
   /** カテゴリの配列 */
   categories: Category[]
+  /** 全ユーザーが申請可能な場合true */
+  availableToEveryone: boolean
+  /** 帳票のフォーマット */
+  reportFormats: WorkflowReportFormatsItem[]
+  /** チケット検索のワークフローフィルタに表示しない場合true */
+  hiddenOnWorkflowFilterForTicket: boolean
+  /** ワークフロー選択画面に表示しない場合true */
+  hiddenOnWorkflowSelectionScreen: boolean
+  /** 承認の取り消しが可能な場合true */
+  approvalCancellable: boolean
+  /**
+   * 帳票のファイル名フォーマット
+   * @nullable
+   */
+  reportFileNameFormat: string | null
+  /** 現在のバージョンの場合true */
+  current: boolean
+  /**
+   * 管理用メモ
+   * @nullable
+   */
+  notes: string | null
+  /** バージョンの作成日時 */
+  versionCreatedAt: string
+  /** 外部公開時にメールアドレスを収集する場合true */
+  collectEmailOnExternalPublish: boolean
+  /** 外部ゲストに申請結果（完了/却下）を通知する場合true */
+  notifyGuestOnCompletion: boolean
+  /** カスタムステップの追加を許可する場合true */
+  allowCustomSteps: boolean
 }
 
 /**
@@ -926,6 +1009,19 @@ export const FormFieldSize = {
 } as const
 
 /**
+ * チェックボックス等の選択肢の並び方向。
+ * vertical=縦に並べる、horizontal=横に並べて折り返す。
+ * 選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。
+ */
+export type FormFieldOrientation =
+  (typeof FormFieldOrientation)[keyof typeof FormFieldOrientation]
+
+export const FormFieldOrientation = {
+  vertical: 'vertical',
+  horizontal: 'horizontal',
+} as const
+
+/**
  * フォームフィールド
  */
 export interface FormField {
@@ -1032,6 +1128,12 @@ export interface FormField {
    * @nullable
    */
   readonlyOnUi?: boolean | null
+  /**
+   * チェックボックス等の選択肢の並び方向。
+   * vertical=縦に並べる、horizontal=横に並べて折り返す。
+   * 選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。
+   */
+  orientation: FormFieldOrientation
 }
 
 /**
@@ -1178,6 +1280,18 @@ export interface GeneralMasterSearchFilter {
   generalMasterFieldId: string | null
 }
 
+export type FormFieldDetailAllowedTicketStatusItem =
+  (typeof FormFieldDetailAllowedTicketStatusItem)[keyof typeof FormFieldDetailAllowedTicketStatusItem]
+
+export const FormFieldDetailAllowedTicketStatusItem = {
+  draft: 'draft',
+  in_progress: 'in_progress',
+  completed: 'completed',
+  rejected: 'rejected',
+  archived: 'archived',
+  denied: 'denied',
+} as const
+
 /**
  * フォームフィールドの詳細
  */
@@ -1197,6 +1311,20 @@ export type FormFieldDetail = FormField & {
    * @nullable
    */
   generalMasterSearchFilters?: GeneralMasterSearchFilter[] | null
+  /**
+   * 添付可能な拡張子リスト。fieldTypeがfileのときのみ値が入ります。
+   * 古いフィールドではnullを返す場合があります。
+   * @nullable
+   */
+  allowedExtensions: string[] | null
+  /** 複数選択を許可するかどうか */
+  multiple: boolean
+  /** チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか */
+  autoLink: boolean
+  /** 日付型フィールドで、当日の日付を初期値にするかどうか */
+  useTodayForDefaultValue: boolean
+  /** チケット型フィールドで、選択可能なチケットのステータス */
+  allowedTicketStatus: FormFieldDetailAllowedTicketStatusItem[]
 }
 
 /**
@@ -1210,6 +1338,49 @@ export const SectionListItemCombinationType = {
   any: 'any',
   custom: 'custom',
 } as const
+
+/**
+ * 演算子
+ */
+export type SectionConditionFieldSymbol =
+  (typeof SectionConditionFieldSymbol)[keyof typeof SectionConditionFieldSymbol]
+
+export const SectionConditionFieldSymbol = {
+  equal: 'equal',
+  not_equal: 'not_equal',
+  greater_than: 'greater_than',
+  greater_than_or_equal: 'greater_than_or_equal',
+  less_than: 'less_than',
+  less_than_or_equal: 'less_than_or_equal',
+  include: 'include',
+  exclude: 'exclude',
+  is_empty: 'is_empty',
+  is_not_empty: 'is_not_empty',
+  descendants_or_equal: 'descendants_or_equal',
+} as const
+
+/**
+ * フォームセクションの表示条件
+ */
+export interface SectionConditionField {
+  /** UUID */
+  id: string
+  /** 演算子 */
+  symbol: SectionConditionFieldSymbol
+  /**
+   * しきい値
+   * @nullable
+   */
+  value: string | null
+  /** 条件対象のフォームフィールド */
+  formField: FormField | null
+  /** しきい値として使う役職 */
+  grade: Grade | null
+  /** しきい値として使うチーム */
+  team: Team | null
+  /** しきい値として使う汎用マスタアイテム */
+  generalMasterItem: GeneralMasterItem | null
+}
 
 /**
  * フィールドの型
@@ -1315,6 +1486,18 @@ export interface SlipField {
   readonlyOnUi?: boolean | null
 }
 
+export type SlipFieldDetailAllowedTicketStatusItem =
+  (typeof SlipFieldDetailAllowedTicketStatusItem)[keyof typeof SlipFieldDetailAllowedTicketStatusItem]
+
+export const SlipFieldDetailAllowedTicketStatusItem = {
+  draft: 'draft',
+  in_progress: 'in_progress',
+  completed: 'completed',
+  rejected: 'rejected',
+  archived: 'archived',
+  denied: 'denied',
+} as const
+
 /**
  * 明細フィールドの詳細
  */
@@ -1323,6 +1506,26 @@ export type SlipFieldDetail = SlipField & {
   generalMaster?: GeneralMaster | null
   /** 汎用マスタアイテムの初期値 */
   defaultGeneralMasterItem?: GeneralMasterItem | null
+  /**
+   * 最小文字数
+   * @minimum 0
+   * @nullable
+   */
+  minLength?: number | null
+  /**
+   * 最大文字数
+   * @minimum 0
+   * @nullable
+   */
+  maxLength?: number | null
+  /** 複数選択を許可するかどうか */
+  multiple: boolean
+  /** チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか */
+  autoLink: boolean
+  /** 日付型フィールドで、当日の日付を初期値にするかどうか */
+  useTodayForDefaultValue: boolean
+  /** チケット型フィールドで、選択可能なチケットのステータス */
+  allowedTicketStatus: SlipFieldDetailAllowedTicketStatusItem[]
 }
 
 /**
@@ -1355,6 +1558,8 @@ export interface SectionListItem {
    * @nullable
    */
   combinationExpression?: string | null
+  /** フォームセクションの表示条件。明細セクションには含まれません。 */
+  conditionFields?: SectionConditionField[]
   /** 明細フィールド。フォームセクションには含まれません。 */
   slipFields?: SlipFieldDetail[]
   /** 承認者が当該明細セクションに行を追加できるか。明細セクションのみに含まれます。 */
@@ -1880,6 +2085,27 @@ export interface Ticket {
   workflow: Workflow | WorkflowInTicket
   /** チケットのラベルの配列 */
   labels: Label[]
+  /**
+   * 申請者の所属チームのID。外部ゲストの場合や所属チームがない場合はnullになります。
+   * @nullable
+   */
+  authorTeamId: string | null
+  /** コメント数 */
+  commentsCount: number
+  /** ログ数 */
+  logsCount: number
+  /** 関連チケット数 */
+  linkedTicketsCount: number
+  /**
+   * クローズ日時。完了日時またはアーカイブ日時が入ります。どちらもない場合はnullになります。
+   * @nullable
+   */
+  closedAt: string | null
+  /**
+   * 申請拒否日時
+   * @nullable
+   */
+  deniedAt: string | null
 }
 
 /**
@@ -1929,7 +2155,29 @@ export interface TicketAssignee {
   /** 承認を保留中の場合true */
   pending: boolean
   user: User
+  /** 代理承認者のユーザーID（UUID）の配列。代理承認者がいない場合は空配列を返します。 */
+  proxyUserIds: string[]
+  /**
+   * 実際に承認操作を行ったユーザー。代理承認の場合は代理人が入ります。
+   * 承認完了時のみ設定され、それ以外はnullを返します。
+   * チケット詳細を返すAPIにのみ含まれ、一覧系API（チケット一覧・タスク一覧）のレスポンスには含まれません。
+   */
+  actualApprover?: User | null
 }
+
+/**
+ * ステップのステータス。承認前の場合pending、進行中の場合in_progress、完了した場合completed、スキップされた場合skipped、引き上げられた場合raisedになります。
+ */
+export type TicketStepStatus =
+  (typeof TicketStepStatus)[keyof typeof TicketStepStatus]
+
+export const TicketStepStatus = {
+  pending: 'pending',
+  in_progress: 'in_progress',
+  completed: 'completed',
+  skipped: 'skipped',
+  raised: 'raised',
+} as const
 
 /**
  * チケット承認ステップ
@@ -1972,6 +2220,15 @@ export interface TicketStep {
    * @nullable
    */
   completedAt: string | null
+  /**
+   * 承認者への指示メッセージ
+   * @nullable
+   */
+  instruction: string | null
+  /** ステップの表示順序 */
+  displayOrder: number
+  /** ステップのステータス。承認前の場合pending、進行中の場合in_progress、完了した場合completed、スキップされた場合skipped、引き上げられた場合raisedになります。 */
+  status: TicketStepStatus
 }
 
 export type TicketWithStep = Ticket & {
@@ -2084,6 +2341,8 @@ export interface SlipItem {
 export interface TicketInput {
   /** UUID */
   id: string
+  /** フォームフィールドのUUID */
+  formFieldId: string
   /**
    * 入力値
    * フィールドの型が汎用マスタアイテム、ユーザー、チーム、チケットの場合、JSON Arrayがキャッシュとして保存されます。
@@ -2106,12 +2365,53 @@ export interface TicketInput {
  * チケットのセクション
  */
 export interface TicketSection {
+  /** チケットセクションID */
+  id: string
   /** ワークフローのセクションID */
   sectionId: string
   /** セクションの表示状態 */
   visible: boolean
+  /** セクションの閲覧を制限するか */
+  viewRestriction: boolean
+  /** 申請者に閲覧を許可するか */
+  allowViewAuthor: boolean
+  /** 承認者に閲覧を許可するか */
+  allowViewApprover: boolean
+  /** 閲覧可能かどうか */
+  viewable: boolean
   /** このセクションの入力の配列 */
   inputs: TicketInput[]
+}
+
+/**
+ * カスタム採番
+ */
+export interface CustomNumbering {
+  /** UUID */
+  id: string
+  /** カスタム採番のコード */
+  code: string
+  /** カスタム採番の名前 */
+  name: string
+  /** 次に採番される番号 */
+  value: number
+  /**
+   * 採番グループ（チケット番号キー）のID。採番グループを使用しない場合はnullになります。
+   * @nullable
+   */
+  ticketNumberKeyId: string | null
+}
+
+/**
+ * チケットに割り当てられたカスタム採番の値
+ */
+export interface CustomNumberingValue {
+  /** UUID */
+  id: string
+  /** フォーマットを適用したカスタム採番の値 */
+  formattedNumber: string
+  /** カスタム採番 */
+  customNumbering: CustomNumbering
 }
 
 /**
@@ -2136,6 +2436,8 @@ export type TicketDetail = Ticket & {
   cloudSignDocument: TicketDetailCloudSignDocument
   /** チケットのステップ */
   steps: TicketStep[]
+  /** チケットに割り当てられたカスタム採番の値の配列 */
+  customNumberingValues?: CustomNumberingValue[]
 }
 
 /**
@@ -2934,6 +3236,7 @@ export type ListTicketsParams = {
   authorId?: string
   /**
    * 申請時に選択したチームの上位組織を含む名前
+   * @maxLength 300
    */
   authorTeamFullName?: string
   /**
@@ -2990,6 +3293,7 @@ export type ListTicketsParams = {
   assigneeStatus?: ListTicketsAssigneeStatusItem[]
   /**
    * 現在の承認ステップ名
+   * @maxLength 300
    */
   stepTitle?: string
 }
@@ -3180,6 +3484,7 @@ export type ListTasksParams = {
   authorId?: string
   /**
    * 申請時に選択したチームの上位組織を含む名前
+   * @maxLength 300
    */
   authorTeamFullName?: string
   /**
@@ -3236,6 +3541,7 @@ export type ListTasksParams = {
   archivedAtEnd?: string
   /**
    * 現在の承認ステップ名
+   * @maxLength 300
    */
   stepTitle?: string
   /**
@@ -3529,6 +3835,18 @@ export const ListUsersStatusItem = {
   deactivated: 'deactivated',
 } as const
 
+export type CreateUserBodyCustomFieldsItem = {
+  /** UserCustomField#code */
+  code: string
+  /**
+   * fieldType に応じた値。number / integer は文字列で送信する
+   * (JSON 数値も互換のため許容するが、保存時に文字列へ正規化される)。
+   * number / integer では桁区切りのカンマは使用できず、通常表記の数値文字列のみ受け付ける (指定した場合は 422)。
+   * null でクリア。
+   */
+  value: string | number | string[] | null
+}
+
 export type CreateUserBody = {
   /** メールアドレス */
   email: string
@@ -3560,6 +3878,26 @@ export type CreateUserBody = {
    * @maxItems 5
    */
   memberships?: InviteMembershipBody[]
+  /**
+   * ユーザーカスタムフィールドの値の一覧。各要素は { code, value }。
+   * code は UserCustomField#code を指定します。
+   * value は fieldType に応じた値 (string / number / string[] / null)。
+   * value に null を指定すると、そのフィールドの値をクリアします。
+   * このパラメータは、エンタープライズ/トライアル契約テナントでのみ有効です。
+   */
+  customFields?: CreateUserBodyCustomFieldsItem[]
+}
+
+export type UpdateUserBodyCustomFieldsItem = {
+  /** UserCustomField#code */
+  code: string
+  /**
+   * fieldType に応じた値。number / integer は文字列で送信する
+   * (JSON 数値も互換のため許容するが、保存時に文字列へ正規化される)。
+   * number / integer では桁区切りのカンマは使用できず、通常表記の数値文字列のみ受け付ける (指定した場合は 422)。
+   * null でクリア。
+   */
+  value: string | number | string[] | null
 }
 
 export type UpdateUserBody = {
@@ -3589,6 +3927,14 @@ export type UpdateUserBody = {
    * @nullable
    */
   employeeId?: string | null
+  /**
+   * ユーザーカスタムフィールドの値の一覧。各要素は { code, value }。
+   * code は UserCustomField#code を指定します。
+   * value は fieldType に応じた値 (string / number / string[] / null)。
+   * value に null を指定すると、そのフィールドの値をクリアします。
+   * このパラメータは、エンタープライズ/トライアル契約テナントでのみ有効です。
+   */
+  customFields?: UpdateUserBodyCustomFieldsItem[]
 }
 
 export type LookupUserByEmailParams = {
