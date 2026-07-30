@@ -177,6 +177,43 @@ export const ListWorkflowsResponseItem = zod
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            customFields: zod
+              .array(
+                zod.object({
+                  code: zod
+                    .string()
+                    .describe('UserCustomField#code（変換せずそのまま）'),
+                  fieldType: zod
+                    .union([
+                      zod.literal('text'),
+                      zod.literal('textLong'),
+                      zod.literal('number'),
+                      zod.literal('integer'),
+                      zod.literal('checkbox'),
+                      zod.literal('pullDown'),
+                      zod.literal('date'),
+                      zod.literal(null),
+                    ])
+                    .nullable()
+                    .describe(
+                      'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                    ),
+                  value: zod
+                    .union([
+                      zod.string(),
+                      zod.number(),
+                      zod.array(zod.string()),
+                      zod.null(),
+                    ])
+                    .describe(
+                      'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                    ),
+                }),
+              )
+              .optional()
+              .describe(
+                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+              ),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -229,6 +266,43 @@ export const ListWorkflowsResponseItem = zod
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            customFields: zod
+              .array(
+                zod.object({
+                  code: zod
+                    .string()
+                    .describe('UserCustomField#code（変換せずそのまま）'),
+                  fieldType: zod
+                    .union([
+                      zod.literal('text'),
+                      zod.literal('textLong'),
+                      zod.literal('number'),
+                      zod.literal('integer'),
+                      zod.literal('checkbox'),
+                      zod.literal('pullDown'),
+                      zod.literal('date'),
+                      zod.literal(null),
+                    ])
+                    .nullable()
+                    .describe(
+                      'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                    ),
+                  value: zod
+                    .union([
+                      zod.string(),
+                      zod.number(),
+                      zod.array(zod.string()),
+                      zod.null(),
+                    ])
+                    .describe(
+                      'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                    ),
+                }),
+              )
+              .optional()
+              .describe(
+                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+              ),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -278,6 +352,39 @@ export const ListWorkflowsResponseItem = zod
           .describe('カテゴリ'),
       )
       .describe('カテゴリの配列'),
+    availableToEveryone: zod
+      .boolean()
+      .describe('全ユーザーが申請可能な場合true'),
+    reportFormats: zod
+      .array(zod.enum(['pdf', 'excel']))
+      .describe('帳票のフォーマット'),
+    hiddenOnWorkflowFilterForTicket: zod
+      .boolean()
+      .describe('チケット検索のワークフローフィルタに表示しない場合true'),
+    hiddenOnWorkflowSelectionScreen: zod
+      .boolean()
+      .describe('ワークフロー選択画面に表示しない場合true'),
+    approvalCancellable: zod
+      .boolean()
+      .describe('承認の取り消しが可能な場合true'),
+    reportFileNameFormat: zod
+      .string()
+      .nullable()
+      .describe('帳票のファイル名フォーマット'),
+    current: zod.boolean().describe('現在のバージョンの場合true'),
+    notes: zod.string().nullable().describe('管理用メモ'),
+    versionCreatedAt: zod.iso
+      .datetime({ offset: true })
+      .describe('バージョンの作成日時'),
+    collectEmailOnExternalPublish: zod
+      .boolean()
+      .describe('外部公開時にメールアドレスを収集する場合true'),
+    notifyGuestOnCompletion: zod
+      .boolean()
+      .describe('外部ゲストに申請結果（完了\/却下）を通知する場合true'),
+    allowCustomSteps: zod
+      .boolean()
+      .describe('カスタムステップの追加を許可する場合true'),
   })
   .describe('ワークフロー')
 export const ListWorkflowsResponse = zod.array(ListWorkflowsResponseItem)
@@ -414,6 +521,40 @@ export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoClimberClo
 
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoClimberCloudSettingOneMappingsItemFormFieldDecimalDigitMin = 0
 
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneTitleMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneCodeMax = 100
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneMinLengthMin = 0
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneMaxLengthMin = 0
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneDecimalDigitMin = 0
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneNameMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneLevelMin = 0
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneLevelMax = 255
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneCodeMax = 100
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneIsDefaultDefault = false
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemTeamOneNameMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemTeamOneCodeMax = 100
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemTeamOneNotesMax = 10000
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemTeamOneUsersCountMin = 0
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneCodeMax = 100
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneNameMax = 100
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldTitleMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldCodeMax = 100
+
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneCodeMax = 100
 
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneNameMax = 300
@@ -429,6 +570,10 @@ export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoDefaultGen
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoDefaultGeneralMasterItemOneInputsItemFieldTitleMax = 300
 
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoDefaultGeneralMasterItemOneInputsItemFieldCodeMax = 100
+
+export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoMinLengthMin = 0
+
+export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoMaxLengthMin = 0
 
 export const getWorkflowResponseOneTwoTicketViewersItemUserOneEmailMax = 254
 
@@ -624,6 +769,43 @@ export const GetWorkflowResponse = zod
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            customFields: zod
+              .array(
+                zod.object({
+                  code: zod
+                    .string()
+                    .describe('UserCustomField#code（変換せずそのまま）'),
+                  fieldType: zod
+                    .union([
+                      zod.literal('text'),
+                      zod.literal('textLong'),
+                      zod.literal('number'),
+                      zod.literal('integer'),
+                      zod.literal('checkbox'),
+                      zod.literal('pullDown'),
+                      zod.literal('date'),
+                      zod.literal(null),
+                    ])
+                    .nullable()
+                    .describe(
+                      'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                    ),
+                  value: zod
+                    .union([
+                      zod.string(),
+                      zod.number(),
+                      zod.array(zod.string()),
+                      zod.null(),
+                    ])
+                    .describe(
+                      'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                    ),
+                }),
+              )
+              .optional()
+              .describe(
+                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+              ),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -676,6 +858,43 @@ export const GetWorkflowResponse = zod
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            customFields: zod
+              .array(
+                zod.object({
+                  code: zod
+                    .string()
+                    .describe('UserCustomField#code（変換せずそのまま）'),
+                  fieldType: zod
+                    .union([
+                      zod.literal('text'),
+                      zod.literal('textLong'),
+                      zod.literal('number'),
+                      zod.literal('integer'),
+                      zod.literal('checkbox'),
+                      zod.literal('pullDown'),
+                      zod.literal('date'),
+                      zod.literal(null),
+                    ])
+                    .nullable()
+                    .describe(
+                      'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                    ),
+                  value: zod
+                    .union([
+                      zod.string(),
+                      zod.number(),
+                      zod.array(zod.string()),
+                      zod.null(),
+                    ])
+                    .describe(
+                      'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                    ),
+                }),
+              )
+              .optional()
+              .describe(
+                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+              ),
           })
           .describe('ユーザー'),
         zod.null(),
@@ -725,6 +944,39 @@ export const GetWorkflowResponse = zod
           .describe('カテゴリ'),
       )
       .describe('カテゴリの配列'),
+    availableToEveryone: zod
+      .boolean()
+      .describe('全ユーザーが申請可能な場合true'),
+    reportFormats: zod
+      .array(zod.enum(['pdf', 'excel']))
+      .describe('帳票のフォーマット'),
+    hiddenOnWorkflowFilterForTicket: zod
+      .boolean()
+      .describe('チケット検索のワークフローフィルタに表示しない場合true'),
+    hiddenOnWorkflowSelectionScreen: zod
+      .boolean()
+      .describe('ワークフロー選択画面に表示しない場合true'),
+    approvalCancellable: zod
+      .boolean()
+      .describe('承認の取り消しが可能な場合true'),
+    reportFileNameFormat: zod
+      .string()
+      .nullable()
+      .describe('帳票のファイル名フォーマット'),
+    current: zod.boolean().describe('現在のバージョンの場合true'),
+    notes: zod.string().nullable().describe('管理用メモ'),
+    versionCreatedAt: zod.iso
+      .datetime({ offset: true })
+      .describe('バージョンの作成日時'),
+    collectEmailOnExternalPublish: zod
+      .boolean()
+      .describe('外部公開時にメールアドレスを収集する場合true'),
+    notifyGuestOnCompletion: zod
+      .boolean()
+      .describe('外部ゲストに申請結果（完了\/却下）を通知する場合true'),
+    allowCustomSteps: zod
+      .boolean()
+      .describe('カスタムステップの追加を許可する場合true'),
   })
   .describe('ワークフロー')
   .and(
@@ -861,6 +1113,11 @@ export const GetWorkflowResponse = zod
                         .nullish()
                         .describe(
                           'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
+                        ),
+                      orientation: zod
+                        .enum(['vertical', 'horizontal'])
+                        .describe(
+                          'チェックボックス等の選択肢の並び方向。\nvertical=縦に並べる、horizontal=横に並べて折り返す。\n選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。',
                         ),
                     })
                     .describe('フォームフィールド')
@@ -1247,6 +1504,11 @@ export const GetWorkflowResponse = zod
                                             .describe(
                                               'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                                             ),
+                                          orientation: zod
+                                            .enum(['vertical', 'horizontal'])
+                                            .describe(
+                                              'チェックボックス等の選択肢の並び方向。\nvertical=縦に並べる、horizontal=横に並べて折り返す。\n選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。',
+                                            ),
                                         })
                                         .describe('フォームフィールド'),
                                       jsonPath: zod
@@ -1402,6 +1664,11 @@ export const GetWorkflowResponse = zod
                                       .nullish()
                                       .describe(
                                         'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
+                                      ),
+                                    orientation: zod
+                                      .enum(['vertical', 'horizontal'])
+                                      .describe(
+                                        'チェックボックス等の選択肢の並び方向。\nvertical=縦に並べる、horizontal=横に並べて折り返す。\n選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。',
                                       ),
                                   })
                                   .describe('フォームフィールド'),
@@ -1569,6 +1836,11 @@ export const GetWorkflowResponse = zod
                                             .describe(
                                               'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                                             ),
+                                          orientation: zod
+                                            .enum(['vertical', 'horizontal'])
+                                            .describe(
+                                              'チェックボックス等の選択肢の並び方向。\nvertical=縦に並べる、horizontal=横に並べて折り返す。\n選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。',
+                                            ),
                                         })
                                         .describe('フォームフィールド'),
                                     }),
@@ -1716,6 +1988,11 @@ export const GetWorkflowResponse = zod
                                       .describe(
                                         'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                                       ),
+                                    orientation: zod
+                                      .enum(['vertical', 'horizontal'])
+                                      .describe(
+                                        'チェックボックス等の選択肢の並び方向。\nvertical=縦に並べる、horizontal=横に並べて折り返す。\n選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。',
+                                      ),
                                   })
                                   .describe('フォームフィールド'),
                                 mappings: zod
@@ -1853,6 +2130,11 @@ export const GetWorkflowResponse = zod
                                             .describe(
                                               'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                                             ),
+                                          orientation: zod
+                                            .enum(['vertical', 'horizontal'])
+                                            .describe(
+                                              'チェックボックス等の選択肢の並び方向。\nvertical=縦に並べる、horizontal=横に並べて折り返す。\n選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。',
+                                            ),
                                         })
                                         .describe('フォームフィールド'),
                                       order: zod
@@ -1901,6 +2183,39 @@ export const GetWorkflowResponse = zod
                           .describe(
                             '汎用マスタ型フィールドの自動絞り込みの設定',
                           ),
+                        allowedExtensions: zod
+                          .array(zod.string())
+                          .nullable()
+                          .describe(
+                            '添付可能な拡張子リスト。fieldTypeがfileのときのみ値が入ります。\n古いフィールドではnullを返す場合があります。',
+                          ),
+                        multiple: zod
+                          .boolean()
+                          .describe('複数選択を許可するかどうか'),
+                        autoLink: zod
+                          .boolean()
+                          .describe(
+                            'チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか',
+                          ),
+                        useTodayForDefaultValue: zod
+                          .boolean()
+                          .describe(
+                            '日付型フィールドで、当日の日付を初期値にするかどうか',
+                          ),
+                        allowedTicketStatus: zod
+                          .array(
+                            zod.enum([
+                              'draft',
+                              'in_progress',
+                              'completed',
+                              'rejected',
+                              'archived',
+                              'denied',
+                            ]),
+                          )
+                          .describe(
+                            'チケット型フィールドで、選択可能なチケットのステータス',
+                          ),
                       }),
                     )
                     .describe('フォームフィールドの詳細'),
@@ -1925,6 +2240,376 @@ export const GetWorkflowResponse = zod
                 .string()
                 .nullish()
                 .describe('高度な条件式'),
+              conditionFields: zod
+                .array(
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      symbol: zod
+                        .enum([
+                          'equal',
+                          'not_equal',
+                          'greater_than',
+                          'greater_than_or_equal',
+                          'less_than',
+                          'less_than_or_equal',
+                          'include',
+                          'exclude',
+                          'is_empty',
+                          'is_not_empty',
+                          'descendants_or_equal',
+                        ])
+                        .describe('演算子'),
+                      value: zod.string().nullable().describe('しきい値'),
+                      formField: zod
+                        .union([
+                          zod
+                            .object({
+                              id: zod.uuid().describe('UUID'),
+                              title: zod
+                                .string()
+                                .max(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneTitleMax,
+                                )
+                                .describe('説明'),
+                              description: zod
+                                .string()
+                                .nullable()
+                                .describe('説明'),
+                              fieldType: zod
+                                .enum([
+                                  'text',
+                                  'text_long',
+                                  'number',
+                                  'integer',
+                                  'checkbox',
+                                  'pull_down',
+                                  'date',
+                                  'file',
+                                  'master',
+                                  'user',
+                                  'team',
+                                  'ticket',
+                                  'calculation',
+                                  'button_api',
+                                  'button_kintone',
+                                ])
+                                .describe('フィールドの型'),
+                              required: zod
+                                .boolean()
+                                .describe('必須項目かどうか'),
+                              approver: zod
+                                .boolean()
+                                .describe('承認者が編集可能かどうか'),
+                              author: zod
+                                .boolean()
+                                .optional()
+                                .describe('申請者が編集可能かどうか'),
+                              options: zod
+                                .array(zod.string())
+                                .nullable()
+                                .describe(
+                                  '選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。',
+                                ),
+                              code: zod
+                                .string()
+                                .max(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneCodeMax,
+                                )
+                                .describe('コード'),
+                              size: zod
+                                .enum(['full', 'half'])
+                                .describe(
+                                  'フォームサイズ。fullの場合全幅、halfの場合1\/2になります。',
+                                ),
+                              regexpFormat: zod
+                                .string()
+                                .nullable()
+                                .describe('正規表現フォーマット'),
+                              formula: zod
+                                .string()
+                                .nullable()
+                                .describe(
+                                  '計算式。\n型がcalculationのときのみ値が入ります。',
+                                ),
+                              defaultValue: zod
+                                .string()
+                                .nullable()
+                                .describe('初期値'),
+                              minValue: zod
+                                .number()
+                                .nullable()
+                                .describe('最小値'),
+                              maxValue: zod
+                                .number()
+                                .nullable()
+                                .describe('最大値'),
+                              minLength: zod
+                                .number()
+                                .min(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneMinLengthMin,
+                                )
+                                .nullable()
+                                .describe('最小文字数'),
+                              maxLength: zod
+                                .number()
+                                .min(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneMaxLengthMin,
+                                )
+                                .nullable()
+                                .describe('最大文字数'),
+                              decimalDigit: zod
+                                .number()
+                                .min(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneDecimalDigitMin,
+                                )
+                                .nullable()
+                                .describe('小数の桁数'),
+                              delimited: zod
+                                .boolean()
+                                .nullable()
+                                .describe(
+                                  'カンマ区切りで表示する場合true。\n整数、数値、自動計算フィールド以外ではnullが入ります。',
+                                ),
+                              prefix: zod
+                                .string()
+                                .nullable()
+                                .describe('単位（接頭辞）'),
+                              suffix: zod
+                                .string()
+                                .nullable()
+                                .describe('単位（接尾辞）'),
+                              hidden: zod
+                                .boolean()
+                                .nullish()
+                                .describe('隠しフィールドである場合true'),
+                              readonlyOnUi: zod
+                                .boolean()
+                                .nullish()
+                                .describe(
+                                  'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
+                                ),
+                              orientation: zod
+                                .enum(['vertical', 'horizontal'])
+                                .describe(
+                                  'チェックボックス等の選択肢の並び方向。\nvertical=縦に並べる、horizontal=横に並べて折り返す。\n選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。',
+                                ),
+                            })
+                            .describe('フォームフィールド'),
+                          zod.null(),
+                        ])
+                        .describe('条件対象のフォームフィールド'),
+                      grade: zod
+                        .union([
+                          zod
+                            .object({
+                              id: zod.uuid().describe('UUID'),
+                              name: zod
+                                .string()
+                                .max(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneNameMax,
+                                )
+                                .describe('名前'),
+                              level: zod
+                                .number()
+                                .min(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneLevelMin,
+                                )
+                                .max(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneLevelMax,
+                                )
+                                .describe('レベル'),
+                              code: zod
+                                .string()
+                                .max(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneCodeMax,
+                                )
+                                .nullable()
+                                .describe('コード'),
+                              isDefault: zod
+                                .boolean()
+                                .default(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneIsDefaultDefault,
+                                )
+                                .describe('デフォルトの役職かどうか'),
+                              createdAt: zod.iso
+                                .datetime({ offset: true })
+                                .describe('作成日時'),
+                              updatedAt: zod.iso
+                                .datetime({ offset: true })
+                                .describe('更新日時'),
+                            })
+                            .describe('役職'),
+                          zod.null(),
+                        ])
+                        .describe('しきい値として使う役職'),
+                      team: zod
+                        .union([
+                          zod
+                            .object({
+                              id: zod.uuid().describe('UUID'),
+                              name: zod
+                                .string()
+                                .max(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemTeamOneNameMax,
+                                )
+                                .describe('名前'),
+                              fullName: zod
+                                .string()
+                                .describe('上位組織を含む名前'),
+                              code: zod
+                                .string()
+                                .max(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemTeamOneCodeMax,
+                                )
+                                .describe('コード'),
+                              notes: zod
+                                .string()
+                                .max(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemTeamOneNotesMax,
+                                )
+                                .nullish()
+                                .describe('管理用メモ'),
+                              approveOnly: zod
+                                .boolean()
+                                .describe('承認専用チームかどうか'),
+                              usersCount: zod
+                                .number()
+                                .min(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemTeamOneUsersCountMin,
+                                )
+                                .describe('ユーザー数'),
+                              createdAt: zod.iso
+                                .datetime({ offset: true })
+                                .describe('作成日時'),
+                              updatedAt: zod.iso
+                                .datetime({ offset: true })
+                                .describe('更新日時'),
+                            })
+                            .describe('チーム'),
+                          zod.null(),
+                        ])
+                        .describe('しきい値として使うチーム'),
+                      generalMasterItem: zod
+                        .union([
+                          zod
+                            .object({
+                              id: zod.uuid().describe('UUID'),
+                              code: zod
+                                .string()
+                                .max(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneCodeMax,
+                                )
+                                .describe('コード'),
+                              name: zod
+                                .string()
+                                .max(
+                                  getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneNameMax,
+                                )
+                                .describe('名前'),
+                              description: zod
+                                .string()
+                                .nullable()
+                                .describe('説明'),
+                              createdAt: zod.iso
+                                .datetime({ offset: true })
+                                .describe('作成日時'),
+                              updatedAt: zod.iso
+                                .datetime({ offset: true })
+                                .describe('更新日時'),
+                              startsOn: zod.iso
+                                .date()
+                                .nullable()
+                                .describe('有効期限の開始日'),
+                              endsOn: zod.iso
+                                .date()
+                                .nullable()
+                                .describe('有効期限の終了日'),
+                              inputs: zod
+                                .array(
+                                  zod.object({
+                                    id: zod.uuid().describe('UUID'),
+                                    value: zod
+                                      .union([
+                                        zod.string().nullable(),
+                                        zod.array(zod.string()),
+                                      ])
+                                      .describe('入力値'),
+                                    createdAt: zod.iso
+                                      .datetime({ offset: true })
+                                      .describe('作成日時'),
+                                    updatedAt: zod.iso
+                                      .datetime({ offset: true })
+                                      .describe('更新日時'),
+                                    field: zod
+                                      .object({
+                                        id: zod.uuid().describe('UUID'),
+                                        title: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldTitleMax,
+                                          )
+                                          .describe('フィールド名'),
+                                        description: zod
+                                          .string()
+                                          .nullable()
+                                          .describe('フィールドの説明'),
+                                        code: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldCodeMax,
+                                          )
+                                          .describe('フィールドのコード'),
+                                        fieldType: zod
+                                          .enum([
+                                            'text',
+                                            'text_long',
+                                            'number',
+                                            'integer',
+                                            'checkbox',
+                                            'pull_down',
+                                            'date',
+                                          ])
+                                          .describe('フィールドの型'),
+                                        required: zod
+                                          .boolean()
+                                          .describe('必須項目かどうか'),
+                                        visible: zod
+                                          .boolean()
+                                          .describe(
+                                            '管理者以外も閲覧可能な場合true',
+                                          ),
+                                        options: zod
+                                          .array(zod.string())
+                                          .nullable()
+                                          .describe(
+                                            '選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。',
+                                          ),
+                                        createdAt: zod.iso
+                                          .datetime({ offset: true })
+                                          .describe('作成日時'),
+                                        updatedAt: zod.iso
+                                          .datetime({ offset: true })
+                                          .describe('更新日時'),
+                                      })
+                                      .describe(
+                                        '汎用マスタのカスタムフィールド',
+                                      ),
+                                  }),
+                                )
+                                .describe('カスタムフィールドの入力の配列'),
+                            })
+                            .describe('汎用マスタのアイテム'),
+                          zod.null(),
+                        ])
+                        .describe('しきい値として使う汎用マスタアイテム'),
+                    })
+                    .describe('フォームセクションの表示条件'),
+                )
+                .optional()
+                .describe(
+                  'フォームセクションの表示条件。明細セクションには含まれません。',
+                ),
               slipFields: zod
                 .array(
                   zod
@@ -2222,6 +2907,47 @@ export const GetWorkflowResponse = zod
                           ])
                           .optional()
                           .describe('汎用マスタアイテムの初期値'),
+                        minLength: zod
+                          .number()
+                          .min(
+                            getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoMinLengthMin,
+                          )
+                          .nullish()
+                          .describe('最小文字数'),
+                        maxLength: zod
+                          .number()
+                          .min(
+                            getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoMaxLengthMin,
+                          )
+                          .nullish()
+                          .describe('最大文字数'),
+                        multiple: zod
+                          .boolean()
+                          .describe('複数選択を許可するかどうか'),
+                        autoLink: zod
+                          .boolean()
+                          .describe(
+                            'チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか',
+                          ),
+                        useTodayForDefaultValue: zod
+                          .boolean()
+                          .describe(
+                            '日付型フィールドで、当日の日付を初期値にするかどうか',
+                          ),
+                        allowedTicketStatus: zod
+                          .array(
+                            zod.enum([
+                              'draft',
+                              'in_progress',
+                              'completed',
+                              'rejected',
+                              'archived',
+                              'denied',
+                            ]),
+                          )
+                          .describe(
+                            'チケット型フィールドで、選択可能なチケットのステータス',
+                          ),
                       }),
                     )
                     .describe('明細フィールドの詳細'),
@@ -2318,6 +3044,45 @@ export const GetWorkflowResponse = zod
                         .datetime({ offset: true })
                         .nullish()
                         .describe('削除日時'),
+                      customFields: zod
+                        .array(
+                          zod.object({
+                            code: zod
+                              .string()
+                              .describe(
+                                'UserCustomField#code（変換せずそのまま）',
+                              ),
+                            fieldType: zod
+                              .union([
+                                zod.literal('text'),
+                                zod.literal('textLong'),
+                                zod.literal('number'),
+                                zod.literal('integer'),
+                                zod.literal('checkbox'),
+                                zod.literal('pullDown'),
+                                zod.literal('date'),
+                                zod.literal(null),
+                              ])
+                              .nullable()
+                              .describe(
+                                'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                              ),
+                            value: zod
+                              .union([
+                                zod.string(),
+                                zod.number(),
+                                zod.array(zod.string()),
+                                zod.null(),
+                              ])
+                              .describe(
+                                'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                              ),
+                          }),
+                        )
+                        .optional()
+                        .describe(
+                          'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                        ),
                     })
                     .describe('ユーザー'),
                   zod.null(),
@@ -2532,6 +3297,45 @@ export const GetWorkflowResponse = zod
                                 .datetime({ offset: true })
                                 .nullish()
                                 .describe('削除日時'),
+                              customFields: zod
+                                .array(
+                                  zod.object({
+                                    code: zod
+                                      .string()
+                                      .describe(
+                                        'UserCustomField#code（変換せずそのまま）',
+                                      ),
+                                    fieldType: zod
+                                      .union([
+                                        zod.literal('text'),
+                                        zod.literal('textLong'),
+                                        zod.literal('number'),
+                                        zod.literal('integer'),
+                                        zod.literal('checkbox'),
+                                        zod.literal('pullDown'),
+                                        zod.literal('date'),
+                                        zod.literal(null),
+                                      ])
+                                      .nullable()
+                                      .describe(
+                                        'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                                      ),
+                                    value: zod
+                                      .union([
+                                        zod.string(),
+                                        zod.number(),
+                                        zod.array(zod.string()),
+                                        zod.null(),
+                                      ])
+                                      .describe(
+                                        'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                                      ),
+                                  }),
+                                )
+                                .optional()
+                                .describe(
+                                  'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                                ),
                             })
                             .describe('ユーザー'),
                           zod.null(),
@@ -2610,6 +3414,45 @@ export const GetWorkflowResponse = zod
                                 .datetime({ offset: true })
                                 .nullish()
                                 .describe('削除日時'),
+                              customFields: zod
+                                .array(
+                                  zod.object({
+                                    code: zod
+                                      .string()
+                                      .describe(
+                                        'UserCustomField#code（変換せずそのまま）',
+                                      ),
+                                    fieldType: zod
+                                      .union([
+                                        zod.literal('text'),
+                                        zod.literal('textLong'),
+                                        zod.literal('number'),
+                                        zod.literal('integer'),
+                                        zod.literal('checkbox'),
+                                        zod.literal('pullDown'),
+                                        zod.literal('date'),
+                                        zod.literal(null),
+                                      ])
+                                      .nullable()
+                                      .describe(
+                                        'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                                      ),
+                                    value: zod
+                                      .union([
+                                        zod.string(),
+                                        zod.number(),
+                                        zod.array(zod.string()),
+                                        zod.null(),
+                                      ])
+                                      .describe(
+                                        'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                                      ),
+                                  }),
+                                )
+                                .optional()
+                                .describe(
+                                  'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                                ),
                             })
                             .describe('ユーザー'),
                           zod.null(),
@@ -2800,6 +3643,11 @@ export const GetWorkflowResponse = zod
                             .nullish()
                             .describe(
                               'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
+                            ),
+                          orientation: zod
+                            .enum(['vertical', 'horizontal'])
+                            .describe(
+                              'チェックボックス等の選択肢の並び方向。\nvertical=縦に並べる、horizontal=横に並べて折り返す。\n選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。',
                             ),
                         })
                         .describe('フォームフィールド')

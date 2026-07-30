@@ -58,6 +58,43 @@ export const GetCurrentUserResponse = zod
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    customFields: zod
+      .array(
+        zod.object({
+          code: zod
+            .string()
+            .describe('UserCustomField#code（変換せずそのまま）'),
+          fieldType: zod
+            .union([
+              zod.literal('text'),
+              zod.literal('textLong'),
+              zod.literal('number'),
+              zod.literal('integer'),
+              zod.literal('checkbox'),
+              zod.literal('pullDown'),
+              zod.literal('date'),
+              zod.literal(null),
+            ])
+            .nullable()
+            .describe(
+              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+            ),
+          value: zod
+            .union([
+              zod.string(),
+              zod.number(),
+              zod.array(zod.string()),
+              zod.null(),
+            ])
+            .describe(
+              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+            ),
+        }),
+      )
+      .optional()
+      .describe(
+        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+      ),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
@@ -148,6 +185,43 @@ export const ListUsersResponseItem = zod
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    customFields: zod
+      .array(
+        zod.object({
+          code: zod
+            .string()
+            .describe('UserCustomField#code（変換せずそのまま）'),
+          fieldType: zod
+            .union([
+              zod.literal('text'),
+              zod.literal('textLong'),
+              zod.literal('number'),
+              zod.literal('integer'),
+              zod.literal('checkbox'),
+              zod.literal('pullDown'),
+              zod.literal('date'),
+              zod.literal(null),
+            ])
+            .nullable()
+            .describe(
+              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+            ),
+          value: zod
+            .union([
+              zod.string(),
+              zod.number(),
+              zod.array(zod.string()),
+              zod.null(),
+            ])
+            .describe(
+              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+            ),
+        }),
+      )
+      .optional()
+      .describe(
+        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+      ),
   })
   .describe('ユーザー')
 export const ListUsersResponse = zod.array(ListUsersResponseItem)
@@ -207,6 +281,26 @@ export const CreateUserBody = zod.object({
     .max(createUserBodyMembershipsMax)
     .optional()
     .describe('招待時に作成する所属の配列（最大5件）'),
+  customFields: zod
+    .array(
+      zod.object({
+        code: zod.string().describe('UserCustomField#code'),
+        value: zod
+          .union([
+            zod.string(),
+            zod.number(),
+            zod.array(zod.string()),
+            zod.null(),
+          ])
+          .describe(
+            'fieldType に応じた値。number \/ integer は文字列で送信する\n(JSON 数値も互換のため許容するが、保存時に文字列へ正規化される)。\nnumber \/ integer では桁区切りのカンマは使用できず、通常表記の数値文字列のみ受け付ける (指定した場合は 422)。\nnull でクリア。\n',
+          ),
+      }),
+    )
+    .optional()
+    .describe(
+      'ユーザーカスタムフィールドの値の一覧。各要素は { code, value }。\ncode は UserCustomField#code を指定します。\nvalue は fieldType に応じた値 (string \/ number \/ string[] \/ null)。\nvalue に null を指定すると、そのフィールドの値をクリアします。\nこのパラメータは、エンタープライズ\/トライアル契約テナントでのみ有効です。\n',
+    ),
 })
 
 export const createUserResponseOneEmailMax = 254
@@ -260,6 +354,43 @@ export const CreateUserResponse = zod
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    customFields: zod
+      .array(
+        zod.object({
+          code: zod
+            .string()
+            .describe('UserCustomField#code（変換せずそのまま）'),
+          fieldType: zod
+            .union([
+              zod.literal('text'),
+              zod.literal('textLong'),
+              zod.literal('number'),
+              zod.literal('integer'),
+              zod.literal('checkbox'),
+              zod.literal('pullDown'),
+              zod.literal('date'),
+              zod.literal(null),
+            ])
+            .nullable()
+            .describe(
+              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+            ),
+          value: zod
+            .union([
+              zod.string(),
+              zod.number(),
+              zod.array(zod.string()),
+              zod.null(),
+            ])
+            .describe(
+              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+            ),
+        }),
+      )
+      .optional()
+      .describe(
+        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+      ),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
@@ -325,6 +456,43 @@ export const GetUserResponse = zod
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    customFields: zod
+      .array(
+        zod.object({
+          code: zod
+            .string()
+            .describe('UserCustomField#code（変換せずそのまま）'),
+          fieldType: zod
+            .union([
+              zod.literal('text'),
+              zod.literal('textLong'),
+              zod.literal('number'),
+              zod.literal('integer'),
+              zod.literal('checkbox'),
+              zod.literal('pullDown'),
+              zod.literal('date'),
+              zod.literal(null),
+            ])
+            .nullable()
+            .describe(
+              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+            ),
+          value: zod
+            .union([
+              zod.string(),
+              zod.number(),
+              zod.array(zod.string()),
+              zod.null(),
+            ])
+            .describe(
+              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+            ),
+        }),
+      )
+      .optional()
+      .describe(
+        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+      ),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
@@ -396,6 +564,43 @@ export const DeleteUserResponse = zod
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    customFields: zod
+      .array(
+        zod.object({
+          code: zod
+            .string()
+            .describe('UserCustomField#code（変換せずそのまま）'),
+          fieldType: zod
+            .union([
+              zod.literal('text'),
+              zod.literal('textLong'),
+              zod.literal('number'),
+              zod.literal('integer'),
+              zod.literal('checkbox'),
+              zod.literal('pullDown'),
+              zod.literal('date'),
+              zod.literal(null),
+            ])
+            .nullable()
+            .describe(
+              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+            ),
+          value: zod
+            .union([
+              zod.string(),
+              zod.number(),
+              zod.array(zod.string()),
+              zod.null(),
+            ])
+            .describe(
+              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+            ),
+        }),
+      )
+      .optional()
+      .describe(
+        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+      ),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
@@ -447,6 +652,26 @@ export const UpdateUserBody = zod.object({
     .max(updateUserBodyEmployeeIdMax)
     .nullish()
     .describe('社員番号'),
+  customFields: zod
+    .array(
+      zod.object({
+        code: zod.string().describe('UserCustomField#code'),
+        value: zod
+          .union([
+            zod.string(),
+            zod.number(),
+            zod.array(zod.string()),
+            zod.null(),
+          ])
+          .describe(
+            'fieldType に応じた値。number \/ integer は文字列で送信する\n(JSON 数値も互換のため許容するが、保存時に文字列へ正規化される)。\nnumber \/ integer では桁区切りのカンマは使用できず、通常表記の数値文字列のみ受け付ける (指定した場合は 422)。\nnull でクリア。\n',
+          ),
+      }),
+    )
+    .optional()
+    .describe(
+      'ユーザーカスタムフィールドの値の一覧。各要素は { code, value }。\ncode は UserCustomField#code を指定します。\nvalue は fieldType に応じた値 (string \/ number \/ string[] \/ null)。\nvalue に null を指定すると、そのフィールドの値をクリアします。\nこのパラメータは、エンタープライズ\/トライアル契約テナントでのみ有効です。\n',
+    ),
 })
 
 export const updateUserResponseOneEmailMax = 254
@@ -500,6 +725,43 @@ export const UpdateUserResponse = zod
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    customFields: zod
+      .array(
+        zod.object({
+          code: zod
+            .string()
+            .describe('UserCustomField#code（変換せずそのまま）'),
+          fieldType: zod
+            .union([
+              zod.literal('text'),
+              zod.literal('textLong'),
+              zod.literal('number'),
+              zod.literal('integer'),
+              zod.literal('checkbox'),
+              zod.literal('pullDown'),
+              zod.literal('date'),
+              zod.literal(null),
+            ])
+            .nullable()
+            .describe(
+              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+            ),
+          value: zod
+            .union([
+              zod.string(),
+              zod.number(),
+              zod.array(zod.string()),
+              zod.null(),
+            ])
+            .describe(
+              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+            ),
+        }),
+      )
+      .optional()
+      .describe(
+        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+      ),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
@@ -570,6 +832,43 @@ export const LookupUserByEmailResponse = zod
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    customFields: zod
+      .array(
+        zod.object({
+          code: zod
+            .string()
+            .describe('UserCustomField#code（変換せずそのまま）'),
+          fieldType: zod
+            .union([
+              zod.literal('text'),
+              zod.literal('textLong'),
+              zod.literal('number'),
+              zod.literal('integer'),
+              zod.literal('checkbox'),
+              zod.literal('pullDown'),
+              zod.literal('date'),
+              zod.literal(null),
+            ])
+            .nullable()
+            .describe(
+              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+            ),
+          value: zod
+            .union([
+              zod.string(),
+              zod.number(),
+              zod.array(zod.string()),
+              zod.null(),
+            ])
+            .describe(
+              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+            ),
+        }),
+      )
+      .optional()
+      .describe(
+        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+      ),
   })
   .describe('ユーザー')
   .describe('ユーザー詳細')
@@ -640,6 +939,43 @@ export const ReinviteUserResponse = zod
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    customFields: zod
+      .array(
+        zod.object({
+          code: zod
+            .string()
+            .describe('UserCustomField#code（変換せずそのまま）'),
+          fieldType: zod
+            .union([
+              zod.literal('text'),
+              zod.literal('textLong'),
+              zod.literal('number'),
+              zod.literal('integer'),
+              zod.literal('checkbox'),
+              zod.literal('pullDown'),
+              zod.literal('date'),
+              zod.literal(null),
+            ])
+            .nullable()
+            .describe(
+              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+            ),
+          value: zod
+            .union([
+              zod.string(),
+              zod.number(),
+              zod.array(zod.string()),
+              zod.null(),
+            ])
+            .describe(
+              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+            ),
+        }),
+      )
+      .optional()
+      .describe(
+        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+      ),
   })
   .describe('ユーザー')
 
@@ -706,6 +1042,43 @@ export const SuspendUserResponse = zod
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    customFields: zod
+      .array(
+        zod.object({
+          code: zod
+            .string()
+            .describe('UserCustomField#code（変換せずそのまま）'),
+          fieldType: zod
+            .union([
+              zod.literal('text'),
+              zod.literal('textLong'),
+              zod.literal('number'),
+              zod.literal('integer'),
+              zod.literal('checkbox'),
+              zod.literal('pullDown'),
+              zod.literal('date'),
+              zod.literal(null),
+            ])
+            .nullable()
+            .describe(
+              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+            ),
+          value: zod
+            .union([
+              zod.string(),
+              zod.number(),
+              zod.array(zod.string()),
+              zod.null(),
+            ])
+            .describe(
+              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+            ),
+        }),
+      )
+      .optional()
+      .describe(
+        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+      ),
   })
   .describe('ユーザー')
 
@@ -778,6 +1151,43 @@ export const ReactivateUserResponse = zod
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    customFields: zod
+      .array(
+        zod.object({
+          code: zod
+            .string()
+            .describe('UserCustomField#code（変換せずそのまま）'),
+          fieldType: zod
+            .union([
+              zod.literal('text'),
+              zod.literal('textLong'),
+              zod.literal('number'),
+              zod.literal('integer'),
+              zod.literal('checkbox'),
+              zod.literal('pullDown'),
+              zod.literal('date'),
+              zod.literal(null),
+            ])
+            .nullable()
+            .describe(
+              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+            ),
+          value: zod
+            .union([
+              zod.string(),
+              zod.number(),
+              zod.array(zod.string()),
+              zod.null(),
+            ])
+            .describe(
+              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+            ),
+        }),
+      )
+      .optional()
+      .describe(
+        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+      ),
   })
   .describe('ユーザー')
 
