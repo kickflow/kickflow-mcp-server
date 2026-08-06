@@ -34,11 +34,14 @@ export const ListCategoriesQueryParams = zod.object({
     ),
 })
 
+export const listCategoriesResponseCodeMax = 100
+
 export const listCategoriesResponseNameMax = 100
 
 export const ListCategoriesResponseItem = zod
   .object({
     id: zod.uuid().describe('UUID'),
+    code: zod.string().max(listCategoriesResponseCodeMax).describe('コード'),
     name: zod.string().max(listCategoriesResponseNameMax).describe('名前'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
@@ -56,11 +59,14 @@ export const CreateCategoryBody = zod.object({
   name: zod.string().describe('名前'),
 })
 
+export const createCategoryResponseCodeMax = 100
+
 export const createCategoryResponseNameMax = 100
 
 export const CreateCategoryResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
+    code: zod.string().max(createCategoryResponseCodeMax).describe('コード'),
     name: zod.string().max(createCategoryResponseNameMax).describe('名前'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
@@ -93,11 +99,14 @@ export const UpdateCategoryBody = zod.object({
   name: zod.string().describe('名前'),
 })
 
+export const updateCategoryResponseCodeMax = 100
+
 export const updateCategoryResponseNameMax = 100
 
 export const UpdateCategoryResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
+    code: zod.string().max(updateCategoryResponseCodeMax).describe('コード'),
     name: zod.string().max(updateCategoryResponseNameMax).describe('名前'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),

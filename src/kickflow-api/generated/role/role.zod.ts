@@ -97,15 +97,21 @@ export const CreateRoleBody = zod
           folderIds: zod
             .array(zod.uuid())
             .optional()
-            .describe('管理対象のフォルダID'),
+            .describe(
+              '管理対象のフォルダID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。',
+            ),
           generalMasterIds: zod
             .array(zod.uuid())
             .optional()
-            .describe('管理対象の汎用マスタID'),
+            .describe(
+              '管理対象の汎用マスタID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。',
+            ),
           teamIds: zod
             .array(zod.uuid())
             .optional()
-            .describe('管理対象のチームID'),
+            .describe(
+              '管理対象のチームID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。',
+            ),
         }),
       )
       .describe('権限リスト'),
@@ -129,6 +135,8 @@ export const createRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin
 export const createRoleResponseTwoPermissionListItemGeneralMastersItemCodeMax = 100
 
 export const createRoleResponseTwoPermissionListItemGeneralMastersItemNameMax = 300
+
+export const createRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin = 0
 
 export const createRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemTitleMax = 300
 
@@ -200,6 +208,9 @@ export const CreateRoleResponse = zod
                         createRoleResponseTwoPermissionListItemFoldersItemNameMax,
                       )
                       .describe('名前'),
+                    fullName: zod
+                      .string()
+                      .describe('フルネーム（ルートフォルダからのパス）'),
                     code: zod
                       .string()
                       .max(
@@ -225,6 +236,7 @@ export const CreateRoleResponse = zod
                         createRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin,
                       )
                       .describe('フォルダ内のパイプライン数'),
+                    editable: zod.boolean().describe('編集可能かどうか'),
                     createdAt: zod.iso
                       .datetime({ offset: true })
                       .describe('作成日時'),
@@ -256,6 +268,21 @@ export const CreateRoleResponse = zod
                     defaultSortBy: zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
+                    itemsCount: zod
+                      .number()
+                      .min(
+                        createRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin,
+                      )
+                      .describe('アイテム数'),
+                    initialDisplayCode: zod
+                      .boolean()
+                      .describe('コードを初期表示するか'),
+                    initialDisplayCreatedAt: zod
+                      .boolean()
+                      .describe('作成日時を初期表示するか'),
+                    initialDisplayDescription: zod
+                      .boolean()
+                      .describe('説明を初期表示するか'),
                     createdAt: zod.iso
                       .datetime({ offset: true })
                       .describe('作成日時'),
@@ -297,9 +324,15 @@ export const CreateRoleResponse = zod
                             required: zod
                               .boolean()
                               .describe('必須項目かどうか'),
+                            fieldOrder: zod
+                              .number()
+                              .describe('フィールドの表示順'),
                             visible: zod
                               .boolean()
                               .describe('管理者以外も閲覧可能な場合true'),
+                            initialDisplay: zod
+                              .boolean()
+                              .describe('初期表示するか'),
                             options: zod
                               .array(zod.string())
                               .nullable()
@@ -399,6 +432,8 @@ export const getRoleResponseTwoPermissionListItemGeneralMastersItemCodeMax = 100
 
 export const getRoleResponseTwoPermissionListItemGeneralMastersItemNameMax = 300
 
+export const getRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin = 0
+
 export const getRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemTitleMax = 300
 
 export const getRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemCodeMax = 100
@@ -469,6 +504,9 @@ export const GetRoleResponse = zod
                         getRoleResponseTwoPermissionListItemFoldersItemNameMax,
                       )
                       .describe('名前'),
+                    fullName: zod
+                      .string()
+                      .describe('フルネーム（ルートフォルダからのパス）'),
                     code: zod
                       .string()
                       .max(
@@ -494,6 +532,7 @@ export const GetRoleResponse = zod
                         getRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin,
                       )
                       .describe('フォルダ内のパイプライン数'),
+                    editable: zod.boolean().describe('編集可能かどうか'),
                     createdAt: zod.iso
                       .datetime({ offset: true })
                       .describe('作成日時'),
@@ -525,6 +564,21 @@ export const GetRoleResponse = zod
                     defaultSortBy: zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
+                    itemsCount: zod
+                      .number()
+                      .min(
+                        getRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin,
+                      )
+                      .describe('アイテム数'),
+                    initialDisplayCode: zod
+                      .boolean()
+                      .describe('コードを初期表示するか'),
+                    initialDisplayCreatedAt: zod
+                      .boolean()
+                      .describe('作成日時を初期表示するか'),
+                    initialDisplayDescription: zod
+                      .boolean()
+                      .describe('説明を初期表示するか'),
                     createdAt: zod.iso
                       .datetime({ offset: true })
                       .describe('作成日時'),
@@ -566,9 +620,15 @@ export const GetRoleResponse = zod
                             required: zod
                               .boolean()
                               .describe('必須項目かどうか'),
+                            fieldOrder: zod
+                              .number()
+                              .describe('フィールドの表示順'),
                             visible: zod
                               .boolean()
                               .describe('管理者以外も閲覧可能な場合true'),
+                            initialDisplay: zod
+                              .boolean()
+                              .describe('初期表示するか'),
                             options: zod
                               .array(zod.string())
                               .nullable()
@@ -678,15 +738,21 @@ export const UpdateRoleBody = zod
           folderIds: zod
             .array(zod.uuid())
             .optional()
-            .describe('管理対象のフォルダID'),
+            .describe(
+              '管理対象のフォルダID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。',
+            ),
           generalMasterIds: zod
             .array(zod.uuid())
             .optional()
-            .describe('管理対象の汎用マスタID'),
+            .describe(
+              '管理対象の汎用マスタID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。',
+            ),
           teamIds: zod
             .array(zod.uuid())
             .optional()
-            .describe('管理対象のチームID'),
+            .describe(
+              '管理対象のチームID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。',
+            ),
         }),
       )
       .optional()
@@ -711,6 +777,8 @@ export const updateRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin
 export const updateRoleResponseTwoPermissionListItemGeneralMastersItemCodeMax = 100
 
 export const updateRoleResponseTwoPermissionListItemGeneralMastersItemNameMax = 300
+
+export const updateRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin = 0
 
 export const updateRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemTitleMax = 300
 
@@ -782,6 +850,9 @@ export const UpdateRoleResponse = zod
                         updateRoleResponseTwoPermissionListItemFoldersItemNameMax,
                       )
                       .describe('名前'),
+                    fullName: zod
+                      .string()
+                      .describe('フルネーム（ルートフォルダからのパス）'),
                     code: zod
                       .string()
                       .max(
@@ -807,6 +878,7 @@ export const UpdateRoleResponse = zod
                         updateRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin,
                       )
                       .describe('フォルダ内のパイプライン数'),
+                    editable: zod.boolean().describe('編集可能かどうか'),
                     createdAt: zod.iso
                       .datetime({ offset: true })
                       .describe('作成日時'),
@@ -838,6 +910,21 @@ export const UpdateRoleResponse = zod
                     defaultSortBy: zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
+                    itemsCount: zod
+                      .number()
+                      .min(
+                        updateRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin,
+                      )
+                      .describe('アイテム数'),
+                    initialDisplayCode: zod
+                      .boolean()
+                      .describe('コードを初期表示するか'),
+                    initialDisplayCreatedAt: zod
+                      .boolean()
+                      .describe('作成日時を初期表示するか'),
+                    initialDisplayDescription: zod
+                      .boolean()
+                      .describe('説明を初期表示するか'),
                     createdAt: zod.iso
                       .datetime({ offset: true })
                       .describe('作成日時'),
@@ -879,9 +966,15 @@ export const UpdateRoleResponse = zod
                             required: zod
                               .boolean()
                               .describe('必須項目かどうか'),
+                            fieldOrder: zod
+                              .number()
+                              .describe('フィールドの表示順'),
                             visible: zod
                               .boolean()
                               .describe('管理者以外も閲覧可能な場合true'),
+                            initialDisplay: zod
+                              .boolean()
+                              .describe('初期表示するか'),
                             options: zod
                               .array(zod.string())
                               .nullable()
@@ -1064,12 +1157,24 @@ export const ListRoleMembersResponseItem = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({

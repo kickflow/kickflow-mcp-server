@@ -108,6 +108,16 @@ export const UserStatus = {
 } as const
 
 /**
+ * ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。
+ */
+export type UserUserType = (typeof UserUserType)[keyof typeof UserUserType]
+
+export const UserUserType = {
+  normal: 'normal',
+  assistant: 'assistant',
+} as const
+
+/**
  * ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。
  * @nullable
  */
@@ -183,6 +193,8 @@ export interface User {
   status: UserStatus
   /** ロケール（jaまたはen） */
   locale: string
+  /** ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。 */
+  userType?: UserUserType
   /** 作成日時 */
   createdAt: string
   /** 更新日時 */
@@ -192,6 +204,11 @@ export interface User {
    * @nullable
    */
   deactivatedAt?: string | null
+  /**
+   * 最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで /v1/users 配下のユーザー情報を取得した場合に返却されます。
+   * @nullable
+   */
+  lastUsedOn?: string | null
   /**
    * ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。
    * code は UserCustomField#code を変換せずそのまま持つ。
@@ -207,9 +224,20 @@ export interface User {
 }
 
 /**
+ * LINE WORKSアカウント。連携していない場合はnull。
+ */
+export type UserDetailUserLineWorksAccount = {
+  /** LINE WORKSアカウントID */
+  lineWorksAccountId: string
+} | null
+
+/**
  * ユーザー詳細
  */
-export type UserDetail = User
+export type UserDetail = User & {
+  /** LINE WORKSアカウント。連携していない場合はnull。 */
+  userLineWorksAccount: UserDetailUserLineWorksAccount
+}
 
 /**
  * ステータス。visibleは有効、invisibleは無効、deletedは削除済み。
@@ -258,6 +286,8 @@ export interface Folder {
    * @maxLength 300
    */
   name: string
+  /** フルネーム（ルートフォルダからのパス） */
+  fullName: string
   /**
    * コード
    * @maxLength 100
@@ -283,6 +313,8 @@ export interface Folder {
    * @minimum 0
    */
   pipelinesCount: number
+  /** 編集可能かどうか */
+  editable: boolean
   /** 作成日時 */
   createdAt: string
   /** 更新日時 */
@@ -295,6 +327,11 @@ export interface Folder {
 export interface Category {
   /** UUID */
   id: string
+  /**
+   * コード
+   * @maxLength 100
+   */
+  code: string
   /**
    * 名前
    * @maxLength 100
@@ -720,8 +757,12 @@ export interface GeneralMasterField {
   fieldType: GeneralMasterFieldFieldType
   /** 必須項目かどうか */
   required: boolean
+  /** フィールドの表示順 */
+  fieldOrder: number
   /** 管理者以外も閲覧可能な場合true */
   visible: boolean
+  /** 初期表示するか */
+  initialDisplay: boolean
   /**
    * 選択肢。fieldTypeがcheckboxまたはpull_downのときのみ。
    * @nullable
@@ -756,6 +797,17 @@ export interface GeneralMaster {
   description: string | null
   /** アイテム一覧のデフォルト並び順 */
   defaultSortBy: GeneralMasterDefaultSortBy
+  /**
+   * アイテム数
+   * @minimum 0
+   */
+  itemsCount: number
+  /** コードを初期表示するか */
+  initialDisplayCode: boolean
+  /** 作成日時を初期表示するか */
+  initialDisplayCreatedAt: boolean
+  /** 説明を初期表示するか */
+  initialDisplayDescription: boolean
   /** 作成日時 */
   createdAt: string
   /** 更新日時 */
@@ -817,11 +869,11 @@ export type RoleCreateBodyPermissionListItem = {
   permission: RoleCreateBodyPermissionListItemPermission
   /** 管理対象を制限する場合true */
   restricted: boolean
-  /** 管理対象のフォルダID */
+  /** 管理対象のフォルダID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。 */
   folderIds?: string[]
-  /** 管理対象の汎用マスタID */
+  /** 管理対象の汎用マスタID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。 */
   generalMasterIds?: string[]
-  /** 管理対象のチームID */
+  /** 管理対象のチームID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。 */
   teamIds?: string[]
 }
 
@@ -867,11 +919,11 @@ export type RoleUpdateBodyPermissionListItem = {
   permission: RoleUpdateBodyPermissionListItemPermission
   /** 管理対象を制限する場合true */
   restricted: boolean
-  /** 管理対象のフォルダID */
+  /** 管理対象のフォルダID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。 */
   folderIds?: string[]
-  /** 管理対象の汎用マスタID */
+  /** 管理対象の汎用マスタID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。 */
   generalMasterIds?: string[]
-  /** 管理対象のチームID */
+  /** 管理対象のチームID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。 */
   teamIds?: string[]
 }
 
@@ -996,6 +1048,7 @@ export const FormFieldFieldType = {
   calculation: 'calculation',
   button_api: 'button_api',
   button_kintone: 'button_kintone',
+  datetime: 'datetime',
 } as const
 
 /**
@@ -1401,6 +1454,7 @@ export const SlipFieldFieldType = {
   user: 'user',
   team: 'team',
   ticket: 'ticket',
+  datetime: 'datetime',
 } as const
 
 /**
@@ -1645,10 +1699,19 @@ export interface Route {
   name: string
   /** 説明 */
   description: string
+  /**
+   * 管理用メモ
+   * @nullable
+   */
+  notes: string | null
+  /** 現在のバージョンかどうか */
+  current: boolean
   /** 作成日時 */
   createdAt: string
   /** 更新日時 */
   updatedAt: string
+  /** バージョンの作成日時 */
+  versionCreatedAt: string
   /** 作成者 */
   author?: User | null
   versionAuthor?: User | null
@@ -1772,6 +1835,17 @@ export const RouteStepFallbackType = {
   skip: 'skip',
   no_fallback: 'no_fallback',
   higher_team: 'higher_team',
+} as const
+
+/**
+ * 上長の選び方。直属の上長のみを対象とする場合closest、すべての上長を対象とする場合allになります。
+ */
+export type RouteStepManagerSelectionType =
+  (typeof RouteStepManagerSelectionType)[keyof typeof RouteStepManagerSelectionType]
+
+export const RouteStepManagerSelectionType = {
+  closest: 'closest',
+  all: 'all',
 } as const
 
 /**
@@ -1927,6 +2001,10 @@ export interface RouteStep {
   fallbackType: RouteStepFallbackType
   /** 自己承認を許可するか */
   allowSelfApproval: boolean
+  /** 上長の選び方。直属の上長のみを対象とする場合closest、すべての上長を対象とする場合allになります。 */
+  managerSelectionType: RouteStepManagerSelectionType
+  /** このステップの承認者に引き上げを許可するか */
+  allowRaising: boolean
   /**
    * 最小指名人数。「申請者が指名」ステップのみ設定可能。
    * @minimum 0
@@ -1997,6 +2075,12 @@ export interface SubStatus {
    * @nullable
    */
   notes: string | null
+  /** 取り下げを許可する */
+  allowWithdrawal: boolean
+  /** 差し戻しを許可する */
+  allowRejection: boolean
+  /** 却下を許可する */
+  allowDenial: boolean
   /** 作成日時 */
   createdAt: string
   /** 更新日時 */
@@ -2634,6 +2718,11 @@ export interface AuditLog {
    * @nullable
    */
   remoteIp: string | null
+  /**
+   * リクエストID
+   * @nullable
+   */
+  requestId: string | null
   /**
    * システムによる操作種別
    * @nullable
@@ -3819,8 +3908,8 @@ export type ListUsersParams = {
    */
   status?: ListUsersStatusItem[]
   /**
-   * ソート対象のフィールドと順序。指定可能なフィールド: email, code
-   * @pattern ^(email|code)(-asc|-desc)?$
+   * ソート対象のフィールドと順序。指定可能なフィールド: email, code, lastUsedOn
+   * @pattern ^(email|code|lastUsedOn)(-asc|-desc)?$
    */
   sortBy?: string
 }

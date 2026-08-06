@@ -93,12 +93,24 @@ export const ListAuditLogsResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
+            userType: zod
+              .enum(['normal', 'assistant'])
+              .optional()
+              .describe(
+                'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+              ),
             createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
             updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
             deactivatedAt: zod.iso
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            lastUsedOn: zod.iso
+              .date()
+              .nullish()
+              .describe(
+                '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+              ),
             customFields: zod
               .array(
                 zod.object({
@@ -144,6 +156,7 @@ export const ListAuditLogsResponseItem = zod
     action: zod.string().describe('操作種別'),
     data: zod.looseObject({}).nullable().describe('操作データ'),
     remoteIp: zod.string().nullable().describe('リモートIPアドレス'),
+    requestId: zod.string().nullable().describe('リクエストID'),
     systemType: zod
       .union([zod.literal('automation'), zod.literal(null)])
       .nullable()

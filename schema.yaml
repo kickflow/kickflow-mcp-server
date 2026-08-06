@@ -4585,10 +4585,10 @@ paths:
           description: ステータスによる絞り込み
         - schema:
             type: string
-            pattern: ^(email|code)(-asc|-desc)?$
+            pattern: ^(email|code|lastUsedOn)(-asc|-desc)?$
           in: query
           name: sortBy
-          description: 'ソート対象のフィールドと順序。指定可能なフィールド: email, code'
+          description: 'ソート対象のフィールドと順序。指定可能なフィールド: email, code, lastUsedOn'
       description: ユーザー一覧を取得します。
     post:
       summary: ユーザーを作成（招待）
@@ -6233,6 +6233,12 @@ components:
         locale:
           type: string
           description: ロケール（jaまたはen）
+        userType:
+          type: string
+          enum:
+            - normal
+            - assistant
+          description: ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。
         createdAt:
           type: string
           format: date-time
@@ -6247,6 +6253,12 @@ components:
             - 'null'
           format: date-time
           description: 削除日時
+        lastUsedOn:
+          type:
+            - string
+            - 'null'
+          format: date
+          description: 最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで /v1/users 配下のユーザー情報を取得した場合に返却されます。
         customFields:
           type: array
           description: |
@@ -6313,6 +6325,21 @@ components:
       description: ユーザー詳細
       allOf:
         - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            userLineWorksAccount:
+              description: LINE WORKSアカウント。連携していない場合はnull。
+              anyOf:
+                - type: object
+                  properties:
+                    lineWorksAccountId:
+                      type: string
+                      description: LINE WORKSアカウントID
+                  required:
+                    - lineWorksAccountId
+                - type: 'null'
+          required:
+            - userLineWorksAccount
     ProxyApplicant:
       title: ProxyApplicant
       type: object
@@ -6794,19 +6821,22 @@ components:
                 description: 管理対象を制限する場合true
               folderIds:
                 type: array
-                description: 管理対象のフォルダID
+                description: 管理対象のフォルダID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。
+                uniqueItems: true
                 items:
                   type: string
                   format: uuid
               generalMasterIds:
                 type: array
-                description: 管理対象の汎用マスタID
+                description: 管理対象の汎用マスタID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。
+                uniqueItems: true
                 items:
                   type: string
                   format: uuid
               teamIds:
                 type: array
-                description: 管理対象のチームID
+                description: 管理対象のチームID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。
+                uniqueItems: true
                 items:
                   type: string
                   format: uuid
@@ -6859,19 +6889,22 @@ components:
                 description: 管理対象を制限する場合true
               folderIds:
                 type: array
-                description: 管理対象のフォルダID
+                description: 管理対象のフォルダID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。
+                uniqueItems: true
                 items:
                   type: string
                   format: uuid
               generalMasterIds:
                 type: array
-                description: 管理対象の汎用マスタID
+                description: 管理対象の汎用マスタID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。
+                uniqueItems: true
                 items:
                   type: string
                   format: uuid
               teamIds:
                 type: array
-                description: 管理対象のチームID
+                description: 管理対象のチームID。同一IDの重複指定は不可（大文字小文字の表記違いも同一IDとして扱う）。
+                uniqueItems: true
                 items:
                   type: string
                   format: uuid
@@ -6889,6 +6922,10 @@ components:
           type: string
           format: uuid
           description: UUID
+        code:
+          type: string
+          description: コード
+          maxLength: 100
         name:
           type: string
           description: 名前
@@ -6903,6 +6940,7 @@ components:
           description: 更新日時
       required:
         - id
+        - code
         - name
         - createdAt
         - updatedAt
@@ -6921,6 +6959,9 @@ components:
           type: string
           description: 名前
           maxLength: 300
+        fullName:
+          type: string
+          description: フルネーム（ルートフォルダからのパス）
         code:
           type: string
           description: コード
@@ -6942,6 +6983,9 @@ components:
           type: integer
           description: フォルダ内のパイプライン数
           minimum: 0
+        editable:
+          type: boolean
+          description: 編集可能かどうか
         createdAt:
           type: string
           format: date-time
@@ -6953,10 +6997,12 @@ components:
       required:
         - id
         - name
+        - fullName
         - code
         - workflowsCount
         - routesCount
         - pipelinesCount
+        - editable
         - createdAt
         - updatedAt
     FolderDetail:
@@ -7026,6 +7072,19 @@ components:
             - name
             - code
           description: アイテム一覧のデフォルト並び順
+        itemsCount:
+          type: integer
+          minimum: 0
+          description: アイテム数
+        initialDisplayCode:
+          type: boolean
+          description: コードを初期表示するか
+        initialDisplayCreatedAt:
+          type: boolean
+          description: 作成日時を初期表示するか
+        initialDisplayDescription:
+          type: boolean
+          description: 説明を初期表示するか
         createdAt:
           type: string
           description: 作成日時
@@ -7047,6 +7106,10 @@ components:
         - createdAt
         - updatedAt
         - defaultSortBy
+        - itemsCount
+        - initialDisplayCode
+        - initialDisplayCreatedAt
+        - initialDisplayDescription
         - fields
     GeneralMasterItem:
       title: GeneralMasterItem
@@ -7175,9 +7238,15 @@ components:
         required:
           type: boolean
           description: 必須項目かどうか
+        fieldOrder:
+          type: integer
+          description: フィールドの表示順
         visible:
           type: boolean
           description: 管理者以外も閲覧可能な場合true
+        initialDisplay:
+          type: boolean
+          description: 初期表示するか
         options:
           type:
             - array
@@ -7200,7 +7269,9 @@ components:
         - code
         - fieldType
         - required
+        - fieldOrder
         - visible
+        - initialDisplay
         - options
         - createdAt
         - updatedAt
@@ -7603,6 +7674,7 @@ components:
             - calculation
             - button_api
             - button_kintone
+            - datetime
         required:
           type: boolean
           description: 必須項目かどうか
@@ -7952,6 +8024,7 @@ components:
             - user
             - team
             - ticket
+            - datetime
         code:
           type: string
           description: フィールドのコード
@@ -8284,12 +8357,24 @@ components:
         description:
           type: string
           description: 説明
+        notes:
+          type:
+            - string
+            - 'null'
+          description: 管理用メモ
+        current:
+          type: boolean
+          description: 現在のバージョンかどうか
         createdAt:
           type: string
           description: 作成日時
         updatedAt:
           type: string
           description: 更新日時
+        versionCreatedAt:
+          type: string
+          format: date-time
+          description: バージョンの作成日時
         author:
           description: 作成者
           anyOf:
@@ -8311,8 +8396,11 @@ components:
         - versionNumber
         - name
         - description
+        - notes
+        - current
         - createdAt
         - updatedAt
+        - versionCreatedAt
         - folder
     RouteDetail:
       title: RouteDetail
@@ -8390,6 +8478,15 @@ components:
         allowSelfApproval:
           type: boolean
           description: 自己承認を許可するか
+        managerSelectionType:
+          type: string
+          description: 上長の選び方。直属の上長のみを対象とする場合closest、すべての上長を対象とする場合allになります。
+          enum:
+            - closest
+            - all
+        allowRaising:
+          type: boolean
+          description: このステップの承認者に引き上げを許可するか
         minCustomAssignees:
           type:
             - integer
@@ -8429,6 +8526,8 @@ components:
         - requiredApprovalsPercent
         - fallbackType
         - allowSelfApproval
+        - managerSelectionType
+        - allowRaising
         - minCustomAssignees
         - approverAssignmentInstruction
         - users
@@ -9586,6 +9685,15 @@ components:
             - string
             - 'null'
           description: 説明
+        allowWithdrawal:
+          type: boolean
+          description: 取り下げを許可する
+        allowRejection:
+          type: boolean
+          description: 差し戻しを許可する
+        allowDenial:
+          type: boolean
+          description: 却下を許可する
         createdAt:
           type: string
           description: 作成日時
@@ -9599,6 +9707,9 @@ components:
         - code
         - name
         - notes
+        - allowWithdrawal
+        - allowRejection
+        - allowDenial
         - createdAt
         - updatedAt
     TicketViewer:
@@ -9714,6 +9825,11 @@ components:
             - string
             - 'null'
           description: リモートIPアドレス
+        requestId:
+          type:
+            - string
+            - 'null'
+          description: リクエストID
         systemType:
           type:
             - string
@@ -9736,6 +9852,7 @@ components:
         - action
         - data
         - remoteIp
+        - requestId
         - systemType
         - createdAt
         - updatedAt

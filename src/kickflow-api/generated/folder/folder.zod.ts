@@ -48,6 +48,7 @@ export const ListFoldersResponseItem = zod
   .object({
     id: zod.uuid().describe('UUID'),
     name: zod.string().max(listFoldersResponseNameMax).describe('名前'),
+    fullName: zod.string().describe('フルネーム（ルートフォルダからのパス）'),
     code: zod.string().max(listFoldersResponseCodeMax).describe('コード'),
     description: zod.string().nullish().describe('説明'),
     workflowsCount: zod
@@ -62,6 +63,7 @@ export const ListFoldersResponseItem = zod
       .number()
       .min(listFoldersResponsePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
+    editable: zod.boolean().describe('編集可能かどうか'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
@@ -118,6 +120,7 @@ export const CreateFolderResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
     name: zod.string().max(createFolderResponseOneNameMax).describe('名前'),
+    fullName: zod.string().describe('フルネーム（ルートフォルダからのパス）'),
     code: zod.string().max(createFolderResponseOneCodeMax).describe('コード'),
     description: zod.string().nullish().describe('説明'),
     workflowsCount: zod
@@ -132,6 +135,7 @@ export const CreateFolderResponse = zod
       .number()
       .min(createFolderResponseOnePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
+    editable: zod.boolean().describe('編集可能かどうか'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
@@ -147,6 +151,9 @@ export const CreateFolderResponse = zod
                 .string()
                 .max(createFolderResponseTwoAncestorsItemNameMax)
                 .describe('名前'),
+              fullName: zod
+                .string()
+                .describe('フルネーム（ルートフォルダからのパス）'),
               code: zod
                 .string()
                 .max(createFolderResponseTwoAncestorsItemCodeMax)
@@ -164,6 +171,7 @@ export const CreateFolderResponse = zod
                 .number()
                 .min(createFolderResponseTwoAncestorsItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
+              editable: zod.boolean().describe('編集可能かどうか'),
               createdAt: zod.iso
                 .datetime({ offset: true })
                 .describe('作成日時'),
@@ -184,6 +192,9 @@ export const CreateFolderResponse = zod
                 .string()
                 .max(createFolderResponseTwoChildrenItemNameMax)
                 .describe('名前'),
+              fullName: zod
+                .string()
+                .describe('フルネーム（ルートフォルダからのパス）'),
               code: zod
                 .string()
                 .max(createFolderResponseTwoChildrenItemCodeMax)
@@ -201,6 +212,7 @@ export const CreateFolderResponse = zod
                 .number()
                 .min(createFolderResponseTwoChildrenItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
+              editable: zod.boolean().describe('編集可能かどうか'),
               createdAt: zod.iso
                 .datetime({ offset: true })
                 .describe('作成日時'),
@@ -291,6 +303,7 @@ export const UpdateFolderResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
     name: zod.string().max(updateFolderResponseOneNameMax).describe('名前'),
+    fullName: zod.string().describe('フルネーム（ルートフォルダからのパス）'),
     code: zod.string().max(updateFolderResponseOneCodeMax).describe('コード'),
     description: zod.string().nullish().describe('説明'),
     workflowsCount: zod
@@ -305,6 +318,7 @@ export const UpdateFolderResponse = zod
       .number()
       .min(updateFolderResponseOnePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
+    editable: zod.boolean().describe('編集可能かどうか'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
@@ -320,6 +334,9 @@ export const UpdateFolderResponse = zod
                 .string()
                 .max(updateFolderResponseTwoAncestorsItemNameMax)
                 .describe('名前'),
+              fullName: zod
+                .string()
+                .describe('フルネーム（ルートフォルダからのパス）'),
               code: zod
                 .string()
                 .max(updateFolderResponseTwoAncestorsItemCodeMax)
@@ -337,6 +354,7 @@ export const UpdateFolderResponse = zod
                 .number()
                 .min(updateFolderResponseTwoAncestorsItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
+              editable: zod.boolean().describe('編集可能かどうか'),
               createdAt: zod.iso
                 .datetime({ offset: true })
                 .describe('作成日時'),
@@ -357,6 +375,9 @@ export const UpdateFolderResponse = zod
                 .string()
                 .max(updateFolderResponseTwoChildrenItemNameMax)
                 .describe('名前'),
+              fullName: zod
+                .string()
+                .describe('フルネーム（ルートフォルダからのパス）'),
               code: zod
                 .string()
                 .max(updateFolderResponseTwoChildrenItemCodeMax)
@@ -374,6 +395,7 @@ export const UpdateFolderResponse = zod
                 .number()
                 .min(updateFolderResponseTwoChildrenItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
+              editable: zod.boolean().describe('編集可能かどうか'),
               createdAt: zod.iso
                 .datetime({ offset: true })
                 .describe('作成日時'),
@@ -436,6 +458,7 @@ export const GetFolderResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
     name: zod.string().max(getFolderResponseOneNameMax).describe('名前'),
+    fullName: zod.string().describe('フルネーム（ルートフォルダからのパス）'),
     code: zod.string().max(getFolderResponseOneCodeMax).describe('コード'),
     description: zod.string().nullish().describe('説明'),
     workflowsCount: zod
@@ -450,6 +473,7 @@ export const GetFolderResponse = zod
       .number()
       .min(getFolderResponseOnePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
+    editable: zod.boolean().describe('編集可能かどうか'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
   })
@@ -465,6 +489,9 @@ export const GetFolderResponse = zod
                 .string()
                 .max(getFolderResponseTwoAncestorsItemNameMax)
                 .describe('名前'),
+              fullName: zod
+                .string()
+                .describe('フルネーム（ルートフォルダからのパス）'),
               code: zod
                 .string()
                 .max(getFolderResponseTwoAncestorsItemCodeMax)
@@ -482,6 +509,7 @@ export const GetFolderResponse = zod
                 .number()
                 .min(getFolderResponseTwoAncestorsItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
+              editable: zod.boolean().describe('編集可能かどうか'),
               createdAt: zod.iso
                 .datetime({ offset: true })
                 .describe('作成日時'),
@@ -502,6 +530,9 @@ export const GetFolderResponse = zod
                 .string()
                 .max(getFolderResponseTwoChildrenItemNameMax)
                 .describe('名前'),
+              fullName: zod
+                .string()
+                .describe('フルネーム（ルートフォルダからのパス）'),
               code: zod
                 .string()
                 .max(getFolderResponseTwoChildrenItemCodeMax)
@@ -519,6 +550,7 @@ export const GetFolderResponse = zod
                 .number()
                 .min(getFolderResponseTwoChildrenItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
+              editable: zod.boolean().describe('編集可能かどうか'),
               createdAt: zod.iso
                 .datetime({ offset: true })
                 .describe('作成日時'),
