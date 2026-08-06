@@ -52,12 +52,24 @@ export const GetCurrentUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({
@@ -97,6 +109,18 @@ export const GetCurrentUserResponse = zod
       ),
   })
   .describe('ユーザー')
+  .and(
+    zod.object({
+      userLineWorksAccount: zod
+        .union([
+          zod.object({
+            lineWorksAccountId: zod.string().describe('LINE WORKSアカウントID'),
+          }),
+          zod.null(),
+        ])
+        .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+    }),
+  )
   .describe('ユーザー詳細')
 
 /**
@@ -109,7 +133,7 @@ export const listUsersQueryPerPageDefault = 25
 export const listUsersQueryPerPageMax = 100
 
 export const listUsersQuerySortByRegExp = new RegExp(
-  '^(email|code)(-asc|-desc)?$',
+  '^(email|code|lastUsedOn)(-asc|-desc)?$',
 )
 
 export const ListUsersQueryParams = zod.object({
@@ -133,7 +157,7 @@ export const ListUsersQueryParams = zod.object({
     .regex(listUsersQuerySortByRegExp)
     .optional()
     .describe(
-      'ソート対象のフィールドと順序。指定可能なフィールド: email, code',
+      'ソート対象のフィールドと順序。指定可能なフィールド: email, code, lastUsedOn',
     ),
 })
 
@@ -179,12 +203,24 @@ export const ListUsersResponseItem = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({
@@ -348,12 +384,24 @@ export const CreateUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({
@@ -393,6 +441,18 @@ export const CreateUserResponse = zod
       ),
   })
   .describe('ユーザー')
+  .and(
+    zod.object({
+      userLineWorksAccount: zod
+        .union([
+          zod.object({
+            lineWorksAccountId: zod.string().describe('LINE WORKSアカウントID'),
+          }),
+          zod.null(),
+        ])
+        .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+    }),
+  )
   .describe('ユーザー詳細')
 
 /**
@@ -450,12 +510,24 @@ export const GetUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({
@@ -495,6 +567,18 @@ export const GetUserResponse = zod
       ),
   })
   .describe('ユーザー')
+  .and(
+    zod.object({
+      userLineWorksAccount: zod
+        .union([
+          zod.object({
+            lineWorksAccountId: zod.string().describe('LINE WORKSアカウントID'),
+          }),
+          zod.null(),
+        ])
+        .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+    }),
+  )
   .describe('ユーザー詳細')
 
 /**
@@ -558,12 +642,24 @@ export const DeleteUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({
@@ -603,6 +699,18 @@ export const DeleteUserResponse = zod
       ),
   })
   .describe('ユーザー')
+  .and(
+    zod.object({
+      userLineWorksAccount: zod
+        .union([
+          zod.object({
+            lineWorksAccountId: zod.string().describe('LINE WORKSアカウントID'),
+          }),
+          zod.null(),
+        ])
+        .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+    }),
+  )
   .describe('ユーザー詳細')
 
 /**
@@ -719,12 +827,24 @@ export const UpdateUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({
@@ -764,6 +884,18 @@ export const UpdateUserResponse = zod
       ),
   })
   .describe('ユーザー')
+  .and(
+    zod.object({
+      userLineWorksAccount: zod
+        .union([
+          zod.object({
+            lineWorksAccountId: zod.string().describe('LINE WORKSアカウントID'),
+          }),
+          zod.null(),
+        ])
+        .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+    }),
+  )
   .describe('ユーザー詳細')
 
 /**
@@ -826,12 +958,24 @@ export const LookupUserByEmailResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({
@@ -871,6 +1015,18 @@ export const LookupUserByEmailResponse = zod
       ),
   })
   .describe('ユーザー')
+  .and(
+    zod.object({
+      userLineWorksAccount: zod
+        .union([
+          zod.object({
+            lineWorksAccountId: zod.string().describe('LINE WORKSアカウントID'),
+          }),
+          zod.null(),
+        ])
+        .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+    }),
+  )
   .describe('ユーザー詳細')
 
 /**
@@ -933,12 +1089,24 @@ export const ReinviteUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({
@@ -1036,12 +1204,24 @@ export const SuspendUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({
@@ -1145,12 +1325,24 @@ export const ReactivateUserResponse = zod
       .enum(['invited', 'activated', 'suspended', 'deactivated'])
       .describe('ステータス'),
     locale: zod.string().describe('ロケール（jaまたはen）'),
+    userType: zod
+      .enum(['normal', 'assistant'])
+      .optional()
+      .describe(
+        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+      ),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     deactivatedAt: zod.iso
       .datetime({ offset: true })
       .nullish()
       .describe('削除日時'),
+    lastUsedOn: zod.iso
+      .date()
+      .nullish()
+      .describe(
+        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+      ),
     customFields: zod
       .array(
         zod.object({
