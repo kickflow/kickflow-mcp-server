@@ -82,8 +82,13 @@ export const ListRoutesResponseItem = zod
     versionNumber: zod.number().describe('バージョン番号'),
     name: zod.string().describe('名前'),
     description: zod.string().describe('説明'),
+    notes: zod.string().nullable().describe('管理用メモ'),
+    current: zod.boolean().describe('現在のバージョンかどうか'),
     createdAt: zod.string().describe('作成日時'),
     updatedAt: zod.string().describe('更新日時'),
+    versionCreatedAt: zod.iso
+      .datetime({ offset: true })
+      .describe('バージョンの作成日時'),
     author: zod
       .union([
         zod
@@ -125,12 +130,24 @@ export const ListRoutesResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
+            userType: zod
+              .enum(['normal', 'assistant'])
+              .optional()
+              .describe(
+                'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+              ),
             createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
             updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
             deactivatedAt: zod.iso
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            lastUsedOn: zod.iso
+              .date()
+              .nullish()
+              .describe(
+                '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+              ),
             customFields: zod
               .array(
                 zod.object({
@@ -215,12 +232,24 @@ export const ListRoutesResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
+            userType: zod
+              .enum(['normal', 'assistant'])
+              .optional()
+              .describe(
+                'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+              ),
             createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
             updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
             deactivatedAt: zod.iso
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            lastUsedOn: zod.iso
+              .date()
+              .nullish()
+              .describe(
+                '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+              ),
             customFields: zod
               .array(
                 zod.object({
@@ -270,6 +299,9 @@ export const ListRoutesResponseItem = zod
           .string()
           .max(listRoutesResponseFolderOneNameMax)
           .describe('名前'),
+        fullName: zod
+          .string()
+          .describe('フルネーム（ルートフォルダからのパス）'),
         code: zod
           .string()
           .max(listRoutesResponseFolderOneCodeMax)
@@ -287,6 +319,7 @@ export const ListRoutesResponseItem = zod
           .number()
           .min(listRoutesResponseFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
+        editable: zod.boolean().describe('編集可能かどうか'),
         createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
@@ -406,8 +439,13 @@ export const GetRouteResponse = zod
     versionNumber: zod.number().describe('バージョン番号'),
     name: zod.string().describe('名前'),
     description: zod.string().describe('説明'),
+    notes: zod.string().nullable().describe('管理用メモ'),
+    current: zod.boolean().describe('現在のバージョンかどうか'),
     createdAt: zod.string().describe('作成日時'),
     updatedAt: zod.string().describe('更新日時'),
+    versionCreatedAt: zod.iso
+      .datetime({ offset: true })
+      .describe('バージョンの作成日時'),
     author: zod
       .union([
         zod
@@ -449,12 +487,24 @@ export const GetRouteResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
+            userType: zod
+              .enum(['normal', 'assistant'])
+              .optional()
+              .describe(
+                'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+              ),
             createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
             updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
             deactivatedAt: zod.iso
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            lastUsedOn: zod.iso
+              .date()
+              .nullish()
+              .describe(
+                '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+              ),
             customFields: zod
               .array(
                 zod.object({
@@ -539,12 +589,24 @@ export const GetRouteResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
+            userType: zod
+              .enum(['normal', 'assistant'])
+              .optional()
+              .describe(
+                'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+              ),
             createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
             updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
             deactivatedAt: zod.iso
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            lastUsedOn: zod.iso
+              .date()
+              .nullish()
+              .describe(
+                '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+              ),
             customFields: zod
               .array(
                 zod.object({
@@ -594,6 +656,9 @@ export const GetRouteResponse = zod
           .string()
           .max(getRouteResponseOneFolderOneNameMax)
           .describe('名前'),
+        fullName: zod
+          .string()
+          .describe('フルネーム（ルートフォルダからのパス）'),
         code: zod
           .string()
           .max(getRouteResponseOneFolderOneCodeMax)
@@ -611,6 +676,7 @@ export const GetRouteResponse = zod
           .number()
           .min(getRouteResponseOneFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
+        editable: zod.boolean().describe('編集可能かどうか'),
         createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
@@ -664,6 +730,14 @@ export const GetRouteResponse = zod
                 ])
                 .describe('フォールバックのタイプ'),
               allowSelfApproval: zod.boolean().describe('自己承認を許可するか'),
+              managerSelectionType: zod
+                .enum(['closest', 'all'])
+                .describe(
+                  '上長の選び方。直属の上長のみを対象とする場合closest、すべての上長を対象とする場合allになります。',
+                ),
+              allowRaising: zod
+                .boolean()
+                .describe('このステップの承認者に引き上げを許可するか'),
               minCustomAssignees: zod
                 .number()
                 .min(getRouteResponseTwoStepsItemMinCustomAssigneesMin)
@@ -723,6 +797,12 @@ export const GetRouteResponse = zod
                         ])
                         .describe('ステータス'),
                       locale: zod.string().describe('ロケール（jaまたはen）'),
+                      userType: zod
+                        .enum(['normal', 'assistant'])
+                        .optional()
+                        .describe(
+                          'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                        ),
                       createdAt: zod.iso
                         .datetime({ offset: true })
                         .describe('作成日時'),
@@ -733,6 +813,12 @@ export const GetRouteResponse = zod
                         .datetime({ offset: true })
                         .nullish()
                         .describe('削除日時'),
+                      lastUsedOn: zod.iso
+                        .date()
+                        .nullish()
+                        .describe(
+                          '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                        ),
                       customFields: zod
                         .array(
                           zod.object({
@@ -1118,11 +1204,17 @@ export const GetRouteResponse = zod
                                             required: zod
                                               .boolean()
                                               .describe('必須項目かどうか'),
+                                            fieldOrder: zod
+                                              .number()
+                                              .describe('フィールドの表示順'),
                                             visible: zod
                                               .boolean()
                                               .describe(
                                                 '管理者以外も閲覧可能な場合true',
                                               ),
+                                            initialDisplay: zod
+                                              .boolean()
+                                              .describe('初期表示するか'),
                                             options: zod
                                               .array(zod.string())
                                               .nullable()

@@ -77,6 +77,8 @@ export const listWorkflowsResponseFolderOneRoutesCountMin = 0
 
 export const listWorkflowsResponseFolderOnePipelinesCountMin = 0
 
+export const listWorkflowsResponseCategoriesItemCodeMax = 100
+
 export const listWorkflowsResponseCategoriesItemNameMax = 100
 
 export const ListWorkflowsResponseItem = zod
@@ -171,12 +173,24 @@ export const ListWorkflowsResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
+            userType: zod
+              .enum(['normal', 'assistant'])
+              .optional()
+              .describe(
+                'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+              ),
             createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
             updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
             deactivatedAt: zod.iso
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            lastUsedOn: zod.iso
+              .date()
+              .nullish()
+              .describe(
+                '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+              ),
             customFields: zod
               .array(
                 zod.object({
@@ -260,12 +274,24 @@ export const ListWorkflowsResponseItem = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
+            userType: zod
+              .enum(['normal', 'assistant'])
+              .optional()
+              .describe(
+                'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+              ),
             createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
             updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
             deactivatedAt: zod.iso
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            lastUsedOn: zod.iso
+              .date()
+              .nullish()
+              .describe(
+                '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+              ),
             customFields: zod
               .array(
                 zod.object({
@@ -315,6 +341,9 @@ export const ListWorkflowsResponseItem = zod
           .string()
           .max(listWorkflowsResponseFolderOneNameMax)
           .describe('名前'),
+        fullName: zod
+          .string()
+          .describe('フルネーム（ルートフォルダからのパス）'),
         code: zod
           .string()
           .max(listWorkflowsResponseFolderOneCodeMax)
@@ -332,6 +361,7 @@ export const ListWorkflowsResponseItem = zod
           .number()
           .min(listWorkflowsResponseFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
+        editable: zod.boolean().describe('編集可能かどうか'),
         createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
@@ -342,6 +372,10 @@ export const ListWorkflowsResponseItem = zod
         zod
           .object({
             id: zod.uuid().describe('UUID'),
+            code: zod
+              .string()
+              .max(listWorkflowsResponseCategoriesItemCodeMax)
+              .describe('コード'),
             name: zod
               .string()
               .max(listWorkflowsResponseCategoriesItemNameMax)
@@ -443,6 +477,8 @@ export const getWorkflowResponseOneOneFolderOneRoutesCountMin = 0
 
 export const getWorkflowResponseOneOneFolderOnePipelinesCountMin = 0
 
+export const getWorkflowResponseOneOneCategoriesItemCodeMax = 100
+
 export const getWorkflowResponseOneOneCategoriesItemNameMax = 100
 
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemOneTitleMax = 300
@@ -458,6 +494,8 @@ export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemOneDecimalDig
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneCodeMax = 100
 
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneNameMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneItemsCountMin = 0
 
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneFieldsItemTitleMax = 300
 
@@ -558,6 +596,8 @@ export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralM
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneCodeMax = 100
 
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneNameMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneItemsCountMin = 0
 
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneFieldsItemTitleMax = 300
 
@@ -763,12 +803,24 @@ export const GetWorkflowResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
+            userType: zod
+              .enum(['normal', 'assistant'])
+              .optional()
+              .describe(
+                'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+              ),
             createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
             updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
             deactivatedAt: zod.iso
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            lastUsedOn: zod.iso
+              .date()
+              .nullish()
+              .describe(
+                '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+              ),
             customFields: zod
               .array(
                 zod.object({
@@ -852,12 +904,24 @@ export const GetWorkflowResponse = zod
               .enum(['invited', 'activated', 'suspended', 'deactivated'])
               .describe('ステータス'),
             locale: zod.string().describe('ロケール（jaまたはen）'),
+            userType: zod
+              .enum(['normal', 'assistant'])
+              .optional()
+              .describe(
+                'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+              ),
             createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
             updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
             deactivatedAt: zod.iso
               .datetime({ offset: true })
               .nullish()
               .describe('削除日時'),
+            lastUsedOn: zod.iso
+              .date()
+              .nullish()
+              .describe(
+                '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+              ),
             customFields: zod
               .array(
                 zod.object({
@@ -907,6 +971,9 @@ export const GetWorkflowResponse = zod
           .string()
           .max(getWorkflowResponseOneOneFolderOneNameMax)
           .describe('名前'),
+        fullName: zod
+          .string()
+          .describe('フルネーム（ルートフォルダからのパス）'),
         code: zod
           .string()
           .max(getWorkflowResponseOneOneFolderOneCodeMax)
@@ -924,6 +991,7 @@ export const GetWorkflowResponse = zod
           .number()
           .min(getWorkflowResponseOneOneFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
+        editable: zod.boolean().describe('編集可能かどうか'),
         createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
@@ -934,6 +1002,10 @@ export const GetWorkflowResponse = zod
         zod
           .object({
             id: zod.uuid().describe('UUID'),
+            code: zod
+              .string()
+              .max(getWorkflowResponseOneOneCategoriesItemCodeMax)
+              .describe('コード'),
             name: zod
               .string()
               .max(getWorkflowResponseOneOneCategoriesItemNameMax)
@@ -1029,6 +1101,7 @@ export const GetWorkflowResponse = zod
                           'calculation',
                           'button_api',
                           'button_kintone',
+                          'datetime',
                         ])
                         .describe('フィールドの型'),
                       required: zod.boolean().describe('必須項目かどうか'),
@@ -1147,6 +1220,21 @@ export const GetWorkflowResponse = zod
                                 defaultSortBy: zod
                                   .enum(['name', 'code'])
                                   .describe('アイテム一覧のデフォルト並び順'),
+                                itemsCount: zod
+                                  .number()
+                                  .min(
+                                    getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneItemsCountMin,
+                                  )
+                                  .describe('アイテム数'),
+                                initialDisplayCode: zod
+                                  .boolean()
+                                  .describe('コードを初期表示するか'),
+                                initialDisplayCreatedAt: zod
+                                  .boolean()
+                                  .describe('作成日時を初期表示するか'),
+                                initialDisplayDescription: zod
+                                  .boolean()
+                                  .describe('説明を初期表示するか'),
                                 createdAt: zod.iso
                                   .datetime({ offset: true })
                                   .describe('作成日時'),
@@ -1188,11 +1276,17 @@ export const GetWorkflowResponse = zod
                                         required: zod
                                           .boolean()
                                           .describe('必須項目かどうか'),
+                                        fieldOrder: zod
+                                          .number()
+                                          .describe('フィールドの表示順'),
                                         visible: zod
                                           .boolean()
                                           .describe(
                                             '管理者以外も閲覧可能な場合true',
                                           ),
+                                        initialDisplay: zod
+                                          .boolean()
+                                          .describe('初期表示するか'),
                                         options: zod
                                           .array(zod.string())
                                           .nullable()
@@ -1301,11 +1395,17 @@ export const GetWorkflowResponse = zod
                                           required: zod
                                             .boolean()
                                             .describe('必須項目かどうか'),
+                                          fieldOrder: zod
+                                            .number()
+                                            .describe('フィールドの表示順'),
                                           visible: zod
                                             .boolean()
                                             .describe(
                                               '管理者以外も閲覧可能な場合true',
                                             ),
+                                          initialDisplay: zod
+                                            .boolean()
+                                            .describe('初期表示するか'),
                                           options: zod
                                             .array(zod.string())
                                             .nullable()
@@ -1402,6 +1502,7 @@ export const GetWorkflowResponse = zod
                                               'calculation',
                                               'button_api',
                                               'button_kintone',
+                                              'datetime',
                                             ])
                                             .describe('フィールドの型'),
                                           required: zod
@@ -1569,6 +1670,7 @@ export const GetWorkflowResponse = zod
                                         'calculation',
                                         'button_api',
                                         'button_kintone',
+                                        'datetime',
                                       ])
                                       .describe('フィールドの型'),
                                     required: zod
@@ -1734,6 +1836,7 @@ export const GetWorkflowResponse = zod
                                               'calculation',
                                               'button_api',
                                               'button_kintone',
+                                              'datetime',
                                             ])
                                             .describe('フィールドの型'),
                                           required: zod
@@ -1892,6 +1995,7 @@ export const GetWorkflowResponse = zod
                                         'calculation',
                                         'button_api',
                                         'button_kintone',
+                                        'datetime',
                                       ])
                                       .describe('フィールドの型'),
                                     required: zod
@@ -2028,6 +2132,7 @@ export const GetWorkflowResponse = zod
                                               'calculation',
                                               'button_api',
                                               'button_kintone',
+                                              'datetime',
                                             ])
                                             .describe('フィールドの型'),
                                           required: zod
@@ -2293,6 +2398,7 @@ export const GetWorkflowResponse = zod
                                   'calculation',
                                   'button_api',
                                   'button_kintone',
+                                  'datetime',
                                 ])
                                 .describe('フィールドの型'),
                               required: zod
@@ -2574,11 +2680,17 @@ export const GetWorkflowResponse = zod
                                         required: zod
                                           .boolean()
                                           .describe('必須項目かどうか'),
+                                        fieldOrder: zod
+                                          .number()
+                                          .describe('フィールドの表示順'),
                                         visible: zod
                                           .boolean()
                                           .describe(
                                             '管理者以外も閲覧可能な場合true',
                                           ),
+                                        initialDisplay: zod
+                                          .boolean()
+                                          .describe('初期表示するか'),
                                         options: zod
                                           .array(zod.string())
                                           .nullable()
@@ -2629,6 +2741,7 @@ export const GetWorkflowResponse = zod
                           'user',
                           'team',
                           'ticket',
+                          'datetime',
                         ])
                         .describe('フィールドの型'),
                       code: zod.string().describe('フィールドのコード'),
@@ -2721,6 +2834,21 @@ export const GetWorkflowResponse = zod
                                 defaultSortBy: zod
                                   .enum(['name', 'code'])
                                   .describe('アイテム一覧のデフォルト並び順'),
+                                itemsCount: zod
+                                  .number()
+                                  .min(
+                                    getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneItemsCountMin,
+                                  )
+                                  .describe('アイテム数'),
+                                initialDisplayCode: zod
+                                  .boolean()
+                                  .describe('コードを初期表示するか'),
+                                initialDisplayCreatedAt: zod
+                                  .boolean()
+                                  .describe('作成日時を初期表示するか'),
+                                initialDisplayDescription: zod
+                                  .boolean()
+                                  .describe('説明を初期表示するか'),
                                 createdAt: zod.iso
                                   .datetime({ offset: true })
                                   .describe('作成日時'),
@@ -2762,11 +2890,17 @@ export const GetWorkflowResponse = zod
                                         required: zod
                                           .boolean()
                                           .describe('必須項目かどうか'),
+                                        fieldOrder: zod
+                                          .number()
+                                          .describe('フィールドの表示順'),
                                         visible: zod
                                           .boolean()
                                           .describe(
                                             '管理者以外も閲覧可能な場合true',
                                           ),
+                                        initialDisplay: zod
+                                          .boolean()
+                                          .describe('初期表示するか'),
                                         options: zod
                                           .array(zod.string())
                                           .nullable()
@@ -2877,11 +3011,17 @@ export const GetWorkflowResponse = zod
                                           required: zod
                                             .boolean()
                                             .describe('必須項目かどうか'),
+                                          fieldOrder: zod
+                                            .number()
+                                            .describe('フィールドの表示順'),
                                           visible: zod
                                             .boolean()
                                             .describe(
                                               '管理者以外も閲覧可能な場合true',
                                             ),
+                                          initialDisplay: zod
+                                            .boolean()
+                                            .describe('初期表示するか'),
                                           options: zod
                                             .array(zod.string())
                                             .nullable()
@@ -3034,6 +3174,12 @@ export const GetWorkflowResponse = zod
                         ])
                         .describe('ステータス'),
                       locale: zod.string().describe('ロケール（jaまたはen）'),
+                      userType: zod
+                        .enum(['normal', 'assistant'])
+                        .optional()
+                        .describe(
+                          'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                        ),
                       createdAt: zod.iso
                         .datetime({ offset: true })
                         .describe('作成日時'),
@@ -3044,6 +3190,12 @@ export const GetWorkflowResponse = zod
                         .datetime({ offset: true })
                         .nullish()
                         .describe('削除日時'),
+                      lastUsedOn: zod.iso
+                        .date()
+                        .nullish()
+                        .describe(
+                          '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                        ),
                       customFields: zod
                         .array(
                           zod.object({
@@ -3223,8 +3375,15 @@ export const GetWorkflowResponse = zod
                       versionNumber: zod.number().describe('バージョン番号'),
                       name: zod.string().describe('名前'),
                       description: zod.string().describe('説明'),
+                      notes: zod.string().nullable().describe('管理用メモ'),
+                      current: zod
+                        .boolean()
+                        .describe('現在のバージョンかどうか'),
                       createdAt: zod.string().describe('作成日時'),
                       updatedAt: zod.string().describe('更新日時'),
+                      versionCreatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('バージョンの作成日時'),
                       author: zod
                         .union([
                           zod
@@ -3287,6 +3446,12 @@ export const GetWorkflowResponse = zod
                               locale: zod
                                 .string()
                                 .describe('ロケール（jaまたはen）'),
+                              userType: zod
+                                .enum(['normal', 'assistant'])
+                                .optional()
+                                .describe(
+                                  'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                                ),
                               createdAt: zod.iso
                                 .datetime({ offset: true })
                                 .describe('作成日時'),
@@ -3297,6 +3462,12 @@ export const GetWorkflowResponse = zod
                                 .datetime({ offset: true })
                                 .nullish()
                                 .describe('削除日時'),
+                              lastUsedOn: zod.iso
+                                .date()
+                                .nullish()
+                                .describe(
+                                  '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                                ),
                               customFields: zod
                                 .array(
                                   zod.object({
@@ -3404,6 +3575,12 @@ export const GetWorkflowResponse = zod
                               locale: zod
                                 .string()
                                 .describe('ロケール（jaまたはen）'),
+                              userType: zod
+                                .enum(['normal', 'assistant'])
+                                .optional()
+                                .describe(
+                                  'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                                ),
                               createdAt: zod.iso
                                 .datetime({ offset: true })
                                 .describe('作成日時'),
@@ -3414,6 +3591,12 @@ export const GetWorkflowResponse = zod
                                 .datetime({ offset: true })
                                 .nullish()
                                 .describe('削除日時'),
+                              lastUsedOn: zod.iso
+                                .date()
+                                .nullish()
+                                .describe(
+                                  '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                                ),
                               customFields: zod
                                 .array(
                                   zod.object({
@@ -3467,6 +3650,9 @@ export const GetWorkflowResponse = zod
                               getWorkflowResponseTwoRouteConditionsItemRouteOneFolderOneNameMax,
                             )
                             .describe('名前'),
+                          fullName: zod
+                            .string()
+                            .describe('フルネーム（ルートフォルダからのパス）'),
                           code: zod
                             .string()
                             .max(
@@ -3492,6 +3678,7 @@ export const GetWorkflowResponse = zod
                               getWorkflowResponseTwoRouteConditionsItemRouteOneFolderOnePipelinesCountMin,
                             )
                             .describe('フォルダ内のパイプライン数'),
+                          editable: zod.boolean().describe('編集可能かどうか'),
                           createdAt: zod.iso
                             .datetime({ offset: true })
                             .describe('作成日時'),
@@ -3556,6 +3743,7 @@ export const GetWorkflowResponse = zod
                               'calculation',
                               'button_api',
                               'button_kintone',
+                              'datetime',
                             ])
                             .describe('フィールドの型'),
                           required: zod.boolean().describe('必須項目かどうか'),
@@ -3827,11 +4015,17 @@ export const GetWorkflowResponse = zod
                                         required: zod
                                           .boolean()
                                           .describe('必須項目かどうか'),
+                                        fieldOrder: zod
+                                          .number()
+                                          .describe('フィールドの表示順'),
                                         visible: zod
                                           .boolean()
                                           .describe(
                                             '管理者以外も閲覧可能な場合true',
                                           ),
+                                        initialDisplay: zod
+                                          .boolean()
+                                          .describe('初期表示するか'),
                                         options: zod
                                           .array(zod.string())
                                           .nullable()

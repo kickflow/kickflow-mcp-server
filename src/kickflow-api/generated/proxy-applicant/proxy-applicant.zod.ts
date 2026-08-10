@@ -90,6 +90,8 @@ export const listProxyApplicantsResponseWorkflowsItemFolderOneRoutesCountMin = 0
 
 export const listProxyApplicantsResponseWorkflowsItemFolderOnePipelinesCountMin = 0
 
+export const listProxyApplicantsResponseWorkflowsItemCategoriesItemCodeMax = 100
+
 export const listProxyApplicantsResponseWorkflowsItemCategoriesItemNameMax = 100
 
 export const ListProxyApplicantsResponseItem = zod
@@ -136,12 +138,24 @@ export const ListProxyApplicantsResponseItem = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
+        userType: zod
+          .enum(['normal', 'assistant'])
+          .optional()
+          .describe(
+            'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+          ),
         createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
         deactivatedAt: zod.iso
           .datetime({ offset: true })
           .nullish()
           .describe('削除日時'),
+        lastUsedOn: zod.iso
+          .date()
+          .nullish()
+          .describe(
+            '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+          ),
         customFields: zod
           .array(
             zod.object({
@@ -220,12 +234,24 @@ export const ListProxyApplicantsResponseItem = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
+        userType: zod
+          .enum(['normal', 'assistant'])
+          .optional()
+          .describe(
+            'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+          ),
         createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
         deactivatedAt: zod.iso
           .datetime({ offset: true })
           .nullish()
           .describe('削除日時'),
+        lastUsedOn: zod.iso
+          .date()
+          .nullish()
+          .describe(
+            '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+          ),
         customFields: zod
           .array(
             zod.object({
@@ -395,6 +421,12 @@ export const ListProxyApplicantsResponseItem = zod
                       ])
                       .describe('ステータス'),
                     locale: zod.string().describe('ロケール（jaまたはen）'),
+                    userType: zod
+                      .enum(['normal', 'assistant'])
+                      .optional()
+                      .describe(
+                        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                      ),
                     createdAt: zod.iso
                       .datetime({ offset: true })
                       .describe('作成日時'),
@@ -405,6 +437,12 @@ export const ListProxyApplicantsResponseItem = zod
                       .datetime({ offset: true })
                       .nullish()
                       .describe('削除日時'),
+                    lastUsedOn: zod.iso
+                      .date()
+                      .nullish()
+                      .describe(
+                        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                      ),
                     customFields: zod
                       .array(
                         zod.object({
@@ -509,6 +547,12 @@ export const ListProxyApplicantsResponseItem = zod
                       ])
                       .describe('ステータス'),
                     locale: zod.string().describe('ロケール（jaまたはen）'),
+                    userType: zod
+                      .enum(['normal', 'assistant'])
+                      .optional()
+                      .describe(
+                        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                      ),
                     createdAt: zod.iso
                       .datetime({ offset: true })
                       .describe('作成日時'),
@@ -519,6 +563,12 @@ export const ListProxyApplicantsResponseItem = zod
                       .datetime({ offset: true })
                       .nullish()
                       .describe('削除日時'),
+                    lastUsedOn: zod.iso
+                      .date()
+                      .nullish()
+                      .describe(
+                        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                      ),
                     customFields: zod
                       .array(
                         zod.object({
@@ -570,6 +620,9 @@ export const ListProxyApplicantsResponseItem = zod
                   .string()
                   .max(listProxyApplicantsResponseWorkflowsItemFolderOneNameMax)
                   .describe('名前'),
+                fullName: zod
+                  .string()
+                  .describe('フルネーム（ルートフォルダからのパス）'),
                 code: zod
                   .string()
                   .max(listProxyApplicantsResponseWorkflowsItemFolderOneCodeMax)
@@ -593,6 +646,7 @@ export const ListProxyApplicantsResponseItem = zod
                     listProxyApplicantsResponseWorkflowsItemFolderOnePipelinesCountMin,
                   )
                   .describe('フォルダ内のパイプライン数'),
+                editable: zod.boolean().describe('編集可能かどうか'),
                 createdAt: zod.iso
                   .datetime({ offset: true })
                   .describe('作成日時'),
@@ -607,6 +661,12 @@ export const ListProxyApplicantsResponseItem = zod
                 zod
                   .object({
                     id: zod.uuid().describe('UUID'),
+                    code: zod
+                      .string()
+                      .max(
+                        listProxyApplicantsResponseWorkflowsItemCategoriesItemCodeMax,
+                      )
+                      .describe('コード'),
                     name: zod
                       .string()
                       .max(
@@ -756,6 +816,8 @@ export const createProxyApplicantResponseWorkflowsItemFolderOneRoutesCountMin = 
 
 export const createProxyApplicantResponseWorkflowsItemFolderOnePipelinesCountMin = 0
 
+export const createProxyApplicantResponseWorkflowsItemCategoriesItemCodeMax = 100
+
 export const createProxyApplicantResponseWorkflowsItemCategoriesItemNameMax = 100
 
 export const CreateProxyApplicantResponse = zod
@@ -802,12 +864,24 @@ export const CreateProxyApplicantResponse = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
+        userType: zod
+          .enum(['normal', 'assistant'])
+          .optional()
+          .describe(
+            'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+          ),
         createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
         deactivatedAt: zod.iso
           .datetime({ offset: true })
           .nullish()
           .describe('削除日時'),
+        lastUsedOn: zod.iso
+          .date()
+          .nullish()
+          .describe(
+            '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+          ),
         customFields: zod
           .array(
             zod.object({
@@ -886,12 +960,24 @@ export const CreateProxyApplicantResponse = zod
           .enum(['invited', 'activated', 'suspended', 'deactivated'])
           .describe('ステータス'),
         locale: zod.string().describe('ロケール（jaまたはen）'),
+        userType: zod
+          .enum(['normal', 'assistant'])
+          .optional()
+          .describe(
+            'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+          ),
         createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
         deactivatedAt: zod.iso
           .datetime({ offset: true })
           .nullish()
           .describe('削除日時'),
+        lastUsedOn: zod.iso
+          .date()
+          .nullish()
+          .describe(
+            '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+          ),
         customFields: zod
           .array(
             zod.object({
@@ -1061,6 +1147,12 @@ export const CreateProxyApplicantResponse = zod
                       ])
                       .describe('ステータス'),
                     locale: zod.string().describe('ロケール（jaまたはen）'),
+                    userType: zod
+                      .enum(['normal', 'assistant'])
+                      .optional()
+                      .describe(
+                        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                      ),
                     createdAt: zod.iso
                       .datetime({ offset: true })
                       .describe('作成日時'),
@@ -1071,6 +1163,12 @@ export const CreateProxyApplicantResponse = zod
                       .datetime({ offset: true })
                       .nullish()
                       .describe('削除日時'),
+                    lastUsedOn: zod.iso
+                      .date()
+                      .nullish()
+                      .describe(
+                        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                      ),
                     customFields: zod
                       .array(
                         zod.object({
@@ -1175,6 +1273,12 @@ export const CreateProxyApplicantResponse = zod
                       ])
                       .describe('ステータス'),
                     locale: zod.string().describe('ロケール（jaまたはen）'),
+                    userType: zod
+                      .enum(['normal', 'assistant'])
+                      .optional()
+                      .describe(
+                        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                      ),
                     createdAt: zod.iso
                       .datetime({ offset: true })
                       .describe('作成日時'),
@@ -1185,6 +1289,12 @@ export const CreateProxyApplicantResponse = zod
                       .datetime({ offset: true })
                       .nullish()
                       .describe('削除日時'),
+                    lastUsedOn: zod.iso
+                      .date()
+                      .nullish()
+                      .describe(
+                        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                      ),
                     customFields: zod
                       .array(
                         zod.object({
@@ -1238,6 +1348,9 @@ export const CreateProxyApplicantResponse = zod
                     createProxyApplicantResponseWorkflowsItemFolderOneNameMax,
                   )
                   .describe('名前'),
+                fullName: zod
+                  .string()
+                  .describe('フルネーム（ルートフォルダからのパス）'),
                 code: zod
                   .string()
                   .max(
@@ -1263,6 +1376,7 @@ export const CreateProxyApplicantResponse = zod
                     createProxyApplicantResponseWorkflowsItemFolderOnePipelinesCountMin,
                   )
                   .describe('フォルダ内のパイプライン数'),
+                editable: zod.boolean().describe('編集可能かどうか'),
                 createdAt: zod.iso
                   .datetime({ offset: true })
                   .describe('作成日時'),
@@ -1277,6 +1391,12 @@ export const CreateProxyApplicantResponse = zod
                 zod
                   .object({
                     id: zod.uuid().describe('UUID'),
+                    code: zod
+                      .string()
+                      .max(
+                        createProxyApplicantResponseWorkflowsItemCategoriesItemCodeMax,
+                      )
+                      .describe('コード'),
                     name: zod
                       .string()
                       .max(
