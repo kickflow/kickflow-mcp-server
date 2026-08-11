@@ -137,13 +137,9 @@ export const listUsersQuerySortByRegExp = new RegExp(
 )
 
 export const ListUsersQueryParams = zod.object({
-  page: zod
-    .number()
-    .min(1)
-    .default(listUsersQueryPageDefault)
-    .describe('ページ'),
+  page: zod.int().min(1).default(listUsersQueryPageDefault).describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listUsersQueryPerPageMax)
     .default(listUsersQueryPerPageDefault)
@@ -1405,12 +1401,12 @@ export const listUserTeamsQueryPerPageMax = 100
 
 export const ListUserTeamsQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listUserTeamsQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listUserTeamsQueryPerPageMax)
     .default(listUserTeamsQueryPerPageDefault)
@@ -1444,7 +1440,7 @@ export const ListUserTeamsResponseItem = zod
       .describe('管理用メモ'),
     approveOnly: zod.boolean().describe('承認専用チームかどうか'),
     usersCount: zod
-      .number()
+      .int()
       .min(listUserTeamsResponseUsersCountMin)
       .describe('ユーザー数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
@@ -1475,12 +1471,12 @@ export const listUserRolesQueryPerPageMax = 100
 
 export const ListUserRolesQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listUserRolesQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listUserRolesQueryPerPageMax)
     .default(listUserRolesQueryPerPageDefault)
@@ -1501,7 +1497,7 @@ export const ListUserRolesResponseItem = zod
         '編集可能かどうか。「すべての管理者」のときだけfalseになります。',
       ),
     usersCount: zod
-      .number()
+      .int()
       .min(listUserRolesResponseUsersCountMin)
       .describe('この管理者ロールに所属するユーザー数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),

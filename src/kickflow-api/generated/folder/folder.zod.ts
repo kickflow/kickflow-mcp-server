@@ -15,12 +15,12 @@ export const listFoldersQuerySortByRegExp = new RegExp(
 
 export const ListFoldersQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listFoldersQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listFoldersQueryPerPageMax)
     .default(listFoldersQueryPerPageDefault)
@@ -52,15 +52,15 @@ export const ListFoldersResponseItem = zod
     code: zod.string().max(listFoldersResponseCodeMax).describe('コード'),
     description: zod.string().nullish().describe('説明'),
     workflowsCount: zod
-      .number()
+      .int()
       .min(listFoldersResponseWorkflowsCountMin)
       .describe('フォルダ内のワークフロー数'),
     routesCount: zod
-      .number()
+      .int()
       .min(listFoldersResponseRoutesCountMin)
       .describe('フォルダ内の経路数'),
     pipelinesCount: zod
-      .number()
+      .int()
       .min(listFoldersResponsePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
     editable: zod.boolean().describe('編集可能かどうか'),
@@ -124,15 +124,15 @@ export const CreateFolderResponse = zod
     code: zod.string().max(createFolderResponseOneCodeMax).describe('コード'),
     description: zod.string().nullish().describe('説明'),
     workflowsCount: zod
-      .number()
+      .int()
       .min(createFolderResponseOneWorkflowsCountMin)
       .describe('フォルダ内のワークフロー数'),
     routesCount: zod
-      .number()
+      .int()
       .min(createFolderResponseOneRoutesCountMin)
       .describe('フォルダ内の経路数'),
     pipelinesCount: zod
-      .number()
+      .int()
       .min(createFolderResponseOnePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
     editable: zod.boolean().describe('編集可能かどうか'),
@@ -160,15 +160,15 @@ export const CreateFolderResponse = zod
                 .describe('コード'),
               description: zod.string().nullish().describe('説明'),
               workflowsCount: zod
-                .number()
+                .int()
                 .min(createFolderResponseTwoAncestorsItemWorkflowsCountMin)
                 .describe('フォルダ内のワークフロー数'),
               routesCount: zod
-                .number()
+                .int()
                 .min(createFolderResponseTwoAncestorsItemRoutesCountMin)
                 .describe('フォルダ内の経路数'),
               pipelinesCount: zod
-                .number()
+                .int()
                 .min(createFolderResponseTwoAncestorsItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
               editable: zod.boolean().describe('編集可能かどうか'),
@@ -201,15 +201,15 @@ export const CreateFolderResponse = zod
                 .describe('コード'),
               description: zod.string().nullish().describe('説明'),
               workflowsCount: zod
-                .number()
+                .int()
                 .min(createFolderResponseTwoChildrenItemWorkflowsCountMin)
                 .describe('フォルダ内のワークフロー数'),
               routesCount: zod
-                .number()
+                .int()
                 .min(createFolderResponseTwoChildrenItemRoutesCountMin)
                 .describe('フォルダ内の経路数'),
               pipelinesCount: zod
-                .number()
+                .int()
                 .min(createFolderResponseTwoChildrenItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
               editable: zod.boolean().describe('編集可能かどうか'),
@@ -307,15 +307,15 @@ export const UpdateFolderResponse = zod
     code: zod.string().max(updateFolderResponseOneCodeMax).describe('コード'),
     description: zod.string().nullish().describe('説明'),
     workflowsCount: zod
-      .number()
+      .int()
       .min(updateFolderResponseOneWorkflowsCountMin)
       .describe('フォルダ内のワークフロー数'),
     routesCount: zod
-      .number()
+      .int()
       .min(updateFolderResponseOneRoutesCountMin)
       .describe('フォルダ内の経路数'),
     pipelinesCount: zod
-      .number()
+      .int()
       .min(updateFolderResponseOnePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
     editable: zod.boolean().describe('編集可能かどうか'),
@@ -343,15 +343,15 @@ export const UpdateFolderResponse = zod
                 .describe('コード'),
               description: zod.string().nullish().describe('説明'),
               workflowsCount: zod
-                .number()
+                .int()
                 .min(updateFolderResponseTwoAncestorsItemWorkflowsCountMin)
                 .describe('フォルダ内のワークフロー数'),
               routesCount: zod
-                .number()
+                .int()
                 .min(updateFolderResponseTwoAncestorsItemRoutesCountMin)
                 .describe('フォルダ内の経路数'),
               pipelinesCount: zod
-                .number()
+                .int()
                 .min(updateFolderResponseTwoAncestorsItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
               editable: zod.boolean().describe('編集可能かどうか'),
@@ -384,15 +384,15 @@ export const UpdateFolderResponse = zod
                 .describe('コード'),
               description: zod.string().nullish().describe('説明'),
               workflowsCount: zod
-                .number()
+                .int()
                 .min(updateFolderResponseTwoChildrenItemWorkflowsCountMin)
                 .describe('フォルダ内のワークフロー数'),
               routesCount: zod
-                .number()
+                .int()
                 .min(updateFolderResponseTwoChildrenItemRoutesCountMin)
                 .describe('フォルダ内の経路数'),
               pipelinesCount: zod
-                .number()
+                .int()
                 .min(updateFolderResponseTwoChildrenItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
               editable: zod.boolean().describe('編集可能かどうか'),
@@ -462,15 +462,15 @@ export const GetFolderResponse = zod
     code: zod.string().max(getFolderResponseOneCodeMax).describe('コード'),
     description: zod.string().nullish().describe('説明'),
     workflowsCount: zod
-      .number()
+      .int()
       .min(getFolderResponseOneWorkflowsCountMin)
       .describe('フォルダ内のワークフロー数'),
     routesCount: zod
-      .number()
+      .int()
       .min(getFolderResponseOneRoutesCountMin)
       .describe('フォルダ内の経路数'),
     pipelinesCount: zod
-      .number()
+      .int()
       .min(getFolderResponseOnePipelinesCountMin)
       .describe('フォルダ内のパイプライン数'),
     editable: zod.boolean().describe('編集可能かどうか'),
@@ -498,15 +498,15 @@ export const GetFolderResponse = zod
                 .describe('コード'),
               description: zod.string().nullish().describe('説明'),
               workflowsCount: zod
-                .number()
+                .int()
                 .min(getFolderResponseTwoAncestorsItemWorkflowsCountMin)
                 .describe('フォルダ内のワークフロー数'),
               routesCount: zod
-                .number()
+                .int()
                 .min(getFolderResponseTwoAncestorsItemRoutesCountMin)
                 .describe('フォルダ内の経路数'),
               pipelinesCount: zod
-                .number()
+                .int()
                 .min(getFolderResponseTwoAncestorsItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
               editable: zod.boolean().describe('編集可能かどうか'),
@@ -539,15 +539,15 @@ export const GetFolderResponse = zod
                 .describe('コード'),
               description: zod.string().nullish().describe('説明'),
               workflowsCount: zod
-                .number()
+                .int()
                 .min(getFolderResponseTwoChildrenItemWorkflowsCountMin)
                 .describe('フォルダ内のワークフロー数'),
               routesCount: zod
-                .number()
+                .int()
                 .min(getFolderResponseTwoChildrenItemRoutesCountMin)
                 .describe('フォルダ内の経路数'),
               pipelinesCount: zod
-                .number()
+                .int()
                 .min(getFolderResponseTwoChildrenItemPipelinesCountMin)
                 .describe('フォルダ内のパイプライン数'),
               editable: zod.boolean().describe('編集可能かどうか'),

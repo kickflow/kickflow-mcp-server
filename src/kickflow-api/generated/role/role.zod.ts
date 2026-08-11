@@ -16,13 +16,9 @@ export const listRolesQuerySortByRegExp = new RegExp(
 )
 
 export const ListRolesQueryParams = zod.object({
-  page: zod
-    .number()
-    .min(1)
-    .default(listRolesQueryPageDefault)
-    .describe('ページ'),
+  page: zod.int().min(1).default(listRolesQueryPageDefault).describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listRolesQueryPerPageMax)
     .default(listRolesQueryPerPageDefault)
@@ -50,7 +46,7 @@ export const ListRolesResponseItem = zod
         '編集可能かどうか。「すべての管理者」のときだけfalseになります。',
       ),
     usersCount: zod
-      .number()
+      .int()
       .min(listRolesResponseUsersCountMin)
       .describe('この管理者ロールに所属するユーザー数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
@@ -160,7 +156,7 @@ export const CreateRoleResponse = zod
         '編集可能かどうか。「すべての管理者」のときだけfalseになります。',
       ),
     usersCount: zod
-      .number()
+      .int()
       .min(createRoleResponseOneUsersCountMin)
       .describe('この管理者ロールに所属するユーザー数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
@@ -219,19 +215,19 @@ export const CreateRoleResponse = zod
                       .describe('コード'),
                     description: zod.string().nullish().describe('説明'),
                     workflowsCount: zod
-                      .number()
+                      .int()
                       .min(
                         createRoleResponseTwoPermissionListItemFoldersItemWorkflowsCountMin,
                       )
                       .describe('フォルダ内のワークフロー数'),
                     routesCount: zod
-                      .number()
+                      .int()
                       .min(
                         createRoleResponseTwoPermissionListItemFoldersItemRoutesCountMin,
                       )
                       .describe('フォルダ内の経路数'),
                     pipelinesCount: zod
-                      .number()
+                      .int()
                       .min(
                         createRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin,
                       )
@@ -269,7 +265,7 @@ export const CreateRoleResponse = zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
                     itemsCount: zod
-                      .number()
+                      .int()
                       .min(
                         createRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin,
                       )
@@ -325,7 +321,7 @@ export const CreateRoleResponse = zod
                               .boolean()
                               .describe('必須項目かどうか'),
                             fieldOrder: zod
-                              .number()
+                              .int()
                               .describe('フィールドの表示順'),
                             visible: zod
                               .boolean()
@@ -382,7 +378,7 @@ export const CreateRoleResponse = zod
                       .boolean()
                       .describe('承認専用チームかどうか'),
                     usersCount: zod
-                      .number()
+                      .int()
                       .min(
                         createRoleResponseTwoPermissionListItemTeamsItemUsersCountMin,
                       )
@@ -456,7 +452,7 @@ export const GetRoleResponse = zod
         '編集可能かどうか。「すべての管理者」のときだけfalseになります。',
       ),
     usersCount: zod
-      .number()
+      .int()
       .min(getRoleResponseOneUsersCountMin)
       .describe('この管理者ロールに所属するユーザー数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
@@ -515,19 +511,19 @@ export const GetRoleResponse = zod
                       .describe('コード'),
                     description: zod.string().nullish().describe('説明'),
                     workflowsCount: zod
-                      .number()
+                      .int()
                       .min(
                         getRoleResponseTwoPermissionListItemFoldersItemWorkflowsCountMin,
                       )
                       .describe('フォルダ内のワークフロー数'),
                     routesCount: zod
-                      .number()
+                      .int()
                       .min(
                         getRoleResponseTwoPermissionListItemFoldersItemRoutesCountMin,
                       )
                       .describe('フォルダ内の経路数'),
                     pipelinesCount: zod
-                      .number()
+                      .int()
                       .min(
                         getRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin,
                       )
@@ -565,7 +561,7 @@ export const GetRoleResponse = zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
                     itemsCount: zod
-                      .number()
+                      .int()
                       .min(
                         getRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin,
                       )
@@ -621,7 +617,7 @@ export const GetRoleResponse = zod
                               .boolean()
                               .describe('必須項目かどうか'),
                             fieldOrder: zod
-                              .number()
+                              .int()
                               .describe('フィールドの表示順'),
                             visible: zod
                               .boolean()
@@ -674,7 +670,7 @@ export const GetRoleResponse = zod
                       .boolean()
                       .describe('承認専用チームかどうか'),
                     usersCount: zod
-                      .number()
+                      .int()
                       .min(
                         getRoleResponseTwoPermissionListItemTeamsItemUsersCountMin,
                       )
@@ -802,7 +798,7 @@ export const UpdateRoleResponse = zod
         '編集可能かどうか。「すべての管理者」のときだけfalseになります。',
       ),
     usersCount: zod
-      .number()
+      .int()
       .min(updateRoleResponseOneUsersCountMin)
       .describe('この管理者ロールに所属するユーザー数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
@@ -861,19 +857,19 @@ export const UpdateRoleResponse = zod
                       .describe('コード'),
                     description: zod.string().nullish().describe('説明'),
                     workflowsCount: zod
-                      .number()
+                      .int()
                       .min(
                         updateRoleResponseTwoPermissionListItemFoldersItemWorkflowsCountMin,
                       )
                       .describe('フォルダ内のワークフロー数'),
                     routesCount: zod
-                      .number()
+                      .int()
                       .min(
                         updateRoleResponseTwoPermissionListItemFoldersItemRoutesCountMin,
                       )
                       .describe('フォルダ内の経路数'),
                     pipelinesCount: zod
-                      .number()
+                      .int()
                       .min(
                         updateRoleResponseTwoPermissionListItemFoldersItemPipelinesCountMin,
                       )
@@ -911,7 +907,7 @@ export const UpdateRoleResponse = zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
                     itemsCount: zod
-                      .number()
+                      .int()
                       .min(
                         updateRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin,
                       )
@@ -967,7 +963,7 @@ export const UpdateRoleResponse = zod
                               .boolean()
                               .describe('必須項目かどうか'),
                             fieldOrder: zod
-                              .number()
+                              .int()
                               .describe('フィールドの表示順'),
                             visible: zod
                               .boolean()
@@ -1024,7 +1020,7 @@ export const UpdateRoleResponse = zod
                       .boolean()
                       .describe('承認専用チームかどうか'),
                     usersCount: zod
-                      .number()
+                      .int()
                       .min(
                         updateRoleResponseTwoPermissionListItemTeamsItemUsersCountMin,
                       )
@@ -1097,12 +1093,12 @@ export const listRoleMembersQueryPerPageMax = 100
 
 export const ListRoleMembersQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listRoleMembersQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listRoleMembersQueryPerPageMax)
     .default(listRoleMembersQueryPerPageDefault)

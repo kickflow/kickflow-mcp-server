@@ -15,12 +15,12 @@ export const listWorkflowsQuerySortByRegExp = new RegExp(
 
 export const ListWorkflowsQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listWorkflowsQueryPageDefault)
     .describe('ページ。1が最初のページ。'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listWorkflowsQueryPerPageMax)
     .default(listWorkflowsQueryPerPageDefault)
@@ -89,7 +89,7 @@ export const ListWorkflowsResponseItem = zod
       .regex(listWorkflowsResponseCodeRegExp)
       .describe('コード'),
     versionId: zod.string().describe('バージョンのUUID'),
-    versionNumber: zod.number().describe('バージョン番号'),
+    versionNumber: zod.int().describe('バージョン番号'),
     name: zod.string().describe('名前'),
     description: zod.string().describe('説明'),
     status: zod
@@ -350,15 +350,15 @@ export const ListWorkflowsResponseItem = zod
           .describe('コード'),
         description: zod.string().nullish().describe('説明'),
         workflowsCount: zod
-          .number()
+          .int()
           .min(listWorkflowsResponseFolderOneWorkflowsCountMin)
           .describe('フォルダ内のワークフロー数'),
         routesCount: zod
-          .number()
+          .int()
           .min(listWorkflowsResponseFolderOneRoutesCountMin)
           .describe('フォルダ内の経路数'),
         pipelinesCount: zod
-          .number()
+          .int()
           .min(listWorkflowsResponseFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
         editable: zod.boolean().describe('編集可能かどうか'),
@@ -719,7 +719,7 @@ export const GetWorkflowResponse = zod
       .regex(getWorkflowResponseOneOneCodeRegExp)
       .describe('コード'),
     versionId: zod.string().describe('バージョンのUUID'),
-    versionNumber: zod.number().describe('バージョン番号'),
+    versionNumber: zod.int().describe('バージョン番号'),
     name: zod.string().describe('名前'),
     description: zod.string().describe('説明'),
     status: zod
@@ -980,15 +980,15 @@ export const GetWorkflowResponse = zod
           .describe('コード'),
         description: zod.string().nullish().describe('説明'),
         workflowsCount: zod
-          .number()
+          .int()
           .min(getWorkflowResponseOneOneFolderOneWorkflowsCountMin)
           .describe('フォルダ内のワークフロー数'),
         routesCount: zod
-          .number()
+          .int()
           .min(getWorkflowResponseOneOneFolderOneRoutesCountMin)
           .describe('フォルダ内の経路数'),
         pipelinesCount: zod
-          .number()
+          .int()
           .min(getWorkflowResponseOneOneFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
         editable: zod.boolean().describe('編集可能かどうか'),
@@ -1157,7 +1157,7 @@ export const GetWorkflowResponse = zod
                         .nullable()
                         .describe('最大文字数'),
                       decimalDigit: zod
-                        .number()
+                        .int()
                         .min(
                           getWorkflowResponseOneTwoSectionListItemFormFieldsItemOneDecimalDigitMin,
                         )
@@ -1221,7 +1221,7 @@ export const GetWorkflowResponse = zod
                                   .enum(['name', 'code'])
                                   .describe('アイテム一覧のデフォルト並び順'),
                                 itemsCount: zod
-                                  .number()
+                                  .int()
                                   .min(
                                     getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneItemsCountMin,
                                   )
@@ -1277,7 +1277,7 @@ export const GetWorkflowResponse = zod
                                           .boolean()
                                           .describe('必須項目かどうか'),
                                         fieldOrder: zod
-                                          .number()
+                                          .int()
                                           .describe('フィールドの表示順'),
                                         visible: zod
                                           .boolean()
@@ -1396,7 +1396,7 @@ export const GetWorkflowResponse = zod
                                             .boolean()
                                             .describe('必須項目かどうか'),
                                           fieldOrder: zod
-                                            .number()
+                                            .int()
                                             .describe('フィールドの表示順'),
                                           visible: zod
                                             .boolean()
@@ -1573,7 +1573,7 @@ export const GetWorkflowResponse = zod
                                             .nullable()
                                             .describe('最大文字数'),
                                           decimalDigit: zod
-                                            .number()
+                                            .int()
                                             .min(
                                               getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoExternalApiSettingOneMappingsItemFormFieldDecimalDigitMin,
                                             )
@@ -1737,7 +1737,7 @@ export const GetWorkflowResponse = zod
                                       .nullable()
                                       .describe('最大文字数'),
                                     decimalDigit: zod
-                                      .number()
+                                      .int()
                                       .min(
                                         getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoKintoneAppSettingOneFormFieldDecimalDigitMin,
                                       )
@@ -1907,7 +1907,7 @@ export const GetWorkflowResponse = zod
                                             .nullable()
                                             .describe('最大文字数'),
                                           decimalDigit: zod
-                                            .number()
+                                            .int()
                                             .min(
                                               getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoKintoneAppSettingOneMappingsItemFormFieldDecimalDigitMin,
                                             )
@@ -2062,7 +2062,7 @@ export const GetWorkflowResponse = zod
                                       .nullable()
                                       .describe('最大文字数'),
                                     decimalDigit: zod
-                                      .number()
+                                      .int()
                                       .min(
                                         getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoClimberCloudSettingOneFormFieldDecimalDigitMin,
                                       )
@@ -2203,7 +2203,7 @@ export const GetWorkflowResponse = zod
                                             .nullable()
                                             .describe('最大文字数'),
                                           decimalDigit: zod
-                                            .number()
+                                            .int()
                                             .min(
                                               getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoClimberCloudSettingOneMappingsItemFormFieldDecimalDigitMin,
                                             )
@@ -2243,7 +2243,7 @@ export const GetWorkflowResponse = zod
                                         })
                                         .describe('フォームフィールド'),
                                       order: zod
-                                        .number()
+                                        .int()
                                         .describe('表示順（1から始まります）'),
                                     }),
                                   )
@@ -2465,7 +2465,7 @@ export const GetWorkflowResponse = zod
                                 .nullable()
                                 .describe('最大文字数'),
                               decimalDigit: zod
-                                .number()
+                                .int()
                                 .min(
                                   getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneDecimalDigitMin,
                                 )
@@ -2517,7 +2517,7 @@ export const GetWorkflowResponse = zod
                                 )
                                 .describe('名前'),
                               level: zod
-                                .number()
+                                .int()
                                 .min(
                                   getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGradeOneLevelMin,
                                 )
@@ -2580,7 +2580,7 @@ export const GetWorkflowResponse = zod
                                 .boolean()
                                 .describe('承認専用チームかどうか'),
                               usersCount: zod
-                                .number()
+                                .int()
                                 .min(
                                   getWorkflowResponseOneTwoSectionListItemConditionFieldsItemTeamOneUsersCountMin,
                                 )
@@ -2681,7 +2681,7 @@ export const GetWorkflowResponse = zod
                                           .boolean()
                                           .describe('必須項目かどうか'),
                                         fieldOrder: zod
-                                          .number()
+                                          .int()
                                           .describe('フィールドの表示順'),
                                         visible: zod
                                           .boolean()
@@ -2768,10 +2768,7 @@ export const GetWorkflowResponse = zod
                       maxValue: zod.number().nullable().describe('最大値'),
                       minValue: zod.number().nullable().describe('最小値'),
                       defaultValue: zod.string().nullable().describe('初期値'),
-                      decimalDigit: zod
-                        .number()
-                        .nullable()
-                        .describe('小数の桁数'),
+                      decimalDigit: zod.int().nullable().describe('小数の桁数'),
                       delimited: zod
                         .boolean()
                         .nullable()
@@ -2835,7 +2832,7 @@ export const GetWorkflowResponse = zod
                                   .enum(['name', 'code'])
                                   .describe('アイテム一覧のデフォルト並び順'),
                                 itemsCount: zod
-                                  .number()
+                                  .int()
                                   .min(
                                     getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneItemsCountMin,
                                   )
@@ -2891,7 +2888,7 @@ export const GetWorkflowResponse = zod
                                           .boolean()
                                           .describe('必須項目かどうか'),
                                         fieldOrder: zod
-                                          .number()
+                                          .int()
                                           .describe('フィールドの表示順'),
                                         visible: zod
                                           .boolean()
@@ -3012,7 +3009,7 @@ export const GetWorkflowResponse = zod
                                             .boolean()
                                             .describe('必須項目かどうか'),
                                           fieldOrder: zod
-                                            .number()
+                                            .int()
                                             .describe('フィールドの表示順'),
                                           visible: zod
                                             .boolean()
@@ -3269,7 +3266,7 @@ export const GetWorkflowResponse = zod
                         .boolean()
                         .describe('承認専用チームかどうか'),
                       usersCount: zod
-                        .number()
+                        .int()
                         .min(
                           getWorkflowResponseOneTwoTicketViewersItemTeamOneUsersCountMin,
                         )
@@ -3297,7 +3294,7 @@ export const GetWorkflowResponse = zod
                         )
                         .describe('名前'),
                       level: zod
-                        .number()
+                        .int()
                         .min(
                           getWorkflowResponseOneTwoTicketViewersItemGradeOneLevelMin,
                         )
@@ -3372,7 +3369,7 @@ export const GetWorkflowResponse = zod
                         .enum(['visible', 'deleted', 'error'])
                         .describe('ステータス'),
                       versionId: zod.string().describe('バージョンのID'),
-                      versionNumber: zod.number().describe('バージョン番号'),
+                      versionNumber: zod.int().describe('バージョン番号'),
                       name: zod.string().describe('名前'),
                       description: zod.string().describe('説明'),
                       notes: zod.string().nullable().describe('管理用メモ'),
@@ -3661,19 +3658,19 @@ export const GetWorkflowResponse = zod
                             .describe('コード'),
                           description: zod.string().nullish().describe('説明'),
                           workflowsCount: zod
-                            .number()
+                            .int()
                             .min(
                               getWorkflowResponseTwoRouteConditionsItemRouteOneFolderOneWorkflowsCountMin,
                             )
                             .describe('フォルダ内のワークフロー数'),
                           routesCount: zod
-                            .number()
+                            .int()
                             .min(
                               getWorkflowResponseTwoRouteConditionsItemRouteOneFolderOneRoutesCountMin,
                             )
                             .describe('フォルダ内の経路数'),
                           pipelinesCount: zod
-                            .number()
+                            .int()
                             .min(
                               getWorkflowResponseTwoRouteConditionsItemRouteOneFolderOnePipelinesCountMin,
                             )
@@ -3802,7 +3799,7 @@ export const GetWorkflowResponse = zod
                             .nullable()
                             .describe('最大文字数'),
                           decimalDigit: zod
-                            .number()
+                            .int()
                             .min(
                               getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemFormFieldOneDecimalDigitMin,
                             )
@@ -3852,7 +3849,7 @@ export const GetWorkflowResponse = zod
                                 )
                                 .describe('名前'),
                               level: zod
-                                .number()
+                                .int()
                                 .min(
                                   getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemGradeOneLevelMin,
                                 )
@@ -3915,7 +3912,7 @@ export const GetWorkflowResponse = zod
                                 .boolean()
                                 .describe('承認専用チームかどうか'),
                               usersCount: zod
-                                .number()
+                                .int()
                                 .min(
                                   getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemTeamOneUsersCountMin,
                                 )
@@ -4016,7 +4013,7 @@ export const GetWorkflowResponse = zod
                                           .boolean()
                                           .describe('必須項目かどうか'),
                                         fieldOrder: zod
-                                          .number()
+                                          .int()
                                           .describe('フィールドの表示順'),
                                         visible: zod
                                           .boolean()

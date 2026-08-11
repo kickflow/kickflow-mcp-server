@@ -15,12 +15,12 @@ export const listRoutesQuerySortByRegExp = new RegExp(
 
 export const ListRoutesQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listRoutesQueryPageDefault)
     .describe('ページ。1が最初のページ。'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listRoutesQueryPerPageMax)
     .default(listRoutesQueryPerPageDefault)
@@ -79,7 +79,7 @@ export const ListRoutesResponseItem = zod
     code: zod.string().describe('コード'),
     status: zod.enum(['visible', 'deleted', 'error']).describe('ステータス'),
     versionId: zod.string().describe('バージョンのID'),
-    versionNumber: zod.number().describe('バージョン番号'),
+    versionNumber: zod.int().describe('バージョン番号'),
     name: zod.string().describe('名前'),
     description: zod.string().describe('説明'),
     notes: zod.string().nullable().describe('管理用メモ'),
@@ -308,15 +308,15 @@ export const ListRoutesResponseItem = zod
           .describe('コード'),
         description: zod.string().nullish().describe('説明'),
         workflowsCount: zod
-          .number()
+          .int()
           .min(listRoutesResponseFolderOneWorkflowsCountMin)
           .describe('フォルダ内のワークフロー数'),
         routesCount: zod
-          .number()
+          .int()
           .min(listRoutesResponseFolderOneRoutesCountMin)
           .describe('フォルダ内の経路数'),
         pipelinesCount: zod
-          .number()
+          .int()
           .min(listRoutesResponseFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
         editable: zod.boolean().describe('編集可能かどうか'),
@@ -436,7 +436,7 @@ export const GetRouteResponse = zod
     code: zod.string().describe('コード'),
     status: zod.enum(['visible', 'deleted', 'error']).describe('ステータス'),
     versionId: zod.string().describe('バージョンのID'),
-    versionNumber: zod.number().describe('バージョン番号'),
+    versionNumber: zod.int().describe('バージョン番号'),
     name: zod.string().describe('名前'),
     description: zod.string().describe('説明'),
     notes: zod.string().nullable().describe('管理用メモ'),
@@ -665,15 +665,15 @@ export const GetRouteResponse = zod
           .describe('コード'),
         description: zod.string().nullish().describe('説明'),
         workflowsCount: zod
-          .number()
+          .int()
           .min(getRouteResponseOneFolderOneWorkflowsCountMin)
           .describe('フォルダ内のワークフロー数'),
         routesCount: zod
-          .number()
+          .int()
           .min(getRouteResponseOneFolderOneRoutesCountMin)
           .describe('フォルダ内の経路数'),
         pipelinesCount: zod
-          .number()
+          .int()
           .min(getRouteResponseOneFolderOnePipelinesCountMin)
           .describe('フォルダ内のパイプライン数'),
         editable: zod.boolean().describe('編集可能かどうか'),
@@ -691,9 +691,7 @@ export const GetRouteResponse = zod
           zod
             .object({
               id: zod.string().describe('UUID'),
-              stepOrder: zod
-                .number()
-                .describe('ステップ順序（1から始まります）'),
+              stepOrder: zod.int().describe('ステップ順序（1から始まります）'),
               stepType: zod
                 .enum([
                   'author',
@@ -713,9 +711,9 @@ export const GetRouteResponse = zod
                   'アクションタイプ。承認\/差し戻しの場合approve、回覧（確認あり）の場合confirm、回覧（確認なし）の場合noneになります。',
                 ),
               instruction: zod.string().nullable().describe('承認者への指示'),
-              requiredApprovalsNumber: zod.number().describe('必要な承認人数'),
+              requiredApprovalsNumber: zod.int().describe('必要な承認人数'),
               requiredApprovalsPercent: zod
-                .number()
+                .int()
                 .describe('必要な承認割合（%）'),
               fallbackType: zod
                 .union([
@@ -739,7 +737,7 @@ export const GetRouteResponse = zod
                 .boolean()
                 .describe('このステップの承認者に引き上げを許可するか'),
               minCustomAssignees: zod
-                .number()
+                .int()
                 .min(getRouteResponseTwoStepsItemMinCustomAssigneesMin)
                 .nullable()
                 .describe(
@@ -892,7 +890,7 @@ export const GetRouteResponse = zod
                           .boolean()
                           .describe('承認専用チームかどうか'),
                         usersCount: zod
-                          .number()
+                          .int()
                           .min(
                             getRouteResponseTwoStepsItemTargetsItemTeamUsersCountMin,
                           )
@@ -940,7 +938,7 @@ export const GetRouteResponse = zod
                               )
                               .describe('名前'),
                             level: zod
-                              .number()
+                              .int()
                               .min(
                                 getRouteResponseTwoStepsItemTargetsItemGradesItemLevelMin,
                               )
@@ -1047,7 +1045,7 @@ export const GetRouteResponse = zod
                                     )
                                     .describe('名前'),
                                   level: zod
-                                    .number()
+                                    .int()
                                     .min(
                                       getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGradeOneLevelMin,
                                     )
@@ -1107,7 +1105,7 @@ export const GetRouteResponse = zod
                                     .boolean()
                                     .describe('承認専用チームかどうか'),
                                   usersCount: zod
-                                    .number()
+                                    .int()
                                     .min(
                                       getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemTeamOneUsersCountMin,
                                     )
@@ -1205,7 +1203,7 @@ export const GetRouteResponse = zod
                                               .boolean()
                                               .describe('必須項目かどうか'),
                                             fieldOrder: zod
-                                              .number()
+                                              .int()
                                               .describe('フィールドの表示順'),
                                             visible: zod
                                               .boolean()

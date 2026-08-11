@@ -19,12 +19,12 @@ export const listCommentsQuerySortByRegExp = new RegExp(
 
 export const ListCommentsQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listCommentsQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listCommentsQueryPerPageMax)
     .default(listCommentsQueryPerPageDefault)
@@ -71,7 +71,7 @@ export const ListCommentsResponseItem = zod
             signedId: zod.string().describe('署名済みID'),
             filename: zod.string().describe('ファイル名'),
             url: zod.url().describe('ファイルURL'),
-            byteSize: zod.number().describe('バイト数'),
+            byteSize: zod.int().describe('バイト数'),
             contentType: zod.string().describe('Content-Type'),
           })
           .describe('添付ファイル'),
@@ -333,7 +333,7 @@ export const CreateCommentResponse = zod
             signedId: zod.string().describe('署名済みID'),
             filename: zod.string().describe('ファイル名'),
             url: zod.url().describe('ファイルURL'),
-            byteSize: zod.number().describe('バイト数'),
+            byteSize: zod.int().describe('バイト数'),
             contentType: zod.string().describe('Content-Type'),
           })
           .describe('添付ファイル'),
@@ -588,7 +588,7 @@ export const GetCommentResponse = zod
             signedId: zod.string().describe('署名済みID'),
             filename: zod.string().describe('ファイル名'),
             url: zod.url().describe('ファイルURL'),
-            byteSize: zod.number().describe('バイト数'),
+            byteSize: zod.int().describe('バイト数'),
             contentType: zod.string().describe('Content-Type'),
           })
           .describe('添付ファイル'),
@@ -847,7 +847,7 @@ export const UpdateCommentResponse = zod
             signedId: zod.string().describe('署名済みID'),
             filename: zod.string().describe('ファイル名'),
             url: zod.url().describe('ファイルURL'),
-            byteSize: zod.number().describe('バイト数'),
+            byteSize: zod.int().describe('バイト数'),
             contentType: zod.string().describe('Content-Type'),
           })
           .describe('添付ファイル'),

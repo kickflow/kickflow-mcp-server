@@ -16,13 +16,9 @@ export const listGradesQuerySortByRegExp = new RegExp(
 )
 
 export const ListGradesQueryParams = zod.object({
-  page: zod
-    .number()
-    .min(1)
-    .default(listGradesQueryPageDefault)
-    .describe('ページ'),
+  page: zod.int().min(1).default(listGradesQueryPageDefault).describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listGradesQueryPerPageMax)
     .default(listGradesQueryPerPageDefault)
@@ -50,7 +46,7 @@ export const ListGradesResponseItem = zod
     id: zod.uuid().describe('UUID'),
     name: zod.string().max(listGradesResponseNameMax).describe('名前'),
     level: zod
-      .number()
+      .int()
       .min(listGradesResponseLevelMin)
       .max(listGradesResponseLevelMax)
       .describe('レベル'),
@@ -86,7 +82,7 @@ export const CreateGradeBody = zod
   .object({
     name: zod.string().max(createGradeBodyNameMax).describe('名前'),
     level: zod
-      .number()
+      .int()
       .min(createGradeBodyLevelMin)
       .max(createGradeBodyLevelMax)
       .describe('レベル'),
@@ -114,7 +110,7 @@ export const CreateGradeResponse = zod
     id: zod.uuid().describe('UUID'),
     name: zod.string().max(createGradeResponseNameMax).describe('名前'),
     level: zod
-      .number()
+      .int()
       .min(createGradeResponseLevelMin)
       .max(createGradeResponseLevelMax)
       .describe('レベル'),
@@ -161,7 +157,7 @@ export const GetGradeResponse = zod
     id: zod.uuid().describe('UUID'),
     name: zod.string().max(getGradeResponseNameMax).describe('名前'),
     level: zod
-      .number()
+      .int()
       .min(getGradeResponseLevelMin)
       .max(getGradeResponseLevelMax)
       .describe('レベル'),
@@ -224,7 +220,7 @@ export const UpdateGradeBody = zod
   .object({
     name: zod.string().max(updateGradeBodyNameMax).optional().describe('名前'),
     level: zod
-      .number()
+      .int()
       .min(updateGradeBodyLevelMin)
       .max(updateGradeBodyLevelMax)
       .optional()
@@ -253,7 +249,7 @@ export const UpdateGradeResponse = zod
     id: zod.uuid().describe('UUID'),
     name: zod.string().max(updateGradeResponseNameMax).describe('名前'),
     level: zod
-      .number()
+      .int()
       .min(updateGradeResponseLevelMin)
       .max(updateGradeResponseLevelMax)
       .describe('レベル'),

@@ -17,12 +17,12 @@ export const listGeneralMastersQuerySortByRegExp = new RegExp(
 
 export const ListGeneralMastersQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listGeneralMastersQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listGeneralMastersQueryPerPageMax)
     .default(listGeneralMastersQueryPerPageDefault)
@@ -59,7 +59,7 @@ export const ListGeneralMastersResponseItem = zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
     itemsCount: zod
-      .number()
+      .int()
       .min(listGeneralMastersResponseItemsCountMin)
       .describe('アイテム数'),
     initialDisplayCode: zod.boolean().describe('コードを初期表示するか'),
@@ -93,7 +93,7 @@ export const ListGeneralMastersResponseItem = zod
               ])
               .describe('フィールドの型'),
             required: zod.boolean().describe('必須項目かどうか'),
-            fieldOrder: zod.number().describe('フィールドの表示順'),
+            fieldOrder: zod.int().describe('フィールドの表示順'),
             visible: zod.boolean().describe('管理者以外も閲覧可能な場合true'),
             initialDisplay: zod.boolean().describe('初期表示するか'),
             options: zod
@@ -186,7 +186,7 @@ export const CreateGeneralMasterResponse = zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
     itemsCount: zod
-      .number()
+      .int()
       .min(createGeneralMasterResponseItemsCountMin)
       .describe('アイテム数'),
     initialDisplayCode: zod.boolean().describe('コードを初期表示するか'),
@@ -220,7 +220,7 @@ export const CreateGeneralMasterResponse = zod
               ])
               .describe('フィールドの型'),
             required: zod.boolean().describe('必須項目かどうか'),
-            fieldOrder: zod.number().describe('フィールドの表示順'),
+            fieldOrder: zod.int().describe('フィールドの表示順'),
             visible: zod.boolean().describe('管理者以外も閲覧可能な場合true'),
             initialDisplay: zod.boolean().describe('初期表示するか'),
             options: zod
@@ -275,7 +275,7 @@ export const GetGeneralMasterResponse = zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
     itemsCount: zod
-      .number()
+      .int()
       .min(getGeneralMasterResponseItemsCountMin)
       .describe('アイテム数'),
     initialDisplayCode: zod.boolean().describe('コードを初期表示するか'),
@@ -309,7 +309,7 @@ export const GetGeneralMasterResponse = zod
               ])
               .describe('フィールドの型'),
             required: zod.boolean().describe('必須項目かどうか'),
-            fieldOrder: zod.number().describe('フィールドの表示順'),
+            fieldOrder: zod.int().describe('フィールドの表示順'),
             visible: zod.boolean().describe('管理者以外も閲覧可能な場合true'),
             initialDisplay: zod.boolean().describe('初期表示するか'),
             options: zod
@@ -402,7 +402,7 @@ export const UpdateGeneralMasterResponse = zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
     itemsCount: zod
-      .number()
+      .int()
       .min(updateGeneralMasterResponseItemsCountMin)
       .describe('アイテム数'),
     initialDisplayCode: zod.boolean().describe('コードを初期表示するか'),
@@ -436,7 +436,7 @@ export const UpdateGeneralMasterResponse = zod
               ])
               .describe('フィールドの型'),
             required: zod.boolean().describe('必須項目かどうか'),
-            fieldOrder: zod.number().describe('フィールドの表示順'),
+            fieldOrder: zod.int().describe('フィールドの表示順'),
             visible: zod.boolean().describe('管理者以外も閲覧可能な場合true'),
             initialDisplay: zod.boolean().describe('初期表示するか'),
             options: zod
@@ -499,12 +499,12 @@ export const listGeneralMasterItemsQuerySortByRegExp = new RegExp(
 
 export const ListGeneralMasterItemsQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listGeneralMasterItemsQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listGeneralMasterItemsQueryPerPageMax)
     .default(listGeneralMasterItemsQueryPerPageDefault)
@@ -575,7 +575,7 @@ export const ListGeneralMasterItemsResponseItem = zod
                 ])
                 .describe('フィールドの型'),
               required: zod.boolean().describe('必須項目かどうか'),
-              fieldOrder: zod.number().describe('フィールドの表示順'),
+              fieldOrder: zod.int().describe('フィールドの表示順'),
               visible: zod.boolean().describe('管理者以外も閲覧可能な場合true'),
               initialDisplay: zod.boolean().describe('初期表示するか'),
               options: zod
@@ -700,7 +700,7 @@ export const CreateGeneralMasterItemResponse = zod
                 ])
                 .describe('フィールドの型'),
               required: zod.boolean().describe('必須項目かどうか'),
-              fieldOrder: zod.number().describe('フィールドの表示順'),
+              fieldOrder: zod.int().describe('フィールドの表示順'),
               visible: zod.boolean().describe('管理者以外も閲覧可能な場合true'),
               initialDisplay: zod.boolean().describe('初期表示するか'),
               options: zod
@@ -796,7 +796,7 @@ export const GetGeneralMasterItemResponse = zod
                 ])
                 .describe('フィールドの型'),
               required: zod.boolean().describe('必須項目かどうか'),
-              fieldOrder: zod.number().describe('フィールドの表示順'),
+              fieldOrder: zod.int().describe('フィールドの表示順'),
               visible: zod.boolean().describe('管理者以外も閲覧可能な場合true'),
               initialDisplay: zod.boolean().describe('初期表示するか'),
               options: zod
@@ -920,7 +920,7 @@ export const UpdateGeneralMasterItemResponse = zod
                 ])
                 .describe('フィールドの型'),
               required: zod.boolean().describe('必須項目かどうか'),
-              fieldOrder: zod.number().describe('フィールドの表示順'),
+              fieldOrder: zod.int().describe('フィールドの表示順'),
               visible: zod.boolean().describe('管理者以外も閲覧可能な場合true'),
               initialDisplay: zod.boolean().describe('初期表示するか'),
               options: zod

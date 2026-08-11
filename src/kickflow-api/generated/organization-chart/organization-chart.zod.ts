@@ -20,12 +20,12 @@ export const listOrganizationChartsQuerySortByRegExp = new RegExp(
 
 export const ListOrganizationChartsQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listOrganizationChartsQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listOrganizationChartsQueryPerPageMax)
     .default(listOrganizationChartsQueryPerPageDefault)
@@ -49,8 +49,8 @@ export const ListOrganizationChartsResponseItem = zod
       .max(listOrganizationChartsResponseNameMax)
       .describe('名前'),
     current: zod.boolean().describe('現在有効な組織図かどうか'),
-    teamsCount: zod.number().describe('チーム数'),
-    membershipsCount: zod.number().describe('所属数'),
+    teamsCount: zod.int().describe('チーム数'),
+    membershipsCount: zod.int().describe('所属数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
@@ -90,8 +90,8 @@ export const CreateOrganizationChartResponse = zod
       .max(createOrganizationChartResponseOneNameMax)
       .describe('名前'),
     current: zod.boolean().describe('現在有効な組織図かどうか'),
-    teamsCount: zod.number().describe('チーム数'),
-    membershipsCount: zod.number().describe('所属数'),
+    teamsCount: zod.int().describe('チーム数'),
+    membershipsCount: zod.int().describe('所属数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
@@ -142,8 +142,8 @@ export const GetOrganizationChartResponse = zod
       .max(getOrganizationChartResponseOneNameMax)
       .describe('名前'),
     current: zod.boolean().describe('現在有効な組織図かどうか'),
-    teamsCount: zod.number().describe('チーム数'),
-    membershipsCount: zod.number().describe('所属数'),
+    teamsCount: zod.int().describe('チーム数'),
+    membershipsCount: zod.int().describe('所属数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
@@ -185,8 +185,8 @@ export const UpdateOrganizationChartResponse = zod
       .max(updateOrganizationChartResponseOneNameMax)
       .describe('名前'),
     current: zod.boolean().describe('現在有効な組織図かどうか'),
-    teamsCount: zod.number().describe('チーム数'),
-    membershipsCount: zod.number().describe('所属数'),
+    teamsCount: zod.int().describe('チーム数'),
+    membershipsCount: zod.int().describe('所属数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
@@ -218,8 +218,8 @@ export const GetCurrentOrganizationChartResponse = zod
       .max(getCurrentOrganizationChartResponseOneNameMax)
       .describe('名前'),
     current: zod.boolean().describe('現在有効な組織図かどうか'),
-    teamsCount: zod.number().describe('チーム数'),
-    membershipsCount: zod.number().describe('所属数'),
+    teamsCount: zod.int().describe('チーム数'),
+    membershipsCount: zod.int().describe('所属数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod
@@ -265,8 +265,8 @@ export const ActivateOrganizationChartResponse = zod
       .max(activateOrganizationChartResponseOneNameMax)
       .describe('名前'),
     current: zod.boolean().describe('現在有効な組織図かどうか'),
-    teamsCount: zod.number().describe('チーム数'),
-    membershipsCount: zod.number().describe('所属数'),
+    teamsCount: zod.int().describe('チーム数'),
+    membershipsCount: zod.int().describe('所属数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
     updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
     activationPlan: zod

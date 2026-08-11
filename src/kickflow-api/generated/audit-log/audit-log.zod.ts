@@ -15,12 +15,12 @@ export const listAuditLogsQuerySortByRegExp = new RegExp(
 
 export const ListAuditLogsQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listAuditLogsQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listAuditLogsQueryPerPageMax)
     .default(listAuditLogsQueryPerPageDefault)

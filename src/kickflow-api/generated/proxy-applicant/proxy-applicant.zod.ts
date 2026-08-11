@@ -13,12 +13,12 @@ export const listProxyApplicantsQueryPerPageMax = 100
 
 export const ListProxyApplicantsQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listProxyApplicantsQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listProxyApplicantsQueryPerPageMax)
     .default(listProxyApplicantsQueryPerPageDefault)
@@ -303,7 +303,7 @@ export const ListProxyApplicantsResponseItem = zod
               .regex(listProxyApplicantsResponseWorkflowsItemCodeRegExp)
               .describe('コード'),
             versionId: zod.string().describe('バージョンのUUID'),
-            versionNumber: zod.number().describe('バージョン番号'),
+            versionNumber: zod.int().describe('バージョン番号'),
             name: zod.string().describe('名前'),
             description: zod.string().describe('説明'),
             status: zod
@@ -629,19 +629,19 @@ export const ListProxyApplicantsResponseItem = zod
                   .describe('コード'),
                 description: zod.string().nullish().describe('説明'),
                 workflowsCount: zod
-                  .number()
+                  .int()
                   .min(
                     listProxyApplicantsResponseWorkflowsItemFolderOneWorkflowsCountMin,
                   )
                   .describe('フォルダ内のワークフロー数'),
                 routesCount: zod
-                  .number()
+                  .int()
                   .min(
                     listProxyApplicantsResponseWorkflowsItemFolderOneRoutesCountMin,
                   )
                   .describe('フォルダ内の経路数'),
                 pipelinesCount: zod
-                  .number()
+                  .int()
                   .min(
                     listProxyApplicantsResponseWorkflowsItemFolderOnePipelinesCountMin,
                   )
@@ -1029,7 +1029,7 @@ export const CreateProxyApplicantResponse = zod
               .regex(createProxyApplicantResponseWorkflowsItemCodeRegExp)
               .describe('コード'),
             versionId: zod.string().describe('バージョンのUUID'),
-            versionNumber: zod.number().describe('バージョン番号'),
+            versionNumber: zod.int().describe('バージョン番号'),
             name: zod.string().describe('名前'),
             description: zod.string().describe('説明'),
             status: zod
@@ -1359,19 +1359,19 @@ export const CreateProxyApplicantResponse = zod
                   .describe('コード'),
                 description: zod.string().nullish().describe('説明'),
                 workflowsCount: zod
-                  .number()
+                  .int()
                   .min(
                     createProxyApplicantResponseWorkflowsItemFolderOneWorkflowsCountMin,
                   )
                   .describe('フォルダ内のワークフロー数'),
                 routesCount: zod
-                  .number()
+                  .int()
                   .min(
                     createProxyApplicantResponseWorkflowsItemFolderOneRoutesCountMin,
                   )
                   .describe('フォルダ内の経路数'),
                 pipelinesCount: zod
-                  .number()
+                  .int()
                   .min(
                     createProxyApplicantResponseWorkflowsItemFolderOnePipelinesCountMin,
                   )
