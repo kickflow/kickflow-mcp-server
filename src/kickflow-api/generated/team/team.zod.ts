@@ -19,13 +19,9 @@ export const listTeamsQueryPerPageMax = 100
 
 export const ListTeamsQueryParams = zod.object({
   parentId: zod.string().optional().describe('親チームのUUID'),
-  page: zod
-    .number()
-    .min(1)
-    .default(listTeamsQueryPageDefault)
-    .describe('ページ'),
+  page: zod.int().min(1).default(listTeamsQueryPageDefault).describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listTeamsQueryPerPageMax)
     .default(listTeamsQueryPerPageDefault)
@@ -53,7 +49,7 @@ export const ListTeamsResponseItem = zod
       .describe('管理用メモ'),
     approveOnly: zod.boolean().describe('承認専用チームかどうか'),
     usersCount: zod
-      .number()
+      .int()
       .min(listTeamsResponseUsersCountMin)
       .describe('ユーザー数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
@@ -149,7 +145,7 @@ export const CreateTeamResponse = zod
       .describe('管理用メモ'),
     approveOnly: zod.boolean().describe('承認専用チームかどうか'),
     usersCount: zod
-      .number()
+      .int()
       .min(createTeamResponseOneUsersCountMin)
       .describe('ユーザー数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
@@ -179,7 +175,7 @@ export const CreateTeamResponse = zod
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
-                .number()
+                .int()
                 .min(createTeamResponseTwoParentOneUsersCountMin)
                 .describe('ユーザー数'),
               createdAt: zod.iso
@@ -215,7 +211,7 @@ export const CreateTeamResponse = zod
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
-                .number()
+                .int()
                 .min(createTeamResponseTwoChildrenItemUsersCountMin)
                 .describe('ユーザー数'),
               createdAt: zod.iso
@@ -242,7 +238,7 @@ export const CreateTeamResponse = zod
                         .max(createTeamResponseTwoUsersItemOneGradesItemNameMax)
                         .describe('名前'),
                       level: zod
-                        .number()
+                        .int()
                         .min(
                           createTeamResponseTwoUsersItemOneGradesItemLevelMin,
                         )
@@ -455,7 +451,7 @@ export const GetTeamResponse = zod
       .describe('管理用メモ'),
     approveOnly: zod.boolean().describe('承認専用チームかどうか'),
     usersCount: zod
-      .number()
+      .int()
       .min(getTeamResponseOneUsersCountMin)
       .describe('ユーザー数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
@@ -485,7 +481,7 @@ export const GetTeamResponse = zod
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
-                .number()
+                .int()
                 .min(getTeamResponseTwoParentOneUsersCountMin)
                 .describe('ユーザー数'),
               createdAt: zod.iso
@@ -521,7 +517,7 @@ export const GetTeamResponse = zod
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
-                .number()
+                .int()
                 .min(getTeamResponseTwoChildrenItemUsersCountMin)
                 .describe('ユーザー数'),
               createdAt: zod.iso
@@ -548,7 +544,7 @@ export const GetTeamResponse = zod
                         .max(getTeamResponseTwoUsersItemOneGradesItemNameMax)
                         .describe('名前'),
                       level: zod
-                        .number()
+                        .int()
                         .min(getTeamResponseTwoUsersItemOneGradesItemLevelMin)
                         .max(getTeamResponseTwoUsersItemOneGradesItemLevelMax)
                         .describe('レベル'),
@@ -772,7 +768,7 @@ export const UpdateTeamResponse = zod
       .describe('管理用メモ'),
     approveOnly: zod.boolean().describe('承認専用チームかどうか'),
     usersCount: zod
-      .number()
+      .int()
       .min(updateTeamResponseOneUsersCountMin)
       .describe('ユーザー数'),
     createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
@@ -802,7 +798,7 @@ export const UpdateTeamResponse = zod
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
-                .number()
+                .int()
                 .min(updateTeamResponseTwoParentOneUsersCountMin)
                 .describe('ユーザー数'),
               createdAt: zod.iso
@@ -838,7 +834,7 @@ export const UpdateTeamResponse = zod
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
-                .number()
+                .int()
                 .min(updateTeamResponseTwoChildrenItemUsersCountMin)
                 .describe('ユーザー数'),
               createdAt: zod.iso
@@ -865,7 +861,7 @@ export const UpdateTeamResponse = zod
                         .max(updateTeamResponseTwoUsersItemOneGradesItemNameMax)
                         .describe('名前'),
                       level: zod
-                        .number()
+                        .int()
                         .min(
                           updateTeamResponseTwoUsersItemOneGradesItemLevelMin,
                         )
@@ -1041,12 +1037,12 @@ export const listTeamMembersQueryPerPageMax = 100
 
 export const ListTeamMembersQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listTeamMembersQueryPageDefault)
     .describe('ページ。1が先頭のページ。'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listTeamMembersQueryPerPageMax)
     .default(listTeamMembersQueryPerPageDefault)
@@ -1085,7 +1081,7 @@ export const ListTeamMembersResponseItem = zod
               .max(listTeamMembersResponseOneGradesItemNameMax)
               .describe('名前'),
             level: zod
-              .number()
+              .int()
               .min(listTeamMembersResponseOneGradesItemLevelMin)
               .max(listTeamMembersResponseOneGradesItemLevelMax)
               .describe('レベル'),

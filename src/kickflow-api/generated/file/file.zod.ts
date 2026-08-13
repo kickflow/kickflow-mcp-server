@@ -32,7 +32,7 @@ export const GetFileResponse = zod.object({
   url: zod.url().describe('Amazon S3のURL'),
   filename: zod.string().describe('ファイル名'),
   checksum: zod.string().describe('チェックサム'),
-  byteSize: zod.number().describe('バイト数'),
+  byteSize: zod.int().describe('バイト数'),
   contentType: zod.string().describe('Content-Type'),
   createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
 })

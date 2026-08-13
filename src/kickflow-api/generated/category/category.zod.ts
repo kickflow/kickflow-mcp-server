@@ -15,12 +15,12 @@ export const listCategoriesQuerySortByRegExp = new RegExp(
 
 export const ListCategoriesQueryParams = zod.object({
   page: zod
-    .number()
+    .int()
     .min(1)
     .default(listCategoriesQueryPageDefault)
     .describe('ページ'),
   perPage: zod
-    .number()
+    .int()
     .min(1)
     .max(listCategoriesQueryPerPageMax)
     .default(listCategoriesQueryPerPageDefault)
