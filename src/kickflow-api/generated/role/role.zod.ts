@@ -83,6 +83,7 @@ export const CreateRoleBody = zod
               'team',
               'role',
               'master',
+              'master_read',
               'ticket_read',
               'ticket_write',
               'label',
@@ -132,9 +133,13 @@ export const createRoleResponseTwoPermissionListItemGeneralMastersItemCodeMax = 
 
 export const createRoleResponseTwoPermissionListItemGeneralMastersItemNameMax = 300
 
+export const createRoleResponseTwoPermissionListItemGeneralMastersItemDescriptionMax = 10000
+
 export const createRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin = 0
 
 export const createRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemTitleMax = 300
+
+export const createRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemDescriptionMax = 10000
 
 export const createRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemCodeMax = 100
 
@@ -184,6 +189,7 @@ export const CreateRoleResponse = zod
                 'team',
                 'role',
                 'master',
+                'master_read',
                 'ticket_read',
                 'ticket_write',
                 'label',
@@ -260,7 +266,13 @@ export const CreateRoleResponse = zod
                         createRoleResponseTwoPermissionListItemGeneralMastersItemNameMax,
                       )
                       .describe('名前'),
-                    description: zod.string().nullable().describe('説明'),
+                    description: zod
+                      .string()
+                      .max(
+                        createRoleResponseTwoPermissionListItemGeneralMastersItemDescriptionMax,
+                      )
+                      .nullable()
+                      .describe('説明'),
                     defaultSortBy: zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
@@ -298,6 +310,9 @@ export const CreateRoleResponse = zod
                               .describe('フィールド名'),
                             description: zod
                               .string()
+                              .max(
+                                createRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemDescriptionMax,
+                              )
                               .nullable()
                               .describe('フィールドの説明'),
                             code: zod
@@ -428,9 +443,13 @@ export const getRoleResponseTwoPermissionListItemGeneralMastersItemCodeMax = 100
 
 export const getRoleResponseTwoPermissionListItemGeneralMastersItemNameMax = 300
 
+export const getRoleResponseTwoPermissionListItemGeneralMastersItemDescriptionMax = 10000
+
 export const getRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin = 0
 
 export const getRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemTitleMax = 300
+
+export const getRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemDescriptionMax = 10000
 
 export const getRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemCodeMax = 100
 
@@ -480,6 +499,7 @@ export const GetRoleResponse = zod
                 'team',
                 'role',
                 'master',
+                'master_read',
                 'ticket_read',
                 'ticket_write',
                 'label',
@@ -556,7 +576,13 @@ export const GetRoleResponse = zod
                         getRoleResponseTwoPermissionListItemGeneralMastersItemNameMax,
                       )
                       .describe('名前'),
-                    description: zod.string().nullable().describe('説明'),
+                    description: zod
+                      .string()
+                      .max(
+                        getRoleResponseTwoPermissionListItemGeneralMastersItemDescriptionMax,
+                      )
+                      .nullable()
+                      .describe('説明'),
                     defaultSortBy: zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
@@ -594,6 +620,9 @@ export const GetRoleResponse = zod
                               .describe('フィールド名'),
                             description: zod
                               .string()
+                              .max(
+                                getRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemDescriptionMax,
+                              )
                               .nullable()
                               .describe('フィールドの説明'),
                             code: zod
@@ -724,6 +753,7 @@ export const UpdateRoleBody = zod
               'team',
               'role',
               'master',
+              'master_read',
               'ticket_read',
               'ticket_write',
               'label',
@@ -774,9 +804,13 @@ export const updateRoleResponseTwoPermissionListItemGeneralMastersItemCodeMax = 
 
 export const updateRoleResponseTwoPermissionListItemGeneralMastersItemNameMax = 300
 
+export const updateRoleResponseTwoPermissionListItemGeneralMastersItemDescriptionMax = 10000
+
 export const updateRoleResponseTwoPermissionListItemGeneralMastersItemItemsCountMin = 0
 
 export const updateRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemTitleMax = 300
+
+export const updateRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemDescriptionMax = 10000
 
 export const updateRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemCodeMax = 100
 
@@ -826,6 +860,7 @@ export const UpdateRoleResponse = zod
                 'team',
                 'role',
                 'master',
+                'master_read',
                 'ticket_read',
                 'ticket_write',
                 'label',
@@ -902,7 +937,13 @@ export const UpdateRoleResponse = zod
                         updateRoleResponseTwoPermissionListItemGeneralMastersItemNameMax,
                       )
                       .describe('名前'),
-                    description: zod.string().nullable().describe('説明'),
+                    description: zod
+                      .string()
+                      .max(
+                        updateRoleResponseTwoPermissionListItemGeneralMastersItemDescriptionMax,
+                      )
+                      .nullable()
+                      .describe('説明'),
                     defaultSortBy: zod
                       .enum(['name', 'code'])
                       .describe('アイテム一覧のデフォルト並び順'),
@@ -940,6 +981,9 @@ export const UpdateRoleResponse = zod
                               .describe('フィールド名'),
                             description: zod
                               .string()
+                              .max(
+                                updateRoleResponseTwoPermissionListItemGeneralMastersItemFieldsItemDescriptionMax,
+                              )
                               .nullable()
                               .describe('フィールドの説明'),
                             code: zod

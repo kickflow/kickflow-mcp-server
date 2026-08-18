@@ -405,14 +405,20 @@ export interface Workflow {
   allowEditingOfViewers?: boolean
   /** 新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。 */
   commentingEnabled?: boolean
+  /** 承認（回覧の確認を含む）時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは承認・確認できない。 */
+  commentingRequiredOnApproval: boolean
+  /** 差し戻し時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは差し戻しできない。 */
+  commentingRequiredOnRejection: boolean
+  /** 却下時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは却下できない。 */
+  commentingRequiredOnDenial: boolean
   /** 作成者 */
-  author: User | null
+  author?: User | null
   /** バージョン作成者 */
-  versionAuthor: User | null
+  versionAuthor?: User | null
   /** フォルダ */
-  folder: Folder
+  folder?: Folder
   /** カテゴリの配列 */
-  categories: Category[]
+  categories?: Category[]
   /** 全ユーザーが申請可能な場合true */
   availableToEveryone: boolean
   /** 帳票のフォーマット */
@@ -699,6 +705,7 @@ export const RoleDetailPermissionListItemPermission = {
   team: 'team',
   role: 'role',
   master: 'master',
+  master_read: 'master_read',
   ticket_read: 'ticket_read',
   ticket_write: 'ticket_write',
   label: 'label',
@@ -745,6 +752,7 @@ export interface GeneralMasterField {
   title: string
   /**
    * フィールドの説明
+   * @maxLength 10000
    * @nullable
    */
   description: string | null
@@ -792,6 +800,7 @@ export interface GeneralMaster {
   name: string
   /**
    * 説明
+   * @maxLength 10000
    * @nullable
    */
   description: string | null
@@ -858,6 +867,7 @@ export const RoleCreateBodyPermissionListItemPermission = {
   team: 'team',
   role: 'role',
   master: 'master',
+  master_read: 'master_read',
   ticket_read: 'ticket_read',
   ticket_write: 'ticket_write',
   label: 'label',
@@ -908,6 +918,7 @@ export const RoleUpdateBodyPermissionListItemPermission = {
   team: 'team',
   role: 'role',
   master: 'master',
+  master_read: 'master_read',
   ticket_read: 'ticket_read',
   ticket_write: 'ticket_write',
   label: 'label',
@@ -1181,6 +1192,8 @@ export interface FormField {
    * @nullable
    */
   readonlyOnUi?: boolean | null
+  /** 複数選択を許可するかどうか */
+  multiple: boolean
   /**
    * チェックボックス等の選択肢の並び方向。
    * vertical=縦に並べる、horizontal=横に並べて折り返す。
@@ -1370,14 +1383,17 @@ export type FormFieldDetail = FormField & {
    * @nullable
    */
   allowedExtensions: string[] | null
-  /** 複数選択を許可するかどうか */
-  multiple: boolean
   /** チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか */
   autoLink: boolean
   /** 日付型フィールドで、当日の日付を初期値にするかどうか */
   useTodayForDefaultValue: boolean
   /** チケット型フィールドで、選択可能なチケットのステータス */
   allowedTicketStatus: FormFieldDetailAllowedTicketStatusItem[]
+  /**
+   * チケット型フィールドで選択可能なワークフロー。
+   * 各要素にはauthor / versionAuthor / folder / categoriesは含まれません。
+   */
+  selectableTicketWorkflows: Workflow[]
 }
 
 /**
@@ -3800,12 +3816,22 @@ export type UpdateTicketBody = {
   approvers?: UpdateTicketBodyApproversItem[] | null
 }
 
+export type ApproveTicketBody = {
+  /** コメント本文。ワークフローのcommentingRequiredOnApprovalがtrueの場合は必須です。ワークフローのcommentingEnabledがfalseの場合は指定できません。 */
+  comment?: string
+}
+
 export type RejectTicketBody = {
   /** 差し戻し先のステップ番号（0が起票者、1が最初の承認ステップ） */
   to: number
+  /** コメント本文。ワークフローのcommentingRequiredOnRejectionがtrueの場合は必須です。ワークフローのcommentingEnabledがfalseの場合は指定できません。 */
+  comment?: string
 }
 
-export type DenyTicketBody = { [key: string]: unknown }
+export type DenyTicketBody = {
+  /** コメント本文。ワークフローのcommentingRequiredOnDenialがtrueの場合は必須です。ワークフローのcommentingEnabledがfalseの場合は指定できません。 */
+  comment?: string
+}
 
 export type ListTicketLinksParams = {
   /**

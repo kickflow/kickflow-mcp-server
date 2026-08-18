@@ -563,7 +563,7 @@ paths:
       description: |-
         汎用マスタの一覧を取得します。
 
-        このAPIの実行には、汎用マスタの管理権限が必要です。
+        このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
     post:
       summary: 汎用マスタを作成
       tags:
@@ -673,7 +673,7 @@ paths:
       description: |-
         汎用マスタを作成します。
 
-        このAPIの実行には、汎用マスタの管理権限が必要です。
+        このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
   /v1/generalMasters/{generalMasterId}:
     parameters:
       - schema:
@@ -719,7 +719,7 @@ paths:
       description: |-
         汎用マスタを一件取得します。
 
-        このAPIの実行には、汎用マスタの管理権限が必要です。
+        このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
     patch:
       summary: 汎用マスタを更新
       tags:
@@ -812,7 +812,7 @@ paths:
       description: |-
         汎用マスタを更新します。
 
-        このAPIの実行には、汎用マスタの管理権限が必要です。
+        このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
     delete:
       summary: 汎用マスタを削除
       tags:
@@ -845,7 +845,7 @@ paths:
       description: |-
         汎用マスタを削除します。この汎用マスタのすべてのアイテムも同時に削除されます。
 
-        このAPIの実行には、汎用マスタの管理権限が必要です。
+        このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
   /v1/generalMasters/{generalMasterId}/items:
     parameters:
       - schema:
@@ -912,7 +912,10 @@ paths:
           description: 'ソート対象のフィールドと順序。指定可能なフィールド: createdAt, code, name'
       tags:
         - 汎用マスタ
-      description: 汎用マスタアイテムの一覧を取得します。
+      description: |-
+        汎用マスタアイテムの一覧を取得します。
+
+        このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
     post:
       summary: 汎用マスタアイテムを作成
       tags:
@@ -1001,7 +1004,7 @@ paths:
       description: |-
         汎用マスタアイテムを作成します。
 
-        このAPIの実行には、汎用マスタの管理権限が必要です。
+        このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
   /v1/generalMasters/{generalMasterId}/items/{itemId}:
     parameters:
       - schema:
@@ -1050,7 +1053,10 @@ paths:
           description: Gateway Timeout
           $ref: '#/components/responses/GatewayTimeout'
       operationId: getGeneralMasterItem
-      description: 汎用マスタアイテムを一件取得します。
+      description: |-
+        汎用マスタアイテムを一件取得します。
+
+        このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
     patch:
       summary: 汎用マスタアイテムを更新
       tags:
@@ -1135,7 +1141,7 @@ paths:
       description: |-
         汎用マスタアイテムを更新します。
 
-        このAPIの実行には、汎用マスタの管理権限が必要です。
+        このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
     delete:
       summary: 汎用マスタアイテムを削除
       tags:
@@ -1168,7 +1174,7 @@ paths:
       description: |-
         汎用マスタアイテムを削除します。
 
-        このAPIの実行には、汎用マスタの管理権限が必要です。
+        このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
   /v1/grades:
     get:
       summary: 役職の一覧を取得
@@ -3793,6 +3799,15 @@ paths:
           description: Gateway Timeout
           $ref: '#/components/responses/GatewayTimeout'
       operationId: approveTicket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                  description: コメント本文。ワークフローのcommentingRequiredOnApprovalがtrueの場合は必須です。ワークフローのcommentingEnabledがfalseの場合は指定できません。
       description: |-
         指定したチケットを承認もしくは確認します。
         APIの実行ユーザーがチケットにアサインされていない場合、403 Forbiddenを返します。
@@ -3847,6 +3862,9 @@ paths:
                 to:
                   type: integer
                   description: 差し戻し先のステップ番号（0が起票者、1が最初の承認ステップ）
+                comment:
+                  type: string
+                  description: コメント本文。ワークフローのcommentingRequiredOnRejectionがtrueの場合は必須です。ワークフローのcommentingEnabledがfalseの場合は指定できません。
               required:
                 - to
       description: |-
@@ -3899,6 +3917,10 @@ paths:
           application/json:
             schema:
               type: object
+              properties:
+                comment:
+                  type: string
+                  description: コメント本文。ワークフローのcommentingRequiredOnDenialがtrueの場合は必須です。ワークフローのcommentingEnabledがfalseの場合は指定できません。
       description: |-
         指定したチケットを却下します。
         APIの実行ユーザーがチケットにアサインされていない場合、403 Forbiddenを返します。
@@ -6746,6 +6768,7 @@ components:
                       - team
                       - role
                       - master
+                      - master_read
                       - ticket_read
                       - ticket_write
                       - label
@@ -6812,6 +6835,7 @@ components:
                   - team
                   - role
                   - master
+                  - master_read
                   - ticket_read
                   - ticket_write
                   - label
@@ -6880,6 +6904,7 @@ components:
                   - team
                   - role
                   - master
+                  - master_read
                   - ticket_read
                   - ticket_write
                   - label
@@ -7066,6 +7091,7 @@ components:
             - string
             - 'null'
           description: 説明
+          maxLength: 10000
         defaultSortBy:
           type: string
           enum:
@@ -7220,6 +7246,7 @@ components:
             - string
             - 'null'
           description: フィールドの説明
+          maxLength: 10000
         code:
           type: string
           description: フィールドのコード
@@ -7362,6 +7389,18 @@ components:
           type: boolean
           description: 新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。
           default: true
+        commentingRequiredOnApproval:
+          type: boolean
+          description: 承認（回覧の確認を含む）時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは承認・確認できない。
+          default: false
+        commentingRequiredOnRejection:
+          type: boolean
+          description: 差し戻し時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは差し戻しできない。
+          default: false
+        commentingRequiredOnDenial:
+          type: boolean
+          description: 却下時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは却下できない。
+          default: false
         author:
           anyOf:
             - $ref: '#/components/schemas/User'
@@ -7445,10 +7484,6 @@ components:
         - updatedAt
         - titleInputMode
         - titleFormula
-        - author
-        - versionAuthor
-        - folder
-        - categories
         - availableToEveryone
         - reportFormats
         - hiddenOnWorkflowFilterForTicket
@@ -7461,6 +7496,9 @@ components:
         - collectEmailOnExternalPublish
         - notifyGuestOnCompletion
         - allowCustomSteps
+        - commentingRequiredOnApproval
+        - commentingRequiredOnRejection
+        - commentingRequiredOnDenial
     WorkflowInTicket:
       title: WorkflowInTicket
       x-tags:
@@ -7775,6 +7813,9 @@ components:
           description: |-
             trueの時、申請者・承認者が画面上から値を入力することを禁止します。
             外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
+        multiple:
+          type: boolean
+          description: 複数選択を許可するかどうか
         orientation:
           type: string
           description: |-
@@ -7805,6 +7846,7 @@ components:
         - delimited
         - prefix
         - suffix
+        - multiple
         - orientation
     FormFieldDetail:
       title: FormFieldDetail
@@ -7856,9 +7898,6 @@ components:
                 古いフィールドではnullを返す場合があります。
               items:
                 type: string
-            multiple:
-              type: boolean
-              description: 複数選択を許可するかどうか
             autoLink:
               type: boolean
               description: チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか
@@ -7877,12 +7916,19 @@ components:
                   - rejected
                   - archived
                   - denied
+            selectableTicketWorkflows:
+              type: array
+              description: |-
+                チケット型フィールドで選択可能なワークフロー。
+                各要素にはauthor / versionAuthor / folder / categoriesは含まれません。
+              items:
+                $ref: '#/components/schemas/Workflow'
           required:
             - allowedExtensions
-            - multiple
             - autoLink
             - useTodayForDefaultValue
             - allowedTicketStatus
+            - selectableTicketWorkflows
     ExternalApiSetting:
       title: ExternalApiSetting
       type: object

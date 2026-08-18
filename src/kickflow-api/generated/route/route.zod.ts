@@ -428,6 +428,8 @@ export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepCondition
 
 export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterItemOneInputsItemFieldTitleMax = 300
 
+export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterItemOneInputsItemFieldDescriptionMax = 10000
+
 export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterItemOneInputsItemFieldCodeMax = 100
 
 export const GetRouteResponse = zod
@@ -1180,6 +1182,9 @@ export const GetRouteResponse = zod
                                               .describe('フィールド名'),
                                             description: zod
                                               .string()
+                                              .max(
+                                                getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterItemOneInputsItemFieldDescriptionMax,
+                                              )
                                               .nullable()
                                               .describe('フィールドの説明'),
                                             code: zod
