@@ -3,7 +3,7 @@ import * as zod from 'zod'
 /**
  * 汎用マスタの一覧を取得します。
  *
- * このAPIの実行には、汎用マスタの管理権限が必要です。
+ * このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
  * @summary 汎用マスタの一覧を取得
  */
 export const listGeneralMastersQueryPageDefault = 1
@@ -40,9 +40,13 @@ export const listGeneralMastersResponseCodeMax = 100
 
 export const listGeneralMastersResponseNameMax = 300
 
+export const listGeneralMastersResponseDescriptionMax = 10000
+
 export const listGeneralMastersResponseItemsCountMin = 0
 
 export const listGeneralMastersResponseFieldsItemTitleMax = 300
+
+export const listGeneralMastersResponseFieldsItemDescriptionMax = 10000
 
 export const listGeneralMastersResponseFieldsItemCodeMax = 100
 
@@ -54,7 +58,11 @@ export const ListGeneralMastersResponseItem = zod
       .max(listGeneralMastersResponseCodeMax)
       .describe('コード'),
     name: zod.string().max(listGeneralMastersResponseNameMax).describe('名前'),
-    description: zod.string().nullable().describe('説明'),
+    description: zod
+      .string()
+      .max(listGeneralMastersResponseDescriptionMax)
+      .nullable()
+      .describe('説明'),
     defaultSortBy: zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
@@ -76,7 +84,11 @@ export const ListGeneralMastersResponseItem = zod
               .string()
               .max(listGeneralMastersResponseFieldsItemTitleMax)
               .describe('フィールド名'),
-            description: zod.string().nullable().describe('フィールドの説明'),
+            description: zod
+              .string()
+              .max(listGeneralMastersResponseFieldsItemDescriptionMax)
+              .nullable()
+              .describe('フィールドの説明'),
             code: zod
               .string()
               .max(listGeneralMastersResponseFieldsItemCodeMax)
@@ -117,7 +129,7 @@ export const ListGeneralMastersResponse = zod.array(
 /**
  * 汎用マスタを作成します。
  *
- * このAPIの実行には、汎用マスタの管理権限が必要です。
+ * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
  * @summary 汎用マスタを作成
  */
 export const CreateGeneralMasterBody = zod.object({
@@ -167,9 +179,13 @@ export const createGeneralMasterResponseCodeMax = 100
 
 export const createGeneralMasterResponseNameMax = 300
 
+export const createGeneralMasterResponseDescriptionMax = 10000
+
 export const createGeneralMasterResponseItemsCountMin = 0
 
 export const createGeneralMasterResponseFieldsItemTitleMax = 300
+
+export const createGeneralMasterResponseFieldsItemDescriptionMax = 10000
 
 export const createGeneralMasterResponseFieldsItemCodeMax = 100
 
@@ -181,7 +197,11 @@ export const CreateGeneralMasterResponse = zod
       .max(createGeneralMasterResponseCodeMax)
       .describe('コード'),
     name: zod.string().max(createGeneralMasterResponseNameMax).describe('名前'),
-    description: zod.string().nullable().describe('説明'),
+    description: zod
+      .string()
+      .max(createGeneralMasterResponseDescriptionMax)
+      .nullable()
+      .describe('説明'),
     defaultSortBy: zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
@@ -203,7 +223,11 @@ export const CreateGeneralMasterResponse = zod
               .string()
               .max(createGeneralMasterResponseFieldsItemTitleMax)
               .describe('フィールド名'),
-            description: zod.string().nullable().describe('フィールドの説明'),
+            description: zod
+              .string()
+              .max(createGeneralMasterResponseFieldsItemDescriptionMax)
+              .nullable()
+              .describe('フィールドの説明'),
             code: zod
               .string()
               .max(createGeneralMasterResponseFieldsItemCodeMax)
@@ -241,7 +265,7 @@ export const CreateGeneralMasterResponse = zod
 /**
  * 汎用マスタを一件取得します。
  *
- * このAPIの実行には、汎用マスタの管理権限が必要です。
+ * このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
  * @summary 汎用マスタを取得
  */
 export const getGeneralMasterPathGeneralMasterIdRegExp = new RegExp(
@@ -259,9 +283,13 @@ export const getGeneralMasterResponseCodeMax = 100
 
 export const getGeneralMasterResponseNameMax = 300
 
+export const getGeneralMasterResponseDescriptionMax = 10000
+
 export const getGeneralMasterResponseItemsCountMin = 0
 
 export const getGeneralMasterResponseFieldsItemTitleMax = 300
+
+export const getGeneralMasterResponseFieldsItemDescriptionMax = 10000
 
 export const getGeneralMasterResponseFieldsItemCodeMax = 100
 
@@ -270,7 +298,11 @@ export const GetGeneralMasterResponse = zod
     id: zod.uuid().describe('UUID'),
     code: zod.string().max(getGeneralMasterResponseCodeMax).describe('コード'),
     name: zod.string().max(getGeneralMasterResponseNameMax).describe('名前'),
-    description: zod.string().nullable().describe('説明'),
+    description: zod
+      .string()
+      .max(getGeneralMasterResponseDescriptionMax)
+      .nullable()
+      .describe('説明'),
     defaultSortBy: zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
@@ -292,7 +324,11 @@ export const GetGeneralMasterResponse = zod
               .string()
               .max(getGeneralMasterResponseFieldsItemTitleMax)
               .describe('フィールド名'),
-            description: zod.string().nullable().describe('フィールドの説明'),
+            description: zod
+              .string()
+              .max(getGeneralMasterResponseFieldsItemDescriptionMax)
+              .nullable()
+              .describe('フィールドの説明'),
             code: zod
               .string()
               .max(getGeneralMasterResponseFieldsItemCodeMax)
@@ -330,7 +366,7 @@ export const GetGeneralMasterResponse = zod
 /**
  * 汎用マスタを更新します。
  *
- * このAPIの実行には、汎用マスタの管理権限が必要です。
+ * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
  * @summary 汎用マスタを更新
  */
 export const updateGeneralMasterPathGeneralMasterIdRegExp = new RegExp(
@@ -383,9 +419,13 @@ export const updateGeneralMasterResponseCodeMax = 100
 
 export const updateGeneralMasterResponseNameMax = 300
 
+export const updateGeneralMasterResponseDescriptionMax = 10000
+
 export const updateGeneralMasterResponseItemsCountMin = 0
 
 export const updateGeneralMasterResponseFieldsItemTitleMax = 300
+
+export const updateGeneralMasterResponseFieldsItemDescriptionMax = 10000
 
 export const updateGeneralMasterResponseFieldsItemCodeMax = 100
 
@@ -397,7 +437,11 @@ export const UpdateGeneralMasterResponse = zod
       .max(updateGeneralMasterResponseCodeMax)
       .describe('コード'),
     name: zod.string().max(updateGeneralMasterResponseNameMax).describe('名前'),
-    description: zod.string().nullable().describe('説明'),
+    description: zod
+      .string()
+      .max(updateGeneralMasterResponseDescriptionMax)
+      .nullable()
+      .describe('説明'),
     defaultSortBy: zod
       .enum(['name', 'code'])
       .describe('アイテム一覧のデフォルト並び順'),
@@ -419,7 +463,11 @@ export const UpdateGeneralMasterResponse = zod
               .string()
               .max(updateGeneralMasterResponseFieldsItemTitleMax)
               .describe('フィールド名'),
-            description: zod.string().nullable().describe('フィールドの説明'),
+            description: zod
+              .string()
+              .max(updateGeneralMasterResponseFieldsItemDescriptionMax)
+              .nullable()
+              .describe('フィールドの説明'),
             code: zod
               .string()
               .max(updateGeneralMasterResponseFieldsItemCodeMax)
@@ -457,7 +505,7 @@ export const UpdateGeneralMasterResponse = zod
 /**
  * 汎用マスタを削除します。この汎用マスタのすべてのアイテムも同時に削除されます。
  *
- * このAPIの実行には、汎用マスタの管理権限が必要です。
+ * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
  * @summary 汎用マスタを削除
  */
 export const deleteGeneralMasterPathGeneralMasterIdRegExp = new RegExp(
@@ -475,6 +523,8 @@ export const DeleteGeneralMasterResponse = zod.unknown()
 
 /**
  * 汎用マスタアイテムの一覧を取得します。
+ *
+ * このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
  * @summary 汎用マスタアイテムの一覧を取得
  */
 export const listGeneralMasterItemsPathGeneralMasterIdRegExp = new RegExp(
@@ -524,6 +574,8 @@ export const listGeneralMasterItemsResponseNameMax = 100
 
 export const listGeneralMasterItemsResponseInputsItemFieldTitleMax = 300
 
+export const listGeneralMasterItemsResponseInputsItemFieldDescriptionMax = 10000
+
 export const listGeneralMasterItemsResponseInputsItemFieldCodeMax = 100
 
 export const ListGeneralMasterItemsResponseItem = zod
@@ -558,7 +610,13 @@ export const ListGeneralMasterItemsResponseItem = zod
                 .string()
                 .max(listGeneralMasterItemsResponseInputsItemFieldTitleMax)
                 .describe('フィールド名'),
-              description: zod.string().nullable().describe('フィールドの説明'),
+              description: zod
+                .string()
+                .max(
+                  listGeneralMasterItemsResponseInputsItemFieldDescriptionMax,
+                )
+                .nullable()
+                .describe('フィールドの説明'),
               code: zod
                 .string()
                 .max(listGeneralMasterItemsResponseInputsItemFieldCodeMax)
@@ -604,7 +662,7 @@ export const ListGeneralMasterItemsResponse = zod.array(
 /**
  * 汎用マスタアイテムを作成します。
  *
- * このAPIの実行には、汎用マスタの管理権限が必要です。
+ * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
  * @summary 汎用マスタアイテムを作成
  */
 export const createGeneralMasterItemPathGeneralMasterIdRegExp = new RegExp(
@@ -649,6 +707,8 @@ export const createGeneralMasterItemResponseNameMax = 100
 
 export const createGeneralMasterItemResponseInputsItemFieldTitleMax = 300
 
+export const createGeneralMasterItemResponseInputsItemFieldDescriptionMax = 10000
+
 export const createGeneralMasterItemResponseInputsItemFieldCodeMax = 100
 
 export const CreateGeneralMasterItemResponse = zod
@@ -683,7 +743,13 @@ export const CreateGeneralMasterItemResponse = zod
                 .string()
                 .max(createGeneralMasterItemResponseInputsItemFieldTitleMax)
                 .describe('フィールド名'),
-              description: zod.string().nullable().describe('フィールドの説明'),
+              description: zod
+                .string()
+                .max(
+                  createGeneralMasterItemResponseInputsItemFieldDescriptionMax,
+                )
+                .nullable()
+                .describe('フィールドの説明'),
               code: zod
                 .string()
                 .max(createGeneralMasterItemResponseInputsItemFieldCodeMax)
@@ -725,6 +791,8 @@ export const CreateGeneralMasterItemResponse = zod
 
 /**
  * 汎用マスタアイテムを一件取得します。
+ *
+ * このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
  * @summary 汎用マスタアイテムを取得
  */
 export const getGeneralMasterItemPathGeneralMasterIdRegExp = new RegExp(
@@ -744,6 +812,8 @@ export const getGeneralMasterItemResponseCodeMax = 100
 export const getGeneralMasterItemResponseNameMax = 100
 
 export const getGeneralMasterItemResponseInputsItemFieldTitleMax = 300
+
+export const getGeneralMasterItemResponseInputsItemFieldDescriptionMax = 10000
 
 export const getGeneralMasterItemResponseInputsItemFieldCodeMax = 100
 
@@ -779,7 +849,11 @@ export const GetGeneralMasterItemResponse = zod
                 .string()
                 .max(getGeneralMasterItemResponseInputsItemFieldTitleMax)
                 .describe('フィールド名'),
-              description: zod.string().nullable().describe('フィールドの説明'),
+              description: zod
+                .string()
+                .max(getGeneralMasterItemResponseInputsItemFieldDescriptionMax)
+                .nullable()
+                .describe('フィールドの説明'),
               code: zod
                 .string()
                 .max(getGeneralMasterItemResponseInputsItemFieldCodeMax)
@@ -822,7 +896,7 @@ export const GetGeneralMasterItemResponse = zod
 /**
  * 汎用マスタアイテムを更新します。
  *
- * このAPIの実行には、汎用マスタの管理権限が必要です。
+ * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
  * @summary 汎用マスタアイテムを更新
  */
 export const updateGeneralMasterItemPathGeneralMasterIdRegExp = new RegExp(
@@ -869,6 +943,8 @@ export const updateGeneralMasterItemResponseNameMax = 100
 
 export const updateGeneralMasterItemResponseInputsItemFieldTitleMax = 300
 
+export const updateGeneralMasterItemResponseInputsItemFieldDescriptionMax = 10000
+
 export const updateGeneralMasterItemResponseInputsItemFieldCodeMax = 100
 
 export const UpdateGeneralMasterItemResponse = zod
@@ -903,7 +979,13 @@ export const UpdateGeneralMasterItemResponse = zod
                 .string()
                 .max(updateGeneralMasterItemResponseInputsItemFieldTitleMax)
                 .describe('フィールド名'),
-              description: zod.string().nullable().describe('フィールドの説明'),
+              description: zod
+                .string()
+                .max(
+                  updateGeneralMasterItemResponseInputsItemFieldDescriptionMax,
+                )
+                .nullable()
+                .describe('フィールドの説明'),
               code: zod
                 .string()
                 .max(updateGeneralMasterItemResponseInputsItemFieldCodeMax)
@@ -946,7 +1028,7 @@ export const UpdateGeneralMasterItemResponse = zod
 /**
  * 汎用マスタアイテムを削除します。
  *
- * このAPIの実行には、汎用マスタの管理権限が必要です。
+ * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
  * @summary 汎用マスタアイテムを削除
  */
 export const deleteGeneralMasterItemPathGeneralMasterIdRegExp = new RegExp(

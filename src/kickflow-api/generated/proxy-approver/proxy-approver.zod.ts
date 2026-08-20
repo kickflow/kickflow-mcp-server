@@ -56,6 +56,9 @@ export const listProxyApproversResponseWorkflowsItemPublicTicketDefault = false
 export const listProxyApproversResponseWorkflowsItemVisibleToTeamMembersDefault = false
 export const listProxyApproversResponseWorkflowsItemAllowEditingOfViewersDefault = true
 export const listProxyApproversResponseWorkflowsItemCommentingEnabledDefault = true
+export const listProxyApproversResponseWorkflowsItemCommentingRequiredOnApprovalDefault = false
+export const listProxyApproversResponseWorkflowsItemCommentingRequiredOnRejectionDefault = false
+export const listProxyApproversResponseWorkflowsItemCommentingRequiredOnDenialDefault = false
 export const listProxyApproversResponseWorkflowsItemAuthorOneEmailMax = 254
 
 export const listProxyApproversResponseWorkflowsItemAuthorOneCodeMax = 100
@@ -361,6 +364,30 @@ export const ListProxyApproversResponseItem = zod
               .describe(
                 '新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。',
               ),
+            commentingRequiredOnApproval: zod
+              .boolean()
+              .default(
+                listProxyApproversResponseWorkflowsItemCommentingRequiredOnApprovalDefault,
+              )
+              .describe(
+                '承認（回覧の確認を含む）時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは承認・確認できない。',
+              ),
+            commentingRequiredOnRejection: zod
+              .boolean()
+              .default(
+                listProxyApproversResponseWorkflowsItemCommentingRequiredOnRejectionDefault,
+              )
+              .describe(
+                '差し戻し時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは差し戻しできない。',
+              ),
+            commentingRequiredOnDenial: zod
+              .boolean()
+              .default(
+                listProxyApproversResponseWorkflowsItemCommentingRequiredOnDenialDefault,
+              )
+              .describe(
+                '却下時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは却下できない。',
+              ),
             author: zod
               .union([
                 zod
@@ -486,6 +513,7 @@ export const ListProxyApproversResponseItem = zod
                   .describe('ユーザー'),
                 zod.null(),
               ])
+              .optional()
               .describe('作成者'),
             versionAuthor: zod
               .union([
@@ -612,6 +640,7 @@ export const ListProxyApproversResponseItem = zod
                   .describe('ユーザー'),
                 zod.null(),
               ])
+              .optional()
               .describe('バージョン作成者'),
             folder: zod
               .object({
@@ -655,6 +684,7 @@ export const ListProxyApproversResponseItem = zod
                   .describe('更新日時'),
               })
               .describe('フォルダ')
+              .optional()
               .describe('フォルダ'),
             categories: zod
               .array(
@@ -682,6 +712,7 @@ export const ListProxyApproversResponseItem = zod
                   })
                   .describe('カテゴリ'),
               )
+              .optional()
               .describe('カテゴリの配列'),
             availableToEveryone: zod
               .boolean()
@@ -782,6 +813,9 @@ export const createProxyApproverResponseWorkflowsItemPublicTicketDefault = false
 export const createProxyApproverResponseWorkflowsItemVisibleToTeamMembersDefault = false
 export const createProxyApproverResponseWorkflowsItemAllowEditingOfViewersDefault = true
 export const createProxyApproverResponseWorkflowsItemCommentingEnabledDefault = true
+export const createProxyApproverResponseWorkflowsItemCommentingRequiredOnApprovalDefault = false
+export const createProxyApproverResponseWorkflowsItemCommentingRequiredOnRejectionDefault = false
+export const createProxyApproverResponseWorkflowsItemCommentingRequiredOnDenialDefault = false
 export const createProxyApproverResponseWorkflowsItemAuthorOneEmailMax = 254
 
 export const createProxyApproverResponseWorkflowsItemAuthorOneCodeMax = 100
@@ -1087,6 +1121,30 @@ export const CreateProxyApproverResponse = zod
               .describe(
                 '新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。',
               ),
+            commentingRequiredOnApproval: zod
+              .boolean()
+              .default(
+                createProxyApproverResponseWorkflowsItemCommentingRequiredOnApprovalDefault,
+              )
+              .describe(
+                '承認（回覧の確認を含む）時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは承認・確認できない。',
+              ),
+            commentingRequiredOnRejection: zod
+              .boolean()
+              .default(
+                createProxyApproverResponseWorkflowsItemCommentingRequiredOnRejectionDefault,
+              )
+              .describe(
+                '差し戻し時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは差し戻しできない。',
+              ),
+            commentingRequiredOnDenial: zod
+              .boolean()
+              .default(
+                createProxyApproverResponseWorkflowsItemCommentingRequiredOnDenialDefault,
+              )
+              .describe(
+                '却下時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは却下できない。',
+              ),
             author: zod
               .union([
                 zod
@@ -1212,6 +1270,7 @@ export const CreateProxyApproverResponse = zod
                   .describe('ユーザー'),
                 zod.null(),
               ])
+              .optional()
               .describe('作成者'),
             versionAuthor: zod
               .union([
@@ -1338,6 +1397,7 @@ export const CreateProxyApproverResponse = zod
                   .describe('ユーザー'),
                 zod.null(),
               ])
+              .optional()
               .describe('バージョン作成者'),
             folder: zod
               .object({
@@ -1381,6 +1441,7 @@ export const CreateProxyApproverResponse = zod
                   .describe('更新日時'),
               })
               .describe('フォルダ')
+              .optional()
               .describe('フォルダ'),
             categories: zod
               .array(
@@ -1408,6 +1469,7 @@ export const CreateProxyApproverResponse = zod
                   })
                   .describe('カテゴリ'),
               )
+              .optional()
               .describe('カテゴリの配列'),
             availableToEveryone: zod
               .boolean()

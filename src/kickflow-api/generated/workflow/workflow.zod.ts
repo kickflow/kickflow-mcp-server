@@ -43,6 +43,9 @@ export const listWorkflowsResponsePublicTicketDefault = false
 export const listWorkflowsResponseVisibleToTeamMembersDefault = false
 export const listWorkflowsResponseAllowEditingOfViewersDefault = true
 export const listWorkflowsResponseCommentingEnabledDefault = true
+export const listWorkflowsResponseCommentingRequiredOnApprovalDefault = false
+export const listWorkflowsResponseCommentingRequiredOnRejectionDefault = false
+export const listWorkflowsResponseCommentingRequiredOnDenialDefault = false
 export const listWorkflowsResponseAuthorOneEmailMax = 254
 
 export const listWorkflowsResponseAuthorOneCodeMax = 100
@@ -131,6 +134,24 @@ export const ListWorkflowsResponseItem = zod
       .default(listWorkflowsResponseCommentingEnabledDefault)
       .describe(
         '新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。',
+      ),
+    commentingRequiredOnApproval: zod
+      .boolean()
+      .default(listWorkflowsResponseCommentingRequiredOnApprovalDefault)
+      .describe(
+        '承認（回覧の確認を含む）時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは承認・確認できない。',
+      ),
+    commentingRequiredOnRejection: zod
+      .boolean()
+      .default(listWorkflowsResponseCommentingRequiredOnRejectionDefault)
+      .describe(
+        '差し戻し時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは差し戻しできない。',
+      ),
+    commentingRequiredOnDenial: zod
+      .boolean()
+      .default(listWorkflowsResponseCommentingRequiredOnDenialDefault)
+      .describe(
+        '却下時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは却下できない。',
       ),
     author: zod
       .union([
@@ -232,6 +253,7 @@ export const ListWorkflowsResponseItem = zod
           .describe('ユーザー'),
         zod.null(),
       ])
+      .optional()
       .describe('作成者'),
     versionAuthor: zod
       .union([
@@ -333,6 +355,7 @@ export const ListWorkflowsResponseItem = zod
           .describe('ユーザー'),
         zod.null(),
       ])
+      .optional()
       .describe('バージョン作成者'),
     folder: zod
       .object({
@@ -366,6 +389,7 @@ export const ListWorkflowsResponseItem = zod
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .describe('フォルダ')
+      .optional()
       .describe('フォルダ'),
     categories: zod
       .array(
@@ -385,6 +409,7 @@ export const ListWorkflowsResponseItem = zod
           })
           .describe('カテゴリ'),
       )
+      .optional()
       .describe('カテゴリの配列'),
     availableToEveryone: zod
       .boolean()
@@ -443,6 +468,9 @@ export const getWorkflowResponseOneOnePublicTicketDefault = false
 export const getWorkflowResponseOneOneVisibleToTeamMembersDefault = false
 export const getWorkflowResponseOneOneAllowEditingOfViewersDefault = true
 export const getWorkflowResponseOneOneCommentingEnabledDefault = true
+export const getWorkflowResponseOneOneCommentingRequiredOnApprovalDefault = false
+export const getWorkflowResponseOneOneCommentingRequiredOnRejectionDefault = false
+export const getWorkflowResponseOneOneCommentingRequiredOnDenialDefault = false
 export const getWorkflowResponseOneOneAuthorOneEmailMax = 254
 
 export const getWorkflowResponseOneOneAuthorOneCodeMax = 100
@@ -495,9 +523,13 @@ export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMas
 
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneNameMax = 300
 
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneDescriptionMax = 10000
+
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneItemsCountMin = 0
 
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneFieldsItemTitleMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneFieldsItemDescriptionMax = 10000
 
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneFieldsItemCodeMax = 100
 
@@ -506,6 +538,8 @@ export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoDefaultGen
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoDefaultGeneralMasterItemOneNameMax = 100
 
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoDefaultGeneralMasterItemOneInputsItemFieldTitleMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoDefaultGeneralMasterItemOneInputsItemFieldDescriptionMax = 10000
 
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoDefaultGeneralMasterItemOneInputsItemFieldCodeMax = 100
 
@@ -559,6 +593,53 @@ export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoClimberClo
 
 export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoClimberCloudSettingOneMappingsItemFormFieldDecimalDigitMin = 0
 
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCodeRegExp =
+  new RegExp('^[a-zA-Z0-9_-]+$')
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemPublicTicketDefault = false
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVisibleToTeamMembersDefault = false
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAllowEditingOfViewersDefault = true
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCommentingEnabledDefault = true
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCommentingRequiredOnApprovalDefault = false
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCommentingRequiredOnRejectionDefault = false
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCommentingRequiredOnDenialDefault = false
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneEmailMax = 254
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneCodeMax = 100
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneFirstNameMax = 255
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneLastNameMax = 255
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneFullNameMax = 255
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneEmployeeIdMax = 30
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneEmailMax = 254
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneCodeMax = 100
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneFirstNameMax = 255
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneLastNameMax = 255
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneFullNameMax = 255
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneEmployeeIdMax = 30
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemFolderOneNameMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemFolderOneCodeMax = 100
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemFolderOneWorkflowsCountMin = 0
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemFolderOneRoutesCountMin = 0
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemFolderOnePipelinesCountMin = 0
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCategoriesItemCodeMax = 100
+
+export const getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCategoriesItemNameMax = 100
+
 export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneTitleMax = 300
 
 export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemFormFieldOneCodeMax = 100
@@ -591,15 +672,21 @@ export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralM
 
 export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldTitleMax = 300
 
+export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldDescriptionMax = 10000
+
 export const getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldCodeMax = 100
 
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneCodeMax = 100
 
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneNameMax = 300
 
+export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneDescriptionMax = 10000
+
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneItemsCountMin = 0
 
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneFieldsItemTitleMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneFieldsItemDescriptionMax = 10000
 
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneFieldsItemCodeMax = 100
 
@@ -608,6 +695,8 @@ export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoDefaultGen
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoDefaultGeneralMasterItemOneNameMax = 100
 
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoDefaultGeneralMasterItemOneInputsItemFieldTitleMax = 300
+
+export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoDefaultGeneralMasterItemOneInputsItemFieldDescriptionMax = 10000
 
 export const getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoDefaultGeneralMasterItemOneInputsItemFieldCodeMax = 100
 
@@ -709,6 +798,8 @@ export const getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemGeneral
 
 export const getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldTitleMax = 300
 
+export const getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldDescriptionMax = 10000
+
 export const getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldCodeMax = 100
 
 export const GetWorkflowResponse = zod
@@ -761,6 +852,24 @@ export const GetWorkflowResponse = zod
       .default(getWorkflowResponseOneOneCommentingEnabledDefault)
       .describe(
         '新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。',
+      ),
+    commentingRequiredOnApproval: zod
+      .boolean()
+      .default(getWorkflowResponseOneOneCommentingRequiredOnApprovalDefault)
+      .describe(
+        '承認（回覧の確認を含む）時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは承認・確認できない。',
+      ),
+    commentingRequiredOnRejection: zod
+      .boolean()
+      .default(getWorkflowResponseOneOneCommentingRequiredOnRejectionDefault)
+      .describe(
+        '差し戻し時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは差し戻しできない。',
+      ),
+    commentingRequiredOnDenial: zod
+      .boolean()
+      .default(getWorkflowResponseOneOneCommentingRequiredOnDenialDefault)
+      .describe(
+        '却下時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは却下できない。',
       ),
     author: zod
       .union([
@@ -862,6 +971,7 @@ export const GetWorkflowResponse = zod
           .describe('ユーザー'),
         zod.null(),
       ])
+      .optional()
       .describe('作成者'),
     versionAuthor: zod
       .union([
@@ -963,6 +1073,7 @@ export const GetWorkflowResponse = zod
           .describe('ユーザー'),
         zod.null(),
       ])
+      .optional()
       .describe('バージョン作成者'),
     folder: zod
       .object({
@@ -996,6 +1107,7 @@ export const GetWorkflowResponse = zod
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .describe('フォルダ')
+      .optional()
       .describe('フォルダ'),
     categories: zod
       .array(
@@ -1015,6 +1127,7 @@ export const GetWorkflowResponse = zod
           })
           .describe('カテゴリ'),
       )
+      .optional()
       .describe('カテゴリの配列'),
     availableToEveryone: zod
       .boolean()
@@ -1187,6 +1300,9 @@ export const GetWorkflowResponse = zod
                         .describe(
                           'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                         ),
+                      multiple: zod
+                        .boolean()
+                        .describe('複数選択を許可するかどうか'),
                       orientation: zod
                         .enum(['vertical', 'horizontal'])
                         .describe(
@@ -1215,6 +1331,9 @@ export const GetWorkflowResponse = zod
                                   .describe('名前'),
                                 description: zod
                                   .string()
+                                  .max(
+                                    getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneDescriptionMax,
+                                  )
                                   .nullable()
                                   .describe('説明'),
                                 defaultSortBy: zod
@@ -1254,6 +1373,9 @@ export const GetWorkflowResponse = zod
                                           .describe('フィールド名'),
                                         description: zod
                                           .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoGeneralMasterOneFieldsItemDescriptionMax,
+                                          )
                                           .nullable()
                                           .describe('フィールドの説明'),
                                         code: zod
@@ -1373,6 +1495,9 @@ export const GetWorkflowResponse = zod
                                             .describe('フィールド名'),
                                           description: zod
                                             .string()
+                                            .max(
+                                              getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoDefaultGeneralMasterItemOneInputsItemFieldDescriptionMax,
+                                            )
                                             .nullable()
                                             .describe('フィールドの説明'),
                                           code: zod
@@ -1605,6 +1730,11 @@ export const GetWorkflowResponse = zod
                                             .describe(
                                               'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                                             ),
+                                          multiple: zod
+                                            .boolean()
+                                            .describe(
+                                              '複数選択を許可するかどうか',
+                                            ),
                                           orientation: zod
                                             .enum(['vertical', 'horizontal'])
                                             .describe(
@@ -1767,6 +1897,9 @@ export const GetWorkflowResponse = zod
                                       .describe(
                                         'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                                       ),
+                                    multiple: zod
+                                      .boolean()
+                                      .describe('複数選択を許可するかどうか'),
                                     orientation: zod
                                       .enum(['vertical', 'horizontal'])
                                       .describe(
@@ -1939,6 +2072,11 @@ export const GetWorkflowResponse = zod
                                             .describe(
                                               'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                                             ),
+                                          multiple: zod
+                                            .boolean()
+                                            .describe(
+                                              '複数選択を許可するかどうか',
+                                            ),
                                           orientation: zod
                                             .enum(['vertical', 'horizontal'])
                                             .describe(
@@ -2092,6 +2230,9 @@ export const GetWorkflowResponse = zod
                                       .describe(
                                         'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                                       ),
+                                    multiple: zod
+                                      .boolean()
+                                      .describe('複数選択を許可するかどうか'),
                                     orientation: zod
                                       .enum(['vertical', 'horizontal'])
                                       .describe(
@@ -2235,6 +2376,11 @@ export const GetWorkflowResponse = zod
                                             .describe(
                                               'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                                             ),
+                                          multiple: zod
+                                            .boolean()
+                                            .describe(
+                                              '複数選択を許可するかどうか',
+                                            ),
                                           orientation: zod
                                             .enum(['vertical', 'horizontal'])
                                             .describe(
@@ -2294,9 +2440,6 @@ export const GetWorkflowResponse = zod
                           .describe(
                             '添付可能な拡張子リスト。fieldTypeがfileのときのみ値が入ります。\n古いフィールドではnullを返す場合があります。',
                           ),
-                        multiple: zod
-                          .boolean()
-                          .describe('複数選択を許可するかどうか'),
                         autoLink: zod
                           .boolean()
                           .describe(
@@ -2320,6 +2463,508 @@ export const GetWorkflowResponse = zod
                           )
                           .describe(
                             'チケット型フィールドで、選択可能なチケットのステータス',
+                          ),
+                        selectableTicketWorkflows: zod
+                          .array(
+                            zod
+                              .object({
+                                id: zod.string().describe('UUID'),
+                                code: zod
+                                  .string()
+                                  .regex(
+                                    getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCodeRegExp,
+                                  )
+                                  .describe('コード'),
+                                versionId: zod
+                                  .string()
+                                  .describe('バージョンのUUID'),
+                                versionNumber: zod
+                                  .int()
+                                  .describe('バージョン番号'),
+                                name: zod.string().describe('名前'),
+                                description: zod.string().describe('説明'),
+                                status: zod
+                                  .enum(['visible', 'invisible', 'deleted'])
+                                  .describe(
+                                    'ステータス。visibleは有効、invisibleは無効、deletedは削除済み。',
+                                  ),
+                                publicTicket: zod
+                                  .boolean()
+                                  .default(
+                                    getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemPublicTicketDefault,
+                                  )
+                                  .describe(
+                                    'チケットがテナント全体に共有される場合true',
+                                  ),
+                                visibleToManager: zod
+                                  .enum(['none', 'direct', 'all'])
+                                  .describe(
+                                    '申請者の上長を共有ユーザーに追加するか。noneは追加しない、directは直属の上長のみ、allはすべての上長を表す。',
+                                  ),
+                                visibleToTeamMembers: zod
+                                  .boolean()
+                                  .default(
+                                    getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVisibleToTeamMembersDefault,
+                                  )
+                                  .describe(
+                                    '申請チームのメンバーが共有ユーザーに追加される場合true',
+                                  ),
+                                titleDescription: zod
+                                  .string()
+                                  .nullable()
+                                  .describe('タイトルの説明'),
+                                ticketNumberFormat: zod
+                                  .string()
+                                  .nullable()
+                                  .describe('チケット番号のフォーマット'),
+                                overwritable: zod
+                                  .boolean()
+                                  .describe(
+                                    '承認者による上書きが可能な場合true',
+                                  ),
+                                createdAt: zod.string().describe('作成日時'),
+                                updatedAt: zod.string().describe('更新日時'),
+                                titleInputMode: zod
+                                  .enum(['none', 'input', 'calculate'])
+                                  .describe('タイトル入力モード'),
+                                titleFormula: zod
+                                  .string()
+                                  .nullable()
+                                  .describe('タイトルの計算式'),
+                                allowEditingOfViewers: zod
+                                  .boolean()
+                                  .default(
+                                    getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAllowEditingOfViewersDefault,
+                                  )
+                                  .describe(
+                                    '共有ユーザーの編集が可能な場合true',
+                                  ),
+                                commentingEnabled: zod
+                                  .boolean()
+                                  .default(
+                                    getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCommentingEnabledDefault,
+                                  )
+                                  .describe(
+                                    '新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。',
+                                  ),
+                                commentingRequiredOnApproval: zod
+                                  .boolean()
+                                  .default(
+                                    getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCommentingRequiredOnApprovalDefault,
+                                  )
+                                  .describe(
+                                    '承認（回覧の確認を含む）時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは承認・確認できない。',
+                                  ),
+                                commentingRequiredOnRejection: zod
+                                  .boolean()
+                                  .default(
+                                    getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCommentingRequiredOnRejectionDefault,
+                                  )
+                                  .describe(
+                                    '差し戻し時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは差し戻しできない。',
+                                  ),
+                                commentingRequiredOnDenial: zod
+                                  .boolean()
+                                  .default(
+                                    getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCommentingRequiredOnDenialDefault,
+                                  )
+                                  .describe(
+                                    '却下時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは却下できない。',
+                                  ),
+                                author: zod
+                                  .union([
+                                    zod
+                                      .object({
+                                        id: zod.uuid().describe('UUID'),
+                                        email: zod
+                                          .email()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneEmailMax,
+                                          )
+                                          .describe('メールアドレス'),
+                                        code: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneCodeMax,
+                                          )
+                                          .describe('コード'),
+                                        firstName: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneFirstNameMax,
+                                          )
+                                          .describe('名'),
+                                        lastName: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneLastNameMax,
+                                          )
+                                          .describe('姓'),
+                                        fullName: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneFullNameMax,
+                                          )
+                                          .describe('フルネーム'),
+                                        employeeId: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneEmployeeIdMax,
+                                          )
+                                          .nullish()
+                                          .describe('社員番号'),
+                                        image: zod
+                                          .object({
+                                            '100x100': zod.string().nullable(),
+                                            '64x64': zod.string().nullable(),
+                                            '32x32': zod.string().nullable(),
+                                          })
+                                          .describe(
+                                            'ユーザー画像のURL。サイズごとに複数のURLを返します。',
+                                          ),
+                                        status: zod
+                                          .enum([
+                                            'invited',
+                                            'activated',
+                                            'suspended',
+                                            'deactivated',
+                                          ])
+                                          .describe('ステータス'),
+                                        locale: zod
+                                          .string()
+                                          .describe('ロケール（jaまたはen）'),
+                                        userType: zod
+                                          .enum(['normal', 'assistant'])
+                                          .optional()
+                                          .describe(
+                                            'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                                          ),
+                                        createdAt: zod.iso
+                                          .datetime({ offset: true })
+                                          .describe('作成日時'),
+                                        updatedAt: zod.iso
+                                          .datetime({ offset: true })
+                                          .describe('更新日時'),
+                                        deactivatedAt: zod.iso
+                                          .datetime({ offset: true })
+                                          .nullish()
+                                          .describe('削除日時'),
+                                        lastUsedOn: zod.iso
+                                          .date()
+                                          .nullish()
+                                          .describe(
+                                            '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                                          ),
+                                        customFields: zod
+                                          .array(
+                                            zod.object({
+                                              code: zod
+                                                .string()
+                                                .describe(
+                                                  'UserCustomField#code（変換せずそのまま）',
+                                                ),
+                                              fieldType: zod
+                                                .union([
+                                                  zod.literal('text'),
+                                                  zod.literal('textLong'),
+                                                  zod.literal('number'),
+                                                  zod.literal('integer'),
+                                                  zod.literal('checkbox'),
+                                                  zod.literal('pullDown'),
+                                                  zod.literal('date'),
+                                                  zod.literal(null),
+                                                ])
+                                                .nullable()
+                                                .describe(
+                                                  'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                                                ),
+                                              value: zod
+                                                .union([
+                                                  zod.string(),
+                                                  zod.number(),
+                                                  zod.array(zod.string()),
+                                                  zod.null(),
+                                                ])
+                                                .describe(
+                                                  'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                                                ),
+                                            }),
+                                          )
+                                          .optional()
+                                          .describe(
+                                            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                                          ),
+                                      })
+                                      .describe('ユーザー'),
+                                    zod.null(),
+                                  ])
+                                  .optional()
+                                  .describe('作成者'),
+                                versionAuthor: zod
+                                  .union([
+                                    zod
+                                      .object({
+                                        id: zod.uuid().describe('UUID'),
+                                        email: zod
+                                          .email()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneEmailMax,
+                                          )
+                                          .describe('メールアドレス'),
+                                        code: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneCodeMax,
+                                          )
+                                          .describe('コード'),
+                                        firstName: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneFirstNameMax,
+                                          )
+                                          .describe('名'),
+                                        lastName: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneLastNameMax,
+                                          )
+                                          .describe('姓'),
+                                        fullName: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneFullNameMax,
+                                          )
+                                          .describe('フルネーム'),
+                                        employeeId: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneEmployeeIdMax,
+                                          )
+                                          .nullish()
+                                          .describe('社員番号'),
+                                        image: zod
+                                          .object({
+                                            '100x100': zod.string().nullable(),
+                                            '64x64': zod.string().nullable(),
+                                            '32x32': zod.string().nullable(),
+                                          })
+                                          .describe(
+                                            'ユーザー画像のURL。サイズごとに複数のURLを返します。',
+                                          ),
+                                        status: zod
+                                          .enum([
+                                            'invited',
+                                            'activated',
+                                            'suspended',
+                                            'deactivated',
+                                          ])
+                                          .describe('ステータス'),
+                                        locale: zod
+                                          .string()
+                                          .describe('ロケール（jaまたはen）'),
+                                        userType: zod
+                                          .enum(['normal', 'assistant'])
+                                          .optional()
+                                          .describe(
+                                            'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                                          ),
+                                        createdAt: zod.iso
+                                          .datetime({ offset: true })
+                                          .describe('作成日時'),
+                                        updatedAt: zod.iso
+                                          .datetime({ offset: true })
+                                          .describe('更新日時'),
+                                        deactivatedAt: zod.iso
+                                          .datetime({ offset: true })
+                                          .nullish()
+                                          .describe('削除日時'),
+                                        lastUsedOn: zod.iso
+                                          .date()
+                                          .nullish()
+                                          .describe(
+                                            '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                                          ),
+                                        customFields: zod
+                                          .array(
+                                            zod.object({
+                                              code: zod
+                                                .string()
+                                                .describe(
+                                                  'UserCustomField#code（変換せずそのまま）',
+                                                ),
+                                              fieldType: zod
+                                                .union([
+                                                  zod.literal('text'),
+                                                  zod.literal('textLong'),
+                                                  zod.literal('number'),
+                                                  zod.literal('integer'),
+                                                  zod.literal('checkbox'),
+                                                  zod.literal('pullDown'),
+                                                  zod.literal('date'),
+                                                  zod.literal(null),
+                                                ])
+                                                .nullable()
+                                                .describe(
+                                                  'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                                                ),
+                                              value: zod
+                                                .union([
+                                                  zod.string(),
+                                                  zod.number(),
+                                                  zod.array(zod.string()),
+                                                  zod.null(),
+                                                ])
+                                                .describe(
+                                                  'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                                                ),
+                                            }),
+                                          )
+                                          .optional()
+                                          .describe(
+                                            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                                          ),
+                                      })
+                                      .describe('ユーザー'),
+                                    zod.null(),
+                                  ])
+                                  .optional()
+                                  .describe('バージョン作成者'),
+                                folder: zod
+                                  .object({
+                                    id: zod.uuid().describe('UUID'),
+                                    name: zod
+                                      .string()
+                                      .max(
+                                        getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemFolderOneNameMax,
+                                      )
+                                      .describe('名前'),
+                                    fullName: zod
+                                      .string()
+                                      .describe(
+                                        'フルネーム（ルートフォルダからのパス）',
+                                      ),
+                                    code: zod
+                                      .string()
+                                      .max(
+                                        getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemFolderOneCodeMax,
+                                      )
+                                      .describe('コード'),
+                                    description: zod
+                                      .string()
+                                      .nullish()
+                                      .describe('説明'),
+                                    workflowsCount: zod
+                                      .int()
+                                      .min(
+                                        getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemFolderOneWorkflowsCountMin,
+                                      )
+                                      .describe('フォルダ内のワークフロー数'),
+                                    routesCount: zod
+                                      .int()
+                                      .min(
+                                        getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemFolderOneRoutesCountMin,
+                                      )
+                                      .describe('フォルダ内の経路数'),
+                                    pipelinesCount: zod
+                                      .int()
+                                      .min(
+                                        getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemFolderOnePipelinesCountMin,
+                                      )
+                                      .describe('フォルダ内のパイプライン数'),
+                                    editable: zod
+                                      .boolean()
+                                      .describe('編集可能かどうか'),
+                                    createdAt: zod.iso
+                                      .datetime({ offset: true })
+                                      .describe('作成日時'),
+                                    updatedAt: zod.iso
+                                      .datetime({ offset: true })
+                                      .describe('更新日時'),
+                                  })
+                                  .describe('フォルダ')
+                                  .optional()
+                                  .describe('フォルダ'),
+                                categories: zod
+                                  .array(
+                                    zod
+                                      .object({
+                                        id: zod.uuid().describe('UUID'),
+                                        code: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCategoriesItemCodeMax,
+                                          )
+                                          .describe('コード'),
+                                        name: zod
+                                          .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemCategoriesItemNameMax,
+                                          )
+                                          .describe('名前'),
+                                        createdAt: zod.iso
+                                          .datetime({ offset: true })
+                                          .describe('作成日時'),
+                                        updatedAt: zod.iso
+                                          .datetime({ offset: true })
+                                          .describe('更新日時'),
+                                      })
+                                      .describe('カテゴリ'),
+                                  )
+                                  .optional()
+                                  .describe('カテゴリの配列'),
+                                availableToEveryone: zod
+                                  .boolean()
+                                  .describe('全ユーザーが申請可能な場合true'),
+                                reportFormats: zod
+                                  .array(zod.enum(['pdf', 'excel']))
+                                  .describe('帳票のフォーマット'),
+                                hiddenOnWorkflowFilterForTicket: zod
+                                  .boolean()
+                                  .describe(
+                                    'チケット検索のワークフローフィルタに表示しない場合true',
+                                  ),
+                                hiddenOnWorkflowSelectionScreen: zod
+                                  .boolean()
+                                  .describe(
+                                    'ワークフロー選択画面に表示しない場合true',
+                                  ),
+                                approvalCancellable: zod
+                                  .boolean()
+                                  .describe('承認の取り消しが可能な場合true'),
+                                reportFileNameFormat: zod
+                                  .string()
+                                  .nullable()
+                                  .describe('帳票のファイル名フォーマット'),
+                                current: zod
+                                  .boolean()
+                                  .describe('現在のバージョンの場合true'),
+                                notes: zod
+                                  .string()
+                                  .nullable()
+                                  .describe('管理用メモ'),
+                                versionCreatedAt: zod.iso
+                                  .datetime({ offset: true })
+                                  .describe('バージョンの作成日時'),
+                                collectEmailOnExternalPublish: zod
+                                  .boolean()
+                                  .describe(
+                                    '外部公開時にメールアドレスを収集する場合true',
+                                  ),
+                                notifyGuestOnCompletion: zod
+                                  .boolean()
+                                  .describe(
+                                    '外部ゲストに申請結果（完了\/却下）を通知する場合true',
+                                  ),
+                                allowCustomSteps: zod
+                                  .boolean()
+                                  .describe(
+                                    'カスタムステップの追加を許可する場合true',
+                                  ),
+                              })
+                              .describe('ワークフロー'),
+                          )
+                          .describe(
+                            'チケット型フィールドで選択可能なワークフロー。\n各要素にはauthor \/ versionAuthor \/ folder \/ categoriesは含まれません。',
                           ),
                       }),
                     )
@@ -2495,6 +3140,9 @@ export const GetWorkflowResponse = zod
                                 .describe(
                                   'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                                 ),
+                              multiple: zod
+                                .boolean()
+                                .describe('複数選択を許可するかどうか'),
                               orientation: zod
                                 .enum(['vertical', 'horizontal'])
                                 .describe(
@@ -2658,6 +3306,9 @@ export const GetWorkflowResponse = zod
                                           .describe('フィールド名'),
                                         description: zod
                                           .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldDescriptionMax,
+                                          )
                                           .nullable()
                                           .describe('フィールドの説明'),
                                         code: zod
@@ -2826,6 +3477,9 @@ export const GetWorkflowResponse = zod
                                   .describe('名前'),
                                 description: zod
                                   .string()
+                                  .max(
+                                    getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneDescriptionMax,
+                                  )
                                   .nullable()
                                   .describe('説明'),
                                 defaultSortBy: zod
@@ -2865,6 +3519,9 @@ export const GetWorkflowResponse = zod
                                           .describe('フィールド名'),
                                         description: zod
                                           .string()
+                                          .max(
+                                            getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoGeneralMasterOneFieldsItemDescriptionMax,
+                                          )
                                           .nullable()
                                           .describe('フィールドの説明'),
                                         code: zod
@@ -2986,6 +3643,9 @@ export const GetWorkflowResponse = zod
                                             .describe('フィールド名'),
                                           description: zod
                                             .string()
+                                            .max(
+                                              getWorkflowResponseOneTwoSectionListItemSlipFieldsItemTwoDefaultGeneralMasterItemOneInputsItemFieldDescriptionMax,
+                                            )
                                             .nullable()
                                             .describe('フィールドの説明'),
                                           code: zod
@@ -3829,6 +4489,9 @@ export const GetWorkflowResponse = zod
                             .describe(
                               'trueの時、申請者・承認者が画面上から値を入力することを禁止します。\n外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。',
                             ),
+                          multiple: zod
+                            .boolean()
+                            .describe('複数選択を許可するかどうか'),
                           orientation: zod
                             .enum(['vertical', 'horizontal'])
                             .describe(
@@ -3990,6 +4653,9 @@ export const GetWorkflowResponse = zod
                                           .describe('フィールド名'),
                                         description: zod
                                           .string()
+                                          .max(
+                                            getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldDescriptionMax,
+                                          )
                                           .nullable()
                                           .describe('フィールドの説明'),
                                         code: zod

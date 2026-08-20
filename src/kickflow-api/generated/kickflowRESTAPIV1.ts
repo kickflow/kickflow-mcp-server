@@ -1,5 +1,6 @@
 import type {
   ActivateOrganizationChartBody,
+  ApproveTicketBody,
   AuditLog,
   Category,
   Comment,
@@ -258,7 +259,7 @@ export const getKickflowRESTAPIV1 = () => {
   /**
    * 汎用マスタの一覧を取得します。
    *
-   * このAPIの実行には、汎用マスタの管理権限が必要です。
+   * このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
    * @summary 汎用マスタの一覧を取得
    */
   const listGeneralMasters = (
@@ -274,7 +275,7 @@ export const getKickflowRESTAPIV1 = () => {
   /**
    * 汎用マスタを作成します。
    *
-   * このAPIの実行には、汎用マスタの管理権限が必要です。
+   * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
    * @summary 汎用マスタを作成
    */
   const createGeneralMaster = (
@@ -295,7 +296,7 @@ export const getKickflowRESTAPIV1 = () => {
   /**
    * 汎用マスタを一件取得します。
    *
-   * このAPIの実行には、汎用マスタの管理権限が必要です。
+   * このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
    * @summary 汎用マスタを取得
    */
   const getGeneralMaster = (
@@ -311,7 +312,7 @@ export const getKickflowRESTAPIV1 = () => {
   /**
    * 汎用マスタを更新します。
    *
-   * このAPIの実行には、汎用マスタの管理権限が必要です。
+   * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
    * @summary 汎用マスタを更新
    */
   const updateGeneralMaster = (
@@ -333,7 +334,7 @@ export const getKickflowRESTAPIV1 = () => {
   /**
    * 汎用マスタを削除します。この汎用マスタのすべてのアイテムも同時に削除されます。
    *
-   * このAPIの実行には、汎用マスタの管理権限が必要です。
+   * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
    * @summary 汎用マスタを削除
    */
   const deleteGeneralMaster = (
@@ -348,6 +349,8 @@ export const getKickflowRESTAPIV1 = () => {
 
   /**
    * 汎用マスタアイテムの一覧を取得します。
+   *
+   * このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
    * @summary 汎用マスタアイテムの一覧を取得
    */
   const listGeneralMasterItems = (
@@ -368,7 +371,7 @@ export const getKickflowRESTAPIV1 = () => {
   /**
    * 汎用マスタアイテムを作成します。
    *
-   * このAPIの実行には、汎用マスタの管理権限が必要です。
+   * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
    * @summary 汎用マスタアイテムを作成
    */
   const createGeneralMasterItem = (
@@ -389,6 +392,8 @@ export const getKickflowRESTAPIV1 = () => {
 
   /**
    * 汎用マスタアイテムを一件取得します。
+   *
+   * このAPIの実行には、汎用マスタの管理権限（閲覧または編集）が必要です。
    * @summary 汎用マスタアイテムを取得
    */
   const getGeneralMasterItem = (
@@ -408,7 +413,7 @@ export const getKickflowRESTAPIV1 = () => {
   /**
    * 汎用マスタアイテムを更新します。
    *
-   * このAPIの実行には、汎用マスタの管理権限が必要です。
+   * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
    * @summary 汎用マスタアイテムを更新
    */
   const updateGeneralMasterItem = (
@@ -431,7 +436,7 @@ export const getKickflowRESTAPIV1 = () => {
   /**
    * 汎用マスタアイテムを削除します。
    *
-   * このAPIの実行には、汎用マスタの管理権限が必要です。
+   * このAPIの実行には、汎用マスタの管理権限（編集）が必要です。
    * @summary 汎用マスタアイテムを削除
    */
   const deleteGeneralMasterItem = (
@@ -1196,10 +1201,16 @@ export const getKickflowRESTAPIV1 = () => {
    */
   const approveTicket = (
     ticketId: string,
+    approveTicketBody?: BodyType<ApproveTicketBody>,
     options?: SecondParameter<typeof customAxiosInstance<TicketDetail>>,
   ) => {
     return customAxiosInstance<TicketDetail>(
-      { url: `/v1/tickets/${ticketId}/approve`, method: 'POST' },
+      {
+        url: `/v1/tickets/${ticketId}/approve`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: approveTicketBody,
+      },
       options,
     )
   }
