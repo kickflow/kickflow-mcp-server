@@ -1568,9 +1568,9 @@ export const getKickflowRESTAPIV1 = () => {
    */
   const reinviteUser = (
     userId: string,
-    options?: SecondParameter<typeof customAxiosInstance<User>>,
+    options?: SecondParameter<typeof customAxiosInstance<UserDetail>>,
   ) => {
-    return customAxiosInstance<User>(
+    return customAxiosInstance<UserDetail>(
       { url: `/v1/users/${userId}/reinvite`, method: 'POST' },
       options,
     )
@@ -1584,9 +1584,9 @@ export const getKickflowRESTAPIV1 = () => {
    */
   const suspendUser = (
     userId: string,
-    options?: SecondParameter<typeof customAxiosInstance<User>>,
+    options?: SecondParameter<typeof customAxiosInstance<UserDetail>>,
   ) => {
-    return customAxiosInstance<User>(
+    return customAxiosInstance<UserDetail>(
       { url: `/v1/users/${userId}/suspend`, method: 'POST' },
       options,
     )
@@ -1600,9 +1600,9 @@ export const getKickflowRESTAPIV1 = () => {
    */
   const reactivateUser = (
     userId: string,
-    options?: SecondParameter<typeof customAxiosInstance<User>>,
+    options?: SecondParameter<typeof customAxiosInstance<UserDetail>>,
   ) => {
-    return customAxiosInstance<User>(
+    return customAxiosInstance<UserDetail>(
       { url: `/v1/users/${userId}/reactivate`, method: 'POST' },
       options,
     )

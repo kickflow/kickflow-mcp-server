@@ -80,7 +80,7 @@ export const ListAuditLogsResponseItem = zod
             employeeId: zod
               .string()
               .max(listAuditLogsResponseUserOneEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({

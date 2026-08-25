@@ -117,7 +117,7 @@ export const ListRoutesResponseItem = zod
             employeeId: zod
               .string()
               .max(listRoutesResponseAuthorOneEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({
@@ -189,7 +189,6 @@ export const ListRoutesResponseItem = zod
           .describe('ユーザー'),
         zod.null(),
       ])
-      .optional()
       .describe('作成者'),
     versionAuthor: zod
       .union([
@@ -219,7 +218,7 @@ export const ListRoutesResponseItem = zod
             employeeId: zod
               .string()
               .max(listRoutesResponseVersionAuthorOneEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({
@@ -306,7 +305,7 @@ export const ListRoutesResponseItem = zod
           .string()
           .max(listRoutesResponseFolderOneCodeMax)
           .describe('コード'),
-        description: zod.string().nullish().describe('説明'),
+        description: zod.string().nullable().describe('説明'),
         workflowsCount: zod
           .int()
           .min(listRoutesResponseFolderOneWorkflowsCountMin)
@@ -376,6 +375,18 @@ export const getRouteResponseOneFolderOneRoutesCountMin = 0
 
 export const getRouteResponseOneFolderOnePipelinesCountMin = 0
 
+export const getRouteResponseTwoVersionAuthorOneEmailMax = 254
+
+export const getRouteResponseTwoVersionAuthorOneCodeMax = 100
+
+export const getRouteResponseTwoVersionAuthorOneFirstNameMax = 255
+
+export const getRouteResponseTwoVersionAuthorOneLastNameMax = 255
+
+export const getRouteResponseTwoVersionAuthorOneFullNameMax = 255
+
+export const getRouteResponseTwoVersionAuthorOneEmployeeIdMax = 30
+
 export const getRouteResponseTwoStepsItemMinCustomAssigneesMin = 0
 
 export const getRouteResponseTwoStepsItemUsersItemEmailMax = 254
@@ -390,13 +401,13 @@ export const getRouteResponseTwoStepsItemUsersItemFullNameMax = 255
 
 export const getRouteResponseTwoStepsItemUsersItemEmployeeIdMax = 30
 
-export const getRouteResponseTwoStepsItemTargetsItemTeamNameMax = 300
+export const getRouteResponseTwoStepsItemTargetsItemTeamOneNameMax = 300
 
-export const getRouteResponseTwoStepsItemTargetsItemTeamCodeMax = 100
+export const getRouteResponseTwoStepsItemTargetsItemTeamOneCodeMax = 100
 
-export const getRouteResponseTwoStepsItemTargetsItemTeamNotesMax = 10000
+export const getRouteResponseTwoStepsItemTargetsItemTeamOneNotesMax = 10000
 
-export const getRouteResponseTwoStepsItemTargetsItemTeamUsersCountMin = 0
+export const getRouteResponseTwoStepsItemTargetsItemTeamOneUsersCountMin = 0
 
 export const getRouteResponseTwoStepsItemTargetsItemGradesItemNameMax = 300
 
@@ -421,6 +432,14 @@ export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepCondition
 export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemTeamOneNotesMax = 10000
 
 export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemTeamOneUsersCountMin = 0
+
+export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterOneCodeMax = 100
+
+export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterOneNameMax = 300
+
+export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterOneDescriptionMax = 10000
+
+export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterOneItemsCountMin = 0
 
 export const getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterItemOneCodeMax = 100
 
@@ -476,7 +495,7 @@ export const GetRouteResponse = zod
             employeeId: zod
               .string()
               .max(getRouteResponseOneAuthorOneEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({
@@ -548,109 +567,106 @@ export const GetRouteResponse = zod
           .describe('ユーザー'),
         zod.null(),
       ])
-      .optional()
       .describe('作成者'),
-    versionAuthor: zod
-      .union([
-        zod
-          .object({
-            id: zod.uuid().describe('UUID'),
-            email: zod
-              .email()
-              .max(getRouteResponseOneVersionAuthorOneEmailMax)
-              .describe('メールアドレス'),
-            code: zod
-              .string()
-              .max(getRouteResponseOneVersionAuthorOneCodeMax)
-              .describe('コード'),
-            firstName: zod
-              .string()
-              .max(getRouteResponseOneVersionAuthorOneFirstNameMax)
-              .describe('名'),
-            lastName: zod
-              .string()
-              .max(getRouteResponseOneVersionAuthorOneLastNameMax)
-              .describe('姓'),
-            fullName: zod
-              .string()
-              .max(getRouteResponseOneVersionAuthorOneFullNameMax)
-              .describe('フルネーム'),
-            employeeId: zod
-              .string()
-              .max(getRouteResponseOneVersionAuthorOneEmployeeIdMax)
-              .nullish()
-              .describe('社員番号'),
-            image: zod
-              .object({
-                '100x100': zod.string().nullable(),
-                '64x64': zod.string().nullable(),
-                '32x32': zod.string().nullable(),
-              })
-              .describe('ユーザー画像のURL。サイズごとに複数のURLを返します。'),
-            status: zod
-              .enum(['invited', 'activated', 'suspended', 'deactivated'])
-              .describe('ステータス'),
-            locale: zod.string().describe('ロケール（jaまたはen）'),
-            userType: zod
-              .enum(['normal', 'assistant'])
-              .optional()
-              .describe(
-                'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
-              ),
-            createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
-            updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
-            deactivatedAt: zod.iso
-              .datetime({ offset: true })
-              .nullish()
-              .describe('削除日時'),
-            lastUsedOn: zod.iso
-              .date()
-              .nullish()
-              .describe(
-                '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
-              ),
-            customFields: zod
-              .array(
-                zod.object({
-                  code: zod
-                    .string()
-                    .describe('UserCustomField#code（変換せずそのまま）'),
-                  fieldType: zod
-                    .union([
-                      zod.literal('text'),
-                      zod.literal('textLong'),
-                      zod.literal('number'),
-                      zod.literal('integer'),
-                      zod.literal('checkbox'),
-                      zod.literal('pullDown'),
-                      zod.literal('date'),
-                      zod.literal(null),
-                    ])
-                    .nullable()
-                    .describe(
-                      'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
-                    ),
-                  value: zod
-                    .union([
-                      zod.string(),
-                      zod.number(),
-                      zod.array(zod.string()),
-                      zod.null(),
-                    ])
-                    .describe(
-                      'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
-                    ),
-                }),
-              )
-              .optional()
-              .describe(
-                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
-              ),
-          })
-          .describe('ユーザー'),
-        zod.null(),
-      ])
-      .optional(),
+    versionAuthor: zod.union([
+      zod
+        .object({
+          id: zod.uuid().describe('UUID'),
+          email: zod
+            .email()
+            .max(getRouteResponseOneVersionAuthorOneEmailMax)
+            .describe('メールアドレス'),
+          code: zod
+            .string()
+            .max(getRouteResponseOneVersionAuthorOneCodeMax)
+            .describe('コード'),
+          firstName: zod
+            .string()
+            .max(getRouteResponseOneVersionAuthorOneFirstNameMax)
+            .describe('名'),
+          lastName: zod
+            .string()
+            .max(getRouteResponseOneVersionAuthorOneLastNameMax)
+            .describe('姓'),
+          fullName: zod
+            .string()
+            .max(getRouteResponseOneVersionAuthorOneFullNameMax)
+            .describe('フルネーム'),
+          employeeId: zod
+            .string()
+            .max(getRouteResponseOneVersionAuthorOneEmployeeIdMax)
+            .nullable()
+            .describe('社員番号'),
+          image: zod
+            .object({
+              '100x100': zod.string().nullable(),
+              '64x64': zod.string().nullable(),
+              '32x32': zod.string().nullable(),
+            })
+            .describe('ユーザー画像のURL。サイズごとに複数のURLを返します。'),
+          status: zod
+            .enum(['invited', 'activated', 'suspended', 'deactivated'])
+            .describe('ステータス'),
+          locale: zod.string().describe('ロケール（jaまたはen）'),
+          userType: zod
+            .enum(['normal', 'assistant'])
+            .optional()
+            .describe(
+              'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+            ),
+          createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+          updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+          deactivatedAt: zod.iso
+            .datetime({ offset: true })
+            .nullish()
+            .describe('削除日時'),
+          lastUsedOn: zod.iso
+            .date()
+            .nullish()
+            .describe(
+              '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+            ),
+          customFields: zod
+            .array(
+              zod.object({
+                code: zod
+                  .string()
+                  .describe('UserCustomField#code（変換せずそのまま）'),
+                fieldType: zod
+                  .union([
+                    zod.literal('text'),
+                    zod.literal('textLong'),
+                    zod.literal('number'),
+                    zod.literal('integer'),
+                    zod.literal('checkbox'),
+                    zod.literal('pullDown'),
+                    zod.literal('date'),
+                    zod.literal(null),
+                  ])
+                  .nullable()
+                  .describe(
+                    'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                  ),
+                value: zod
+                  .union([
+                    zod.string(),
+                    zod.number(),
+                    zod.array(zod.string()),
+                    zod.null(),
+                  ])
+                  .describe(
+                    'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                  ),
+              }),
+            )
+            .optional()
+            .describe(
+              'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+            ),
+        })
+        .describe('ユーザー'),
+      zod.null(),
+    ]),
     folder: zod
       .object({
         id: zod.uuid().describe('UUID'),
@@ -665,7 +681,7 @@ export const GetRouteResponse = zod
           .string()
           .max(getRouteResponseOneFolderOneCodeMax)
           .describe('コード'),
-        description: zod.string().nullish().describe('説明'),
+        description: zod.string().nullable().describe('説明'),
         workflowsCount: zod
           .int()
           .min(getRouteResponseOneFolderOneWorkflowsCountMin)
@@ -688,6 +704,113 @@ export const GetRouteResponse = zod
   .describe('経路')
   .and(
     zod.object({
+      versionAuthor: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              email: zod
+                .email()
+                .max(getRouteResponseTwoVersionAuthorOneEmailMax)
+                .describe('メールアドレス'),
+              code: zod
+                .string()
+                .max(getRouteResponseTwoVersionAuthorOneCodeMax)
+                .describe('コード'),
+              firstName: zod
+                .string()
+                .max(getRouteResponseTwoVersionAuthorOneFirstNameMax)
+                .describe('名'),
+              lastName: zod
+                .string()
+                .max(getRouteResponseTwoVersionAuthorOneLastNameMax)
+                .describe('姓'),
+              fullName: zod
+                .string()
+                .max(getRouteResponseTwoVersionAuthorOneFullNameMax)
+                .describe('フルネーム'),
+              employeeId: zod
+                .string()
+                .max(getRouteResponseTwoVersionAuthorOneEmployeeIdMax)
+                .nullable()
+                .describe('社員番号'),
+              image: zod
+                .object({
+                  '100x100': zod.string().nullable(),
+                  '64x64': zod.string().nullable(),
+                  '32x32': zod.string().nullable(),
+                })
+                .describe(
+                  'ユーザー画像のURL。サイズごとに複数のURLを返します。',
+                ),
+              status: zod
+                .enum(['invited', 'activated', 'suspended', 'deactivated'])
+                .describe('ステータス'),
+              locale: zod.string().describe('ロケール（jaまたはen）'),
+              userType: zod
+                .enum(['normal', 'assistant'])
+                .optional()
+                .describe(
+                  'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                ),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+              deactivatedAt: zod.iso
+                .datetime({ offset: true })
+                .nullish()
+                .describe('削除日時'),
+              lastUsedOn: zod.iso
+                .date()
+                .nullish()
+                .describe(
+                  '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                ),
+              customFields: zod
+                .array(
+                  zod.object({
+                    code: zod
+                      .string()
+                      .describe('UserCustomField#code（変換せずそのまま）'),
+                    fieldType: zod
+                      .union([
+                        zod.literal('text'),
+                        zod.literal('textLong'),
+                        zod.literal('number'),
+                        zod.literal('integer'),
+                        zod.literal('checkbox'),
+                        zod.literal('pullDown'),
+                        zod.literal('date'),
+                        zod.literal(null),
+                      ])
+                      .nullable()
+                      .describe(
+                        'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                      ),
+                    value: zod
+                      .union([
+                        zod.string(),
+                        zod.number(),
+                        zod.array(zod.string()),
+                        zod.null(),
+                      ])
+                      .describe(
+                        'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                      ),
+                  }),
+                )
+                .optional()
+                .describe(
+                  'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                ),
+            })
+            .describe('ユーザー'),
+          zod.null(),
+        ])
+        .describe('バージョンの作成者'),
       steps: zod
         .array(
           zod
@@ -777,7 +900,7 @@ export const GetRouteResponse = zod
                       employeeId: zod
                         .string()
                         .max(getRouteResponseTwoStepsItemUsersItemEmployeeIdMax)
-                        .nullish()
+                        .nullable()
                         .describe('社員番号'),
                       image: zod
                         .object({
@@ -866,49 +989,56 @@ export const GetRouteResponse = zod
                 .array(
                   zod.object({
                     team: zod
-                      .object({
-                        id: zod.uuid().describe('UUID'),
-                        name: zod
-                          .string()
-                          .max(
-                            getRouteResponseTwoStepsItemTargetsItemTeamNameMax,
-                          )
-                          .describe('名前'),
-                        fullName: zod.string().describe('上位組織を含む名前'),
-                        code: zod
-                          .string()
-                          .max(
-                            getRouteResponseTwoStepsItemTargetsItemTeamCodeMax,
-                          )
-                          .describe('コード'),
-                        notes: zod
-                          .string()
-                          .max(
-                            getRouteResponseTwoStepsItemTargetsItemTeamNotesMax,
-                          )
-                          .nullish()
-                          .describe('管理用メモ'),
-                        approveOnly: zod
-                          .boolean()
-                          .describe('承認専用チームかどうか'),
-                        usersCount: zod
-                          .int()
-                          .min(
-                            getRouteResponseTwoStepsItemTargetsItemTeamUsersCountMin,
-                          )
-                          .describe('ユーザー数'),
-                        createdAt: zod.iso
-                          .datetime({ offset: true })
-                          .describe('作成日時'),
-                        updatedAt: zod.iso
-                          .datetime({ offset: true })
-                          .describe('更新日時'),
-                      })
-                      .optional()
-                      .describe('チーム'),
+                      .union([
+                        zod
+                          .object({
+                            id: zod.uuid().describe('UUID'),
+                            name: zod
+                              .string()
+                              .max(
+                                getRouteResponseTwoStepsItemTargetsItemTeamOneNameMax,
+                              )
+                              .describe('名前'),
+                            fullName: zod
+                              .string()
+                              .describe('上位組織を含む名前'),
+                            code: zod
+                              .string()
+                              .max(
+                                getRouteResponseTwoStepsItemTargetsItemTeamOneCodeMax,
+                              )
+                              .describe('コード'),
+                            notes: zod
+                              .string()
+                              .max(
+                                getRouteResponseTwoStepsItemTargetsItemTeamOneNotesMax,
+                              )
+                              .nullable()
+                              .describe('管理用メモ'),
+                            approveOnly: zod
+                              .boolean()
+                              .describe('承認専用チームかどうか'),
+                            usersCount: zod
+                              .int()
+                              .min(
+                                getRouteResponseTwoStepsItemTargetsItemTeamOneUsersCountMin,
+                              )
+                              .describe('ユーザー数'),
+                            createdAt: zod.iso
+                              .datetime({ offset: true })
+                              .describe('作成日時'),
+                            updatedAt: zod.iso
+                              .datetime({ offset: true })
+                              .describe('更新日時'),
+                          })
+                          .describe('チーム'),
+                        zod.null(),
+                      ])
+                      .describe(
+                        '承認者の指定に使うチーム。チームを指定しないステップではnullになります。',
+                      ),
                     descendants: zod
                       .boolean()
-                      .optional()
                       .describe(
                         'stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）',
                       ),
@@ -924,7 +1054,6 @@ export const GetRouteResponse = zod
                         ]),
                         zod.null(),
                       ])
-                      .optional()
                       .describe(
                         '役職の比較条件。役職が指定されているときのみ値が入ります。',
                       ),
@@ -970,74 +1099,72 @@ export const GetRouteResponse = zod
                           })
                           .describe('役職'),
                       )
-                      .optional()
                       .describe('承認者の指定に使う役職の配列'),
                     variable: zod
                       .string()
-                      .nullish()
+                      .nullable()
                       .describe(
                         '承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。',
                       ),
                   }),
                 )
-                .optional()
                 .describe('承認者の指定に使うチームと役職の条件'),
-              routeStepCondition: zod
-                .union([
-                  zod
-                    .object({
-                      id: zod.uuid().optional().describe('UUID'),
-                      conditionType: zod
-                        .enum(['always', 'conditional', 'conditional_skip'])
-                        .optional()
-                        .describe('実行タイプ'),
-                      combinationType: zod
-                        .enum(['all', 'any'])
-                        .optional()
-                        .describe('条件の組み合わせタイプ'),
-                      routeStepConditionFields: zod
-                        .array(
-                          zod
-                            .object({
-                              id: zod.uuid().optional().describe('UUID'),
-                              variable: zod
-                                .string()
-                                .optional()
-                                .describe('変数'),
-                              fieldKey: zod
-                                .enum([
-                                  'author_grade',
-                                  'author_team',
-                                  'text_variable',
-                                  'number_variable',
-                                  'checkbox_variable',
-                                  'general_master_variable',
-                                  'other_variable',
-                                ])
-                                .optional()
-                                .describe('変数のフィールド'),
-                              symbol: zod
-                                .enum([
-                                  'equal',
-                                  'not_equal',
-                                  'greater_than',
-                                  'greater_than_or_equal',
-                                  'less_than',
-                                  'less_than_or_equal',
-                                  'include',
-                                  'exclude',
-                                  'is_empty',
-                                  'is_not_empty',
-                                  'descendants_or_equal',
-                                  'not_descendants_or_equal',
-                                ])
-                                .optional()
-                                .describe('演算子'),
-                              value: zod
-                                .string()
-                                .optional()
-                                .describe('しきい値'),
-                              grade: zod
+              routeStepCondition: zod.union([
+                zod
+                  .object({
+                    id: zod.uuid().describe('UUID'),
+                    conditionType: zod
+                      .enum(['always', 'conditional', 'conditional_skip'])
+                      .describe('実行タイプ'),
+                    combinationType: zod
+                      .enum(['all', 'any'])
+                      .describe('条件の組み合わせタイプ'),
+                    routeStepConditionFields: zod.array(
+                      zod
+                        .object({
+                          id: zod.uuid().describe('UUID'),
+                          variable: zod
+                            .string()
+                            .nullable()
+                            .describe(
+                              '変数。fieldKeyがauthor_grade \/ author_teamの場合はnullになります。',
+                            ),
+                          fieldKey: zod
+                            .enum([
+                              'author_grade',
+                              'author_team',
+                              'text_variable',
+                              'number_variable',
+                              'checkbox_variable',
+                              'general_master_variable',
+                              'other_variable',
+                            ])
+                            .describe('変数のフィールド'),
+                          symbol: zod
+                            .enum([
+                              'equal',
+                              'not_equal',
+                              'greater_than',
+                              'greater_than_or_equal',
+                              'less_than',
+                              'less_than_or_equal',
+                              'include',
+                              'exclude',
+                              'is_empty',
+                              'is_not_empty',
+                              'descendants_or_equal',
+                              'not_descendants_or_equal',
+                            ])
+                            .describe('演算子'),
+                          value: zod
+                            .string()
+                            .nullable()
+                            .describe(
+                              'しきい値。fieldKeyがauthor_grade \/ author_team \/ general_master_variableの場合、およびsymbolがis_empty \/ is_not_emptyの場合はnullになります。',
+                            ),
+                          grade: zod
+                            .union([
+                              zod
                                 .object({
                                   id: zod.uuid().describe('UUID'),
                                   name: zod
@@ -1075,10 +1202,13 @@ export const GetRouteResponse = zod
                                     .datetime({ offset: true })
                                     .describe('更新日時'),
                                 })
-                                .describe('役職')
-                                .optional()
-                                .describe('しきい値として使う役職'),
-                              team: zod
+                                .describe('役職'),
+                              zod.null(),
+                            ])
+                            .describe('しきい値として使う役職'),
+                          team: zod
+                            .union([
+                              zod
                                 .object({
                                   id: zod.uuid().describe('UUID'),
                                   name: zod
@@ -1101,7 +1231,7 @@ export const GetRouteResponse = zod
                                     .max(
                                       getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemTeamOneNotesMax,
                                     )
-                                    .nullish()
+                                    .nullable()
                                     .describe('管理用メモ'),
                                   approveOnly: zod
                                     .boolean()
@@ -1119,10 +1249,70 @@ export const GetRouteResponse = zod
                                     .datetime({ offset: true })
                                     .describe('更新日時'),
                                 })
-                                .describe('チーム')
-                                .optional()
-                                .describe('しきい値として使うチーム'),
-                              generalMasterItem: zod
+                                .describe('チーム'),
+                              zod.null(),
+                            ])
+                            .describe('しきい値として使うチーム'),
+                          generalMaster: zod
+                            .union([
+                              zod
+                                .object({
+                                  id: zod.uuid().describe('UUID'),
+                                  code: zod
+                                    .string()
+                                    .max(
+                                      getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterOneCodeMax,
+                                    )
+                                    .describe('コード'),
+                                  name: zod
+                                    .string()
+                                    .max(
+                                      getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterOneNameMax,
+                                    )
+                                    .describe('名前'),
+                                  description: zod
+                                    .string()
+                                    .max(
+                                      getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterOneDescriptionMax,
+                                    )
+                                    .nullable()
+                                    .describe('説明'),
+                                  defaultSortBy: zod
+                                    .enum(['name', 'code'])
+                                    .describe('アイテム一覧のデフォルト並び順'),
+                                  itemsCount: zod
+                                    .int()
+                                    .min(
+                                      getRouteResponseTwoStepsItemRouteStepConditionOneRouteStepConditionFieldsItemGeneralMasterOneItemsCountMin,
+                                    )
+                                    .describe('アイテム数'),
+                                  initialDisplayCode: zod
+                                    .boolean()
+                                    .describe('コードを初期表示するか'),
+                                  initialDisplayCreatedAt: zod
+                                    .boolean()
+                                    .describe('作成日時を初期表示するか'),
+                                  initialDisplayDescription: zod
+                                    .boolean()
+                                    .describe('説明を初期表示するか'),
+                                  createdAt: zod.iso
+                                    .datetime({ offset: true })
+                                    .describe('作成日時'),
+                                  updatedAt: zod.iso
+                                    .datetime({ offset: true })
+                                    .describe('更新日時'),
+                                })
+                                .describe(
+                                  '実行条件のしきい値として使う汎用マスタアイテムが属する汎用マスタ。\n経路のレスポンスではカスタムフィールドの配列（fields）を返さないため、\n汎用マスタAPIが返す GeneralMaster とは別のコンポーネントとして定義している。',
+                                ),
+                              zod.null(),
+                            ])
+                            .describe(
+                              'しきい値として使う汎用マスタアイテムが属する汎用マスタ',
+                            ),
+                          generalMasterItem: zod
+                            .union([
+                              zod
                                 .object({
                                   id: zod.uuid().describe('UUID'),
                                   code: zod
@@ -1238,21 +1428,44 @@ export const GetRouteResponse = zod
                                     )
                                     .describe('カスタムフィールドの入力の配列'),
                                 })
-                                .describe('汎用マスタのアイテム')
-                                .optional()
-                                .describe(
-                                  'しきい値として使う汎用マスタアイテム',
-                                ),
-                            })
-                            .describe('ステップごとに設定できる実行条件の詳細'),
-                        )
-                        .optional(),
+                                .describe('汎用マスタのアイテム'),
+                              zod.null(),
+                            ])
+                            .describe('しきい値として使う汎用マスタアイテム'),
+                        })
+                        .describe('ステップごとに設定できる実行条件の詳細'),
+                    ),
+                  })
+                  .describe('ステップごとに設定できる実行条件'),
+                zod.null(),
+              ]),
+              code: zod.string().describe('コード'),
+              subStatus: zod
+                .union([
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      code: zod.string().describe('コード'),
+                      name: zod.string().describe('名前'),
+                      notes: zod.string().nullable().describe('説明'),
+                      allowWithdrawal: zod
+                        .boolean()
+                        .describe('取り下げを許可する'),
+                      allowRejection: zod
+                        .boolean()
+                        .describe('差し戻しを許可する'),
+                      allowDenial: zod.boolean().describe('却下を許可する'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
                     })
-                    .describe('ステップごとに設定できる実行条件'),
+                    .describe('サブステータス'),
                   zod.null(),
                 ])
-                .optional(),
-              code: zod.string().describe('コード'),
+                .describe('このステップで設定されるサブステータス'),
             })
             .describe('経路ステップ'),
         )

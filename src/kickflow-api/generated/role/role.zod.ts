@@ -219,7 +219,7 @@ export const CreateRoleResponse = zod
                         createRoleResponseTwoPermissionListItemFoldersItemCodeMax,
                       )
                       .describe('コード'),
-                    description: zod.string().nullish().describe('説明'),
+                    description: zod.string().nullable().describe('説明'),
                     workflowsCount: zod
                       .int()
                       .min(
@@ -387,7 +387,7 @@ export const CreateRoleResponse = zod
                       .max(
                         createRoleResponseTwoPermissionListItemTeamsItemNotesMax,
                       )
-                      .nullish()
+                      .nullable()
                       .describe('管理用メモ'),
                     approveOnly: zod
                       .boolean()
@@ -529,7 +529,7 @@ export const GetRoleResponse = zod
                         getRoleResponseTwoPermissionListItemFoldersItemCodeMax,
                       )
                       .describe('コード'),
-                    description: zod.string().nullish().describe('説明'),
+                    description: zod.string().nullable().describe('説明'),
                     workflowsCount: zod
                       .int()
                       .min(
@@ -693,7 +693,7 @@ export const GetRoleResponse = zod
                       .max(
                         getRoleResponseTwoPermissionListItemTeamsItemNotesMax,
                       )
-                      .nullish()
+                      .nullable()
                       .describe('管理用メモ'),
                     approveOnly: zod
                       .boolean()
@@ -890,7 +890,7 @@ export const UpdateRoleResponse = zod
                         updateRoleResponseTwoPermissionListItemFoldersItemCodeMax,
                       )
                       .describe('コード'),
-                    description: zod.string().nullish().describe('説明'),
+                    description: zod.string().nullable().describe('説明'),
                     workflowsCount: zod
                       .int()
                       .min(
@@ -1058,7 +1058,7 @@ export const UpdateRoleResponse = zod
                       .max(
                         updateRoleResponseTwoPermissionListItemTeamsItemNotesMax,
                       )
-                      .nullish()
+                      .nullable()
                       .describe('管理用メモ'),
                     approveOnly: zod
                       .boolean()
@@ -1184,7 +1184,7 @@ export const ListRoleMembersResponseItem = zod
     employeeId: zod
       .string()
       .max(listRoleMembersResponseEmployeeIdMax)
-      .nullish()
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({

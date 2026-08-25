@@ -181,7 +181,7 @@ export const ListWorkflowsResponseItem = zod
             employeeId: zod
               .string()
               .max(listWorkflowsResponseAuthorOneEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({
@@ -283,7 +283,7 @@ export const ListWorkflowsResponseItem = zod
             employeeId: zod
               .string()
               .max(listWorkflowsResponseVersionAuthorOneEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({
@@ -371,7 +371,7 @@ export const ListWorkflowsResponseItem = zod
           .string()
           .max(listWorkflowsResponseFolderOneCodeMax)
           .describe('コード'),
-        description: zod.string().nullish().describe('説明'),
+        description: zod.string().nullable().describe('説明'),
         workflowsCount: zod
           .int()
           .min(listWorkflowsResponseFolderOneWorkflowsCountMin)
@@ -899,7 +899,7 @@ export const GetWorkflowResponse = zod
             employeeId: zod
               .string()
               .max(getWorkflowResponseOneOneAuthorOneEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({
@@ -971,7 +971,6 @@ export const GetWorkflowResponse = zod
           .describe('ユーザー'),
         zod.null(),
       ])
-      .optional()
       .describe('作成者'),
     versionAuthor: zod
       .union([
@@ -1001,7 +1000,7 @@ export const GetWorkflowResponse = zod
             employeeId: zod
               .string()
               .max(getWorkflowResponseOneOneVersionAuthorOneEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({
@@ -1073,7 +1072,6 @@ export const GetWorkflowResponse = zod
           .describe('ユーザー'),
         zod.null(),
       ])
-      .optional()
       .describe('バージョン作成者'),
     folder: zod
       .object({
@@ -1089,7 +1087,7 @@ export const GetWorkflowResponse = zod
           .string()
           .max(getWorkflowResponseOneOneFolderOneCodeMax)
           .describe('コード'),
-        description: zod.string().nullish().describe('説明'),
+        description: zod.string().nullable().describe('説明'),
         workflowsCount: zod
           .int()
           .min(getWorkflowResponseOneOneFolderOneWorkflowsCountMin)
@@ -1107,7 +1105,6 @@ export const GetWorkflowResponse = zod
         updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
       })
       .describe('フォルダ')
-      .optional()
       .describe('フォルダ'),
     categories: zod
       .array(
@@ -1127,7 +1124,6 @@ export const GetWorkflowResponse = zod
           })
           .describe('カテゴリ'),
       )
-      .optional()
       .describe('カテゴリの配列'),
     availableToEveryone: zod
       .boolean()
@@ -1571,6 +1567,10 @@ export const GetWorkflowResponse = zod
                                   ])
                                   .describe('HTTPメソッド'),
                                 url: zod.url().describe('URL'),
+                                body: zod
+                                  .string()
+                                  .nullable()
+                                  .describe('リクエストボディ'),
                                 headers: zod
                                   .array(
                                     zod.object({
@@ -1919,8 +1919,24 @@ export const GetWorkflowResponse = zod
                                     appId: zod
                                       .string()
                                       .describe('kintoneアプリID'),
+                                    code: zod
+                                      .string()
+                                      .nullable()
+                                      .describe('コード'),
+                                    createdAt: zod.iso
+                                      .datetime({ offset: true })
+                                      .describe('作成日時'),
+                                    updatedAt: zod.iso
+                                      .datetime({ offset: true })
+                                      .describe('更新日時'),
                                   })
                                   .describe('kintone連携'),
+                                createdAt: zod.iso
+                                  .datetime({ offset: true })
+                                  .describe('作成日時'),
+                                updatedAt: zod.iso
+                                  .datetime({ offset: true })
+                                  .describe('更新日時'),
                                 mappings: zod
                                   .array(
                                     zod.object({
@@ -2100,9 +2116,16 @@ export const GetWorkflowResponse = zod
                             zod
                               .object({
                                 id: zod.uuid().describe('UUID'),
+                                tenantId: zod.uuid().describe('テナントID'),
                                 contentsId: zod
                                   .string()
                                   .describe('ファイル付きリストID'),
+                                createdAt: zod.iso
+                                  .datetime({ offset: true })
+                                  .describe('作成日時'),
+                                updatedAt: zod.iso
+                                  .datetime({ offset: true })
+                                  .describe('更新日時'),
                                 formField: zod
                                   .object({
                                     id: zod.uuid().describe('UUID'),
@@ -2611,7 +2634,7 @@ export const GetWorkflowResponse = zod
                                           .max(
                                             getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemAuthorOneEmployeeIdMax,
                                           )
-                                          .nullish()
+                                          .nullable()
                                           .describe('社員番号'),
                                         image: zod
                                           .object({
@@ -2740,7 +2763,7 @@ export const GetWorkflowResponse = zod
                                           .max(
                                             getWorkflowResponseOneTwoSectionListItemFormFieldsItemTwoSelectableTicketWorkflowsItemVersionAuthorOneEmployeeIdMax,
                                           )
-                                          .nullish()
+                                          .nullable()
                                           .describe('社員番号'),
                                         image: zod
                                           .object({
@@ -2851,7 +2874,7 @@ export const GetWorkflowResponse = zod
                                       .describe('コード'),
                                     description: zod
                                       .string()
-                                      .nullish()
+                                      .nullable()
                                       .describe('説明'),
                                     workflowsCount: zod
                                       .int()
@@ -3222,7 +3245,7 @@ export const GetWorkflowResponse = zod
                                 .max(
                                   getWorkflowResponseOneTwoSectionListItemConditionFieldsItemTeamOneNotesMax,
                                 )
-                                .nullish()
+                                .nullable()
                                 .describe('管理用メモ'),
                               approveOnly: zod
                                 .boolean()
@@ -3762,7 +3785,6 @@ export const GetWorkflowResponse = zod
             })
             .describe('明細セクションまたはフォームセクション'),
         )
-        .optional()
         .describe(
           'セクション・明細を表すオブジェクトを画面に表示される順に格納した配列。',
         ),
@@ -3811,7 +3833,7 @@ export const GetWorkflowResponse = zod
                         .max(
                           getWorkflowResponseOneTwoTicketViewersItemUserOneEmployeeIdMax,
                         )
-                        .nullish()
+                        .nullable()
                         .describe('社員番号'),
                       image: zod
                         .object({
@@ -3920,7 +3942,7 @@ export const GetWorkflowResponse = zod
                         .max(
                           getWorkflowResponseOneTwoTicketViewersItemTeamOneNotesMax,
                         )
-                        .nullish()
+                        .nullable()
                         .describe('管理用メモ'),
                       approveOnly: zod
                         .boolean()
@@ -3988,6 +4010,9 @@ export const GetWorkflowResponse = zod
                 .describe(
                   '役職。チーム指定で役職も指定する場合のみ値が入ります。',
                 ),
+              descendants: zod
+                .boolean()
+                .describe('下位のチームを含めるかどうか'),
             })
             .describe('ワークフロー単位で設定された共有ユーザー'),
         )
@@ -4000,6 +4025,196 @@ export const GetWorkflowResponse = zod
           zod.null(),
         ])
         .describe('クラウドサイン連携設定'),
+      nextTicketNumberValue: zod
+        .int()
+        .nullable()
+        .describe(
+          '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+        ),
+      nextTicketNumberValueByKey: zod
+        .int()
+        .nullable()
+        .describe(
+          '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+        ),
+      externalPublish: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              externalPublishHash: zod
+                .string()
+                .describe('外部公開URLに含まれるハッシュ値'),
+            })
+            .describe('ワークフローの外部公開設定'),
+          zod.null(),
+        ])
+        .describe('外部公開設定。外部公開していない場合はnullになります。'),
+      ticketNumberKey: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              code: zod.string().describe('コード'),
+              name: zod.string().describe('名前'),
+              notes: zod.string().nullable().describe('説明'),
+              default: zod
+                .boolean()
+                .describe('デフォルトの採番グループの場合true'),
+            })
+            .describe('採番グループ'),
+          zod.null(),
+        ])
+        .describe('採番グループ。未設定の場合はnullになります。'),
+      excelTemplate: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              url: zod
+                .string()
+                .describe('テンプレートファイルのダウンロードURL'),
+              restrictedExport: zod
+                .boolean()
+                .describe('出力できるチケットのステータスを制限する場合true'),
+              allowedTicketStatuses: zod
+                .array(
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      ticketStatus: zod
+                        .enum([
+                          'draft',
+                          'in_progress',
+                          'completed',
+                          'archived',
+                          'rejected',
+                          'denied',
+                          'permanently_deleted',
+                        ])
+                        .describe('出力を許可するチケットのステータス'),
+                      subStatuses: zod
+                        .array(
+                          zod
+                            .object({
+                              id: zod.uuid().describe('UUID'),
+                              code: zod.string().describe('コード'),
+                              name: zod.string().describe('名前'),
+                              notes: zod.string().nullable().describe('説明'),
+                              allowWithdrawal: zod
+                                .boolean()
+                                .describe('取り下げを許可する'),
+                              allowRejection: zod
+                                .boolean()
+                                .describe('差し戻しを許可する'),
+                              allowDenial: zod
+                                .boolean()
+                                .describe('却下を許可する'),
+                              createdAt: zod.iso
+                                .datetime({ offset: true })
+                                .describe('作成日時'),
+                              updatedAt: zod.iso
+                                .datetime({ offset: true })
+                                .describe('更新日時'),
+                            })
+                            .describe('サブステータス'),
+                        )
+                        .describe('出力を許可するサブステータスの配列'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
+                    })
+                    .describe(
+                      'Excel帳票テンプレートの出力を許可するチケットステータス',
+                    ),
+                )
+                .describe('出力を許可するチケットステータスの配列'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+            })
+            .describe('Excel帳票テンプレート'),
+          zod.null(),
+        ])
+        .describe('Excel帳票テンプレート。未設定の場合はnullになります。'),
+      customNumberings: zod
+        .array(
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              code: zod.string().describe('カスタム採番のコード'),
+              name: zod.string().describe('カスタム採番の名前'),
+              value: zod.int().describe('次に採番される番号'),
+              ticketNumberKeyId: zod
+                .uuid()
+                .nullable()
+                .describe(
+                  '採番グループ（チケット番号キー）のID。採番グループを使用しない場合はnullになります。',
+                ),
+            })
+            .describe('カスタム採番'),
+        )
+        .describe('カスタム採番の配列。コードの昇順で格納されます。'),
+      customNumberingSettings: zod
+        .array(
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              customNumberingId: zod.uuid().describe('カスタム採番のUUID'),
+              ticketNumberFormat: zod
+                .string()
+                .nullable()
+                .describe('採番のフォーマット。未設定の場合はnullになります。'),
+              timingType: zod
+                .enum(['created', 'opened', 'completed', 'sub_status_attached'])
+                .describe(
+                  '採番するタイミング。createdはチケット作成時、openedは申請時、completedは完了時、sub_status_attachedはサブステータス付与時を表す。',
+                ),
+              subStatusId: zod
+                .uuid()
+                .nullable()
+                .describe(
+                  '採番するサブステータスのUUID。timingTypeがsub_status_attached以外の場合はnullになります。',
+                ),
+              subStatus: zod
+                .union([
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      code: zod.string().describe('コード'),
+                      name: zod.string().describe('名前'),
+                      notes: zod.string().nullable().describe('説明'),
+                      allowWithdrawal: zod
+                        .boolean()
+                        .describe('取り下げを許可する'),
+                      allowRejection: zod
+                        .boolean()
+                        .describe('差し戻しを許可する'),
+                      allowDenial: zod.boolean().describe('却下を許可する'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
+                    })
+                    .describe('サブステータス'),
+                  zod.null(),
+                ])
+                .describe(
+                  '採番するサブステータス。timingTypeがsub_status_attached以外の場合はnullになります。',
+                ),
+              sortOrder: zod.int().describe('表示順'),
+            })
+            .describe('ワークフローバージョンごとのカスタム採番の設定'),
+        )
+        .describe('カスタム採番の設定の配列。表示順の昇順で格納されます。'),
     }),
   )
   .describe(
@@ -4081,7 +4296,7 @@ export const GetWorkflowResponse = zod
                                 .max(
                                   getWorkflowResponseTwoRouteConditionsItemRouteOneAuthorOneEmployeeIdMax,
                                 )
-                                .nullish()
+                                .nullable()
                                 .describe('社員番号'),
                               image: zod
                                 .object({
@@ -4168,7 +4383,6 @@ export const GetWorkflowResponse = zod
                             .describe('ユーザー'),
                           zod.null(),
                         ])
-                        .optional()
                         .describe('作成者'),
                       versionAuthor: zod
                         .union([
@@ -4210,7 +4424,7 @@ export const GetWorkflowResponse = zod
                                 .max(
                                   getWorkflowResponseTwoRouteConditionsItemRouteOneVersionAuthorOneEmployeeIdMax,
                                 )
-                                .nullish()
+                                .nullable()
                                 .describe('社員番号'),
                               image: zod
                                 .object({
@@ -4316,7 +4530,7 @@ export const GetWorkflowResponse = zod
                               getWorkflowResponseTwoRouteConditionsItemRouteOneFolderOneCodeMax,
                             )
                             .describe('コード'),
-                          description: zod.string().nullish().describe('説明'),
+                          description: zod.string().nullable().describe('説明'),
                           workflowsCount: zod
                             .int()
                             .min(
@@ -4569,7 +4783,7 @@ export const GetWorkflowResponse = zod
                                 .max(
                                   getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemTeamOneNotesMax,
                                 )
-                                .nullish()
+                                .nullable()
                                 .describe('管理用メモ'),
                               approveOnly: zod
                                 .boolean()

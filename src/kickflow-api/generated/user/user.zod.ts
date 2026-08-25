@@ -16,6 +16,8 @@ export const getCurrentUserResponseOneFullNameMax = 255
 
 export const getCurrentUserResponseOneEmployeeIdMax = 30
 
+export const getCurrentUserResponseTwoInvitationOneUserEmailMax = 254
+
 export const GetCurrentUserResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
@@ -39,7 +41,7 @@ export const GetCurrentUserResponse = zod
     employeeId: zod
       .string()
       .max(getCurrentUserResponseOneEmployeeIdMax)
-      .nullish()
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({
@@ -119,6 +121,30 @@ export const GetCurrentUserResponse = zod
           zod.null(),
         ])
         .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+      invitation: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              expiresAt: zod.iso
+                .datetime({ offset: true })
+                .describe('招待の有効期限'),
+              userEmail: zod
+                .email()
+                .max(getCurrentUserResponseTwoInvitationOneUserEmailMax)
+                .describe('招待先のメールアドレス'),
+              userLocale: zod.string().describe('招待先の言語'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+            })
+            .describe('ユーザーの招待'),
+          zod.null(),
+        ])
+        .describe('招待情報。招待情報が存在しない場合はnull。'),
     }),
   )
   .describe('ユーザー詳細')
@@ -186,7 +212,7 @@ export const ListUsersResponseItem = zod
     employeeId: zod
       .string()
       .max(listUsersResponseEmployeeIdMax)
-      .nullish()
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({
@@ -347,6 +373,8 @@ export const createUserResponseOneFullNameMax = 255
 
 export const createUserResponseOneEmployeeIdMax = 30
 
+export const createUserResponseTwoInvitationOneUserEmailMax = 254
+
 export const CreateUserResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
@@ -367,7 +395,7 @@ export const CreateUserResponse = zod
     employeeId: zod
       .string()
       .max(createUserResponseOneEmployeeIdMax)
-      .nullish()
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({
@@ -447,6 +475,30 @@ export const CreateUserResponse = zod
           zod.null(),
         ])
         .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+      invitation: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              expiresAt: zod.iso
+                .datetime({ offset: true })
+                .describe('招待の有効期限'),
+              userEmail: zod
+                .email()
+                .max(createUserResponseTwoInvitationOneUserEmailMax)
+                .describe('招待先のメールアドレス'),
+              userLocale: zod.string().describe('招待先の言語'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+            })
+            .describe('ユーザーの招待'),
+          zod.null(),
+        ])
+        .describe('招待情報。招待情報が存在しない場合はnull。'),
     }),
   )
   .describe('ユーザー詳細')
@@ -476,6 +528,8 @@ export const getUserResponseOneFullNameMax = 255
 
 export const getUserResponseOneEmployeeIdMax = 30
 
+export const getUserResponseTwoInvitationOneUserEmailMax = 254
+
 export const GetUserResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
@@ -493,7 +547,7 @@ export const GetUserResponse = zod
     employeeId: zod
       .string()
       .max(getUserResponseOneEmployeeIdMax)
-      .nullish()
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({
@@ -573,6 +627,30 @@ export const GetUserResponse = zod
           zod.null(),
         ])
         .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+      invitation: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              expiresAt: zod.iso
+                .datetime({ offset: true })
+                .describe('招待の有効期限'),
+              userEmail: zod
+                .email()
+                .max(getUserResponseTwoInvitationOneUserEmailMax)
+                .describe('招待先のメールアドレス'),
+              userLocale: zod.string().describe('招待先の言語'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+            })
+            .describe('ユーザーの招待'),
+          zod.null(),
+        ])
+        .describe('招待情報。招待情報が存在しない場合はnull。'),
     }),
   )
   .describe('ユーザー詳細')
@@ -605,6 +683,8 @@ export const deleteUserResponseOneFullNameMax = 255
 
 export const deleteUserResponseOneEmployeeIdMax = 30
 
+export const deleteUserResponseTwoInvitationOneUserEmailMax = 254
+
 export const DeleteUserResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
@@ -625,7 +705,7 @@ export const DeleteUserResponse = zod
     employeeId: zod
       .string()
       .max(deleteUserResponseOneEmployeeIdMax)
-      .nullish()
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({
@@ -705,6 +785,30 @@ export const DeleteUserResponse = zod
           zod.null(),
         ])
         .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+      invitation: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              expiresAt: zod.iso
+                .datetime({ offset: true })
+                .describe('招待の有効期限'),
+              userEmail: zod
+                .email()
+                .max(deleteUserResponseTwoInvitationOneUserEmailMax)
+                .describe('招待先のメールアドレス'),
+              userLocale: zod.string().describe('招待先の言語'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+            })
+            .describe('ユーザーの招待'),
+          zod.null(),
+        ])
+        .describe('招待情報。招待情報が存在しない場合はnull。'),
     }),
   )
   .describe('ユーザー詳細')
@@ -790,6 +894,8 @@ export const updateUserResponseOneFullNameMax = 255
 
 export const updateUserResponseOneEmployeeIdMax = 30
 
+export const updateUserResponseTwoInvitationOneUserEmailMax = 254
+
 export const UpdateUserResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
@@ -810,7 +916,7 @@ export const UpdateUserResponse = zod
     employeeId: zod
       .string()
       .max(updateUserResponseOneEmployeeIdMax)
-      .nullish()
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({
@@ -890,6 +996,30 @@ export const UpdateUserResponse = zod
           zod.null(),
         ])
         .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+      invitation: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              expiresAt: zod.iso
+                .datetime({ offset: true })
+                .describe('招待の有効期限'),
+              userEmail: zod
+                .email()
+                .max(updateUserResponseTwoInvitationOneUserEmailMax)
+                .describe('招待先のメールアドレス'),
+              userLocale: zod.string().describe('招待先の言語'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+            })
+            .describe('ユーザーの招待'),
+          zod.null(),
+        ])
+        .describe('招待情報。招待情報が存在しない場合はnull。'),
     }),
   )
   .describe('ユーザー詳細')
@@ -914,6 +1044,8 @@ export const lookupUserByEmailResponseOneLastNameMax = 255
 export const lookupUserByEmailResponseOneFullNameMax = 255
 
 export const lookupUserByEmailResponseOneEmployeeIdMax = 30
+
+export const lookupUserByEmailResponseTwoInvitationOneUserEmailMax = 254
 
 export const LookupUserByEmailResponse = zod
   .object({
@@ -941,7 +1073,7 @@ export const LookupUserByEmailResponse = zod
     employeeId: zod
       .string()
       .max(lookupUserByEmailResponseOneEmployeeIdMax)
-      .nullish()
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({
@@ -1021,6 +1153,30 @@ export const LookupUserByEmailResponse = zod
           zod.null(),
         ])
         .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+      invitation: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              expiresAt: zod.iso
+                .datetime({ offset: true })
+                .describe('招待の有効期限'),
+              userEmail: zod
+                .email()
+                .max(lookupUserByEmailResponseTwoInvitationOneUserEmailMax)
+                .describe('招待先のメールアドレス'),
+              userLocale: zod.string().describe('招待先の言語'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+            })
+            .describe('ユーザーの招待'),
+          zod.null(),
+        ])
+        .describe('招待情報。招待情報が存在しない場合はnull。'),
     }),
   )
   .describe('ユーザー詳細')
@@ -1040,39 +1196,44 @@ export const ReinviteUserParams = zod.object({
     .describe('ユーザーのUUIDまたはコード'),
 })
 
-export const reinviteUserResponseEmailMax = 254
+export const reinviteUserResponseOneEmailMax = 254
 
-export const reinviteUserResponseCodeMax = 100
+export const reinviteUserResponseOneCodeMax = 100
 
-export const reinviteUserResponseFirstNameMax = 255
+export const reinviteUserResponseOneFirstNameMax = 255
 
-export const reinviteUserResponseLastNameMax = 255
+export const reinviteUserResponseOneLastNameMax = 255
 
-export const reinviteUserResponseFullNameMax = 255
+export const reinviteUserResponseOneFullNameMax = 255
 
-export const reinviteUserResponseEmployeeIdMax = 30
+export const reinviteUserResponseOneEmployeeIdMax = 30
+
+export const reinviteUserResponseTwoInvitationOneUserEmailMax = 254
 
 export const ReinviteUserResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
     email: zod
       .email()
-      .max(reinviteUserResponseEmailMax)
+      .max(reinviteUserResponseOneEmailMax)
       .describe('メールアドレス'),
-    code: zod.string().max(reinviteUserResponseCodeMax).describe('コード'),
+    code: zod.string().max(reinviteUserResponseOneCodeMax).describe('コード'),
     firstName: zod
       .string()
-      .max(reinviteUserResponseFirstNameMax)
+      .max(reinviteUserResponseOneFirstNameMax)
       .describe('名'),
-    lastName: zod.string().max(reinviteUserResponseLastNameMax).describe('姓'),
+    lastName: zod
+      .string()
+      .max(reinviteUserResponseOneLastNameMax)
+      .describe('姓'),
     fullName: zod
       .string()
-      .max(reinviteUserResponseFullNameMax)
+      .max(reinviteUserResponseOneFullNameMax)
       .describe('フルネーム'),
     employeeId: zod
       .string()
-      .max(reinviteUserResponseEmployeeIdMax)
-      .nullish()
+      .max(reinviteUserResponseOneEmployeeIdMax)
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({
@@ -1142,6 +1303,43 @@ export const ReinviteUserResponse = zod
       ),
   })
   .describe('ユーザー')
+  .and(
+    zod.object({
+      userLineWorksAccount: zod
+        .union([
+          zod.object({
+            lineWorksAccountId: zod.string().describe('LINE WORKSアカウントID'),
+          }),
+          zod.null(),
+        ])
+        .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+      invitation: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              expiresAt: zod.iso
+                .datetime({ offset: true })
+                .describe('招待の有効期限'),
+              userEmail: zod
+                .email()
+                .max(reinviteUserResponseTwoInvitationOneUserEmailMax)
+                .describe('招待先のメールアドレス'),
+              userLocale: zod.string().describe('招待先の言語'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+            })
+            .describe('ユーザーの招待'),
+          zod.null(),
+        ])
+        .describe('招待情報。招待情報が存在しない場合はnull。'),
+    }),
+  )
+  .describe('ユーザー詳細')
 
 /**
  * 有効なユーザーを一時停止します。
@@ -1158,36 +1356,44 @@ export const SuspendUserParams = zod.object({
     .describe('ユーザーのUUIDまたはコード'),
 })
 
-export const suspendUserResponseEmailMax = 254
+export const suspendUserResponseOneEmailMax = 254
 
-export const suspendUserResponseCodeMax = 100
+export const suspendUserResponseOneCodeMax = 100
 
-export const suspendUserResponseFirstNameMax = 255
+export const suspendUserResponseOneFirstNameMax = 255
 
-export const suspendUserResponseLastNameMax = 255
+export const suspendUserResponseOneLastNameMax = 255
 
-export const suspendUserResponseFullNameMax = 255
+export const suspendUserResponseOneFullNameMax = 255
 
-export const suspendUserResponseEmployeeIdMax = 30
+export const suspendUserResponseOneEmployeeIdMax = 30
+
+export const suspendUserResponseTwoInvitationOneUserEmailMax = 254
 
 export const SuspendUserResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
     email: zod
       .email()
-      .max(suspendUserResponseEmailMax)
+      .max(suspendUserResponseOneEmailMax)
       .describe('メールアドレス'),
-    code: zod.string().max(suspendUserResponseCodeMax).describe('コード'),
-    firstName: zod.string().max(suspendUserResponseFirstNameMax).describe('名'),
-    lastName: zod.string().max(suspendUserResponseLastNameMax).describe('姓'),
+    code: zod.string().max(suspendUserResponseOneCodeMax).describe('コード'),
+    firstName: zod
+      .string()
+      .max(suspendUserResponseOneFirstNameMax)
+      .describe('名'),
+    lastName: zod
+      .string()
+      .max(suspendUserResponseOneLastNameMax)
+      .describe('姓'),
     fullName: zod
       .string()
-      .max(suspendUserResponseFullNameMax)
+      .max(suspendUserResponseOneFullNameMax)
       .describe('フルネーム'),
     employeeId: zod
       .string()
-      .max(suspendUserResponseEmployeeIdMax)
-      .nullish()
+      .max(suspendUserResponseOneEmployeeIdMax)
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({
@@ -1257,6 +1463,43 @@ export const SuspendUserResponse = zod
       ),
   })
   .describe('ユーザー')
+  .and(
+    zod.object({
+      userLineWorksAccount: zod
+        .union([
+          zod.object({
+            lineWorksAccountId: zod.string().describe('LINE WORKSアカウントID'),
+          }),
+          zod.null(),
+        ])
+        .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+      invitation: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              expiresAt: zod.iso
+                .datetime({ offset: true })
+                .describe('招待の有効期限'),
+              userEmail: zod
+                .email()
+                .max(suspendUserResponseTwoInvitationOneUserEmailMax)
+                .describe('招待先のメールアドレス'),
+              userLocale: zod.string().describe('招待先の言語'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+            })
+            .describe('ユーザーの招待'),
+          zod.null(),
+        ])
+        .describe('招待情報。招待情報が存在しない場合はnull。'),
+    }),
+  )
+  .describe('ユーザー詳細')
 
 /**
  * 一時停止中のユーザーを有効化します。
@@ -1273,42 +1516,44 @@ export const ReactivateUserParams = zod.object({
     .describe('ユーザーのUUIDまたはコード'),
 })
 
-export const reactivateUserResponseEmailMax = 254
+export const reactivateUserResponseOneEmailMax = 254
 
-export const reactivateUserResponseCodeMax = 100
+export const reactivateUserResponseOneCodeMax = 100
 
-export const reactivateUserResponseFirstNameMax = 255
+export const reactivateUserResponseOneFirstNameMax = 255
 
-export const reactivateUserResponseLastNameMax = 255
+export const reactivateUserResponseOneLastNameMax = 255
 
-export const reactivateUserResponseFullNameMax = 255
+export const reactivateUserResponseOneFullNameMax = 255
 
-export const reactivateUserResponseEmployeeIdMax = 30
+export const reactivateUserResponseOneEmployeeIdMax = 30
+
+export const reactivateUserResponseTwoInvitationOneUserEmailMax = 254
 
 export const ReactivateUserResponse = zod
   .object({
     id: zod.uuid().describe('UUID'),
     email: zod
       .email()
-      .max(reactivateUserResponseEmailMax)
+      .max(reactivateUserResponseOneEmailMax)
       .describe('メールアドレス'),
-    code: zod.string().max(reactivateUserResponseCodeMax).describe('コード'),
+    code: zod.string().max(reactivateUserResponseOneCodeMax).describe('コード'),
     firstName: zod
       .string()
-      .max(reactivateUserResponseFirstNameMax)
+      .max(reactivateUserResponseOneFirstNameMax)
       .describe('名'),
     lastName: zod
       .string()
-      .max(reactivateUserResponseLastNameMax)
+      .max(reactivateUserResponseOneLastNameMax)
       .describe('姓'),
     fullName: zod
       .string()
-      .max(reactivateUserResponseFullNameMax)
+      .max(reactivateUserResponseOneFullNameMax)
       .describe('フルネーム'),
     employeeId: zod
       .string()
-      .max(reactivateUserResponseEmployeeIdMax)
-      .nullish()
+      .max(reactivateUserResponseOneEmployeeIdMax)
+      .nullable()
       .describe('社員番号'),
     image: zod
       .object({
@@ -1378,6 +1623,43 @@ export const ReactivateUserResponse = zod
       ),
   })
   .describe('ユーザー')
+  .and(
+    zod.object({
+      userLineWorksAccount: zod
+        .union([
+          zod.object({
+            lineWorksAccountId: zod.string().describe('LINE WORKSアカウントID'),
+          }),
+          zod.null(),
+        ])
+        .describe('LINE WORKSアカウント。連携していない場合はnull。'),
+      invitation: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              expiresAt: zod.iso
+                .datetime({ offset: true })
+                .describe('招待の有効期限'),
+              userEmail: zod
+                .email()
+                .max(reactivateUserResponseTwoInvitationOneUserEmailMax)
+                .describe('招待先のメールアドレス'),
+              userLocale: zod.string().describe('招待先の言語'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+            })
+            .describe('ユーザーの招待'),
+          zod.null(),
+        ])
+        .describe('招待情報。招待情報が存在しない場合はnull。'),
+    }),
+  )
+  .describe('ユーザー詳細')
 
 /**
  * ユーザーの所属チーム一覧を取得します。
@@ -1436,7 +1718,7 @@ export const ListUserTeamsResponseItem = zod
     notes: zod
       .string()
       .max(listUserTeamsResponseNotesMax)
-      .nullish()
+      .nullable()
       .describe('管理用メモ'),
     approveOnly: zod.boolean().describe('承認専用チームかどうか'),
     usersCount: zod
