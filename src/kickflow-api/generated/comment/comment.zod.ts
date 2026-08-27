@@ -109,7 +109,7 @@ export const ListCommentsResponseItem = zod
         employeeId: zod
           .string()
           .max(listCommentsResponseUserOneEmployeeIdMax)
-          .nullish()
+          .nullable()
           .describe('社員番号'),
         image: zod
           .object({
@@ -207,7 +207,7 @@ export const ListCommentsResponseItem = zod
             employeeId: zod
               .string()
               .max(listCommentsResponseMentionedUsersItemEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({
@@ -371,7 +371,7 @@ export const CreateCommentResponse = zod
         employeeId: zod
           .string()
           .max(createCommentResponseUserOneEmployeeIdMax)
-          .nullish()
+          .nullable()
           .describe('社員番号'),
         image: zod
           .object({
@@ -469,7 +469,7 @@ export const CreateCommentResponse = zod
             employeeId: zod
               .string()
               .max(createCommentResponseMentionedUsersItemEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({
@@ -626,7 +626,7 @@ export const GetCommentResponse = zod
         employeeId: zod
           .string()
           .max(getCommentResponseUserOneEmployeeIdMax)
-          .nullish()
+          .nullable()
           .describe('社員番号'),
         image: zod
           .object({
@@ -724,7 +724,7 @@ export const GetCommentResponse = zod
             employeeId: zod
               .string()
               .max(getCommentResponseMentionedUsersItemEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({
@@ -885,7 +885,7 @@ export const UpdateCommentResponse = zod
         employeeId: zod
           .string()
           .max(updateCommentResponseUserOneEmployeeIdMax)
-          .nullish()
+          .nullable()
           .describe('社員番号'),
         image: zod
           .object({
@@ -983,7 +983,7 @@ export const UpdateCommentResponse = zod
             employeeId: zod
               .string()
               .max(updateCommentResponseMentionedUsersItemEmployeeIdMax)
-              .nullish()
+              .nullable()
               .describe('社員番号'),
             image: zod
               .object({

@@ -50,7 +50,7 @@ export const ListFoldersResponseItem = zod
     name: zod.string().max(listFoldersResponseNameMax).describe('名前'),
     fullName: zod.string().describe('フルネーム（ルートフォルダからのパス）'),
     code: zod.string().max(listFoldersResponseCodeMax).describe('コード'),
-    description: zod.string().nullish().describe('説明'),
+    description: zod.string().nullable().describe('説明'),
     workflowsCount: zod
       .int()
       .min(listFoldersResponseWorkflowsCountMin)
@@ -122,7 +122,7 @@ export const CreateFolderResponse = zod
     name: zod.string().max(createFolderResponseOneNameMax).describe('名前'),
     fullName: zod.string().describe('フルネーム（ルートフォルダからのパス）'),
     code: zod.string().max(createFolderResponseOneCodeMax).describe('コード'),
-    description: zod.string().nullish().describe('説明'),
+    description: zod.string().nullable().describe('説明'),
     workflowsCount: zod
       .int()
       .min(createFolderResponseOneWorkflowsCountMin)
@@ -158,7 +158,7 @@ export const CreateFolderResponse = zod
                 .string()
                 .max(createFolderResponseTwoAncestorsItemCodeMax)
                 .describe('コード'),
-              description: zod.string().nullish().describe('説明'),
+              description: zod.string().nullable().describe('説明'),
               workflowsCount: zod
                 .int()
                 .min(createFolderResponseTwoAncestorsItemWorkflowsCountMin)
@@ -181,7 +181,6 @@ export const CreateFolderResponse = zod
             })
             .describe('フォルダ'),
         )
-        .optional()
         .describe('親フォルダからルートフォルダまでの配列'),
       children: zod
         .array(
@@ -199,7 +198,7 @@ export const CreateFolderResponse = zod
                 .string()
                 .max(createFolderResponseTwoChildrenItemCodeMax)
                 .describe('コード'),
-              description: zod.string().nullish().describe('説明'),
+              description: zod.string().nullable().describe('説明'),
               workflowsCount: zod
                 .int()
                 .min(createFolderResponseTwoChildrenItemWorkflowsCountMin)
@@ -222,7 +221,6 @@ export const CreateFolderResponse = zod
             })
             .describe('フォルダ'),
         )
-        .optional()
         .describe('子フォルダ'),
     }),
   )
@@ -305,7 +303,7 @@ export const UpdateFolderResponse = zod
     name: zod.string().max(updateFolderResponseOneNameMax).describe('名前'),
     fullName: zod.string().describe('フルネーム（ルートフォルダからのパス）'),
     code: zod.string().max(updateFolderResponseOneCodeMax).describe('コード'),
-    description: zod.string().nullish().describe('説明'),
+    description: zod.string().nullable().describe('説明'),
     workflowsCount: zod
       .int()
       .min(updateFolderResponseOneWorkflowsCountMin)
@@ -341,7 +339,7 @@ export const UpdateFolderResponse = zod
                 .string()
                 .max(updateFolderResponseTwoAncestorsItemCodeMax)
                 .describe('コード'),
-              description: zod.string().nullish().describe('説明'),
+              description: zod.string().nullable().describe('説明'),
               workflowsCount: zod
                 .int()
                 .min(updateFolderResponseTwoAncestorsItemWorkflowsCountMin)
@@ -364,7 +362,6 @@ export const UpdateFolderResponse = zod
             })
             .describe('フォルダ'),
         )
-        .optional()
         .describe('親フォルダからルートフォルダまでの配列'),
       children: zod
         .array(
@@ -382,7 +379,7 @@ export const UpdateFolderResponse = zod
                 .string()
                 .max(updateFolderResponseTwoChildrenItemCodeMax)
                 .describe('コード'),
-              description: zod.string().nullish().describe('説明'),
+              description: zod.string().nullable().describe('説明'),
               workflowsCount: zod
                 .int()
                 .min(updateFolderResponseTwoChildrenItemWorkflowsCountMin)
@@ -405,7 +402,6 @@ export const UpdateFolderResponse = zod
             })
             .describe('フォルダ'),
         )
-        .optional()
         .describe('子フォルダ'),
     }),
   )
@@ -460,7 +456,7 @@ export const GetFolderResponse = zod
     name: zod.string().max(getFolderResponseOneNameMax).describe('名前'),
     fullName: zod.string().describe('フルネーム（ルートフォルダからのパス）'),
     code: zod.string().max(getFolderResponseOneCodeMax).describe('コード'),
-    description: zod.string().nullish().describe('説明'),
+    description: zod.string().nullable().describe('説明'),
     workflowsCount: zod
       .int()
       .min(getFolderResponseOneWorkflowsCountMin)
@@ -496,7 +492,7 @@ export const GetFolderResponse = zod
                 .string()
                 .max(getFolderResponseTwoAncestorsItemCodeMax)
                 .describe('コード'),
-              description: zod.string().nullish().describe('説明'),
+              description: zod.string().nullable().describe('説明'),
               workflowsCount: zod
                 .int()
                 .min(getFolderResponseTwoAncestorsItemWorkflowsCountMin)
@@ -519,7 +515,6 @@ export const GetFolderResponse = zod
             })
             .describe('フォルダ'),
         )
-        .optional()
         .describe('親フォルダからルートフォルダまでの配列'),
       children: zod
         .array(
@@ -537,7 +532,7 @@ export const GetFolderResponse = zod
                 .string()
                 .max(getFolderResponseTwoChildrenItemCodeMax)
                 .describe('コード'),
-              description: zod.string().nullish().describe('説明'),
+              description: zod.string().nullable().describe('説明'),
               workflowsCount: zod
                 .int()
                 .min(getFolderResponseTwoChildrenItemWorkflowsCountMin)
@@ -560,7 +555,6 @@ export const GetFolderResponse = zod
             })
             .describe('フォルダ'),
         )
-        .optional()
         .describe('子フォルダ'),
     }),
   )

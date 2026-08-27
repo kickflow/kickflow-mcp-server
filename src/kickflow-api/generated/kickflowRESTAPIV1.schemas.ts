@@ -186,7 +186,7 @@ export interface User {
    * @maxLength 30
    * @nullable
    */
-  employeeId?: string | null
+  employeeId: string | null
   /** ユーザー画像のURL。サイズごとに複数のURLを返します。 */
   image: UserImage
   /** ステータス */
@@ -232,11 +232,34 @@ export type UserDetailUserLineWorksAccount = {
 } | null
 
 /**
+ * ユーザーの招待
+ */
+export interface UserInvitation {
+  /** UUID */
+  id: string
+  /** 招待の有効期限 */
+  expiresAt: string
+  /**
+   * 招待先のメールアドレス
+   * @maxLength 254
+   */
+  userEmail: string
+  /** 招待先の言語 */
+  userLocale: string
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
+
+/**
  * ユーザー詳細
  */
 export type UserDetail = User & {
   /** LINE WORKSアカウント。連携していない場合はnull。 */
   userLineWorksAccount: UserDetailUserLineWorksAccount
+  /** 招待情報。招待情報が存在しない場合はnull。 */
+  invitation: UserInvitation | null
 }
 
 /**
@@ -297,7 +320,7 @@ export interface Folder {
    * 説明
    * @nullable
    */
-  description?: string | null
+  description: string | null
   /**
    * フォルダ内のワークフロー数
    * @minimum 0
@@ -526,7 +549,7 @@ export interface Team {
    * @maxLength 10000
    * @nullable
    */
-  notes?: string | null
+  notes: string | null
   /** 承認専用チームかどうか */
   approveOnly: boolean
   /**
@@ -558,7 +581,7 @@ export type MemberUser = User & {
  */
 export type TeamDetail = Team & {
   /** 親チーム */
-  parent?: Team | null
+  parent: Team | null
   /** 子チーム */
   children: Team[]
   /**
@@ -953,9 +976,9 @@ export interface RoleUpdateBody {
  */
 export type FolderDetail = Folder & {
   /** 親フォルダからルートフォルダまでの配列 */
-  ancestors?: Folder[]
+  ancestors: Folder[]
   /** 子フォルダ */
-  children?: Folder[]
+  children: Folder[]
 }
 
 /**
@@ -1246,6 +1269,11 @@ export interface ExternalApiSetting {
   httpMethod: ExternalApiSettingHttpMethod
   /** URL */
   url: string
+  /**
+   * リクエストボディ
+   * @nullable
+   */
+  body: string | null
   /** リクエストヘッダー */
   headers: ExternalApiSettingHeadersItem[]
   /** レスポンスが複数レコードを含む場合true */
@@ -1271,6 +1299,15 @@ export interface KintoneApp {
   domain: string
   /** kintoneアプリID */
   appId: string
+  /**
+   * コード
+   * @nullable
+   */
+  code: string | null
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
 }
 
 export type KintoneAppSettingMappingsItem = {
@@ -1295,6 +1332,10 @@ export interface KintoneAppSetting {
   id: string
   formField: FormField
   kintoneApp: KintoneApp
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
   /** フィールドへのマッピング設定 */
   mappings: KintoneAppSettingMappingsItem[]
 }
@@ -1311,8 +1352,14 @@ export type ClimberCloudSettingMappingsItem = {
 export interface ClimberCloudSetting {
   /** UUID */
   id: string
+  /** テナントID */
+  tenantId: string
   /** ファイル付きリストID */
   contentsId: string
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
   formField: FormField
   /** ClimberCloudのカラムとのマッピング設定 */
   mappings: ClimberCloudSettingMappingsItem[]
@@ -1648,6 +1695,172 @@ export interface WorkflowTicketViewer {
   team: Team | null
   /** 役職。チーム指定で役職も指定する場合のみ値が入ります。 */
   grade: Grade | null
+  /** 下位のチームを含めるかどうか */
+  descendants: boolean
+}
+
+/**
+ * ワークフローの外部公開設定
+ */
+export interface WorkflowExternalPublish {
+  /** UUID */
+  id: string
+  /** 外部公開URLに含まれるハッシュ値 */
+  externalPublishHash: string
+}
+
+/**
+ * 採番グループ
+ */
+export interface TicketNumberKey {
+  /** UUID */
+  id: string
+  /** コード */
+  code: string
+  /** 名前 */
+  name: string
+  /**
+   * 説明
+   * @nullable
+   */
+  notes: string | null
+  /** デフォルトの採番グループの場合true */
+  default: boolean
+}
+
+/**
+ * 出力を許可するチケットのステータス
+ */
+export type ExcelTemplateAllowedTicketStatusTicketStatus =
+  (typeof ExcelTemplateAllowedTicketStatusTicketStatus)[keyof typeof ExcelTemplateAllowedTicketStatusTicketStatus]
+
+export const ExcelTemplateAllowedTicketStatusTicketStatus = {
+  draft: 'draft',
+  in_progress: 'in_progress',
+  completed: 'completed',
+  archived: 'archived',
+  rejected: 'rejected',
+  denied: 'denied',
+  permanently_deleted: 'permanently_deleted',
+} as const
+
+/**
+ * サブステータス
+ */
+export interface SubStatus {
+  /** UUID */
+  id: string
+  /** コード */
+  code: string
+  /** 名前 */
+  name: string
+  /**
+   * 説明
+   * @nullable
+   */
+  notes: string | null
+  /** 取り下げを許可する */
+  allowWithdrawal: boolean
+  /** 差し戻しを許可する */
+  allowRejection: boolean
+  /** 却下を許可する */
+  allowDenial: boolean
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
+
+/**
+ * Excel帳票テンプレートの出力を許可するチケットステータス
+ */
+export interface ExcelTemplateAllowedTicketStatus {
+  /** UUID */
+  id: string
+  /** 出力を許可するチケットのステータス */
+  ticketStatus: ExcelTemplateAllowedTicketStatusTicketStatus
+  /** 出力を許可するサブステータスの配列 */
+  subStatuses: SubStatus[]
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
+
+/**
+ * Excel帳票テンプレート
+ */
+export interface ExcelTemplate {
+  /** UUID */
+  id: string
+  /** テンプレートファイルのダウンロードURL */
+  url: string
+  /** 出力できるチケットのステータスを制限する場合true */
+  restrictedExport: boolean
+  /** 出力を許可するチケットステータスの配列 */
+  allowedTicketStatuses: ExcelTemplateAllowedTicketStatus[]
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
+
+/**
+ * カスタム採番
+ */
+export interface CustomNumbering {
+  /** UUID */
+  id: string
+  /** カスタム採番のコード */
+  code: string
+  /** カスタム採番の名前 */
+  name: string
+  /** 次に採番される番号 */
+  value: number
+  /**
+   * 採番グループ（チケット番号キー）のID。採番グループを使用しない場合はnullになります。
+   * @nullable
+   */
+  ticketNumberKeyId: string | null
+}
+
+/**
+ * 採番するタイミング。createdはチケット作成時、openedは申請時、completedは完了時、sub_status_attachedはサブステータス付与時を表す。
+ */
+export type CustomNumberingSettingTimingType =
+  (typeof CustomNumberingSettingTimingType)[keyof typeof CustomNumberingSettingTimingType]
+
+export const CustomNumberingSettingTimingType = {
+  created: 'created',
+  opened: 'opened',
+  completed: 'completed',
+  sub_status_attached: 'sub_status_attached',
+} as const
+
+/**
+ * ワークフローバージョンごとのカスタム採番の設定
+ */
+export interface CustomNumberingSetting {
+  /** UUID */
+  id: string
+  /** カスタム採番のUUID */
+  customNumberingId: string
+  /**
+   * 採番のフォーマット。未設定の場合はnullになります。
+   * @nullable
+   */
+  ticketNumberFormat: string | null
+  /** 採番するタイミング。createdはチケット作成時、openedは申請時、completedは完了時、sub_status_attachedはサブステータス付与時を表す。 */
+  timingType: CustomNumberingSettingTimingType
+  /**
+   * 採番するサブステータスのUUID。timingTypeがsub_status_attached以外の場合はnullになります。
+   * @nullable
+   */
+  subStatusId: string | null
+  /** 採番するサブステータス。timingTypeがsub_status_attached以外の場合はnullになります。 */
+  subStatus: SubStatus | null
+  /** 表示順 */
+  sortOrder: number
 }
 
 /**
@@ -1655,12 +1868,69 @@ export interface WorkflowTicketViewer {
  */
 export type WorkflowInTicket = Workflow & {
   /** セクション・明細を表すオブジェクトを画面に表示される順に格納した配列。 */
-  sectionList?: SectionListItem[]
+  sectionList: SectionListItem[]
   /** ワークフロー単位のチケット共有ユーザー */
   ticketViewers: WorkflowTicketViewer[]
   /** クラウドサイン連携設定 */
   cloudSignSetting: WorkflowInTicketCloudSignSetting
-}
+  /**
+   * 次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。
+   * @nullable
+   */
+  nextTicketNumberValue: number | null
+  /**
+   * 採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。
+   * @nullable
+   */
+  nextTicketNumberValueByKey: number | null
+  /** 外部公開設定。外部公開していない場合はnullになります。 */
+  externalPublish: WorkflowExternalPublish | null
+  /** 採番グループ。未設定の場合はnullになります。 */
+  ticketNumberKey: TicketNumberKey | null
+  /** Excel帳票テンプレート。未設定の場合はnullになります。 */
+  excelTemplate: ExcelTemplate | null
+  /** カスタム採番の配列。コードの昇順で格納されます。 */
+  customNumberings: CustomNumbering[]
+  /** カスタム採番の設定の配列。表示順の昇順で格納されます。 */
+  customNumberingSettings: CustomNumberingSetting[]
+} & Required<
+    Pick<
+      Workflow & {
+        /** セクション・明細を表すオブジェクトを画面に表示される順に格納した配列。 */
+        sectionList: SectionListItem[]
+        /** ワークフロー単位のチケット共有ユーザー */
+        ticketViewers: WorkflowTicketViewer[]
+        /** クラウドサイン連携設定 */
+        cloudSignSetting: WorkflowInTicketCloudSignSetting
+        /**
+         * 次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。
+         * @nullable
+         */
+        nextTicketNumberValue: number | null
+        /**
+         * 採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。
+         * @nullable
+         */
+        nextTicketNumberValueByKey: number | null
+        /** 外部公開設定。外部公開していない場合はnullになります。 */
+        externalPublish: WorkflowExternalPublish | null
+        /** 採番グループ。未設定の場合はnullになります。 */
+        ticketNumberKey: TicketNumberKey | null
+        /** Excel帳票テンプレート。未設定の場合はnullになります。 */
+        excelTemplate: ExcelTemplate | null
+        /** カスタム採番の配列。コードの昇順で格納されます。 */
+        customNumberings: CustomNumbering[]
+        /** カスタム採番の設定の配列。表示順の昇順で格納されます。 */
+        customNumberingSettings: CustomNumberingSetting[]
+      },
+      | 'author'
+      | 'versionAuthor'
+      | 'folder'
+      | 'categories'
+      | 'allowEditingOfViewers'
+      | 'commentingEnabled'
+    >
+  >
 
 /**
  * 経路分岐タイプ
@@ -1729,7 +1999,7 @@ export interface Route {
   /** バージョンの作成日時 */
   versionCreatedAt: string
   /** 作成者 */
-  author?: User | null
+  author: User | null
   versionAuthor?: User | null
   /** フォルダ */
   folder: Folder
@@ -1881,18 +2151,19 @@ export const RouteStepTargetGradeSymbol = {
 } as const
 
 export interface RouteStepTarget {
-  team?: Team
+  /** 承認者の指定に使うチーム。チームを指定しないステップではnullになります。 */
+  team: Team | null
   /** stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない） */
-  descendants?: boolean
+  descendants: boolean
   /** 役職の比較条件。役職が指定されているときのみ値が入ります。 */
-  gradeSymbol?: RouteStepTargetGradeSymbol
+  gradeSymbol: RouteStepTargetGradeSymbol
   /** 承認者の指定に使う役職の配列 */
-  grades?: Grade[]
+  grades: Grade[]
   /**
    * 承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。
    * @nullable
    */
-  variable?: string | null
+  variable: string | null
 }
 
 /**
@@ -1956,25 +2227,87 @@ export const RouteStepConditionFieldSymbol = {
 } as const
 
 /**
+ * アイテム一覧のデフォルト並び順
+ */
+export type RouteStepConditionGeneralMasterDefaultSortBy =
+  (typeof RouteStepConditionGeneralMasterDefaultSortBy)[keyof typeof RouteStepConditionGeneralMasterDefaultSortBy]
+
+export const RouteStepConditionGeneralMasterDefaultSortBy = {
+  name: 'name',
+  code: 'code',
+} as const
+
+/**
+ * 実行条件のしきい値として使う汎用マスタアイテムが属する汎用マスタ。
+ * 経路のレスポンスではカスタムフィールドの配列（fields）を返さないため、
+ * 汎用マスタAPIが返す GeneralMaster とは別のコンポーネントとして定義している。
+ */
+export interface RouteStepConditionGeneralMaster {
+  /** UUID */
+  id: string
+  /**
+   * コード
+   * @maxLength 100
+   */
+  code: string
+  /**
+   * 名前
+   * @maxLength 300
+   */
+  name: string
+  /**
+   * 説明
+   * @maxLength 10000
+   * @nullable
+   */
+  description: string | null
+  /** アイテム一覧のデフォルト並び順 */
+  defaultSortBy: RouteStepConditionGeneralMasterDefaultSortBy
+  /**
+   * アイテム数
+   * @minimum 0
+   */
+  itemsCount: number
+  /** コードを初期表示するか */
+  initialDisplayCode: boolean
+  /** 作成日時を初期表示するか */
+  initialDisplayCreatedAt: boolean
+  /** 説明を初期表示するか */
+  initialDisplayDescription: boolean
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
+
+/**
  * ステップごとに設定できる実行条件の詳細
  */
 export interface RouteStepConditionField {
   /** UUID */
-  id?: string
-  /** 変数 */
-  variable?: string
+  id: string
+  /**
+   * 変数。fieldKeyがauthor_grade / author_teamの場合はnullになります。
+   * @nullable
+   */
+  variable: string | null
   /** 変数のフィールド */
-  fieldKey?: RouteStepConditionFieldFieldKey
+  fieldKey: RouteStepConditionFieldFieldKey
   /** 演算子 */
-  symbol?: RouteStepConditionFieldSymbol
-  /** しきい値 */
-  value?: string
+  symbol: RouteStepConditionFieldSymbol
+  /**
+   * しきい値。fieldKeyがauthor_grade / author_team / general_master_variableの場合、およびsymbolがis_empty / is_not_emptyの場合はnullになります。
+   * @nullable
+   */
+  value: string | null
   /** しきい値として使う役職 */
-  grade?: Grade
+  grade: Grade | null
   /** しきい値として使うチーム */
-  team?: Team
+  team: Team | null
+  /** しきい値として使う汎用マスタアイテムが属する汎用マスタ */
+  generalMaster: RouteStepConditionGeneralMaster | null
   /** しきい値として使う汎用マスタアイテム */
-  generalMasterItem?: GeneralMasterItem
+  generalMasterItem: GeneralMasterItem | null
 }
 
 /**
@@ -1982,12 +2315,12 @@ export interface RouteStepConditionField {
  */
 export interface RouteStepCondition {
   /** UUID */
-  id?: string
+  id: string
   /** 実行タイプ */
-  conditionType?: RouteStepConditionConditionType
+  conditionType: RouteStepConditionConditionType
   /** 条件の組み合わせタイプ */
-  combinationType?: RouteStepConditionCombinationType
-  routeStepConditionFields?: RouteStepConditionField[]
+  combinationType: RouteStepConditionCombinationType
+  routeStepConditionFields: RouteStepConditionField[]
 }
 
 /**
@@ -2035,16 +2368,20 @@ export interface RouteStep {
   /** 承認者の指定に使うユーザーの配列 */
   users: User[]
   /** 承認者の指定に使うチームと役職の条件 */
-  targets?: RouteStepTarget[]
-  routeStepCondition?: RouteStepCondition | null
+  targets: RouteStepTarget[]
+  routeStepCondition: RouteStepCondition | null
   /** コード */
   code: string
+  /** このステップで設定されるサブステータス */
+  subStatus: SubStatus | null
 }
 
 /**
  * 経路の詳細情報
  */
 export type RouteDetail = Route & {
+  /** バージョンの作成者 */
+  versionAuthor: User | null
   /** 経路ステップ */
   steps: RouteStep[]
 }
@@ -2075,33 +2412,6 @@ export const TicketForcedPublicType = {
   forced_public: 'forced_public',
   forced_private: 'forced_private',
 } as const
-
-/**
- * サブステータス
- */
-export interface SubStatus {
-  /** UUID */
-  id: string
-  /** コード */
-  code: string
-  /** 名前 */
-  name: string
-  /**
-   * 説明
-   * @nullable
-   */
-  notes: string | null
-  /** 取り下げを許可する */
-  allowWithdrawal: boolean
-  /** 差し戻しを許可する */
-  allowRejection: boolean
-  /** 却下を許可する */
-  allowDenial: boolean
-  /** 作成日時 */
-  createdAt: string
-  /** 更新日時 */
-  updatedAt: string
-}
 
 /**
  * ラベル
@@ -2481,25 +2791,6 @@ export interface TicketSection {
   viewable: boolean
   /** このセクションの入力の配列 */
   inputs: TicketInput[]
-}
-
-/**
- * カスタム採番
- */
-export interface CustomNumbering {
-  /** UUID */
-  id: string
-  /** カスタム採番のコード */
-  code: string
-  /** カスタム採番の名前 */
-  name: string
-  /** 次に採番される番号 */
-  value: number
-  /**
-   * 採番グループ（チケット番号キー）のID。採番グループを使用しない場合はnullになります。
-   * @nullable
-   */
-  ticketNumberKeyId: string | null
 }
 
 /**

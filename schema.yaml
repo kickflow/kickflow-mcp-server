@@ -4960,7 +4960,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDetail'
         '400':
           description: Bad Request
           $ref: '#/components/responses/BadRequest'
@@ -5006,7 +5006,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDetail'
         '400':
           description: Bad Request
           $ref: '#/components/responses/BadRequest'
@@ -5052,7 +5052,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDetail'
         '400':
           description: Bad Request
           $ref: '#/components/responses/BadRequest'
@@ -6340,6 +6340,7 @@ components:
         - locale
         - createdAt
         - updatedAt
+        - employeeId
     UserDetail:
       title: UserDetail
       x-tags:
@@ -6360,8 +6361,52 @@ components:
                   required:
                     - lineWorksAccountId
                 - type: 'null'
+            invitation:
+              description: 招待情報。招待情報が存在しない場合はnull。
+              anyOf:
+                - $ref: '#/components/schemas/UserInvitation'
+                - type: 'null'
           required:
             - userLineWorksAccount
+            - invitation
+    UserInvitation:
+      title: UserInvitation
+      type: object
+      x-tags:
+        - users
+      description: ユーザーの招待
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID
+        expiresAt:
+          type: string
+          format: date-time
+          description: 招待の有効期限
+        userEmail:
+          type: string
+          format: email
+          description: 招待先のメールアドレス
+          maxLength: 254
+        userLocale:
+          type: string
+          description: 招待先の言語
+        createdAt:
+          type: string
+          format: date-time
+          description: 作成日時
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新日時
+      required:
+        - id
+        - expiresAt
+        - userEmail
+        - userLocale
+        - createdAt
+        - updatedAt
     ProxyApplicant:
       title: ProxyApplicant
       type: object
@@ -6512,6 +6557,7 @@ components:
         - usersCount
         - createdAt
         - updatedAt
+        - notes
     TeamDetail:
       title: TeamDetail
       x-tags:
@@ -6542,6 +6588,7 @@ components:
           required:
             - children
             - users
+            - parent
     TeamCreateBody:
       title: TeamCreateBody
       type: object
@@ -7030,6 +7077,7 @@ components:
         - editable
         - createdAt
         - updatedAt
+        - description
     FolderDetail:
       title: FolderDetail
       x-tags:
@@ -7048,6 +7096,9 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Folder'
+          required:
+            - ancestors
+            - children
       description: フォルダの詳細
     InviteMembershipBody:
       title: InviteMembershipBody
@@ -7529,9 +7580,58 @@ components:
                   required:
                     - required
                 - type: 'null'
+            nextTicketNumberValue:
+              type:
+                - integer
+                - 'null'
+              description: 次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。
+            nextTicketNumberValueByKey:
+              type:
+                - integer
+                - 'null'
+              description: 採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。
+            externalPublish:
+              description: 外部公開設定。外部公開していない場合はnullになります。
+              anyOf:
+                - $ref: '#/components/schemas/WorkflowExternalPublish'
+                - type: 'null'
+            ticketNumberKey:
+              description: 採番グループ。未設定の場合はnullになります。
+              anyOf:
+                - $ref: '#/components/schemas/TicketNumberKey'
+                - type: 'null'
+            excelTemplate:
+              description: Excel帳票テンプレート。未設定の場合はnullになります。
+              anyOf:
+                - $ref: '#/components/schemas/ExcelTemplate'
+                - type: 'null'
+            customNumberings:
+              type: array
+              description: カスタム採番の配列。コードの昇順で格納されます。
+              items:
+                $ref: '#/components/schemas/CustomNumbering'
+            customNumberingSettings:
+              type: array
+              description: カスタム採番の設定の配列。表示順の昇順で格納されます。
+              items:
+                $ref: '#/components/schemas/CustomNumberingSetting'
           required:
+            - sectionList
             - ticketViewers
             - cloudSignSetting
+            - nextTicketNumberValue
+            - nextTicketNumberValueByKey
+            - externalPublish
+            - author
+            - versionAuthor
+            - folder
+            - categories
+            - allowEditingOfViewers
+            - commentingEnabled
+            - ticketNumberKey
+            - excelTemplate
+            - customNumberings
+            - customNumberingSettings
     WorkflowDetail:
       title: WorkflowDetail
       x-tags:
@@ -7548,6 +7648,132 @@ components:
                 $ref: '#/components/schemas/WorkflowRouteCondition'
           required:
             - routeConditions
+    WorkflowExternalPublish:
+      title: WorkflowExternalPublish
+      type: object
+      x-tags:
+        - workflows
+      description: ワークフローの外部公開設定
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        externalPublishHash:
+          type: string
+          description: 外部公開URLに含まれるハッシュ値
+      required:
+        - id
+        - externalPublishHash
+    TicketNumberKey:
+      title: TicketNumberKey
+      type: object
+      x-tags:
+        - workflows
+      description: 採番グループ
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        code:
+          type: string
+          description: コード
+        name:
+          type: string
+          description: 名前
+        notes:
+          type:
+            - string
+            - 'null'
+          description: 説明
+        default:
+          type: boolean
+          description: デフォルトの採番グループの場合true
+      required:
+        - id
+        - code
+        - name
+        - notes
+        - default
+    ExcelTemplate:
+      title: ExcelTemplate
+      type: object
+      x-tags:
+        - workflows
+      description: Excel帳票テンプレート
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        url:
+          type: string
+          description: テンプレートファイルのダウンロードURL
+        restrictedExport:
+          type: boolean
+          description: 出力できるチケットのステータスを制限する場合true
+        allowedTicketStatuses:
+          type: array
+          description: 出力を許可するチケットステータスの配列
+          items:
+            $ref: '#/components/schemas/ExcelTemplateAllowedTicketStatus'
+        createdAt:
+          type: string
+          description: 作成日時
+          format: date-time
+        updatedAt:
+          type: string
+          description: 更新日時
+          format: date-time
+      required:
+        - id
+        - url
+        - restrictedExport
+        - allowedTicketStatuses
+        - createdAt
+        - updatedAt
+    ExcelTemplateAllowedTicketStatus:
+      title: ExcelTemplateAllowedTicketStatus
+      type: object
+      x-tags:
+        - workflows
+      description: Excel帳票テンプレートの出力を許可するチケットステータス
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        ticketStatus:
+          type: string
+          description: 出力を許可するチケットのステータス
+          enum:
+            - draft
+            - in_progress
+            - completed
+            - archived
+            - rejected
+            - denied
+            - permanently_deleted
+        subStatuses:
+          type: array
+          description: 出力を許可するサブステータスの配列
+          items:
+            $ref: '#/components/schemas/SubStatus'
+        createdAt:
+          type: string
+          description: 作成日時
+          format: date-time
+        updatedAt:
+          type: string
+          description: 更新日時
+          format: date-time
+      required:
+        - id
+        - ticketStatus
+        - subStatuses
+        - createdAt
+        - updatedAt
     SectionListItem:
       title: SectionListItem
       type: object
@@ -7953,6 +8179,11 @@ components:
           type: string
           format: uri
           description: URL
+        body:
+          type:
+            - string
+            - 'null'
+          description: リクエストボディ
         headers:
           type: array
           description: リクエストヘッダー
@@ -8004,6 +8235,7 @@ components:
         - id
         - httpMethod
         - url
+        - body
         - headers
         - responseArray
         - arrayJsonPath
@@ -8019,9 +8251,21 @@ components:
           type: string
           format: uuid
           description: UUID
+        tenantId:
+          type: string
+          format: uuid
+          description: テナントID
         contentsId:
           type: string
           description: ファイル付きリストID
+        createdAt:
+          type: string
+          format: date-time
+          description: 作成日時
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新日時
         formField:
           $ref: '#/components/schemas/FormField'
         mappings:
@@ -8040,9 +8284,12 @@ components:
               - order
       required:
         - id
+        - tenantId
         - contentsId
         - formField
         - mappings
+        - createdAt
+        - updatedAt
     SlipField:
       title: SlipField
       type: object
@@ -8366,11 +8613,15 @@ components:
             - $ref: '#/components/schemas/Grade'
             - type: 'null'
           description: 役職。チーム指定で役職も指定する場合のみ値が入ります。
+        descendants:
+          type: boolean
+          description: 下位のチームを含めるかどうか
       required:
         - id
         - user
         - team
         - grade
+        - descendants
     Route:
       title: Route
       type: object
@@ -8448,6 +8699,7 @@ components:
         - updatedAt
         - versionCreatedAt
         - folder
+        - author
     RouteDetail:
       title: RouteDetail
       x-tags:
@@ -8457,6 +8709,11 @@ components:
         - $ref: '#/components/schemas/Route'
         - type: object
           properties:
+            versionAuthor:
+              description: バージョンの作成者
+              anyOf:
+                - $ref: '#/components/schemas/User'
+                - type: 'null'
             steps:
               type: array
               description: 経路ステップ
@@ -8464,6 +8721,7 @@ components:
                 $ref: '#/components/schemas/RouteStep'
           required:
             - steps
+            - versionAuthor
     RouteStep:
       title: RouteStep
       type: object
@@ -8561,6 +8819,11 @@ components:
         code:
           type: string
           description: コード
+        subStatus:
+          description: このステップで設定されるサブステータス
+          anyOf:
+            - $ref: '#/components/schemas/SubStatus'
+            - type: 'null'
       required:
         - id
         - stepOrder
@@ -8578,12 +8841,18 @@ components:
         - approverAssignmentInstruction
         - users
         - code
+        - targets
+        - routeStepCondition
+        - subStatus
     RouteStepTarget:
       title: RouteStepTarget
       type: object
       properties:
         team:
-          $ref: '#/components/schemas/Team'
+          description: 承認者の指定に使うチーム。チームを指定しないステップではnullになります。
+          anyOf:
+            - $ref: '#/components/schemas/Team'
+            - type: 'null'
         descendants:
           type: boolean
           description: 'stepType=author_customizableまたはstepType=assignee_customizableの場合に、指定したチームの下位チームのメンバーも承認者候補に含めるかどうか（true: 含める、false: 含めない）'
@@ -8609,6 +8878,12 @@ components:
             - string
             - 'null'
           description: 承認者タイプ「チームを動的に指定」または「ユーザーを動的に指定」で指定する変数名が入ります。
+      required:
+        - team
+        - descendants
+        - gradeSymbol
+        - grades
+        - variable
     RouteStepCondition:
       title: RouteStepCondition
       type: object
@@ -8635,6 +8910,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RouteStepConditionField'
+      required:
+        - id
+        - conditionType
+        - combinationType
+        - routeStepConditionFields
     RouteStepConditionField:
       title: RouteStepConditionField
       type: object
@@ -8645,8 +8925,10 @@ components:
           description: UUID
           format: uuid
         variable:
-          type: string
-          description: 変数
+          type:
+            - string
+            - 'null'
+          description: 変数。fieldKeyがauthor_grade / author_teamの場合はnullになります。
         fieldKey:
           type: string
           description: 変数のフィールド
@@ -8675,20 +8957,107 @@ components:
             - descendants_or_equal
             - not_descendants_or_equal
         value:
-          type: string
-          description: しきい値
+          type:
+            - string
+            - 'null'
+          description: しきい値。fieldKeyがauthor_grade / author_team / general_master_variableの場合、およびsymbolがis_empty / is_not_emptyの場合はnullになります。
         grade:
           anyOf:
             - $ref: '#/components/schemas/Grade'
+            - type: 'null'
           description: しきい値として使う役職
         team:
           anyOf:
             - $ref: '#/components/schemas/Team'
+            - type: 'null'
           description: しきい値として使うチーム
+        generalMaster:
+          anyOf:
+            - $ref: '#/components/schemas/RouteStepConditionGeneralMaster'
+            - type: 'null'
+          description: しきい値として使う汎用マスタアイテムが属する汎用マスタ
         generalMasterItem:
           anyOf:
             - $ref: '#/components/schemas/GeneralMasterItem'
+            - type: 'null'
           description: しきい値として使う汎用マスタアイテム
+      required:
+        - id
+        - variable
+        - fieldKey
+        - symbol
+        - value
+        - grade
+        - team
+        - generalMasterItem
+        - generalMaster
+    RouteStepConditionGeneralMaster:
+      title: RouteStepConditionGeneralMaster
+      type: object
+      x-tags:
+        - routes
+      description: |-
+        実行条件のしきい値として使う汎用マスタアイテムが属する汎用マスタ。
+        経路のレスポンスではカスタムフィールドの配列（fields）を返さないため、
+        汎用マスタAPIが返す GeneralMaster とは別のコンポーネントとして定義している。
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        code:
+          type: string
+          description: コード
+          maxLength: 100
+        name:
+          type: string
+          description: 名前
+          maxLength: 300
+        description:
+          type:
+            - string
+            - 'null'
+          description: 説明
+          maxLength: 10000
+        defaultSortBy:
+          type: string
+          enum:
+            - name
+            - code
+          description: アイテム一覧のデフォルト並び順
+        itemsCount:
+          type: integer
+          minimum: 0
+          description: アイテム数
+        initialDisplayCode:
+          type: boolean
+          description: コードを初期表示するか
+        initialDisplayCreatedAt:
+          type: boolean
+          description: 作成日時を初期表示するか
+        initialDisplayDescription:
+          type: boolean
+          description: 説明を初期表示するか
+        createdAt:
+          type: string
+          description: 作成日時
+          format: date-time
+        updatedAt:
+          type: string
+          description: 更新日時
+          format: date-time
+      required:
+        - id
+        - code
+        - name
+        - description
+        - defaultSortBy
+        - itemsCount
+        - initialDisplayCode
+        - initialDisplayCreatedAt
+        - initialDisplayDescription
+        - createdAt
+        - updatedAt
     Ticket:
       title: Ticket
       type: object
@@ -9538,6 +9907,56 @@ components:
         - name
         - value
         - ticketNumberKeyId
+    CustomNumberingSetting:
+      title: CustomNumberingSetting
+      type: object
+      x-tags:
+        - workflows
+      description: ワークフローバージョンごとのカスタム採番の設定
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        customNumberingId:
+          type: string
+          description: カスタム採番のUUID
+          format: uuid
+        ticketNumberFormat:
+          type:
+            - string
+            - 'null'
+          description: 採番のフォーマット。未設定の場合はnullになります。
+        timingType:
+          type: string
+          description: 採番するタイミング。createdはチケット作成時、openedは申請時、completedは完了時、sub_status_attachedはサブステータス付与時を表す。
+          enum:
+            - created
+            - opened
+            - completed
+            - sub_status_attached
+        subStatusId:
+          type:
+            - string
+            - 'null'
+          description: 採番するサブステータスのUUID。timingTypeがsub_status_attached以外の場合はnullになります。
+          format: uuid
+        subStatus:
+          description: 採番するサブステータス。timingTypeがsub_status_attached以外の場合はnullになります。
+          anyOf:
+            - $ref: '#/components/schemas/SubStatus'
+            - type: 'null'
+        sortOrder:
+          type: integer
+          description: 表示順
+      required:
+        - id
+        - customNumberingId
+        - ticketNumberFormat
+        - timingType
+        - subStatusId
+        - subStatus
+        - sortOrder
     Attachment:
       title: Attachment
       type: object
@@ -9997,11 +10416,27 @@ components:
         appId:
           type: string
           description: kintoneアプリID
+        code:
+          type:
+            - string
+            - 'null'
+          description: コード
+        createdAt:
+          type: string
+          format: date-time
+          description: 作成日時
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新日時
       required:
         - id
         - name
         - domain
         - appId
+        - code
+        - createdAt
+        - updatedAt
     KintoneAppSetting:
       title: KintoneAppSetting
       type: object
@@ -10017,6 +10452,14 @@ components:
           $ref: '#/components/schemas/FormField'
         kintoneApp:
           $ref: '#/components/schemas/KintoneApp'
+        createdAt:
+          type: string
+          format: date-time
+          description: 作成日時
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新日時
         mappings:
           type: array
           description: フィールドへのマッピング設定
@@ -10053,6 +10496,8 @@ components:
         - formField
         - kintoneApp
         - mappings
+        - createdAt
+        - updatedAt
     GeneralMasterSearchFilter:
       title: GeneralMasterSearchFilter
       x-tags:

@@ -128,7 +128,7 @@ export const ListProxyApplicantsResponseItem = zod
         employeeId: zod
           .string()
           .max(listProxyApplicantsResponseUserEmployeeIdMax)
-          .nullish()
+          .nullable()
           .describe('社員番号'),
         image: zod
           .object({
@@ -224,7 +224,7 @@ export const ListProxyApplicantsResponseItem = zod
         employeeId: zod
           .string()
           .max(listProxyApplicantsResponseProxyUserEmployeeIdMax)
-          .nullish()
+          .nullable()
           .describe('社員番号'),
         image: zod
           .object({
@@ -428,7 +428,7 @@ export const ListProxyApplicantsResponseItem = zod
                       .max(
                         listProxyApplicantsResponseWorkflowsItemAuthorOneEmployeeIdMax,
                       )
-                      .nullish()
+                      .nullable()
                       .describe('社員番号'),
                     image: zod
                       .object({
@@ -555,7 +555,7 @@ export const ListProxyApplicantsResponseItem = zod
                       .max(
                         listProxyApplicantsResponseWorkflowsItemVersionAuthorOneEmployeeIdMax,
                       )
-                      .nullish()
+                      .nullable()
                       .describe('社員番号'),
                     image: zod
                       .object({
@@ -656,7 +656,7 @@ export const ListProxyApplicantsResponseItem = zod
                   .string()
                   .max(listProxyApplicantsResponseWorkflowsItemFolderOneCodeMax)
                   .describe('コード'),
-                description: zod.string().nullish().describe('説明'),
+                description: zod.string().nullable().describe('説明'),
                 workflowsCount: zod
                   .int()
                   .min(
@@ -885,7 +885,7 @@ export const CreateProxyApplicantResponse = zod
         employeeId: zod
           .string()
           .max(createProxyApplicantResponseUserEmployeeIdMax)
-          .nullish()
+          .nullable()
           .describe('社員番号'),
         image: zod
           .object({
@@ -981,7 +981,7 @@ export const CreateProxyApplicantResponse = zod
         employeeId: zod
           .string()
           .max(createProxyApplicantResponseProxyUserEmployeeIdMax)
-          .nullish()
+          .nullable()
           .describe('社員番号'),
         image: zod
           .object({
@@ -1185,7 +1185,7 @@ export const CreateProxyApplicantResponse = zod
                       .max(
                         createProxyApplicantResponseWorkflowsItemAuthorOneEmployeeIdMax,
                       )
-                      .nullish()
+                      .nullable()
                       .describe('社員番号'),
                     image: zod
                       .object({
@@ -1312,7 +1312,7 @@ export const CreateProxyApplicantResponse = zod
                       .max(
                         createProxyApplicantResponseWorkflowsItemVersionAuthorOneEmployeeIdMax,
                       )
-                      .nullish()
+                      .nullable()
                       .describe('社員番号'),
                     image: zod
                       .object({
@@ -1417,7 +1417,7 @@ export const CreateProxyApplicantResponse = zod
                     createProxyApplicantResponseWorkflowsItemFolderOneCodeMax,
                   )
                   .describe('コード'),
-                description: zod.string().nullish().describe('説明'),
+                description: zod.string().nullable().describe('説明'),
                 workflowsCount: zod
                   .int()
                   .min(

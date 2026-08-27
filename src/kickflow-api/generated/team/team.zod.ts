@@ -45,7 +45,7 @@ export const ListTeamsResponseItem = zod
     notes: zod
       .string()
       .max(listTeamsResponseNotesMax)
-      .nullish()
+      .nullable()
       .describe('管理用メモ'),
     approveOnly: zod.boolean().describe('承認専用チームかどうか'),
     usersCount: zod
@@ -141,7 +141,7 @@ export const CreateTeamResponse = zod
     notes: zod
       .string()
       .max(createTeamResponseOneNotesMax)
-      .nullish()
+      .nullable()
       .describe('管理用メモ'),
     approveOnly: zod.boolean().describe('承認専用チームかどうか'),
     usersCount: zod
@@ -171,7 +171,7 @@ export const CreateTeamResponse = zod
               notes: zod
                 .string()
                 .max(createTeamResponseTwoParentOneNotesMax)
-                .nullish()
+                .nullable()
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
@@ -188,7 +188,6 @@ export const CreateTeamResponse = zod
             .describe('チーム'),
           zod.null(),
         ])
-        .optional()
         .describe('親チーム'),
       children: zod
         .array(
@@ -207,7 +206,7 @@ export const CreateTeamResponse = zod
               notes: zod
                 .string()
                 .max(createTeamResponseTwoChildrenItemNotesMax)
-                .nullish()
+                .nullable()
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
@@ -297,7 +296,7 @@ export const CreateTeamResponse = zod
                   employeeId: zod
                     .string()
                     .max(createTeamResponseTwoUsersItemTwoEmployeeIdMax)
-                    .nullish()
+                    .nullable()
                     .describe('社員番号'),
                   image: zod
                     .object({
@@ -447,7 +446,7 @@ export const GetTeamResponse = zod
     notes: zod
       .string()
       .max(getTeamResponseOneNotesMax)
-      .nullish()
+      .nullable()
       .describe('管理用メモ'),
     approveOnly: zod.boolean().describe('承認専用チームかどうか'),
     usersCount: zod
@@ -477,7 +476,7 @@ export const GetTeamResponse = zod
               notes: zod
                 .string()
                 .max(getTeamResponseTwoParentOneNotesMax)
-                .nullish()
+                .nullable()
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
@@ -494,7 +493,6 @@ export const GetTeamResponse = zod
             .describe('チーム'),
           zod.null(),
         ])
-        .optional()
         .describe('親チーム'),
       children: zod
         .array(
@@ -513,7 +511,7 @@ export const GetTeamResponse = zod
               notes: zod
                 .string()
                 .max(getTeamResponseTwoChildrenItemNotesMax)
-                .nullish()
+                .nullable()
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
@@ -599,7 +597,7 @@ export const GetTeamResponse = zod
                   employeeId: zod
                     .string()
                     .max(getTeamResponseTwoUsersItemTwoEmployeeIdMax)
-                    .nullish()
+                    .nullable()
                     .describe('社員番号'),
                   image: zod
                     .object({
@@ -764,7 +762,7 @@ export const UpdateTeamResponse = zod
     notes: zod
       .string()
       .max(updateTeamResponseOneNotesMax)
-      .nullish()
+      .nullable()
       .describe('管理用メモ'),
     approveOnly: zod.boolean().describe('承認専用チームかどうか'),
     usersCount: zod
@@ -794,7 +792,7 @@ export const UpdateTeamResponse = zod
               notes: zod
                 .string()
                 .max(updateTeamResponseTwoParentOneNotesMax)
-                .nullish()
+                .nullable()
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
@@ -811,7 +809,6 @@ export const UpdateTeamResponse = zod
             .describe('チーム'),
           zod.null(),
         ])
-        .optional()
         .describe('親チーム'),
       children: zod
         .array(
@@ -830,7 +827,7 @@ export const UpdateTeamResponse = zod
               notes: zod
                 .string()
                 .max(updateTeamResponseTwoChildrenItemNotesMax)
-                .nullish()
+                .nullable()
                 .describe('管理用メモ'),
               approveOnly: zod.boolean().describe('承認専用チームかどうか'),
               usersCount: zod
@@ -920,7 +917,7 @@ export const UpdateTeamResponse = zod
                   employeeId: zod
                     .string()
                     .max(updateTeamResponseTwoUsersItemTwoEmployeeIdMax)
-                    .nullish()
+                    .nullable()
                     .describe('社員番号'),
                   image: zod
                     .object({
@@ -1130,7 +1127,7 @@ export const ListTeamMembersResponseItem = zod
         employeeId: zod
           .string()
           .max(listTeamMembersResponseTwoEmployeeIdMax)
-          .nullish()
+          .nullable()
           .describe('社員番号'),
         image: zod
           .object({
