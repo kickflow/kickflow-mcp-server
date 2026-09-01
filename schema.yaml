@@ -7799,7 +7799,7 @@ components:
         id:
           type: string
           format: uuid
-          description: フォームセクションのID（UUID）。明細セクションには含まれません。
+          description: セクションのID（UUID）
         code:
           type: string
           description: 明細セクションのコード。フォームセクションには含まれません。
@@ -7836,10 +7836,25 @@ components:
         allowApproverToAddItems:
           type: boolean
           description: 承認者が当該明細セクションに行を追加できるか。明細セクションのみに含まれます。
+        viewRestriction:
+          type: boolean
+          description: 閲覧できる対象を制限する場合true。明細セクションには含まれません。
+        allowViewAuthor:
+          type: boolean
+          description: viewRestrictionがtrueのとき、申請者の閲覧を許可する場合true。明細セクションには含まれません。
+        allowViewApprover:
+          type: boolean
+          description: viewRestrictionがtrueのとき、承認者の閲覧を許可する場合true。明細セクションには含まれません。
+        sectionViewers:
+          type: array
+          description: 閲覧を許可する対象。明細セクションには含まれません。
+          items:
+            $ref: '#/components/schemas/SectionViewer'
       required:
         - sectionType
         - title
         - description
+        - id
     SectionConditionField:
       title: SectionConditionField
       type: object
@@ -7994,13 +8009,13 @@ components:
           description: 最大値
         minLength:
           type:
-            - number
+            - integer
             - 'null'
           description: 最小文字数
           minimum: 0
         maxLength:
           type:
-            - number
+            - integer
             - 'null'
           description: 最大文字数
           minimum: 0
@@ -8051,6 +8066,33 @@ components:
           enum:
             - vertical
             - horizontal
+        allowedExtensions:
+          type:
+            - array
+            - 'null'
+          description: |-
+            添付可能な拡張子リスト。fieldTypeがfileのときのみ値が入ります。
+            古いフィールドではnullを返す場合があります。
+          items:
+            type: string
+        autoLink:
+          type: boolean
+          description: チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか
+        useTodayForDefaultValue:
+          type: boolean
+          description: 日付型フィールドで、当日の日付を初期値にするかどうか
+        allowedTicketStatus:
+          type: array
+          description: チケット型フィールドで、選択可能なチケットのステータス
+          items:
+            type: string
+            enum:
+              - draft
+              - in_progress
+              - completed
+              - rejected
+              - archived
+              - denied
       required:
         - id
         - title
@@ -8074,6 +8116,13 @@ components:
         - suffix
         - multiple
         - orientation
+        - author
+        - hidden
+        - readonlyOnUi
+        - allowedExtensions
+        - autoLink
+        - useTodayForDefaultValue
+        - allowedTicketStatus
     FormFieldDetail:
       title: FormFieldDetail
       x-tags:
@@ -8115,33 +8164,24 @@ components:
               items:
                 $ref: '#/components/schemas/GeneralMasterSearchFilter'
               description: 汎用マスタ型フィールドの自動絞り込みの設定
-            allowedExtensions:
-              type:
-                - array
-                - 'null'
-              description: |-
-                添付可能な拡張子リスト。fieldTypeがfileのときのみ値が入ります。
-                古いフィールドではnullを返す場合があります。
-              items:
-                type: string
-            autoLink:
-              type: boolean
-              description: チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか
-            useTodayForDefaultValue:
-              type: boolean
-              description: 日付型フィールドで、当日の日付を初期値にするかどうか
-            allowedTicketStatus:
+            approverEditRestriction:
+              anyOf:
+                - $ref: '#/components/schemas/FormFieldApproverEditRestriction'
+                - type: 'null'
+              description: 承認者による入力制限。設定していない場合はnullになります。
+            approverEditSetting:
+              description: 編集できる承認者の設定。設定していない場合はpermissionType=allが入ります。
+              $ref: '#/components/schemas/FormFieldApproverEditSetting'
+            customValidations:
               type: array
-              description: チケット型フィールドで、選択可能なチケットのステータス
+              description: カスタムバリデーション
               items:
-                type: string
-                enum:
-                  - draft
-                  - in_progress
-                  - completed
-                  - rejected
-                  - archived
-                  - denied
+                $ref: '#/components/schemas/FormCustomValidation'
+            ticketCopySetting:
+              anyOf:
+                - $ref: '#/components/schemas/FormFieldTicketCopySetting'
+                - type: 'null'
+              description: チケット型フィールドの転記設定。設定していない場合はnullになります。
             selectableTicketWorkflows:
               type: array
               description: |-
@@ -8150,10 +8190,14 @@ components:
               items:
                 $ref: '#/components/schemas/Workflow'
           required:
-            - allowedExtensions
-            - autoLink
-            - useTodayForDefaultValue
-            - allowedTicketStatus
+            - generalMaster
+            - defaultGeneralMasterItem
+            - externalApiSetting
+            - kintoneAppSetting
+            - generalMasterSearchFilters
+            - approverEditRestriction
+            - customValidations
+            - ticketCopySetting
             - selectableTicketWorkflows
     ExternalApiSetting:
       title: ExternalApiSetting
@@ -8405,6 +8449,39 @@ components:
           description: |-
             trueの時、申請者・承認者が画面上から値を入力することを禁止します。
             外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
+        minLength:
+          type:
+            - integer
+            - 'null'
+          description: 最小文字数
+          minimum: 0
+        maxLength:
+          type:
+            - integer
+            - 'null'
+          description: 最大文字数
+          minimum: 0
+        multiple:
+          type: boolean
+          description: 複数選択を許可するかどうか
+        autoLink:
+          type: boolean
+          description: チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか
+        useTodayForDefaultValue:
+          type: boolean
+          description: 日付型フィールドで、当日の日付を初期値にするかどうか
+        allowedTicketStatus:
+          type: array
+          description: チケット型フィールドで、選択可能なチケットのステータス
+          items:
+            type: string
+            enum:
+              - draft
+              - in_progress
+              - completed
+              - rejected
+              - archived
+              - denied
       required:
         - id
         - fieldType
@@ -8424,6 +8501,15 @@ components:
         - prefix
         - suffix
         - approver
+        - author
+        - hidden
+        - readonlyOnUi
+        - minLength
+        - maxLength
+        - multiple
+        - autoLink
+        - useTodayForDefaultValue
+        - allowedTicketStatus
     SlipFieldDetail:
       title: SlipFieldDetail
       x-tags:
@@ -8443,44 +8529,613 @@ components:
                 - $ref: '#/components/schemas/GeneralMasterItem'
                 - type: 'null'
               description: 汎用マスタアイテムの初期値
-            minLength:
-              type:
-                - number
-                - 'null'
-              description: 最小文字数
-              minimum: 0
-            maxLength:
-              type:
-                - number
-                - 'null'
-              description: 最大文字数
-              minimum: 0
-            multiple:
-              type: boolean
-              description: 複数選択を許可するかどうか
-            autoLink:
-              type: boolean
-              description: チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか
-            useTodayForDefaultValue:
-              type: boolean
-              description: 日付型フィールドで、当日の日付を初期値にするかどうか
-            allowedTicketStatus:
+            generalMasterSearchFilters:
               type: array
-              description: チケット型フィールドで、選択可能なチケットのステータス
+              description: 汎用マスタ型フィールドの自動絞り込みの設定。表示順の昇順で格納されます。
               items:
-                type: string
-                enum:
-                  - draft
-                  - in_progress
-                  - completed
-                  - rejected
-                  - archived
-                  - denied
+                $ref: '#/components/schemas/SlipFieldGeneralMasterSearchFilter'
+            approverEditRestriction:
+              anyOf:
+                - $ref: '#/components/schemas/SlipFieldApproverEditRestriction'
+                - type: 'null'
+              description: 承認者による入力制限。設定していない場合はnullになります。
+            approverEditSetting:
+              description: 編集できる承認者の設定。設定していない場合はpermissionType=allが入ります。
+              $ref: '#/components/schemas/SlipFieldApproverEditSetting'
+            customValidations:
+              type: array
+              description: カスタムバリデーション
+              items:
+                $ref: '#/components/schemas/SlipCustomValidation'
+            selectableTicketWorkflows:
+              type: array
+              description: |-
+                チケット型フィールドで選択可能なワークフロー。
+                各要素にはauthor / versionAuthor / folder / categoriesは含まれません。
+              items:
+                $ref: '#/components/schemas/Workflow'
           required:
-            - multiple
-            - autoLink
-            - useTodayForDefaultValue
-            - allowedTicketStatus
+            - generalMaster
+            - defaultGeneralMasterItem
+            - generalMasterSearchFilters
+            - approverEditRestriction
+            - customValidations
+            - selectableTicketWorkflows
+    SlipFieldApproverEditRestriction:
+      title: SlipFieldApproverEditRestriction
+      type: object
+      x-tags:
+        - workflows
+      description: 明細フィールドの承認者による入力制限
+      properties:
+        routeStepCodes:
+          type: array
+          description: 入力を必須にする経路ステップのコードの配列
+          items:
+            type: string
+      required:
+        - routeStepCodes
+    SlipFieldApproverEditSetting:
+      title: SlipFieldApproverEditSetting
+      type: object
+      x-tags:
+        - workflows
+      description: 明細フィールドを編集できる承認者の設定
+      properties:
+        permissionType:
+          type: string
+          description: |-
+            編集を許可する範囲。
+            all=すべての承認者、user=指定したユーザー、team_grade=指定したチーム・役職。
+          enum:
+            - all
+            - user
+            - team_grade
+        descendants:
+          type: boolean
+          description: 下位のチームを含めるかどうか
+        gradeSymbol:
+          type:
+            - string
+            - 'null'
+          description: 役職の比較条件。permissionTypeがteam_gradeで役職を指定した場合のみ値が入ります。
+          enum:
+            - equal
+            - greater_than
+            - greater_than_or_equal
+            - less_than
+            - less_than_or_equal
+            - null
+        grade:
+          anyOf:
+            - $ref: '#/components/schemas/Grade'
+            - type: 'null'
+          description: 役職。permissionTypeがteam_gradeのときのみ値が入ります。
+        team:
+          anyOf:
+            - $ref: '#/components/schemas/Team'
+            - type: 'null'
+          description: チーム。permissionTypeがteam_gradeのときのみ値が入ります。
+        users:
+          type: array
+          description: ユーザーの配列。permissionTypeがuserのときのみ要素が入ります。
+          items:
+            $ref: '#/components/schemas/User'
+      required:
+        - permissionType
+        - descendants
+        - gradeSymbol
+        - grade
+        - team
+        - users
+    SlipFieldGeneralMasterSearchFilter:
+      title: SlipFieldGeneralMasterSearchFilter
+      type: object
+      x-tags:
+        - workflows
+      description: 明細フィールドの汎用マスタの自動絞り込みの設定
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID
+        filterSlipFieldId:
+          type: string
+          format: uuid
+          description: 絞り込みに使う明細フィールドのID（UUID）
+        fieldType:
+          type: string
+          description: 絞り込み先のフィールドのタイプ
+          enum:
+            - free_word
+            - name
+            - code
+            - description
+            - custom_field
+        generalMasterFieldId:
+          type:
+            - string
+            - 'null'
+          format: uuid
+          description: fieldType=custom_fieldの場合に絞り込み先の汎用マスタのカスタムフィールドのID（UUID）
+      required:
+        - id
+        - filterSlipFieldId
+        - fieldType
+        - generalMasterFieldId
+    SlipCustomValidation:
+      title: SlipCustomValidation
+      type: object
+      x-tags:
+        - workflows
+      description: 明細フィールドのカスタムバリデーション
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID
+        combinationType:
+          type: string
+          description: 条件の組み合わせ方。all=すべての条件を満たす、any=いずれかの条件を満たす。
+          enum:
+            - all
+            - any
+        errorMessage:
+          type: string
+          description: 条件を満たさない場合に表示するエラーメッセージ
+        fields:
+          type: array
+          description: 条件の配列。表示順の昇順で格納されます。
+          items:
+            $ref: '#/components/schemas/SlipCustomValidationField'
+      required:
+        - id
+        - combinationType
+        - errorMessage
+        - fields
+    SlipCustomValidationField:
+      title: SlipCustomValidationField
+      type: object
+      x-tags:
+        - workflows
+      description: 明細フィールドのカスタムバリデーションの条件
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID
+        symbol:
+          type: string
+          description: 比較条件
+          enum:
+            - equal
+            - not_equal
+            - greater_than
+            - greater_than_or_equal
+            - less_than
+            - less_than_or_equal
+            - include
+            - exclude
+            - is_empty
+            - is_not_empty
+            - descendants_or_equal
+        value:
+          type:
+            - string
+            - 'null'
+          description: 比較する値
+        slipField:
+          description: 条件の対象となる明細フィールド
+          $ref: '#/components/schemas/SlipField'
+        generalMasterItem:
+          anyOf:
+            - $ref: '#/components/schemas/CustomValidationGeneralMasterItem'
+            - type: 'null'
+          description: 比較する汎用マスタアイテム。対象が汎用マスタ型フィールドのときのみ値が入ります。
+        grade:
+          anyOf:
+            - $ref: '#/components/schemas/Grade'
+            - type: 'null'
+          description: 比較する役職
+        team:
+          anyOf:
+            - $ref: '#/components/schemas/Team'
+            - type: 'null'
+          description: 比較するチーム
+      required:
+        - id
+        - symbol
+        - value
+        - slipField
+        - generalMasterItem
+        - grade
+        - team
+    SlipFieldInTicket:
+      title: SlipFieldInTicket
+      x-tags:
+        - tickets
+      description: チケットの明細アイテム入力に含まれる明細フィールド
+      allOf:
+        - $ref: '#/components/schemas/SlipField'
+        - type: object
+          properties:
+            generalMaster:
+              anyOf:
+                - $ref: '#/components/schemas/FieldGeneralMaster'
+                - type: 'null'
+              description: 汎用マスタ。型が汎用マスタのときのみ値が入ります。
+          required:
+            - generalMaster
+    FieldGeneralMaster:
+      title: FieldGeneralMaster
+      type: object
+      x-tags:
+        - workflows
+      description: |-
+        フォームフィールド・明細フィールドに紐づく汎用マスタ。
+        チケットのレスポンスではカスタムフィールドの配列（fields）を返さないため、
+        汎用マスタAPIが返す GeneralMaster とは別のコンポーネントとして定義している。
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        code:
+          type: string
+          description: コード
+          maxLength: 100
+        name:
+          type: string
+          description: 名前
+          maxLength: 300
+        description:
+          type:
+            - string
+            - 'null'
+          description: 説明
+          maxLength: 10000
+        defaultSortBy:
+          type: string
+          enum:
+            - name
+            - code
+          description: アイテム一覧のデフォルト並び順
+        itemsCount:
+          type: integer
+          minimum: 0
+          description: アイテム数
+        initialDisplayCode:
+          type: boolean
+          description: コードを初期表示するか
+        initialDisplayCreatedAt:
+          type: boolean
+          description: 作成日時を初期表示するか
+        initialDisplayDescription:
+          type: boolean
+          description: 説明を初期表示するか
+        createdAt:
+          type: string
+          description: 作成日時
+          format: date-time
+        updatedAt:
+          type: string
+          description: 更新日時
+          format: date-time
+      required:
+        - id
+        - code
+        - name
+        - description
+        - defaultSortBy
+        - itemsCount
+        - initialDisplayCode
+        - initialDisplayCreatedAt
+        - initialDisplayDescription
+        - createdAt
+        - updatedAt
+    FormFieldApproverEditRestriction:
+      title: FormFieldApproverEditRestriction
+      type: object
+      x-tags:
+        - workflows
+      description: フォームフィールドの承認者による入力制限
+      properties:
+        routeStepCodes:
+          type: array
+          description: 入力を必須にする経路ステップのコードの配列
+          items:
+            type: string
+      required:
+        - routeStepCodes
+    FormFieldApproverEditSetting:
+      title: FormFieldApproverEditSetting
+      type: object
+      x-tags:
+        - workflows
+      description: フォームフィールドを編集できる承認者の設定
+      properties:
+        permissionType:
+          type: string
+          description: |-
+            編集を許可する範囲。
+            all=すべての承認者、user=指定したユーザー、team_grade=指定したチーム・役職。
+          enum:
+            - all
+            - user
+            - team_grade
+        descendants:
+          type: boolean
+          description: 下位のチームを含めるかどうか
+        gradeSymbol:
+          type:
+            - string
+            - 'null'
+          description: 役職の比較条件。permissionTypeがteam_gradeで役職を指定した場合のみ値が入ります。
+          enum:
+            - equal
+            - greater_than
+            - greater_than_or_equal
+            - less_than
+            - less_than_or_equal
+            - null
+        grade:
+          anyOf:
+            - $ref: '#/components/schemas/Grade'
+            - type: 'null'
+          description: 役職。permissionTypeがteam_gradeのときのみ値が入ります。
+        team:
+          anyOf:
+            - $ref: '#/components/schemas/Team'
+            - type: 'null'
+          description: チーム。permissionTypeがteam_gradeのときのみ値が入ります。
+        users:
+          type: array
+          description: ユーザーの配列。permissionTypeがuserのときのみ要素が入ります。
+          items:
+            $ref: '#/components/schemas/User'
+      required:
+        - permissionType
+        - descendants
+        - gradeSymbol
+        - grade
+        - team
+        - users
+    FormCustomValidation:
+      title: FormCustomValidation
+      type: object
+      x-tags:
+        - workflows
+      description: フォームフィールドのカスタムバリデーション
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID
+        combinationType:
+          type: string
+          description: 条件の組み合わせ方。all=すべての条件を満たす、any=いずれかの条件を満たす。
+          enum:
+            - all
+            - any
+        errorMessage:
+          type: string
+          description: 条件を満たさない場合に表示するエラーメッセージ
+        fields:
+          type: array
+          description: 条件の配列。表示順の昇順で格納されます。
+          items:
+            $ref: '#/components/schemas/FormCustomValidationField'
+      required:
+        - id
+        - combinationType
+        - errorMessage
+        - fields
+    FormCustomValidationField:
+      title: FormCustomValidationField
+      type: object
+      x-tags:
+        - workflows
+      description: フォームフィールドのカスタムバリデーションの条件
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID
+        symbol:
+          type: string
+          description: 比較条件
+          enum:
+            - equal
+            - not_equal
+            - greater_than
+            - greater_than_or_equal
+            - less_than
+            - less_than_or_equal
+            - include
+            - exclude
+            - is_empty
+            - is_not_empty
+            - descendants_or_equal
+        value:
+          type:
+            - string
+            - 'null'
+          description: 比較する値
+        formField:
+          description: 条件の対象となるフォームフィールド
+          $ref: '#/components/schemas/FormField'
+        generalMasterItem:
+          anyOf:
+            - $ref: '#/components/schemas/CustomValidationGeneralMasterItem'
+            - type: 'null'
+          description: 比較する汎用マスタアイテム。対象が汎用マスタ型フィールドのときのみ値が入ります。
+        grade:
+          anyOf:
+            - $ref: '#/components/schemas/Grade'
+            - type: 'null'
+          description: 比較する役職
+        team:
+          anyOf:
+            - $ref: '#/components/schemas/Team'
+            - type: 'null'
+          description: 比較するチーム
+      required:
+        - id
+        - symbol
+        - value
+        - formField
+        - generalMasterItem
+        - grade
+        - team
+    FormFieldTicketCopySetting:
+      title: FormFieldTicketCopySetting
+      type: object
+      x-tags:
+        - workflows
+      description: チケット型フィールドで、選択したチケットの値を転記する設定
+      properties:
+        workflow:
+          anyOf:
+            - $ref: '#/components/schemas/Workflow'
+            - type: 'null'
+          description: 転記元のワークフロー
+        mappings:
+          type: array
+          description: 転記する項目の配列。表示順の昇順で格納されます。
+          items:
+            type: object
+            properties:
+              fieldType:
+                type: string
+                description: 転記元の種別。ticket_title=チケットのタイトル、ticket_number=チケット番号、form_field=フォームフィールド。
+                enum:
+                  - ticket_title
+                  - ticket_number
+                  - form_field
+              fieldCode:
+                type:
+                  - string
+                  - 'null'
+                description: 転記元のフォームフィールドのコード。fieldTypeがform_fieldのときのみ値が入ります。
+              targetFieldCode:
+                type:
+                  - string
+                  - 'null'
+                description: 転記先のフォームフィールドのコード
+            required:
+              - fieldType
+              - fieldCode
+              - targetFieldCode
+      required:
+        - workflow
+        - mappings
+    FormFieldInTicket:
+      title: FormFieldInTicket
+      x-tags:
+        - tickets
+      description: チケットの入力値に含まれるフォームフィールド
+      allOf:
+        - $ref: '#/components/schemas/FormField'
+        - type: object
+          properties:
+            generalMaster:
+              anyOf:
+                - $ref: '#/components/schemas/FieldGeneralMaster'
+                - type: 'null'
+              description: 汎用マスタ。型が汎用マスタのときのみ値が入ります。
+          required:
+            - generalMaster
+    SectionViewer:
+      title: SectionViewer
+      type: object
+      x-tags:
+        - workflows
+      description: フォームセクションの閲覧を許可する対象
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID
+        descendants:
+          type: boolean
+          description: 下位のチームを含めるかどうか
+        user:
+          anyOf:
+            - $ref: '#/components/schemas/User'
+            - type: 'null'
+          description: ユーザー。ユーザーとチームは片方のみ値が入ります。
+        team:
+          anyOf:
+            - $ref: '#/components/schemas/Team'
+            - type: 'null'
+          description: チーム。ユーザーとチームは片方のみ値が入ります。
+        grade:
+          anyOf:
+            - $ref: '#/components/schemas/Grade'
+            - type: 'null'
+          description: 役職。チーム指定で役職も指定する場合のみ値が入ります。
+      required:
+        - id
+        - descendants
+        - user
+        - team
+        - grade
+    CustomValidationGeneralMasterItem:
+      title: CustomValidationGeneralMasterItem
+      type: object
+      x-tags:
+        - workflows
+      description: |-
+        カスタムバリデーションの条件で比較する汎用マスタアイテム。
+        カスタムバリデーションのレスポンスではカスタムフィールドの入力の配列（inputs）を返さないため、
+        汎用マスタAPIが返す GeneralMasterItem とは別のコンポーネントとして定義している。
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID
+        code:
+          type: string
+          description: コード
+          maxLength: 100
+        name:
+          type: string
+          description: 名前
+          maxLength: 100
+        description:
+          type:
+            - string
+            - 'null'
+          description: 説明
+        createdAt:
+          type: string
+          format: date-time
+          description: 作成日時
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新日時
+        startsOn:
+          type:
+            - string
+            - 'null'
+          description: 有効期限の開始日
+          format: date
+        endsOn:
+          type:
+            - string
+            - 'null'
+          description: 有効期限の終了日
+          format: date
+      required:
+        - id
+        - code
+        - name
+        - description
+        - createdAt
+        - updatedAt
+        - startsOn
+        - endsOn
     WorkflowRouteCondition:
       title: WorkflowRouteCondition
       type: object
@@ -9620,7 +10275,7 @@ components:
                 - integer
                 - 'null'
         formField:
-          $ref: '#/components/schemas/FormField'
+          $ref: '#/components/schemas/FormFieldInTicket'
         generalMasterItems:
           type: array
           description: '入力値: 汎用マスタアイテム'
@@ -10080,6 +10735,9 @@ components:
           description: 添付ファイル
           items:
             $ref: '#/components/schemas/Attachment'
+        slipField:
+          description: 明細フィールド
+          $ref: '#/components/schemas/SlipFieldInTicket'
       required:
         - id
         - slipFieldId
@@ -10087,7 +10745,11 @@ components:
         - updatedAt
         - value
         - generalMasterItems
+        - users
+        - teams
+        - inputTickets
         - attachments
+        - slipField
     Label:
       title: Label
       type: object
