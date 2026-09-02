@@ -1108,6 +1108,18 @@ export const FormFieldOrientation = {
   horizontal: 'horizontal',
 } as const
 
+export type FormFieldAllowedTicketStatusItem =
+  (typeof FormFieldAllowedTicketStatusItem)[keyof typeof FormFieldAllowedTicketStatusItem]
+
+export const FormFieldAllowedTicketStatusItem = {
+  draft: 'draft',
+  in_progress: 'in_progress',
+  completed: 'completed',
+  rejected: 'rejected',
+  archived: 'archived',
+  denied: 'denied',
+} as const
+
 /**
  * フォームフィールド
  */
@@ -1131,7 +1143,7 @@ export interface FormField {
   /** 承認者が編集可能かどうか */
   approver: boolean
   /** 申請者が編集可能かどうか */
-  author?: boolean
+  author: boolean
   /**
    * 選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。
    * @nullable
@@ -1208,13 +1220,13 @@ export interface FormField {
    * 隠しフィールドである場合true
    * @nullable
    */
-  hidden?: boolean | null
+  hidden: boolean | null
   /**
    * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
    * 外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
    * @nullable
    */
-  readonlyOnUi?: boolean | null
+  readonlyOnUi: boolean | null
   /** 複数選択を許可するかどうか */
   multiple: boolean
   /**
@@ -1223,6 +1235,18 @@ export interface FormField {
    * 選択肢を持たないフィールド型でも常に値が返されます（既定はvertical）。
    */
   orientation: FormFieldOrientation
+  /**
+   * 添付可能な拡張子リスト。fieldTypeがfileのときのみ値が入ります。
+   * 古いフィールドではnullを返す場合があります。
+   * @nullable
+   */
+  allowedExtensions: string[] | null
+  /** チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか */
+  autoLink: boolean
+  /** 日付型フィールドで、当日の日付を初期値にするかどうか */
+  useTodayForDefaultValue: boolean
+  /** チケット型フィールドで、選択可能なチケットのステータス */
+  allowedTicketStatus: FormFieldAllowedTicketStatusItem[]
 }
 
 /**
@@ -1393,49 +1417,238 @@ export interface GeneralMasterSearchFilter {
   generalMasterFieldId: string | null
 }
 
-export type FormFieldDetailAllowedTicketStatusItem =
-  (typeof FormFieldDetailAllowedTicketStatusItem)[keyof typeof FormFieldDetailAllowedTicketStatusItem]
+/**
+ * フォームフィールドの承認者による入力制限
+ */
+export interface FormFieldApproverEditRestriction {
+  /** 入力を必須にする経路ステップのコードの配列 */
+  routeStepCodes: string[]
+}
 
-export const FormFieldDetailAllowedTicketStatusItem = {
-  draft: 'draft',
-  in_progress: 'in_progress',
-  completed: 'completed',
-  rejected: 'rejected',
-  archived: 'archived',
-  denied: 'denied',
+/**
+ * 編集を許可する範囲。
+ * all=すべての承認者、user=指定したユーザー、team_grade=指定したチーム・役職。
+ */
+export type FormFieldApproverEditSettingPermissionType =
+  (typeof FormFieldApproverEditSettingPermissionType)[keyof typeof FormFieldApproverEditSettingPermissionType]
+
+export const FormFieldApproverEditSettingPermissionType = {
+  all: 'all',
+  user: 'user',
+  team_grade: 'team_grade',
 } as const
+
+/**
+ * 役職の比較条件。permissionTypeがteam_gradeで役職を指定した場合のみ値が入ります。
+ * @nullable
+ */
+export type FormFieldApproverEditSettingGradeSymbol =
+  | (typeof FormFieldApproverEditSettingGradeSymbol)[keyof typeof FormFieldApproverEditSettingGradeSymbol]
+  | null
+
+export const FormFieldApproverEditSettingGradeSymbol = {
+  equal: 'equal',
+  greater_than: 'greater_than',
+  greater_than_or_equal: 'greater_than_or_equal',
+  less_than: 'less_than',
+  less_than_or_equal: 'less_than_or_equal',
+} as const
+
+/**
+ * フォームフィールドを編集できる承認者の設定
+ */
+export interface FormFieldApproverEditSetting {
+  /**
+   * 編集を許可する範囲。
+   * all=すべての承認者、user=指定したユーザー、team_grade=指定したチーム・役職。
+   */
+  permissionType: FormFieldApproverEditSettingPermissionType
+  /** 下位のチームを含めるかどうか */
+  descendants: boolean
+  /**
+   * 役職の比較条件。permissionTypeがteam_gradeで役職を指定した場合のみ値が入ります。
+   * @nullable
+   */
+  gradeSymbol: FormFieldApproverEditSettingGradeSymbol
+  /** 役職。permissionTypeがteam_gradeのときのみ値が入ります。 */
+  grade: Grade | null
+  /** チーム。permissionTypeがteam_gradeのときのみ値が入ります。 */
+  team: Team | null
+  /** ユーザーの配列。permissionTypeがuserのときのみ要素が入ります。 */
+  users: User[]
+}
+
+/**
+ * 条件の組み合わせ方。all=すべての条件を満たす、any=いずれかの条件を満たす。
+ */
+export type FormCustomValidationCombinationType =
+  (typeof FormCustomValidationCombinationType)[keyof typeof FormCustomValidationCombinationType]
+
+export const FormCustomValidationCombinationType = {
+  all: 'all',
+  any: 'any',
+} as const
+
+/**
+ * 比較条件
+ */
+export type FormCustomValidationFieldSymbol =
+  (typeof FormCustomValidationFieldSymbol)[keyof typeof FormCustomValidationFieldSymbol]
+
+export const FormCustomValidationFieldSymbol = {
+  equal: 'equal',
+  not_equal: 'not_equal',
+  greater_than: 'greater_than',
+  greater_than_or_equal: 'greater_than_or_equal',
+  less_than: 'less_than',
+  less_than_or_equal: 'less_than_or_equal',
+  include: 'include',
+  exclude: 'exclude',
+  is_empty: 'is_empty',
+  is_not_empty: 'is_not_empty',
+  descendants_or_equal: 'descendants_or_equal',
+} as const
+
+/**
+ * カスタムバリデーションの条件で比較する汎用マスタアイテム。
+ * カスタムバリデーションのレスポンスではカスタムフィールドの入力の配列（inputs）を返さないため、
+ * 汎用マスタAPIが返す GeneralMasterItem とは別のコンポーネントとして定義している。
+ */
+export interface CustomValidationGeneralMasterItem {
+  /** UUID */
+  id: string
+  /**
+   * コード
+   * @maxLength 100
+   */
+  code: string
+  /**
+   * 名前
+   * @maxLength 100
+   */
+  name: string
+  /**
+   * 説明
+   * @nullable
+   */
+  description: string | null
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+  /**
+   * 有効期限の開始日
+   * @nullable
+   */
+  startsOn: string | null
+  /**
+   * 有効期限の終了日
+   * @nullable
+   */
+  endsOn: string | null
+}
+
+/**
+ * フォームフィールドのカスタムバリデーションの条件
+ */
+export interface FormCustomValidationField {
+  /** UUID */
+  id: string
+  /** 比較条件 */
+  symbol: FormCustomValidationFieldSymbol
+  /**
+   * 比較する値
+   * @nullable
+   */
+  value: string | null
+  /** 条件の対象となるフォームフィールド */
+  formField: FormField
+  /** 比較する汎用マスタアイテム。対象が汎用マスタ型フィールドのときのみ値が入ります。 */
+  generalMasterItem: CustomValidationGeneralMasterItem | null
+  /** 比較する役職 */
+  grade: Grade | null
+  /** 比較するチーム */
+  team: Team | null
+}
+
+/**
+ * フォームフィールドのカスタムバリデーション
+ */
+export interface FormCustomValidation {
+  /** UUID */
+  id: string
+  /** 条件の組み合わせ方。all=すべての条件を満たす、any=いずれかの条件を満たす。 */
+  combinationType: FormCustomValidationCombinationType
+  /** 条件を満たさない場合に表示するエラーメッセージ */
+  errorMessage: string
+  /** 条件の配列。表示順の昇順で格納されます。 */
+  fields: FormCustomValidationField[]
+}
+
+/**
+ * 転記元の種別。ticket_title=チケットのタイトル、ticket_number=チケット番号、form_field=フォームフィールド。
+ */
+export type FormFieldTicketCopySettingMappingsItemFieldType =
+  (typeof FormFieldTicketCopySettingMappingsItemFieldType)[keyof typeof FormFieldTicketCopySettingMappingsItemFieldType]
+
+export const FormFieldTicketCopySettingMappingsItemFieldType = {
+  ticket_title: 'ticket_title',
+  ticket_number: 'ticket_number',
+  form_field: 'form_field',
+} as const
+
+export type FormFieldTicketCopySettingMappingsItem = {
+  /** 転記元の種別。ticket_title=チケットのタイトル、ticket_number=チケット番号、form_field=フォームフィールド。 */
+  fieldType: FormFieldTicketCopySettingMappingsItemFieldType
+  /**
+   * 転記元のフォームフィールドのコード。fieldTypeがform_fieldのときのみ値が入ります。
+   * @nullable
+   */
+  fieldCode: string | null
+  /**
+   * 転記先のフォームフィールドのコード
+   * @nullable
+   */
+  targetFieldCode: string | null
+}
+
+/**
+ * チケット型フィールドで、選択したチケットの値を転記する設定
+ */
+export interface FormFieldTicketCopySetting {
+  /** 転記元のワークフロー */
+  workflow: Workflow | null
+  /** 転記する項目の配列。表示順の昇順で格納されます。 */
+  mappings: FormFieldTicketCopySettingMappingsItem[]
+}
 
 /**
  * フォームフィールドの詳細
  */
 export type FormFieldDetail = FormField & {
   /** 汎用マスタ（汎用マスタフィールドの場合） */
-  generalMaster?: GeneralMaster | null
+  generalMaster: GeneralMaster | null
   /** 初期値（汎用マスタフィールドの場合） */
-  defaultGeneralMasterItem?: GeneralMasterItem | null
+  defaultGeneralMasterItem: GeneralMasterItem | null
   /** 外部API設定。fieldTypeがbutton_apiのときのみ値が入ります。 */
-  externalApiSetting?: ExternalApiSetting | null
+  externalApiSetting: ExternalApiSetting | null
   /** 外部API設定。fieldTypeがbutton_kintoneのときのみ値が入ります。 */
-  kintoneAppSetting?: KintoneAppSetting | null
+  kintoneAppSetting: KintoneAppSetting | null
   /** ClimberCloud連携設定。fieldTypeがfileのときのみ値が入ります。 */
   climberCloudSetting?: ClimberCloudSetting | null
   /**
    * 汎用マスタ型フィールドの自動絞り込みの設定
    * @nullable
    */
-  generalMasterSearchFilters?: GeneralMasterSearchFilter[] | null
-  /**
-   * 添付可能な拡張子リスト。fieldTypeがfileのときのみ値が入ります。
-   * 古いフィールドではnullを返す場合があります。
-   * @nullable
-   */
-  allowedExtensions: string[] | null
-  /** チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか */
-  autoLink: boolean
-  /** 日付型フィールドで、当日の日付を初期値にするかどうか */
-  useTodayForDefaultValue: boolean
-  /** チケット型フィールドで、選択可能なチケットのステータス */
-  allowedTicketStatus: FormFieldDetailAllowedTicketStatusItem[]
+  generalMasterSearchFilters: GeneralMasterSearchFilter[] | null
+  /** 承認者による入力制限。設定していない場合はnullになります。 */
+  approverEditRestriction: FormFieldApproverEditRestriction | null
+  /** 編集できる承認者の設定。設定していない場合はpermissionType=allが入ります。 */
+  approverEditSetting?: FormFieldApproverEditSetting
+  /** カスタムバリデーション */
+  customValidations: FormCustomValidation[]
+  /** チケット型フィールドの転記設定。設定していない場合はnullになります。 */
+  ticketCopySetting: FormFieldTicketCopySetting | null
   /**
    * チケット型フィールドで選択可能なワークフロー。
    * 各要素にはauthor / versionAuthor / folder / categoriesは含まれません。
@@ -1520,6 +1733,18 @@ export const SlipFieldFieldType = {
   datetime: 'datetime',
 } as const
 
+export type SlipFieldAllowedTicketStatusItem =
+  (typeof SlipFieldAllowedTicketStatusItem)[keyof typeof SlipFieldAllowedTicketStatusItem]
+
+export const SlipFieldAllowedTicketStatusItem = {
+  draft: 'draft',
+  in_progress: 'in_progress',
+  completed: 'completed',
+  rejected: 'rejected',
+  archived: 'archived',
+  denied: 'denied',
+} as const
+
 /**
  * 明細フィールド
  */
@@ -1589,52 +1814,30 @@ export interface SlipField {
   /** 承認者が編集可能かどうか */
   approver: boolean
   /** 申請者が編集可能かどうか */
-  author?: boolean
+  author: boolean
   /**
    * 隠しフィールドである場合true
    * @nullable
    */
-  hidden?: boolean | null
+  hidden: boolean | null
   /**
    * trueの時、申請者・承認者が画面上から値を入力することを禁止します。
    * 外部API連携（ボタン）による代入や、REST API経由での入力はこのオプションの対象外です。
    * @nullable
    */
-  readonlyOnUi?: boolean | null
-}
-
-export type SlipFieldDetailAllowedTicketStatusItem =
-  (typeof SlipFieldDetailAllowedTicketStatusItem)[keyof typeof SlipFieldDetailAllowedTicketStatusItem]
-
-export const SlipFieldDetailAllowedTicketStatusItem = {
-  draft: 'draft',
-  in_progress: 'in_progress',
-  completed: 'completed',
-  rejected: 'rejected',
-  archived: 'archived',
-  denied: 'denied',
-} as const
-
-/**
- * 明細フィールドの詳細
- */
-export type SlipFieldDetail = SlipField & {
-  /** 汎用マスタ。型が汎用マスタのときのみ値が入ります。 */
-  generalMaster?: GeneralMaster | null
-  /** 汎用マスタアイテムの初期値 */
-  defaultGeneralMasterItem?: GeneralMasterItem | null
+  readonlyOnUi: boolean | null
   /**
    * 最小文字数
    * @minimum 0
    * @nullable
    */
-  minLength?: number | null
+  minLength: number | null
   /**
    * 最大文字数
    * @minimum 0
    * @nullable
    */
-  maxLength?: number | null
+  maxLength: number | null
   /** 複数選択を許可するかどうか */
   multiple: boolean
   /** チケット型フィールドで、選択したチケットを自動的に関連チケットにするかどうか */
@@ -1642,7 +1845,206 @@ export type SlipFieldDetail = SlipField & {
   /** 日付型フィールドで、当日の日付を初期値にするかどうか */
   useTodayForDefaultValue: boolean
   /** チケット型フィールドで、選択可能なチケットのステータス */
-  allowedTicketStatus: SlipFieldDetailAllowedTicketStatusItem[]
+  allowedTicketStatus: SlipFieldAllowedTicketStatusItem[]
+}
+
+/**
+ * 絞り込み先のフィールドのタイプ
+ */
+export type SlipFieldGeneralMasterSearchFilterFieldType =
+  (typeof SlipFieldGeneralMasterSearchFilterFieldType)[keyof typeof SlipFieldGeneralMasterSearchFilterFieldType]
+
+export const SlipFieldGeneralMasterSearchFilterFieldType = {
+  free_word: 'free_word',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  custom_field: 'custom_field',
+} as const
+
+/**
+ * 明細フィールドの汎用マスタの自動絞り込みの設定
+ */
+export interface SlipFieldGeneralMasterSearchFilter {
+  /** UUID */
+  id: string
+  /** 絞り込みに使う明細フィールドのID（UUID） */
+  filterSlipFieldId: string
+  /** 絞り込み先のフィールドのタイプ */
+  fieldType: SlipFieldGeneralMasterSearchFilterFieldType
+  /**
+   * fieldType=custom_fieldの場合に絞り込み先の汎用マスタのカスタムフィールドのID（UUID）
+   * @nullable
+   */
+  generalMasterFieldId: string | null
+}
+
+/**
+ * 明細フィールドの承認者による入力制限
+ */
+export interface SlipFieldApproverEditRestriction {
+  /** 入力を必須にする経路ステップのコードの配列 */
+  routeStepCodes: string[]
+}
+
+/**
+ * 編集を許可する範囲。
+ * all=すべての承認者、user=指定したユーザー、team_grade=指定したチーム・役職。
+ */
+export type SlipFieldApproverEditSettingPermissionType =
+  (typeof SlipFieldApproverEditSettingPermissionType)[keyof typeof SlipFieldApproverEditSettingPermissionType]
+
+export const SlipFieldApproverEditSettingPermissionType = {
+  all: 'all',
+  user: 'user',
+  team_grade: 'team_grade',
+} as const
+
+/**
+ * 役職の比較条件。permissionTypeがteam_gradeで役職を指定した場合のみ値が入ります。
+ * @nullable
+ */
+export type SlipFieldApproverEditSettingGradeSymbol =
+  | (typeof SlipFieldApproverEditSettingGradeSymbol)[keyof typeof SlipFieldApproverEditSettingGradeSymbol]
+  | null
+
+export const SlipFieldApproverEditSettingGradeSymbol = {
+  equal: 'equal',
+  greater_than: 'greater_than',
+  greater_than_or_equal: 'greater_than_or_equal',
+  less_than: 'less_than',
+  less_than_or_equal: 'less_than_or_equal',
+} as const
+
+/**
+ * 明細フィールドを編集できる承認者の設定
+ */
+export interface SlipFieldApproverEditSetting {
+  /**
+   * 編集を許可する範囲。
+   * all=すべての承認者、user=指定したユーザー、team_grade=指定したチーム・役職。
+   */
+  permissionType: SlipFieldApproverEditSettingPermissionType
+  /** 下位のチームを含めるかどうか */
+  descendants: boolean
+  /**
+   * 役職の比較条件。permissionTypeがteam_gradeで役職を指定した場合のみ値が入ります。
+   * @nullable
+   */
+  gradeSymbol: SlipFieldApproverEditSettingGradeSymbol
+  /** 役職。permissionTypeがteam_gradeのときのみ値が入ります。 */
+  grade: Grade | null
+  /** チーム。permissionTypeがteam_gradeのときのみ値が入ります。 */
+  team: Team | null
+  /** ユーザーの配列。permissionTypeがuserのときのみ要素が入ります。 */
+  users: User[]
+}
+
+/**
+ * 条件の組み合わせ方。all=すべての条件を満たす、any=いずれかの条件を満たす。
+ */
+export type SlipCustomValidationCombinationType =
+  (typeof SlipCustomValidationCombinationType)[keyof typeof SlipCustomValidationCombinationType]
+
+export const SlipCustomValidationCombinationType = {
+  all: 'all',
+  any: 'any',
+} as const
+
+/**
+ * 比較条件
+ */
+export type SlipCustomValidationFieldSymbol =
+  (typeof SlipCustomValidationFieldSymbol)[keyof typeof SlipCustomValidationFieldSymbol]
+
+export const SlipCustomValidationFieldSymbol = {
+  equal: 'equal',
+  not_equal: 'not_equal',
+  greater_than: 'greater_than',
+  greater_than_or_equal: 'greater_than_or_equal',
+  less_than: 'less_than',
+  less_than_or_equal: 'less_than_or_equal',
+  include: 'include',
+  exclude: 'exclude',
+  is_empty: 'is_empty',
+  is_not_empty: 'is_not_empty',
+  descendants_or_equal: 'descendants_or_equal',
+} as const
+
+/**
+ * 明細フィールドのカスタムバリデーションの条件
+ */
+export interface SlipCustomValidationField {
+  /** UUID */
+  id: string
+  /** 比較条件 */
+  symbol: SlipCustomValidationFieldSymbol
+  /**
+   * 比較する値
+   * @nullable
+   */
+  value: string | null
+  /** 条件の対象となる明細フィールド */
+  slipField: SlipField
+  /** 比較する汎用マスタアイテム。対象が汎用マスタ型フィールドのときのみ値が入ります。 */
+  generalMasterItem: CustomValidationGeneralMasterItem | null
+  /** 比較する役職 */
+  grade: Grade | null
+  /** 比較するチーム */
+  team: Team | null
+}
+
+/**
+ * 明細フィールドのカスタムバリデーション
+ */
+export interface SlipCustomValidation {
+  /** UUID */
+  id: string
+  /** 条件の組み合わせ方。all=すべての条件を満たす、any=いずれかの条件を満たす。 */
+  combinationType: SlipCustomValidationCombinationType
+  /** 条件を満たさない場合に表示するエラーメッセージ */
+  errorMessage: string
+  /** 条件の配列。表示順の昇順で格納されます。 */
+  fields: SlipCustomValidationField[]
+}
+
+/**
+ * 明細フィールドの詳細
+ */
+export type SlipFieldDetail = SlipField & {
+  /** 汎用マスタ。型が汎用マスタのときのみ値が入ります。 */
+  generalMaster: GeneralMaster | null
+  /** 汎用マスタアイテムの初期値 */
+  defaultGeneralMasterItem: GeneralMasterItem | null
+  /** 汎用マスタ型フィールドの自動絞り込みの設定。表示順の昇順で格納されます。 */
+  generalMasterSearchFilters: SlipFieldGeneralMasterSearchFilter[]
+  /** 承認者による入力制限。設定していない場合はnullになります。 */
+  approverEditRestriction: SlipFieldApproverEditRestriction | null
+  /** 編集できる承認者の設定。設定していない場合はpermissionType=allが入ります。 */
+  approverEditSetting?: SlipFieldApproverEditSetting
+  /** カスタムバリデーション */
+  customValidations: SlipCustomValidation[]
+  /**
+   * チケット型フィールドで選択可能なワークフロー。
+   * 各要素にはauthor / versionAuthor / folder / categoriesは含まれません。
+   */
+  selectableTicketWorkflows: Workflow[]
+}
+
+/**
+ * フォームセクションの閲覧を許可する対象
+ */
+export interface SectionViewer {
+  /** UUID */
+  id: string
+  /** 下位のチームを含めるかどうか */
+  descendants: boolean
+  /** ユーザー。ユーザーとチームは片方のみ値が入ります。 */
+  user: User | null
+  /** チーム。ユーザーとチームは片方のみ値が入ります。 */
+  team: Team | null
+  /** 役職。チーム指定で役職も指定する場合のみ値が入ります。 */
+  grade: Grade | null
 }
 
 /**
@@ -1660,8 +2062,8 @@ export interface SectionListItem {
    * @nullable
    */
   description: string | null
-  /** フォームセクションのID（UUID）。明細セクションには含まれません。 */
-  id?: string
+  /** セクションのID（UUID） */
+  id: string
   /** 明細セクションのコード。フォームセクションには含まれません。 */
   code?: string
   /** フォームフィールド。明細セクションには含まれません。 */
@@ -1681,6 +2083,14 @@ export interface SectionListItem {
   slipFields?: SlipFieldDetail[]
   /** 承認者が当該明細セクションに行を追加できるか。明細セクションのみに含まれます。 */
   allowApproverToAddItems?: boolean
+  /** 閲覧できる対象を制限する場合true。明細セクションには含まれません。 */
+  viewRestriction?: boolean
+  /** viewRestrictionがtrueのとき、申請者の閲覧を許可する場合true。明細セクションには含まれません。 */
+  allowViewAuthor?: boolean
+  /** viewRestrictionがtrueのとき、承認者の閲覧を許可する場合true。明細セクションには含まれません。 */
+  allowViewApprover?: boolean
+  /** 閲覧を許可する対象。明細セクションには含まれません。 */
+  sectionViewers?: SectionViewer[]
 }
 
 /**
@@ -2077,6 +2487,76 @@ export interface WorkflowRouteCondition {
 export type WorkflowDetail = WorkflowInTicket & {
   /** 経路分岐 */
   routeConditions: WorkflowRouteCondition[]
+}
+
+/**
+ * アイテム一覧のデフォルト並び順
+ */
+export type FieldGeneralMasterDefaultSortBy =
+  (typeof FieldGeneralMasterDefaultSortBy)[keyof typeof FieldGeneralMasterDefaultSortBy]
+
+export const FieldGeneralMasterDefaultSortBy = {
+  name: 'name',
+  code: 'code',
+} as const
+
+/**
+ * フォームフィールド・明細フィールドに紐づく汎用マスタ。
+ * チケットのレスポンスではカスタムフィールドの配列（fields）を返さないため、
+ * 汎用マスタAPIが返す GeneralMaster とは別のコンポーネントとして定義している。
+ */
+export interface FieldGeneralMaster {
+  /** UUID */
+  id: string
+  /**
+   * コード
+   * @maxLength 100
+   */
+  code: string
+  /**
+   * 名前
+   * @maxLength 300
+   */
+  name: string
+  /**
+   * 説明
+   * @maxLength 10000
+   * @nullable
+   */
+  description: string | null
+  /** アイテム一覧のデフォルト並び順 */
+  defaultSortBy: FieldGeneralMasterDefaultSortBy
+  /**
+   * アイテム数
+   * @minimum 0
+   */
+  itemsCount: number
+  /** コードを初期表示するか */
+  initialDisplayCode: boolean
+  /** 作成日時を初期表示するか */
+  initialDisplayCreatedAt: boolean
+  /** 説明を初期表示するか */
+  initialDisplayDescription: boolean
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
+}
+
+/**
+ * チケットの明細アイテム入力に含まれる明細フィールド
+ */
+export type SlipFieldInTicket = SlipField & {
+  /** 汎用マスタ。型が汎用マスタのときのみ値が入ります。 */
+  generalMaster: FieldGeneralMaster | null
+}
+
+/**
+ * チケットの入力値に含まれるフォームフィールド
+ */
+export type FormFieldInTicket = FormField & {
+  /** 汎用マスタ。型が汎用マスタのときのみ値が入ります。 */
+  generalMaster: FieldGeneralMaster | null
 }
 
 /**
@@ -2720,13 +3200,15 @@ export interface SlipItemInput {
   /** 入力値: 汎用マスタアイテム */
   generalMasterItems: GeneralMasterItem[]
   /** 入力値: ユーザー */
-  users?: User[]
+  users: User[]
   /** 入力値: チーム */
-  teams?: Team[]
+  teams: Team[]
   /** 入力値: チケット */
-  inputTickets?: Ticket[]
+  inputTickets: Ticket[]
   /** 添付ファイル */
   attachments: Attachment[]
+  /** 明細フィールド */
+  slipField: SlipFieldInTicket
 }
 
 /**
@@ -2758,7 +3240,7 @@ export interface TicketInput {
    * フィールドの型が汎用マスタアイテム、ユーザー、チーム、チケットの場合、JSON Arrayがキャッシュとして保存されます。
    */
   value: string | null | unknown[] | number
-  formField?: FormField
+  formField?: FormFieldInTicket
   /** 入力値: 汎用マスタアイテム */
   generalMasterItems?: GeneralMasterItem[]
   /** 入力値: ユーザー */
