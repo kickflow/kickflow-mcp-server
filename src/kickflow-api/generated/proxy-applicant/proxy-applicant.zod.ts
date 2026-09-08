@@ -749,6 +749,40 @@ export const ListProxyApplicantsResponseItem = zod
             allowCustomSteps: zod
               .boolean()
               .describe('カスタムステップの追加を許可する場合true'),
+            nextTicketNumberValue: zod
+              .int()
+              .nullable()
+              .describe(
+                '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+              ),
+            nextTicketNumberValueByKey: zod
+              .int()
+              .nullable()
+              .describe(
+                '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+              ),
+            externalPublish: zod
+              .union([
+                zod
+                  .object({
+                    id: zod.uuid().describe('UUID'),
+                    externalPublishHash: zod
+                      .string()
+                      .describe('外部公開URLに含まれるハッシュ値'),
+                  })
+                  .describe('ワークフローの外部公開設定'),
+                zod.null(),
+              ])
+              .optional()
+              .describe(
+                '外部公開設定。外部公開していない場合はnullになります。',
+              ),
+            publishable: zod
+              .boolean()
+              .optional()
+              .describe(
+                'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+              ),
           })
           .describe('ワークフロー'),
       )
@@ -1510,6 +1544,838 @@ export const CreateProxyApplicantResponse = zod
             allowCustomSteps: zod
               .boolean()
               .describe('カスタムステップの追加を許可する場合true'),
+            nextTicketNumberValue: zod
+              .int()
+              .nullable()
+              .describe(
+                '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+              ),
+            nextTicketNumberValueByKey: zod
+              .int()
+              .nullable()
+              .describe(
+                '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+              ),
+            externalPublish: zod
+              .union([
+                zod
+                  .object({
+                    id: zod.uuid().describe('UUID'),
+                    externalPublishHash: zod
+                      .string()
+                      .describe('外部公開URLに含まれるハッシュ値'),
+                  })
+                  .describe('ワークフローの外部公開設定'),
+                zod.null(),
+              ])
+              .optional()
+              .describe(
+                '外部公開設定。外部公開していない場合はnullになります。',
+              ),
+            publishable: zod
+              .boolean()
+              .optional()
+              .describe(
+                'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+              ),
+          })
+          .describe('ワークフロー'),
+      )
+      .describe('対象ワークフロー'),
+  })
+  .describe('代理申請')
+
+/**
+ * 指定した代理申請を更新します。指定したフィールドのみが更新されます。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理申請の設定をすべてのユーザーに許可している場合、管理権限は不要です。
+ * @summary 代理申請を更新
+ */
+export const UpdateProxyApplicantParams = zod.object({
+  proxyApplicantId: zod.uuid().describe('代理申請のUUID'),
+})
+
+export const UpdateProxyApplicantBody = zod.object({
+  userId: zod.uuid().optional().describe('代理されるユーザーID'),
+  proxyUserId: zod.uuid().optional().describe('代理するユーザーID'),
+  startsOn: zod.iso
+    .date()
+    .nullish()
+    .describe('開始日。nullの場合、すでに開始しているものとして扱います。'),
+  endsOn: zod.iso
+    .date()
+    .nullish()
+    .describe('終了日。nullの場合、無期限のものとして扱います。'),
+  workflowIds: zod
+    .array(zod.uuid())
+    .optional()
+    .describe(
+      '対象ワークフローのID。空配列を指定すると対象ワークフローの限定が解除され、すべてのワークフローが代理申請の対象になります。',
+    ),
+})
+
+export const updateProxyApplicantResponseUserEmailMax = 254
+
+export const updateProxyApplicantResponseUserCodeMax = 100
+
+export const updateProxyApplicantResponseUserFirstNameMax = 255
+
+export const updateProxyApplicantResponseUserLastNameMax = 255
+
+export const updateProxyApplicantResponseUserFullNameMax = 255
+
+export const updateProxyApplicantResponseUserEmployeeIdMax = 30
+
+export const updateProxyApplicantResponseProxyUserEmailMax = 254
+
+export const updateProxyApplicantResponseProxyUserCodeMax = 100
+
+export const updateProxyApplicantResponseProxyUserFirstNameMax = 255
+
+export const updateProxyApplicantResponseProxyUserLastNameMax = 255
+
+export const updateProxyApplicantResponseProxyUserFullNameMax = 255
+
+export const updateProxyApplicantResponseProxyUserEmployeeIdMax = 30
+
+export const updateProxyApplicantResponseWorkflowsItemCodeRegExp = new RegExp(
+  '^[a-zA-Z0-9_-]+$',
+)
+export const updateProxyApplicantResponseWorkflowsItemPublicTicketDefault = false
+export const updateProxyApplicantResponseWorkflowsItemVisibleToTeamMembersDefault = false
+export const updateProxyApplicantResponseWorkflowsItemAllowEditingOfViewersDefault = true
+export const updateProxyApplicantResponseWorkflowsItemCommentingEnabledDefault = true
+export const updateProxyApplicantResponseWorkflowsItemCommentingRequiredOnApprovalDefault = false
+export const updateProxyApplicantResponseWorkflowsItemCommentingRequiredOnRejectionDefault = false
+export const updateProxyApplicantResponseWorkflowsItemCommentingRequiredOnDenialDefault = false
+export const updateProxyApplicantResponseWorkflowsItemAuthorOneEmailMax = 254
+
+export const updateProxyApplicantResponseWorkflowsItemAuthorOneCodeMax = 100
+
+export const updateProxyApplicantResponseWorkflowsItemAuthorOneFirstNameMax = 255
+
+export const updateProxyApplicantResponseWorkflowsItemAuthorOneLastNameMax = 255
+
+export const updateProxyApplicantResponseWorkflowsItemAuthorOneFullNameMax = 255
+
+export const updateProxyApplicantResponseWorkflowsItemAuthorOneEmployeeIdMax = 30
+
+export const updateProxyApplicantResponseWorkflowsItemVersionAuthorOneEmailMax = 254
+
+export const updateProxyApplicantResponseWorkflowsItemVersionAuthorOneCodeMax = 100
+
+export const updateProxyApplicantResponseWorkflowsItemVersionAuthorOneFirstNameMax = 255
+
+export const updateProxyApplicantResponseWorkflowsItemVersionAuthorOneLastNameMax = 255
+
+export const updateProxyApplicantResponseWorkflowsItemVersionAuthorOneFullNameMax = 255
+
+export const updateProxyApplicantResponseWorkflowsItemVersionAuthorOneEmployeeIdMax = 30
+
+export const updateProxyApplicantResponseWorkflowsItemFolderOneNameMax = 300
+
+export const updateProxyApplicantResponseWorkflowsItemFolderOneCodeMax = 100
+
+export const updateProxyApplicantResponseWorkflowsItemFolderOneWorkflowsCountMin = 0
+
+export const updateProxyApplicantResponseWorkflowsItemFolderOneRoutesCountMin = 0
+
+export const updateProxyApplicantResponseWorkflowsItemFolderOnePipelinesCountMin = 0
+
+export const updateProxyApplicantResponseWorkflowsItemCategoriesItemCodeMax = 100
+
+export const updateProxyApplicantResponseWorkflowsItemCategoriesItemNameMax = 100
+
+export const UpdateProxyApplicantResponse = zod
+  .object({
+    id: zod.uuid().describe('UUID'),
+    createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+    updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+    user: zod
+      .object({
+        id: zod.uuid().describe('UUID'),
+        email: zod
+          .email()
+          .max(updateProxyApplicantResponseUserEmailMax)
+          .describe('メールアドレス'),
+        code: zod
+          .string()
+          .max(updateProxyApplicantResponseUserCodeMax)
+          .describe('コード'),
+        firstName: zod
+          .string()
+          .max(updateProxyApplicantResponseUserFirstNameMax)
+          .describe('名'),
+        lastName: zod
+          .string()
+          .max(updateProxyApplicantResponseUserLastNameMax)
+          .describe('姓'),
+        fullName: zod
+          .string()
+          .max(updateProxyApplicantResponseUserFullNameMax)
+          .describe('フルネーム'),
+        employeeId: zod
+          .string()
+          .max(updateProxyApplicantResponseUserEmployeeIdMax)
+          .nullable()
+          .describe('社員番号'),
+        image: zod
+          .object({
+            '100x100': zod.string().nullable(),
+            '64x64': zod.string().nullable(),
+            '32x32': zod.string().nullable(),
+          })
+          .describe('ユーザー画像のURL。サイズごとに複数のURLを返します。'),
+        status: zod
+          .enum(['invited', 'activated', 'suspended', 'deactivated'])
+          .describe('ステータス'),
+        locale: zod.string().describe('ロケール（jaまたはen）'),
+        userType: zod
+          .enum(['normal', 'assistant'])
+          .optional()
+          .describe(
+            'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+          ),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
+        lastUsedOn: zod.iso
+          .date()
+          .nullish()
+          .describe(
+            '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+          ),
+        customFields: zod
+          .array(
+            zod.object({
+              code: zod
+                .string()
+                .describe('UserCustomField#code（変換せずそのまま）'),
+              fieldType: zod
+                .union([
+                  zod.literal('text'),
+                  zod.literal('textLong'),
+                  zod.literal('number'),
+                  zod.literal('integer'),
+                  zod.literal('checkbox'),
+                  zod.literal('pullDown'),
+                  zod.literal('date'),
+                  zod.literal(null),
+                ])
+                .nullable()
+                .describe(
+                  'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                ),
+              value: zod
+                .union([
+                  zod.string(),
+                  zod.number(),
+                  zod.array(zod.string()),
+                  zod.null(),
+                ])
+                .describe(
+                  'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                ),
+            }),
+          )
+          .optional()
+          .describe(
+            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+          ),
+      })
+      .describe('ユーザー'),
+    proxyUser: zod
+      .object({
+        id: zod.uuid().describe('UUID'),
+        email: zod
+          .email()
+          .max(updateProxyApplicantResponseProxyUserEmailMax)
+          .describe('メールアドレス'),
+        code: zod
+          .string()
+          .max(updateProxyApplicantResponseProxyUserCodeMax)
+          .describe('コード'),
+        firstName: zod
+          .string()
+          .max(updateProxyApplicantResponseProxyUserFirstNameMax)
+          .describe('名'),
+        lastName: zod
+          .string()
+          .max(updateProxyApplicantResponseProxyUserLastNameMax)
+          .describe('姓'),
+        fullName: zod
+          .string()
+          .max(updateProxyApplicantResponseProxyUserFullNameMax)
+          .describe('フルネーム'),
+        employeeId: zod
+          .string()
+          .max(updateProxyApplicantResponseProxyUserEmployeeIdMax)
+          .nullable()
+          .describe('社員番号'),
+        image: zod
+          .object({
+            '100x100': zod.string().nullable(),
+            '64x64': zod.string().nullable(),
+            '32x32': zod.string().nullable(),
+          })
+          .describe('ユーザー画像のURL。サイズごとに複数のURLを返します。'),
+        status: zod
+          .enum(['invited', 'activated', 'suspended', 'deactivated'])
+          .describe('ステータス'),
+        locale: zod.string().describe('ロケール（jaまたはen）'),
+        userType: zod
+          .enum(['normal', 'assistant'])
+          .optional()
+          .describe(
+            'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+          ),
+        createdAt: zod.iso.datetime({ offset: true }).describe('作成日時'),
+        updatedAt: zod.iso.datetime({ offset: true }).describe('更新日時'),
+        deactivatedAt: zod.iso
+          .datetime({ offset: true })
+          .nullish()
+          .describe('削除日時'),
+        lastUsedOn: zod.iso
+          .date()
+          .nullish()
+          .describe(
+            '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+          ),
+        customFields: zod
+          .array(
+            zod.object({
+              code: zod
+                .string()
+                .describe('UserCustomField#code（変換せずそのまま）'),
+              fieldType: zod
+                .union([
+                  zod.literal('text'),
+                  zod.literal('textLong'),
+                  zod.literal('number'),
+                  zod.literal('integer'),
+                  zod.literal('checkbox'),
+                  zod.literal('pullDown'),
+                  zod.literal('date'),
+                  zod.literal(null),
+                ])
+                .nullable()
+                .describe(
+                  'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                ),
+              value: zod
+                .union([
+                  zod.string(),
+                  zod.number(),
+                  zod.array(zod.string()),
+                  zod.null(),
+                ])
+                .describe(
+                  'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                ),
+            }),
+          )
+          .optional()
+          .describe(
+            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+          ),
+      })
+      .describe('ユーザー'),
+    startsOn: zod.iso.date().nullable().describe('開始日'),
+    endsOn: zod.iso.date().nullable().describe('終了日'),
+    workflows: zod
+      .array(
+        zod
+          .object({
+            id: zod.string().describe('UUID'),
+            code: zod
+              .string()
+              .regex(updateProxyApplicantResponseWorkflowsItemCodeRegExp)
+              .describe('コード'),
+            versionId: zod.string().describe('バージョンのUUID'),
+            versionNumber: zod.int().describe('バージョン番号'),
+            name: zod.string().describe('名前'),
+            description: zod.string().describe('説明'),
+            status: zod
+              .enum(['visible', 'invisible', 'deleted'])
+              .describe(
+                'ステータス。visibleは有効、invisibleは無効、deletedは削除済み。',
+              ),
+            publicTicket: zod
+              .boolean()
+              .default(
+                updateProxyApplicantResponseWorkflowsItemPublicTicketDefault,
+              )
+              .describe('チケットがテナント全体に共有される場合true'),
+            visibleToManager: zod
+              .enum(['none', 'direct', 'all'])
+              .describe(
+                '申請者の上長を共有ユーザーに追加するか。noneは追加しない、directは直属の上長のみ、allはすべての上長を表す。',
+              ),
+            visibleToTeamMembers: zod
+              .boolean()
+              .default(
+                updateProxyApplicantResponseWorkflowsItemVisibleToTeamMembersDefault,
+              )
+              .describe(
+                '申請チームのメンバーが共有ユーザーに追加される場合true',
+              ),
+            titleDescription: zod
+              .string()
+              .nullable()
+              .describe('タイトルの説明'),
+            ticketNumberFormat: zod
+              .string()
+              .nullable()
+              .describe('チケット番号のフォーマット'),
+            overwritable: zod
+              .boolean()
+              .describe('承認者による上書きが可能な場合true'),
+            createdAt: zod.string().describe('作成日時'),
+            updatedAt: zod.string().describe('更新日時'),
+            titleInputMode: zod
+              .enum(['none', 'input', 'calculate'])
+              .describe('タイトル入力モード'),
+            titleFormula: zod.string().nullable().describe('タイトルの計算式'),
+            allowEditingOfViewers: zod
+              .boolean()
+              .default(
+                updateProxyApplicantResponseWorkflowsItemAllowEditingOfViewersDefault,
+              )
+              .describe('共有ユーザーの編集が可能な場合true'),
+            commentingEnabled: zod
+              .boolean()
+              .default(
+                updateProxyApplicantResponseWorkflowsItemCommentingEnabledDefault,
+              )
+              .describe(
+                '新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。',
+              ),
+            commentingRequiredOnApproval: zod
+              .boolean()
+              .default(
+                updateProxyApplicantResponseWorkflowsItemCommentingRequiredOnApprovalDefault,
+              )
+              .describe(
+                '承認（回覧の確認を含む）時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは承認・確認できない。',
+              ),
+            commentingRequiredOnRejection: zod
+              .boolean()
+              .default(
+                updateProxyApplicantResponseWorkflowsItemCommentingRequiredOnRejectionDefault,
+              )
+              .describe(
+                '差し戻し時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは差し戻しできない。',
+              ),
+            commentingRequiredOnDenial: zod
+              .boolean()
+              .default(
+                updateProxyApplicantResponseWorkflowsItemCommentingRequiredOnDenialDefault,
+              )
+              .describe(
+                '却下時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは却下できない。',
+              ),
+            author: zod
+              .union([
+                zod
+                  .object({
+                    id: zod.uuid().describe('UUID'),
+                    email: zod
+                      .email()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemAuthorOneEmailMax,
+                      )
+                      .describe('メールアドレス'),
+                    code: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemAuthorOneCodeMax,
+                      )
+                      .describe('コード'),
+                    firstName: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemAuthorOneFirstNameMax,
+                      )
+                      .describe('名'),
+                    lastName: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemAuthorOneLastNameMax,
+                      )
+                      .describe('姓'),
+                    fullName: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemAuthorOneFullNameMax,
+                      )
+                      .describe('フルネーム'),
+                    employeeId: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemAuthorOneEmployeeIdMax,
+                      )
+                      .nullable()
+                      .describe('社員番号'),
+                    image: zod
+                      .object({
+                        '100x100': zod.string().nullable(),
+                        '64x64': zod.string().nullable(),
+                        '32x32': zod.string().nullable(),
+                      })
+                      .describe(
+                        'ユーザー画像のURL。サイズごとに複数のURLを返します。',
+                      ),
+                    status: zod
+                      .enum([
+                        'invited',
+                        'activated',
+                        'suspended',
+                        'deactivated',
+                      ])
+                      .describe('ステータス'),
+                    locale: zod.string().describe('ロケール（jaまたはen）'),
+                    userType: zod
+                      .enum(['normal', 'assistant'])
+                      .optional()
+                      .describe(
+                        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                      ),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
+                    deactivatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .nullish()
+                      .describe('削除日時'),
+                    lastUsedOn: zod.iso
+                      .date()
+                      .nullish()
+                      .describe(
+                        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                      ),
+                    customFields: zod
+                      .array(
+                        zod.object({
+                          code: zod
+                            .string()
+                            .describe(
+                              'UserCustomField#code（変換せずそのまま）',
+                            ),
+                          fieldType: zod
+                            .union([
+                              zod.literal('text'),
+                              zod.literal('textLong'),
+                              zod.literal('number'),
+                              zod.literal('integer'),
+                              zod.literal('checkbox'),
+                              zod.literal('pullDown'),
+                              zod.literal('date'),
+                              zod.literal(null),
+                            ])
+                            .nullable()
+                            .describe(
+                              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                            ),
+                          value: zod
+                            .union([
+                              zod.string(),
+                              zod.number(),
+                              zod.array(zod.string()),
+                              zod.null(),
+                            ])
+                            .describe(
+                              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                            ),
+                        }),
+                      )
+                      .optional()
+                      .describe(
+                        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                      ),
+                  })
+                  .describe('ユーザー'),
+                zod.null(),
+              ])
+              .optional()
+              .describe('作成者'),
+            versionAuthor: zod
+              .union([
+                zod
+                  .object({
+                    id: zod.uuid().describe('UUID'),
+                    email: zod
+                      .email()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemVersionAuthorOneEmailMax,
+                      )
+                      .describe('メールアドレス'),
+                    code: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemVersionAuthorOneCodeMax,
+                      )
+                      .describe('コード'),
+                    firstName: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemVersionAuthorOneFirstNameMax,
+                      )
+                      .describe('名'),
+                    lastName: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemVersionAuthorOneLastNameMax,
+                      )
+                      .describe('姓'),
+                    fullName: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemVersionAuthorOneFullNameMax,
+                      )
+                      .describe('フルネーム'),
+                    employeeId: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemVersionAuthorOneEmployeeIdMax,
+                      )
+                      .nullable()
+                      .describe('社員番号'),
+                    image: zod
+                      .object({
+                        '100x100': zod.string().nullable(),
+                        '64x64': zod.string().nullable(),
+                        '32x32': zod.string().nullable(),
+                      })
+                      .describe(
+                        'ユーザー画像のURL。サイズごとに複数のURLを返します。',
+                      ),
+                    status: zod
+                      .enum([
+                        'invited',
+                        'activated',
+                        'suspended',
+                        'deactivated',
+                      ])
+                      .describe('ステータス'),
+                    locale: zod.string().describe('ロケール（jaまたはen）'),
+                    userType: zod
+                      .enum(['normal', 'assistant'])
+                      .optional()
+                      .describe(
+                        'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                      ),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
+                    deactivatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .nullish()
+                      .describe('削除日時'),
+                    lastUsedOn: zod.iso
+                      .date()
+                      .nullish()
+                      .describe(
+                        '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                      ),
+                    customFields: zod
+                      .array(
+                        zod.object({
+                          code: zod
+                            .string()
+                            .describe(
+                              'UserCustomField#code（変換せずそのまま）',
+                            ),
+                          fieldType: zod
+                            .union([
+                              zod.literal('text'),
+                              zod.literal('textLong'),
+                              zod.literal('number'),
+                              zod.literal('integer'),
+                              zod.literal('checkbox'),
+                              zod.literal('pullDown'),
+                              zod.literal('date'),
+                              zod.literal(null),
+                            ])
+                            .nullable()
+                            .describe(
+                              'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                            ),
+                          value: zod
+                            .union([
+                              zod.string(),
+                              zod.number(),
+                              zod.array(zod.string()),
+                              zod.null(),
+                            ])
+                            .describe(
+                              'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                            ),
+                        }),
+                      )
+                      .optional()
+                      .describe(
+                        'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                      ),
+                  })
+                  .describe('ユーザー'),
+                zod.null(),
+              ])
+              .optional()
+              .describe('バージョン作成者'),
+            folder: zod
+              .object({
+                id: zod.uuid().describe('UUID'),
+                name: zod
+                  .string()
+                  .max(
+                    updateProxyApplicantResponseWorkflowsItemFolderOneNameMax,
+                  )
+                  .describe('名前'),
+                fullName: zod
+                  .string()
+                  .describe('フルネーム（ルートフォルダからのパス）'),
+                code: zod
+                  .string()
+                  .max(
+                    updateProxyApplicantResponseWorkflowsItemFolderOneCodeMax,
+                  )
+                  .describe('コード'),
+                description: zod.string().nullable().describe('説明'),
+                workflowsCount: zod
+                  .int()
+                  .min(
+                    updateProxyApplicantResponseWorkflowsItemFolderOneWorkflowsCountMin,
+                  )
+                  .describe('フォルダ内のワークフロー数'),
+                routesCount: zod
+                  .int()
+                  .min(
+                    updateProxyApplicantResponseWorkflowsItemFolderOneRoutesCountMin,
+                  )
+                  .describe('フォルダ内の経路数'),
+                pipelinesCount: zod
+                  .int()
+                  .min(
+                    updateProxyApplicantResponseWorkflowsItemFolderOnePipelinesCountMin,
+                  )
+                  .describe('フォルダ内のパイプライン数'),
+                editable: zod.boolean().describe('編集可能かどうか'),
+                createdAt: zod.iso
+                  .datetime({ offset: true })
+                  .describe('作成日時'),
+                updatedAt: zod.iso
+                  .datetime({ offset: true })
+                  .describe('更新日時'),
+              })
+              .describe('フォルダ')
+              .optional()
+              .describe('フォルダ'),
+            categories: zod
+              .array(
+                zod
+                  .object({
+                    id: zod.uuid().describe('UUID'),
+                    code: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemCategoriesItemCodeMax,
+                      )
+                      .describe('コード'),
+                    name: zod
+                      .string()
+                      .max(
+                        updateProxyApplicantResponseWorkflowsItemCategoriesItemNameMax,
+                      )
+                      .describe('名前'),
+                    createdAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('作成日時'),
+                    updatedAt: zod.iso
+                      .datetime({ offset: true })
+                      .describe('更新日時'),
+                  })
+                  .describe('カテゴリ'),
+              )
+              .optional()
+              .describe('カテゴリの配列'),
+            availableToEveryone: zod
+              .boolean()
+              .describe('全ユーザーが申請可能な場合true'),
+            reportFormats: zod
+              .array(zod.enum(['pdf', 'excel']))
+              .describe('帳票のフォーマット'),
+            hiddenOnWorkflowFilterForTicket: zod
+              .boolean()
+              .describe(
+                'チケット検索のワークフローフィルタに表示しない場合true',
+              ),
+            hiddenOnWorkflowSelectionScreen: zod
+              .boolean()
+              .describe('ワークフロー選択画面に表示しない場合true'),
+            approvalCancellable: zod
+              .boolean()
+              .describe('承認の取り消しが可能な場合true'),
+            reportFileNameFormat: zod
+              .string()
+              .nullable()
+              .describe('帳票のファイル名フォーマット'),
+            current: zod.boolean().describe('現在のバージョンの場合true'),
+            notes: zod.string().nullable().describe('管理用メモ'),
+            versionCreatedAt: zod.iso
+              .datetime({ offset: true })
+              .describe('バージョンの作成日時'),
+            collectEmailOnExternalPublish: zod
+              .boolean()
+              .describe('外部公開時にメールアドレスを収集する場合true'),
+            notifyGuestOnCompletion: zod
+              .boolean()
+              .describe('外部ゲストに申請結果（完了\/却下）を通知する場合true'),
+            allowCustomSteps: zod
+              .boolean()
+              .describe('カスタムステップの追加を許可する場合true'),
+            nextTicketNumberValue: zod
+              .int()
+              .nullable()
+              .describe(
+                '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+              ),
+            nextTicketNumberValueByKey: zod
+              .int()
+              .nullable()
+              .describe(
+                '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+              ),
+            externalPublish: zod
+              .union([
+                zod
+                  .object({
+                    id: zod.uuid().describe('UUID'),
+                    externalPublishHash: zod
+                      .string()
+                      .describe('外部公開URLに含まれるハッシュ値'),
+                  })
+                  .describe('ワークフローの外部公開設定'),
+                zod.null(),
+              ])
+              .optional()
+              .describe(
+                '外部公開設定。外部公開していない場合はnullになります。',
+              ),
+            publishable: zod
+              .boolean()
+              .optional()
+              .describe(
+                'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+              ),
           })
           .describe('ワークフロー'),
       )

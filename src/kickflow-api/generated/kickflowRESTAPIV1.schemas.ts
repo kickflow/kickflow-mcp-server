@@ -375,6 +375,16 @@ export const WorkflowReportFormatsItem = {
 } as const
 
 /**
+ * ワークフローの外部公開設定
+ */
+export interface WorkflowExternalPublish {
+  /** UUID */
+  id: string
+  /** 外部公開URLに含まれるハッシュ値 */
+  externalPublishHash: string
+}
+
+/**
  * ワークフロー
  */
 export interface Workflow {
@@ -425,9 +435,9 @@ export interface Workflow {
    */
   titleFormula: string | null
   /** 共有ユーザーの編集が可能な場合true */
-  allowEditingOfViewers?: boolean
+  allowEditingOfViewers: boolean
   /** 新規コメント投稿が許可されている場合 true。 false の場合、ワークフロー配下のすべてのチケットで新規コメント投稿が禁止される。 */
-  commentingEnabled?: boolean
+  commentingEnabled: boolean
   /** 承認（回覧の確認を含む）時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは承認・確認できない。 */
   commentingRequiredOnApproval: boolean
   /** 差し戻し時のコメント投稿が必須の場合 true。 true の場合、コメントなしでは差し戻しできない。 */
@@ -472,6 +482,20 @@ export interface Workflow {
   notifyGuestOnCompletion: boolean
   /** カスタムステップの追加を許可する場合true */
   allowCustomSteps: boolean
+  /**
+   * 次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。
+   * @nullable
+   */
+  nextTicketNumberValue: number | null
+  /**
+   * 採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。
+   * @nullable
+   */
+  nextTicketNumberValueByKey: number | null
+  /** 外部公開設定。外部公開していない場合はnullになります。 */
+  externalPublish?: WorkflowExternalPublish | null
+  /** このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。 */
+  publishable?: boolean
 }
 
 /**
@@ -2110,16 +2134,6 @@ export interface WorkflowTicketViewer {
 }
 
 /**
- * ワークフローの外部公開設定
- */
-export interface WorkflowExternalPublish {
-  /** UUID */
-  id: string
-  /** 外部公開URLに含まれるハッシュ値 */
-  externalPublishHash: string
-}
-
-/**
  * 採番グループ
  */
 export interface TicketNumberKey {
@@ -2283,18 +2297,6 @@ export type WorkflowInTicket = Workflow & {
   ticketViewers: WorkflowTicketViewer[]
   /** クラウドサイン連携設定 */
   cloudSignSetting: WorkflowInTicketCloudSignSetting
-  /**
-   * 次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。
-   * @nullable
-   */
-  nextTicketNumberValue: number | null
-  /**
-   * 採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。
-   * @nullable
-   */
-  nextTicketNumberValueByKey: number | null
-  /** 外部公開設定。外部公開していない場合はnullになります。 */
-  externalPublish: WorkflowExternalPublish | null
   /** 採番グループ。未設定の場合はnullになります。 */
   ticketNumberKey: TicketNumberKey | null
   /** Excel帳票テンプレート。未設定の場合はnullになります。 */
@@ -2312,18 +2314,6 @@ export type WorkflowInTicket = Workflow & {
         ticketViewers: WorkflowTicketViewer[]
         /** クラウドサイン連携設定 */
         cloudSignSetting: WorkflowInTicketCloudSignSetting
-        /**
-         * 次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。
-         * @nullable
-         */
-        nextTicketNumberValue: number | null
-        /**
-         * 採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。
-         * @nullable
-         */
-        nextTicketNumberValueByKey: number | null
-        /** 外部公開設定。外部公開していない場合はnullになります。 */
-        externalPublish: WorkflowExternalPublish | null
         /** 採番グループ。未設定の場合はnullになります。 */
         ticketNumberKey: TicketNumberKey | null
         /** Excel帳票テンプレート。未設定の場合はnullになります。 */
@@ -2333,12 +2323,7 @@ export type WorkflowInTicket = Workflow & {
         /** カスタム採番の設定の配列。表示順の昇順で格納されます。 */
         customNumberingSettings: CustomNumberingSetting[]
       },
-      | 'author'
-      | 'versionAuthor'
-      | 'folder'
-      | 'categories'
-      | 'allowEditingOfViewers'
-      | 'commentingEnabled'
+      'externalPublish' | 'author' | 'versionAuthor' | 'folder' | 'categories'
     >
   >
 
@@ -2487,7 +2472,15 @@ export interface WorkflowRouteCondition {
 export type WorkflowDetail = WorkflowInTicket & {
   /** 経路分岐 */
   routeConditions: WorkflowRouteCondition[]
-}
+} & Required<
+    Pick<
+      WorkflowInTicket & {
+        /** 経路分岐 */
+        routeConditions: WorkflowRouteCondition[]
+      },
+      'externalPublish'
+    >
+  >
 
 /**
  * アイテム一覧のデフォルト並び順
@@ -2869,9 +2862,10 @@ export type RouteDetail = Route & {
 /**
  * ステータス
  */
-export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus]
+export type TicketSummaryStatus =
+  (typeof TicketSummaryStatus)[keyof typeof TicketSummaryStatus]
 
-export const TicketStatus = {
+export const TicketSummaryStatus = {
   draft: 'draft',
   in_progress: 'in_progress',
   completed: 'completed',
@@ -2884,14 +2878,110 @@ export const TicketStatus = {
 /**
  * チケットの共有範囲の上書き設定
  */
-export type TicketForcedPublicType =
-  (typeof TicketForcedPublicType)[keyof typeof TicketForcedPublicType]
+export type TicketSummaryForcedPublicType =
+  (typeof TicketSummaryForcedPublicType)[keyof typeof TicketSummaryForcedPublicType]
 
-export const TicketForcedPublicType = {
+export const TicketSummaryForcedPublicType = {
   follow_workflow: 'follow_workflow',
   forced_public: 'forced_public',
   forced_private: 'forced_private',
 } as const
+
+/**
+ * 申請時点の申請者の所属チームの情報。外部ゲストの場合や所属チームがない場合はnullになります。
+ * @nullable
+ */
+export type TicketSummaryAuthorTeamSnapshot = {
+  /** UUID */
+  id: string
+  /** チーム名 */
+  name: string
+  /** 上位チームを含むチーム名 */
+  fullName: string
+  /**
+   * チームコード
+   * @nullable
+   */
+  code: string | null
+} | null
+
+/**
+ * チケットの基本情報。申請者・所属チーム・ラベルなどの関連は含みません。
+ */
+export interface TicketSummary {
+  /** UUID */
+  id: string
+  /**
+   * チケット番号
+   * @nullable
+   */
+  ticketNumber: string | null
+  /**
+   * タイトル
+   * @nullable
+   */
+  title: string | null
+  /** ステータス */
+  status: TicketSummaryStatus
+  /**
+   * 現在のステップ。0が起票者、1が最初の承認ステップ。
+   * @minimum 0
+   */
+  currentStep: number
+  /** 作成日時 */
+  createdAt: string
+  /**
+   * 申請日時
+   * @nullable
+   */
+  openedAt: string | null
+  /**
+   * 完了日時
+   * @nullable
+   */
+  completedAt: string | null
+  /**
+   * アーカイブ日時
+   * @nullable
+   */
+  archivedAt: string | null
+  /** 更新日時 */
+  updatedAt: string
+  /** チケットがテナント全体に共有の場合true */
+  publicStatus: boolean
+  /** チケットの共有範囲の上書き設定 */
+  forcedPublicType: TicketSummaryForcedPublicType
+  /** このチケットのワークフロー情報。チケットを一件だけ取得した場合のみ、セクションや共有ユーザーを含むより詳細なワークフロー情報が入ります。 */
+  workflow: Workflow | WorkflowInTicket
+  /**
+   * 申請者の所属チームのID。外部ゲストの場合や所属チームがない場合はnullになります。
+   * @nullable
+   */
+  authorTeamId: string | null
+  /**
+   * 申請時点の申請者の所属チームの情報。外部ゲストの場合や所属チームがない場合はnullになります。
+   * @nullable
+   */
+  authorTeamSnapshot: TicketSummaryAuthorTeamSnapshot
+  /** コメント数 */
+  commentsCount: number
+  /** ログ数 */
+  logsCount: number
+  /** 関連チケット数 */
+  linkedTicketsCount: number
+  /**
+   * クローズ日時。完了日時またはアーカイブ日時が入ります。どちらもない場合はnullになります。
+   * @nullable
+   */
+  closedAt: string | null
+  /**
+   * 申請拒否日時
+   * @nullable
+   */
+  deniedAt: string | null
+  /** 経路内分岐の条件を評価してステップを組み立てる場合true */
+  useRouteStepCondition: boolean
+}
 
 /**
  * ラベル
@@ -2922,80 +3012,17 @@ export interface Label {
 /**
  * チケット
  */
-export interface Ticket {
-  /** UUID */
-  id: string
-  /**
-   * チケット番号
-   * @nullable
-   */
-  ticketNumber: string | null
-  /**
-   * タイトル
-   * @nullable
-   */
-  title?: string | null
-  /** ステータス */
-  status: TicketStatus
-  /** サブステータス。処理中のみ値が入ります。 */
-  subStatus?: SubStatus | null
-  /**
-   * 現在のステップ。0が起票者、1が最初の承認ステップ。
-   * @minimum 0
-   */
-  currentStep: number
+export type Ticket = TicketSummary & {
   /** 申請者。代理申請の場合、代理人が入ります。外部ゲストの場合はnullになります。 */
   author: User | null
+  /** 申請者の所属チーム。外部ゲストの場合や所属チームがない場合はnullになります。 */
+  authorTeam: Team | null
   /** 代理申請を依頼したユーザー。代理申請の場合のみ値が入ります。 */
   proxyClientUser: User | null
-  /** 作成日時 */
-  createdAt: string
-  /**
-   * 申請日時
-   * @nullable
-   */
-  openedAt: string | null
-  /**
-   * 完了日時
-   * @nullable
-   */
-  completedAt: string | null
-  /**
-   * アーカイブ日時
-   * @nullable
-   */
-  archivedAt: string | null
-  /** 更新日時 */
-  updatedAt: string
-  /** チケットがテナント全体に共有の場合true */
-  publicStatus: boolean
-  /** チケットの共有範囲の上書き設定 */
-  forcedPublicType: TicketForcedPublicType
-  /** このチケットのワークフロー情報。チケットを一件だけ取得した場合のみ、セクションや共有ユーザーを含むより詳細なワークフロー情報が入ります。 */
-  workflow: Workflow | WorkflowInTicket
+  /** サブステータス。処理中のみ値が入ります。 */
+  subStatus: SubStatus | null
   /** チケットのラベルの配列 */
   labels: Label[]
-  /**
-   * 申請者の所属チームのID。外部ゲストの場合や所属チームがない場合はnullになります。
-   * @nullable
-   */
-  authorTeamId: string | null
-  /** コメント数 */
-  commentsCount: number
-  /** ログ数 */
-  logsCount: number
-  /** 関連チケット数 */
-  linkedTicketsCount: number
-  /**
-   * クローズ日時。完了日時またはアーカイブ日時が入ります。どちらもない場合はnullになります。
-   * @nullable
-   */
-  closedAt: string | null
-  /**
-   * 申請拒否日時
-   * @nullable
-   */
-  deniedAt: string | null
 }
 
 /**
@@ -3121,9 +3148,26 @@ export interface TicketStep {
   status: TicketStepStatus
 }
 
+/**
+ * 外部ゲスト申請の申請者
+ */
+export interface TicketGuest {
+  /** UUID */
+  id: string
+  /**
+   * メールアドレス
+   * @nullable
+   */
+  email: string | null
+}
+
 export type TicketWithStep = Ticket & {
   /** ステップの配列 */
   steps: TicketStep[]
+  /** 外部ゲスト申請の申請者。外部ゲスト申請でない場合はnullになります。 */
+  ticketGuest: TicketGuest | null
+  /** 元のチケット（パイプラインで作成されたときのみ値が入ります）。申請者・ラベル等の関連は含みません。 */
+  triggerTicket: TicketSummary | null
 }
 
 /**
@@ -3240,17 +3284,37 @@ export interface TicketInput {
    * フィールドの型が汎用マスタアイテム、ユーザー、チーム、チケットの場合、JSON Arrayがキャッシュとして保存されます。
    */
   value: string | null | unknown[] | number
-  formField?: FormFieldInTicket
+  formField: FormFieldInTicket
   /** 入力値: 汎用マスタアイテム */
-  generalMasterItems?: GeneralMasterItem[]
+  generalMasterItems: GeneralMasterItem[]
   /** 入力値: ユーザー */
-  users?: User[]
+  users: User[]
   /** 入力値: チーム */
-  teams?: Team[]
+  teams: Team[]
   /** 入力値: チケット */
-  inputTickets?: Ticket[]
+  inputTickets: Ticket[]
   /** 添付ファイル */
-  attachments?: Attachment[]
+  attachments: Attachment[]
+}
+
+/**
+ * チケットのセクションの閲覧を許可する対象
+ */
+export interface TicketSectionViewer {
+  /** UUID */
+  id: string
+  /** 下位のチームを含めるかどうか */
+  descendants: boolean
+  /** ユーザー。ユーザーとチームは片方のみ値が入ります。 */
+  user: User | null
+  /** チーム。ユーザーとチームは片方のみ値が入ります。 */
+  team: Team | null
+  /** 役職。チーム指定で役職も指定する場合のみ値が入ります。 */
+  grade: Grade | null
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
 }
 
 /**
@@ -3273,6 +3337,8 @@ export interface TicketSection {
   viewable: boolean
   /** このセクションの入力の配列 */
   inputs: TicketInput[]
+  /** セクションの閲覧を許可する対象 */
+  sectionViewers: TicketSectionViewer[]
 }
 
 /**
@@ -3291,14 +3357,14 @@ export interface CustomNumberingValue {
  * チケットの詳細
  */
 export type TicketDetail = Ticket & {
-  /** 申請者の所属チーム. 外部ゲストの場合はnullになります。 */
-  authorTeam: Team | null
   /** このチケットの承認経路。申請拒否状態の場合、nullになります。 */
   route: RouteDetail | null
+  /** 外部ゲスト申請の申請者。外部ゲスト申請でない場合はnullになります。 */
+  ticketGuest: TicketGuest | null
   /** 元のチケット（パイプラインで作成されたときのみ値が入ります） */
-  triggerTicket?: Ticket | null
+  triggerTicket: Ticket | null
   /** 次のチケット（パイプラインで次のチケットを作成したときのみ値が入ります） */
-  nextTickets?: Ticket[]
+  nextTickets: Ticket[]
   /** 明細の入力 */
   slipItems: SlipItem[]
   /** セクションの配列 */
@@ -3310,7 +3376,7 @@ export type TicketDetail = Ticket & {
   /** チケットのステップ */
   steps: TicketStep[]
   /** チケットに割り当てられたカスタム採番の値の配列 */
-  customNumberingValues?: CustomNumberingValue[]
+  customNumberingValues: CustomNumberingValue[]
 }
 
 /**
@@ -4963,6 +5029,25 @@ export type CreateProxyApplicantBody = {
   workflowIds?: string[]
 }
 
+export type UpdateProxyApplicantBody = {
+  /** 代理されるユーザーID */
+  userId?: string
+  /** 代理するユーザーID */
+  proxyUserId?: string
+  /**
+   * 開始日。nullの場合、すでに開始しているものとして扱います。
+   * @nullable
+   */
+  startsOn?: string | null
+  /**
+   * 終了日。nullの場合、無期限のものとして扱います。
+   * @nullable
+   */
+  endsOn?: string | null
+  /** 対象ワークフローのID。空配列を指定すると対象ワークフローの限定が解除され、すべてのワークフローが代理申請の対象になります。 */
+  workflowIds?: string[]
+}
+
 export type ListProxyApproversParams = {
   /**
    * ページ
@@ -4993,6 +5078,25 @@ export type CreateProxyApproverBody = {
    */
   endsOn?: string | null
   /** 対象ワークフローのID */
+  workflowIds?: string[]
+}
+
+export type UpdateProxyApproverBody = {
+  /** 代理されるユーザーID */
+  userId?: string
+  /** 代理するユーザーID */
+  proxyUserId?: string
+  /**
+   * 開始日。nullの場合、すでに始まっているものとして扱います。
+   * @nullable
+   */
+  startsOn?: string | null
+  /**
+   * 終了日。nullの場合、無期限として扱います。
+   * @nullable
+   */
+  endsOn?: string | null
+  /** 対象ワークフローのID。空配列を指定すると対象ワークフローの限定が解除され、すべてのワークフローが代理承認の対象になります。 */
   workflowIds?: string[]
 }
 
