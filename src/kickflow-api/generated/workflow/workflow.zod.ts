@@ -444,6 +444,38 @@ export const ListWorkflowsResponseItem = zod
     allowCustomSteps: zod
       .boolean()
       .describe('カスタムステップの追加を許可する場合true'),
+    nextTicketNumberValue: zod
+      .int()
+      .nullable()
+      .describe(
+        '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+      ),
+    nextTicketNumberValueByKey: zod
+      .int()
+      .nullable()
+      .describe(
+        '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+      ),
+    externalPublish: zod
+      .union([
+        zod
+          .object({
+            id: zod.uuid().describe('UUID'),
+            externalPublishHash: zod
+              .string()
+              .describe('外部公開URLに含まれるハッシュ値'),
+          })
+          .describe('ワークフローの外部公開設定'),
+        zod.null(),
+      ])
+      .optional()
+      .describe('外部公開設定。外部公開していない場合はnullになります。'),
+    publishable: zod
+      .boolean()
+      .optional()
+      .describe(
+        'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+      ),
   })
   .describe('ワークフロー')
 export const ListWorkflowsResponse = zod.array(ListWorkflowsResponseItem)
@@ -1390,6 +1422,37 @@ export const GetWorkflowResponse = zod
     allowCustomSteps: zod
       .boolean()
       .describe('カスタムステップの追加を許可する場合true'),
+    nextTicketNumberValue: zod
+      .int()
+      .nullable()
+      .describe(
+        '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+      ),
+    nextTicketNumberValueByKey: zod
+      .int()
+      .nullable()
+      .describe(
+        '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+      ),
+    externalPublish: zod
+      .union([
+        zod
+          .object({
+            id: zod.uuid().describe('UUID'),
+            externalPublishHash: zod
+              .string()
+              .describe('外部公開URLに含まれるハッシュ値'),
+          })
+          .describe('ワークフローの外部公開設定'),
+        zod.null(),
+      ])
+      .describe('外部公開設定。外部公開していない場合はnullになります。'),
+    publishable: zod
+      .boolean()
+      .optional()
+      .describe(
+        'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+      ),
   })
   .describe('ワークフロー')
   .and(
@@ -4054,6 +4117,44 @@ export const GetWorkflowResponse = zod
                                           .describe(
                                             'カスタムステップの追加を許可する場合true',
                                           ),
+                                        nextTicketNumberValue: zod
+                                          .int()
+                                          .nullable()
+                                          .describe(
+                                            '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+                                          ),
+                                        nextTicketNumberValueByKey: zod
+                                          .int()
+                                          .nullable()
+                                          .describe(
+                                            '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+                                          ),
+                                        externalPublish: zod
+                                          .union([
+                                            zod
+                                              .object({
+                                                id: zod.uuid().describe('UUID'),
+                                                externalPublishHash: zod
+                                                  .string()
+                                                  .describe(
+                                                    '外部公開URLに含まれるハッシュ値',
+                                                  ),
+                                              })
+                                              .describe(
+                                                'ワークフローの外部公開設定',
+                                              ),
+                                            zod.null(),
+                                          ])
+                                          .optional()
+                                          .describe(
+                                            '外部公開設定。外部公開していない場合はnullになります。',
+                                          ),
+                                        publishable: zod
+                                          .boolean()
+                                          .optional()
+                                          .describe(
+                                            'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+                                          ),
                                       })
                                       .describe('ワークフロー'),
                                     zod.null(),
@@ -4592,6 +4693,42 @@ export const GetWorkflowResponse = zod
                                   .boolean()
                                   .describe(
                                     'カスタムステップの追加を許可する場合true',
+                                  ),
+                                nextTicketNumberValue: zod
+                                  .int()
+                                  .nullable()
+                                  .describe(
+                                    '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+                                  ),
+                                nextTicketNumberValueByKey: zod
+                                  .int()
+                                  .nullable()
+                                  .describe(
+                                    '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+                                  ),
+                                externalPublish: zod
+                                  .union([
+                                    zod
+                                      .object({
+                                        id: zod.uuid().describe('UUID'),
+                                        externalPublishHash: zod
+                                          .string()
+                                          .describe(
+                                            '外部公開URLに含まれるハッシュ値',
+                                          ),
+                                      })
+                                      .describe('ワークフローの外部公開設定'),
+                                    zod.null(),
+                                  ])
+                                  .optional()
+                                  .describe(
+                                    '外部公開設定。外部公開していない場合はnullになります。',
+                                  ),
+                                publishable: zod
+                                  .boolean()
+                                  .optional()
+                                  .describe(
+                                    'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
                                   ),
                               })
                               .describe('ワークフロー'),
@@ -6548,6 +6685,42 @@ export const GetWorkflowResponse = zod
                                   .describe(
                                     'カスタムステップの追加を許可する場合true',
                                   ),
+                                nextTicketNumberValue: zod
+                                  .int()
+                                  .nullable()
+                                  .describe(
+                                    '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+                                  ),
+                                nextTicketNumberValueByKey: zod
+                                  .int()
+                                  .nullable()
+                                  .describe(
+                                    '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+                                  ),
+                                externalPublish: zod
+                                  .union([
+                                    zod
+                                      .object({
+                                        id: zod.uuid().describe('UUID'),
+                                        externalPublishHash: zod
+                                          .string()
+                                          .describe(
+                                            '外部公開URLに含まれるハッシュ値',
+                                          ),
+                                      })
+                                      .describe('ワークフローの外部公開設定'),
+                                    zod.null(),
+                                  ])
+                                  .optional()
+                                  .describe(
+                                    '外部公開設定。外部公開していない場合はnullになります。',
+                                  ),
+                                publishable: zod
+                                  .boolean()
+                                  .optional()
+                                  .describe(
+                                    'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+                                  ),
                               })
                               .describe('ワークフロー'),
                           )
@@ -7069,31 +7242,6 @@ export const GetWorkflowResponse = zod
           zod.null(),
         ])
         .describe('クラウドサイン連携設定'),
-      nextTicketNumberValue: zod
-        .int()
-        .nullable()
-        .describe(
-          '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
-        ),
-      nextTicketNumberValueByKey: zod
-        .int()
-        .nullable()
-        .describe(
-          '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
-        ),
-      externalPublish: zod
-        .union([
-          zod
-            .object({
-              id: zod.uuid().describe('UUID'),
-              externalPublishHash: zod
-                .string()
-                .describe('外部公開URLに含まれるハッシュ値'),
-            })
-            .describe('ワークフローの外部公開設定'),
-          zod.null(),
-        ])
-        .describe('外部公開設定。外部公開していない場合はnullになります。'),
       ticketNumberKey: zod
         .union([
           zod

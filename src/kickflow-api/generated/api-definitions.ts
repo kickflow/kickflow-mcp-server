@@ -1059,6 +1059,19 @@ export const apiDefinitions: ApiDefinition[] = [
     pathParams: [],
   },
   {
+    operationId: 'updateProxyApplicant',
+    summary: '代理申請を更新',
+    pathParams: [
+      {
+        name: 'proxyApplicantId',
+        type: 'string',
+        required: true,
+        description: '代理申請のUUID',
+        format: 'uuid',
+      },
+    ],
+  },
+  {
     operationId: 'deleteProxyApplicant',
     summary: '代理申請を削除',
     pathParams: [
@@ -1080,6 +1093,19 @@ export const apiDefinitions: ApiDefinition[] = [
     operationId: 'createProxyApprover',
     summary: '代理承認を作成',
     pathParams: [],
+  },
+  {
+    operationId: 'updateProxyApprover',
+    summary: '代理承認を更新',
+    pathParams: [
+      {
+        name: 'proxyApproverId',
+        type: 'string',
+        required: true,
+        description: '代理承認のUUID',
+        format: 'uuid',
+      },
+    ],
   },
   {
     operationId: 'deleteProxyApprover',

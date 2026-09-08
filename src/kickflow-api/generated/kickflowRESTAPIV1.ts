@@ -77,6 +77,8 @@ import type {
   UpdateFolderBody,
   UpdateGeneralMasterBody,
   UpdateGeneralMasterItemBody,
+  UpdateProxyApplicantBody,
+  UpdateProxyApproverBody,
   UpdateTeamMemberBody,
   UpdateTicketBody,
   UpdateUserBody,
@@ -1458,6 +1460,8 @@ export const getKickflowRESTAPIV1 = () => {
 
   /**
    * ユーザー一覧を取得します。
+   *
+   * このAPIの実行には、ユーザーの管理権限が必要です。
    * @summary ユーザー一覧を取得
    */
   const listUsers = (
@@ -1494,6 +1498,8 @@ export const getKickflowRESTAPIV1 = () => {
 
   /**
    * ユーザーを一件取得します。
+   *
+   * このAPIの実行には、ユーザーの管理権限が必要です。
    * @summary ユーザーを取得
    */
   const getUser = (
@@ -1548,6 +1554,8 @@ export const getKickflowRESTAPIV1 = () => {
   /**
    * メールアドレスからユーザーを取得します（完全一致）
    * ※メールアドレスはURLエンコードしたものを送ってください。
+   *
+   * このAPIの実行には、ユーザーの管理権限が必要です。
    * @summary メールアドレスからユーザーを取得
    */
   const lookupUserByEmail = (
@@ -1736,6 +1744,28 @@ export const getKickflowRESTAPIV1 = () => {
   }
 
   /**
+   * 指定した代理申請を更新します。指定したフィールドのみが更新されます。
+   *
+   * このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理申請の設定をすべてのユーザーに許可している場合、管理権限は不要です。
+   * @summary 代理申請を更新
+   */
+  const updateProxyApplicant = (
+    proxyApplicantId: string,
+    updateProxyApplicantBody?: BodyType<UpdateProxyApplicantBody>,
+    options?: SecondParameter<typeof customAxiosInstance<ProxyApplicant>>,
+  ) => {
+    return customAxiosInstance<ProxyApplicant>(
+      {
+        url: `/v1/proxyApplicants/${proxyApplicantId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: updateProxyApplicantBody,
+      },
+      options,
+    )
+  }
+
+  /**
    * 指定した代理申請を削除します。
    *
    * このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理申請の設定をすべてのユーザーに許可している場合、管理権限は不要です。
@@ -1783,6 +1813,28 @@ export const getKickflowRESTAPIV1 = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: createProxyApproverBody,
+      },
+      options,
+    )
+  }
+
+  /**
+   * 指定した代理承認を更新します。指定したフィールドのみが更新されます。
+   *
+   * このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理承認の設定をすべてのユーザーに許可している場合、管理権限は不要です。
+   * @summary 代理承認を更新
+   */
+  const updateProxyApprover = (
+    proxyApproverId: string,
+    updateProxyApproverBody?: BodyType<UpdateProxyApproverBody>,
+    options?: SecondParameter<typeof customAxiosInstance<ProxyApprover>>,
+  ) => {
+    return customAxiosInstance<ProxyApprover>(
+      {
+        url: `/v1/proxyApprovers/${proxyApproverId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: updateProxyApproverBody,
       },
       options,
     )
@@ -1850,6 +1902,8 @@ export const getKickflowRESTAPIV1 = () => {
 
   /**
    * 監査ログの一覧を取得します。
+   *
+   * このAPIの実行には、監査ログの管理権限が必要です。
    * @summary 監査ログ一覧を取得
    */
   const listAuditLogs = (
@@ -1950,9 +2004,11 @@ export const getKickflowRESTAPIV1 = () => {
     getWorkflow,
     listProxyApplicants,
     createProxyApplicant,
+    updateProxyApplicant,
     deleteProxyApplicant,
     listProxyApprovers,
     createProxyApprover,
+    updateProxyApprover,
     deleteProxyApprover,
     uploadFile,
     getFile,
@@ -2300,6 +2356,11 @@ export type CreateProxyApplicantResult = NonNullable<
     ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['createProxyApplicant']>
   >
 >
+export type UpdateProxyApplicantResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['updateProxyApplicant']>
+  >
+>
 export type DeleteProxyApplicantResult = NonNullable<
   Awaited<
     ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['deleteProxyApplicant']>
@@ -2313,6 +2374,11 @@ export type ListProxyApproversResult = NonNullable<
 export type CreateProxyApproverResult = NonNullable<
   Awaited<
     ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['createProxyApprover']>
+  >
+>
+export type UpdateProxyApproverResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getKickflowRESTAPIV1>['updateProxyApprover']>
   >
 >
 export type DeleteProxyApproverResult = NonNullable<

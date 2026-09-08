@@ -4611,7 +4611,10 @@ paths:
           in: query
           name: sortBy
           description: 'ソート対象のフィールドと順序。指定可能なフィールド: email, code, lastUsedOn'
-      description: ユーザー一覧を取得します。
+      description: |-
+        ユーザー一覧を取得します。
+
+        このAPIの実行には、ユーザーの管理権限が必要です。
     post:
       summary: ユーザーを作成（招待）
       operationId: createUser
@@ -4764,7 +4767,10 @@ paths:
           description: Gateway Timeout
           $ref: '#/components/responses/GatewayTimeout'
       operationId: getUser
-      description: ユーザーを一件取得します。
+      description: |-
+        ユーザーを一件取得します。
+
+        このAPIの実行には、ユーザーの管理権限が必要です。
     delete:
       summary: ユーザーを削除
       tags:
@@ -4943,6 +4949,8 @@ paths:
       description: |-
         メールアドレスからユーザーを取得します（完全一致）
         ※メールアドレスはURLエンコードしたものを送ってください。
+
+        このAPIの実行には、ユーザーの管理権限が必要です。
   /v1/users/{userId}/reinvite:
     parameters:
       - schema:
@@ -5581,6 +5589,75 @@ paths:
         in: path
         required: true
         description: 代理申請のUUID
+    patch:
+      summary: 代理申請を更新
+      tags:
+        - 代理申請
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyApplicant'
+        '400':
+          description: Bad Request
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          $ref: '#/components/responses/NotFound'
+        '422':
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
+      operationId: updateProxyApplicant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                  description: 代理されるユーザーID
+                proxyUserId:
+                  type: string
+                  format: uuid
+                  description: 代理するユーザーID
+                startsOn:
+                  type:
+                    - string
+                    - 'null'
+                  description: 開始日。nullの場合、すでに開始しているものとして扱います。
+                  format: date
+                endsOn:
+                  type:
+                    - string
+                    - 'null'
+                  description: 終了日。nullの場合、無期限のものとして扱います。
+                  format: date
+                workflowIds:
+                  type: array
+                  description: 対象ワークフローのID。空配列を指定すると対象ワークフローの限定が解除され、すべてのワークフローが代理申請の対象になります。
+                  items:
+                    type: string
+                    format: uuid
+      description: |-
+        指定した代理申請を更新します。指定したフィールドのみが更新されます。
+
+        このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理申請の設定をすべてのユーザーに許可している場合、管理権限は不要です。
     delete:
       summary: 代理申請を削除
       tags:
@@ -5751,6 +5828,75 @@ paths:
         in: path
         required: true
         description: 代理承認のUUID
+    patch:
+      summary: 代理承認を更新
+      tags:
+        - 代理承認
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyApprover'
+        '400':
+          description: Bad Request
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          $ref: '#/components/responses/NotFound'
+        '422':
+          description: Unprocessable Content
+          $ref: '#/components/responses/UnprocessableContent'
+        '500':
+          description: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
+        '504':
+          description: Gateway Timeout
+          $ref: '#/components/responses/GatewayTimeout'
+      operationId: updateProxyApprover
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                  description: 代理されるユーザーID
+                proxyUserId:
+                  type: string
+                  format: uuid
+                  description: 代理するユーザーID
+                startsOn:
+                  type:
+                    - string
+                    - 'null'
+                  format: date
+                  description: 開始日。nullの場合、すでに始まっているものとして扱います。
+                endsOn:
+                  type:
+                    - string
+                    - 'null'
+                  format: date
+                  description: 終了日。nullの場合、無期限として扱います。
+                workflowIds:
+                  type: array
+                  description: 対象ワークフローのID。空配列を指定すると対象ワークフローの限定が解除され、すべてのワークフローが代理承認の対象になります。
+                  items:
+                    type: string
+                    format: uuid
+      description: |-
+        指定した代理承認を更新します。指定したフィールドのみが更新されます。
+
+        このAPIの実行には、ユーザーの管理権限が必要です。ただし、自分の代理承認の設定をすべてのユーザーに許可している場合、管理権限は不要です。
     delete:
       summary: 代理承認を削除
       tags:
@@ -5993,7 +6139,10 @@ paths:
           in: query
           name: userId
           description: ユーザーID
-      description: 監査ログの一覧を取得します。
+      description: |-
+        監査ログの一覧を取得します。
+
+        このAPIの実行には、監査ログの管理権限が必要です。
 webhooks:
   ping:
     post:
@@ -7517,6 +7666,24 @@ components:
         allowCustomSteps:
           type: boolean
           description: カスタムステップの追加を許可する場合true
+        nextTicketNumberValue:
+          type:
+            - integer
+            - 'null'
+          description: 次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。
+        nextTicketNumberValueByKey:
+          type:
+            - integer
+            - 'null'
+          description: 採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。
+        externalPublish:
+          description: 外部公開設定。外部公開していない場合はnullになります。
+          anyOf:
+            - $ref: '#/components/schemas/WorkflowExternalPublish'
+            - type: 'null'
+        publishable:
+          type: boolean
+          description: このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。
       required:
         - id
         - code
@@ -7550,6 +7717,10 @@ components:
         - commentingRequiredOnApproval
         - commentingRequiredOnRejection
         - commentingRequiredOnDenial
+        - allowEditingOfViewers
+        - commentingEnabled
+        - nextTicketNumberValue
+        - nextTicketNumberValueByKey
     WorkflowInTicket:
       title: WorkflowInTicket
       x-tags:
@@ -7580,21 +7751,6 @@ components:
                   required:
                     - required
                 - type: 'null'
-            nextTicketNumberValue:
-              type:
-                - integer
-                - 'null'
-              description: 次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。
-            nextTicketNumberValueByKey:
-              type:
-                - integer
-                - 'null'
-              description: 採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。
-            externalPublish:
-              description: 外部公開設定。外部公開していない場合はnullになります。
-              anyOf:
-                - $ref: '#/components/schemas/WorkflowExternalPublish'
-                - type: 'null'
             ticketNumberKey:
               description: 採番グループ。未設定の場合はnullになります。
               anyOf:
@@ -7616,12 +7772,10 @@ components:
               items:
                 $ref: '#/components/schemas/CustomNumberingSetting'
           required:
+            - externalPublish
             - sectionList
             - ticketViewers
             - cloudSignSetting
-            - nextTicketNumberValue
-            - nextTicketNumberValueByKey
-            - externalPublish
             - author
             - versionAuthor
             - folder
@@ -7647,6 +7801,7 @@ components:
               items:
                 $ref: '#/components/schemas/WorkflowRouteCondition'
           required:
+            - externalPublish
             - routeConditions
     WorkflowExternalPublish:
       title: WorkflowExternalPublish
@@ -9713,12 +9868,12 @@ components:
         - initialDisplayDescription
         - createdAt
         - updatedAt
-    Ticket:
-      title: Ticket
+    TicketSummary:
+      title: TicketSummary
       type: object
       x-tags:
         - tickets
-      description: チケット
+      description: チケットの基本情報。申請者・所属チーム・ラベルなどの関連は含みません。
       properties:
         id:
           type: string
@@ -9745,25 +9900,10 @@ components:
             - archived
             - denied
             - permanently_deleted
-        subStatus:
-          description: サブステータス。処理中のみ値が入ります。
-          anyOf:
-            - $ref: '#/components/schemas/SubStatus'
-            - type: 'null'
         currentStep:
           type: number
           description: 現在のステップ。0が起票者、1が最初の承認ステップ。
           minimum: 0
-        author:
-          description: 申請者。代理申請の場合、代理人が入ります。外部ゲストの場合はnullになります。
-          anyOf:
-            - $ref: '#/components/schemas/User'
-            - type: 'null'
-        proxyClientUser:
-          description: 代理申請を依頼したユーザー。代理申請の場合のみ値が入ります。
-          anyOf:
-            - $ref: '#/components/schemas/User'
-            - type: 'null'
         createdAt:
           type: string
           description: 作成日時
@@ -9805,18 +9945,38 @@ components:
           anyOf:
             - $ref: '#/components/schemas/Workflow'
             - $ref: '#/components/schemas/WorkflowInTicket'
-        labels:
-          type: array
-          description: チケットのラベルの配列
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/Label'
         authorTeamId:
           type:
             - string
             - 'null'
           description: 申請者の所属チームのID。外部ゲストの場合や所属チームがない場合はnullになります。
           format: uuid
+        authorTeamSnapshot:
+          description: 申請時点の申請者の所属チームの情報。外部ゲストの場合や所属チームがない場合はnullになります。
+          type:
+            - object
+            - 'null'
+          properties:
+            id:
+              type: string
+              description: UUID
+              format: uuid
+            name:
+              type: string
+              description: チーム名
+            fullName:
+              type: string
+              description: 上位チームを含むチーム名
+            code:
+              type:
+                - string
+                - 'null'
+              description: チームコード
+          required:
+            - id
+            - name
+            - fullName
+            - code
         commentsCount:
           type: integer
           description: コメント数
@@ -9838,13 +9998,15 @@ components:
             - 'null'
           description: 申請拒否日時
           format: date-time
+        useRouteStepCondition:
+          type: boolean
+          description: 経路内分岐の条件を評価してステップを組み立てる場合true
       required:
         - id
         - ticketNumber
+        - title
         - status
         - currentStep
-        - author
-        - proxyClientUser
         - createdAt
         - openedAt
         - completedAt
@@ -9853,13 +10015,55 @@ components:
         - publicStatus
         - forcedPublicType
         - workflow
-        - labels
         - authorTeamId
+        - authorTeamSnapshot
         - commentsCount
         - logsCount
         - linkedTicketsCount
         - closedAt
         - deniedAt
+        - useRouteStepCondition
+    Ticket:
+      title: Ticket
+      x-tags:
+        - tickets
+      description: チケット
+      allOf:
+        - $ref: '#/components/schemas/TicketSummary'
+        - type: object
+          properties:
+            author:
+              description: 申請者。代理申請の場合、代理人が入ります。外部ゲストの場合はnullになります。
+              anyOf:
+                - $ref: '#/components/schemas/User'
+                - type: 'null'
+            authorTeam:
+              description: 申請者の所属チーム。外部ゲストの場合や所属チームがない場合はnullになります。
+              anyOf:
+                - $ref: '#/components/schemas/Team'
+                - type: 'null'
+            proxyClientUser:
+              description: 代理申請を依頼したユーザー。代理申請の場合のみ値が入ります。
+              anyOf:
+                - $ref: '#/components/schemas/User'
+                - type: 'null'
+            subStatus:
+              description: サブステータス。処理中のみ値が入ります。
+              anyOf:
+                - $ref: '#/components/schemas/SubStatus'
+                - type: 'null'
+            labels:
+              type: array
+              description: チケットのラベルの配列
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/Label'
+          required:
+            - subStatus
+            - author
+            - authorTeam
+            - proxyClientUser
+            - labels
     TicketWithStep:
       allOf:
         - $ref: '#/components/schemas/Ticket'
@@ -9870,8 +10074,20 @@ components:
               description: ステップの配列
               items:
                 $ref: '#/components/schemas/TicketStep'
+            ticketGuest:
+              description: 外部ゲスト申請の申請者。外部ゲスト申請でない場合はnullになります。
+              anyOf:
+                - $ref: '#/components/schemas/TicketGuest'
+                - type: 'null'
+            triggerTicket:
+              description: 元のチケット（パイプラインで作成されたときのみ値が入ります）。申請者・ラベル等の関連は含みません。
+              anyOf:
+                - $ref: '#/components/schemas/TicketSummary'
+                - type: 'null'
           required:
             - steps
+            - ticketGuest
+            - triggerTicket
     TicketDetail:
       title: TicketDetail
       x-tags:
@@ -9881,15 +10097,15 @@ components:
         - $ref: '#/components/schemas/Ticket'
         - type: object
           properties:
-            authorTeam:
-              description: 申請者の所属チーム. 外部ゲストの場合はnullになります。
-              anyOf:
-                - $ref: '#/components/schemas/Team'
-                - type: 'null'
             route:
               description: このチケットの承認経路。申請拒否状態の場合、nullになります。
               anyOf:
                 - $ref: '#/components/schemas/RouteDetail'
+                - type: 'null'
+            ticketGuest:
+              description: 外部ゲスト申請の申請者。外部ゲスト申請でない場合はnullになります。
+              anyOf:
+                - $ref: '#/components/schemas/TicketGuest'
                 - type: 'null'
             triggerTicket:
               description: 元のチケット（パイプラインで作成されたときのみ値が入ります）
@@ -9977,13 +10193,16 @@ components:
               items:
                 $ref: '#/components/schemas/CustomNumberingValue'
           required:
-            - authorTeam
             - route
+            - ticketGuest
+            - triggerTicket
+            - nextTickets
             - slipItems
             - ticketSections
             - inputs
             - cloudSignDocument
             - steps
+            - customNumberingValues
     TicketFormPartialUpdateBody:
       title: TicketFormPartialUpdateBody
       type: object
@@ -10305,6 +10524,12 @@ components:
         - id
         - formFieldId
         - value
+        - formField
+        - generalMasterItems
+        - users
+        - teams
+        - inputTickets
+        - attachments
     TicketSection:
       title: TicketSection
       type: object
@@ -10340,6 +10565,11 @@ components:
           description: このセクションの入力の配列
           items:
             $ref: '#/components/schemas/TicketInput'
+        sectionViewers:
+          type: array
+          description: セクションの閲覧を許可する対象
+          items:
+            $ref: '#/components/schemas/TicketSectionViewer'
       required:
         - id
         - sectionId
@@ -10349,6 +10579,71 @@ components:
         - allowViewApprover
         - viewable
         - inputs
+        - sectionViewers
+    TicketSectionViewer:
+      title: TicketSectionViewer
+      type: object
+      x-tags:
+        - tickets
+      description: チケットのセクションの閲覧を許可する対象
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        descendants:
+          type: boolean
+          description: 下位のチームを含めるかどうか
+        user:
+          description: ユーザー。ユーザーとチームは片方のみ値が入ります。
+          anyOf:
+            - $ref: '#/components/schemas/User'
+            - type: 'null'
+        team:
+          description: チーム。ユーザーとチームは片方のみ値が入ります。
+          anyOf:
+            - $ref: '#/components/schemas/Team'
+            - type: 'null'
+        grade:
+          description: 役職。チーム指定で役職も指定する場合のみ値が入ります。
+          anyOf:
+            - $ref: '#/components/schemas/Grade'
+            - type: 'null'
+        createdAt:
+          type: string
+          description: 作成日時
+          format: date-time
+        updatedAt:
+          type: string
+          description: 更新日時
+          format: date-time
+      required:
+        - id
+        - descendants
+        - user
+        - team
+        - grade
+        - createdAt
+        - updatedAt
+    TicketGuest:
+      title: TicketGuest
+      type: object
+      x-tags:
+        - tickets
+      description: 外部ゲスト申請の申請者
+      properties:
+        id:
+          type: string
+          description: UUID
+          format: uuid
+        email:
+          type:
+            - string
+            - 'null'
+          description: メールアドレス
+      required:
+        - id
+        - email
     TicketStep:
       title: TicketStep
       type: object
