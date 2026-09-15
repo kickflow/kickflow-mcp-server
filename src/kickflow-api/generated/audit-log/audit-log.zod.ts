@@ -2,6 +2,8 @@ import * as zod from 'zod'
 
 /**
  * 監査ログの一覧を取得します。
+ *
+ * このAPIの実行には、監査ログの管理権限が必要です。
  * @summary 監査ログ一覧を取得
  */
 export const listAuditLogsQueryPageDefault = 1

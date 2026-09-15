@@ -444,6 +444,38 @@ export const ListWorkflowsResponseItem = zod
     allowCustomSteps: zod
       .boolean()
       .describe('カスタムステップの追加を許可する場合true'),
+    nextTicketNumberValue: zod
+      .int()
+      .nullable()
+      .describe(
+        '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+      ),
+    nextTicketNumberValueByKey: zod
+      .int()
+      .nullable()
+      .describe(
+        '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+      ),
+    externalPublish: zod
+      .union([
+        zod
+          .object({
+            id: zod.uuid().describe('UUID'),
+            externalPublishHash: zod
+              .string()
+              .describe('外部公開URLに含まれるハッシュ値'),
+          })
+          .describe('ワークフローの外部公開設定'),
+        zod.null(),
+      ])
+      .optional()
+      .describe('外部公開設定。外部公開していない場合はnullになります。'),
+    publishable: zod
+      .boolean()
+      .optional()
+      .describe(
+        'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+      ),
   })
   .describe('ワークフロー')
 export const ListWorkflowsResponse = zod.array(ListWorkflowsResponseItem)
@@ -1034,6 +1066,71 @@ export const getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemGeneral
 
 export const getWorkflowResponseTwoRouteConditionsItemConditionFieldsItemGeneralMasterItemOneInputsItemFieldCodeMax = 100
 
+export const getWorkflowResponseTwoAvailableTeamsItemTeamNameMax = 300
+
+export const getWorkflowResponseTwoAvailableTeamsItemTeamCodeMax = 100
+
+export const getWorkflowResponseTwoAvailableTeamsItemTeamNotesMax = 10000
+
+export const getWorkflowResponseTwoAvailableTeamsItemTeamUsersCountMin = 0
+
+export const getWorkflowResponseTwoAvailableTeamsItemGradesItemNameMax = 300
+
+export const getWorkflowResponseTwoAvailableTeamsItemGradesItemLevelMin = 0
+export const getWorkflowResponseTwoAvailableTeamsItemGradesItemLevelMax = 255
+
+export const getWorkflowResponseTwoAvailableTeamsItemGradesItemCodeMax = 100
+
+export const getWorkflowResponseTwoAvailableTeamsItemGradesItemIsDefaultDefault = false
+export const getWorkflowResponseTwoWatchersItemUserOneEmailMax = 254
+
+export const getWorkflowResponseTwoWatchersItemUserOneCodeMax = 100
+
+export const getWorkflowResponseTwoWatchersItemUserOneFirstNameMax = 255
+
+export const getWorkflowResponseTwoWatchersItemUserOneLastNameMax = 255
+
+export const getWorkflowResponseTwoWatchersItemUserOneFullNameMax = 255
+
+export const getWorkflowResponseTwoWatchersItemUserOneEmployeeIdMax = 30
+
+export const getWorkflowResponseTwoWatchersItemTeamOneNameMax = 300
+
+export const getWorkflowResponseTwoWatchersItemTeamOneCodeMax = 100
+
+export const getWorkflowResponseTwoWatchersItemTeamOneNotesMax = 10000
+
+export const getWorkflowResponseTwoWatchersItemTeamOneUsersCountMin = 0
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneEmailMax = 254
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneCodeMax = 100
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneFirstNameMax = 255
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneLastNameMax = 255
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneFullNameMax = 255
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneEmployeeIdMax = 30
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemTeamOneNameMax = 300
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemTeamOneCodeMax = 100
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemTeamOneNotesMax = 10000
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemTeamOneUsersCountMin = 0
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemGradeOneNameMax = 300
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemGradeOneLevelMin = 0
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemGradeOneLevelMax = 255
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemGradeOneCodeMax = 100
+
+export const getWorkflowResponseTwoWorkflowFilterVisibilitiesItemGradeOneIsDefaultDefault = false
+
 export const GetWorkflowResponse = zod
   .object({
     id: zod.string().describe('UUID'),
@@ -1390,6 +1487,37 @@ export const GetWorkflowResponse = zod
     allowCustomSteps: zod
       .boolean()
       .describe('カスタムステップの追加を許可する場合true'),
+    nextTicketNumberValue: zod
+      .int()
+      .nullable()
+      .describe(
+        '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+      ),
+    nextTicketNumberValueByKey: zod
+      .int()
+      .nullable()
+      .describe(
+        '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+      ),
+    externalPublish: zod
+      .union([
+        zod
+          .object({
+            id: zod.uuid().describe('UUID'),
+            externalPublishHash: zod
+              .string()
+              .describe('外部公開URLに含まれるハッシュ値'),
+          })
+          .describe('ワークフローの外部公開設定'),
+        zod.null(),
+      ])
+      .describe('外部公開設定。外部公開していない場合はnullになります。'),
+    publishable: zod
+      .boolean()
+      .optional()
+      .describe(
+        'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+      ),
   })
   .describe('ワークフロー')
   .and(
@@ -4054,6 +4182,44 @@ export const GetWorkflowResponse = zod
                                           .describe(
                                             'カスタムステップの追加を許可する場合true',
                                           ),
+                                        nextTicketNumberValue: zod
+                                          .int()
+                                          .nullable()
+                                          .describe(
+                                            '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+                                          ),
+                                        nextTicketNumberValueByKey: zod
+                                          .int()
+                                          .nullable()
+                                          .describe(
+                                            '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+                                          ),
+                                        externalPublish: zod
+                                          .union([
+                                            zod
+                                              .object({
+                                                id: zod.uuid().describe('UUID'),
+                                                externalPublishHash: zod
+                                                  .string()
+                                                  .describe(
+                                                    '外部公開URLに含まれるハッシュ値',
+                                                  ),
+                                              })
+                                              .describe(
+                                                'ワークフローの外部公開設定',
+                                              ),
+                                            zod.null(),
+                                          ])
+                                          .optional()
+                                          .describe(
+                                            '外部公開設定。外部公開していない場合はnullになります。',
+                                          ),
+                                        publishable: zod
+                                          .boolean()
+                                          .optional()
+                                          .describe(
+                                            'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+                                          ),
                                       })
                                       .describe('ワークフロー'),
                                     zod.null(),
@@ -4592,6 +4758,42 @@ export const GetWorkflowResponse = zod
                                   .boolean()
                                   .describe(
                                     'カスタムステップの追加を許可する場合true',
+                                  ),
+                                nextTicketNumberValue: zod
+                                  .int()
+                                  .nullable()
+                                  .describe(
+                                    '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+                                  ),
+                                nextTicketNumberValueByKey: zod
+                                  .int()
+                                  .nullable()
+                                  .describe(
+                                    '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+                                  ),
+                                externalPublish: zod
+                                  .union([
+                                    zod
+                                      .object({
+                                        id: zod.uuid().describe('UUID'),
+                                        externalPublishHash: zod
+                                          .string()
+                                          .describe(
+                                            '外部公開URLに含まれるハッシュ値',
+                                          ),
+                                      })
+                                      .describe('ワークフローの外部公開設定'),
+                                    zod.null(),
+                                  ])
+                                  .optional()
+                                  .describe(
+                                    '外部公開設定。外部公開していない場合はnullになります。',
+                                  ),
+                                publishable: zod
+                                  .boolean()
+                                  .optional()
+                                  .describe(
+                                    'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
                                   ),
                               })
                               .describe('ワークフロー'),
@@ -6548,6 +6750,42 @@ export const GetWorkflowResponse = zod
                                   .describe(
                                     'カスタムステップの追加を許可する場合true',
                                   ),
+                                nextTicketNumberValue: zod
+                                  .int()
+                                  .nullable()
+                                  .describe(
+                                    '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
+                                  ),
+                                nextTicketNumberValueByKey: zod
+                                  .int()
+                                  .nullable()
+                                  .describe(
+                                    '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
+                                  ),
+                                externalPublish: zod
+                                  .union([
+                                    zod
+                                      .object({
+                                        id: zod.uuid().describe('UUID'),
+                                        externalPublishHash: zod
+                                          .string()
+                                          .describe(
+                                            '外部公開URLに含まれるハッシュ値',
+                                          ),
+                                      })
+                                      .describe('ワークフローの外部公開設定'),
+                                    zod.null(),
+                                  ])
+                                  .optional()
+                                  .describe(
+                                    '外部公開設定。外部公開していない場合はnullになります。',
+                                  ),
+                                publishable: zod
+                                  .boolean()
+                                  .optional()
+                                  .describe(
+                                    'このバージョンを公開できる場合true。チケット経由で取得した場合のみ含まれます。',
+                                  ),
                               })
                               .describe('ワークフロー'),
                           )
@@ -7069,31 +7307,6 @@ export const GetWorkflowResponse = zod
           zod.null(),
         ])
         .describe('クラウドサイン連携設定'),
-      nextTicketNumberValue: zod
-        .int()
-        .nullable()
-        .describe(
-          '次に採番されるチケット番号の連番値。採番されたことがない場合はnullになります。',
-        ),
-      nextTicketNumberValueByKey: zod
-        .int()
-        .nullable()
-        .describe(
-          '採番グループ側で次に採番される連番値。採番グループが未設定の場合はnullになります。',
-        ),
-      externalPublish: zod
-        .union([
-          zod
-            .object({
-              id: zod.uuid().describe('UUID'),
-              externalPublishHash: zod
-                .string()
-                .describe('外部公開URLに含まれるハッシュ値'),
-            })
-            .describe('ワークフローの外部公開設定'),
-          zod.null(),
-        ])
-        .describe('外部公開設定。外部公開していない場合はnullになります。'),
       ticketNumberKey: zod
         .union([
           zod
@@ -8014,6 +8227,805 @@ export const GetWorkflowResponse = zod
             .describe('ワークフローの経路分岐'),
         )
         .describe('経路分岐'),
+      availableTeams: zod
+        .array(
+          zod
+            .object({
+              descendants: zod
+                .boolean()
+                .describe('下位のチームを含めるかどうか'),
+              gradeSymbol: zod
+                .union([
+                  zod.literal('equal'),
+                  zod.literal('greater_than'),
+                  zod.literal('greater_than_or_equal'),
+                  zod.literal('less_than'),
+                  zod.literal('less_than_or_equal'),
+                  zod.literal('any_of'),
+                  zod.literal(null),
+                ])
+                .nullable()
+                .describe(
+                  '役職の条件。equalは指定した役職と同じ、greater_thanは指定した役職より上位、 greater_than_or_equalは指定した役職以上、less_thanは指定した役職より下位、 less_than_or_equalは指定した役職以下、any_ofは指定した役職のいずれかを表します。 役職を条件にしない場合はnullになります。',
+                ),
+              team: zod
+                .object({
+                  id: zod.uuid().describe('UUID'),
+                  name: zod
+                    .string()
+                    .max(getWorkflowResponseTwoAvailableTeamsItemTeamNameMax)
+                    .describe('名前'),
+                  fullName: zod.string().describe('上位組織を含む名前'),
+                  code: zod
+                    .string()
+                    .max(getWorkflowResponseTwoAvailableTeamsItemTeamCodeMax)
+                    .describe('コード'),
+                  notes: zod
+                    .string()
+                    .max(getWorkflowResponseTwoAvailableTeamsItemTeamNotesMax)
+                    .nullable()
+                    .describe('管理用メモ'),
+                  approveOnly: zod.boolean().describe('承認専用チームかどうか'),
+                  usersCount: zod
+                    .int()
+                    .min(
+                      getWorkflowResponseTwoAvailableTeamsItemTeamUsersCountMin,
+                    )
+                    .describe('ユーザー数'),
+                  createdAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('作成日時'),
+                  updatedAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('更新日時'),
+                })
+                .describe('チーム'),
+              grades: zod
+                .array(
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      name: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoAvailableTeamsItemGradesItemNameMax,
+                        )
+                        .describe('名前'),
+                      level: zod
+                        .int()
+                        .min(
+                          getWorkflowResponseTwoAvailableTeamsItemGradesItemLevelMin,
+                        )
+                        .max(
+                          getWorkflowResponseTwoAvailableTeamsItemGradesItemLevelMax,
+                        )
+                        .describe('レベル'),
+                      code: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoAvailableTeamsItemGradesItemCodeMax,
+                        )
+                        .nullable()
+                        .describe('コード'),
+                      isDefault: zod
+                        .boolean()
+                        .default(
+                          getWorkflowResponseTwoAvailableTeamsItemGradesItemIsDefaultDefault,
+                        )
+                        .describe('デフォルトの役職かどうか'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
+                    })
+                    .describe('役職'),
+                )
+                .describe(
+                  '役職の配列。役職のレベルの降順に並びます。gradeSymbolがnullの場合は空配列になります。',
+                ),
+            })
+            .describe('ワークフローで申請可能なチーム'),
+        )
+        .describe('申請可能なチームの配列'),
+      watchers: zod
+        .array(
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              watcherType: zod
+                .enum(['user', 'team'])
+                .describe(
+                  'ウォッチャーの種別。userはユーザー指定、teamはチーム指定を表します。',
+                ),
+              user: zod
+                .union([
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      email: zod
+                        .email()
+                        .max(getWorkflowResponseTwoWatchersItemUserOneEmailMax)
+                        .describe('メールアドレス'),
+                      code: zod
+                        .string()
+                        .max(getWorkflowResponseTwoWatchersItemUserOneCodeMax)
+                        .describe('コード'),
+                      firstName: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWatchersItemUserOneFirstNameMax,
+                        )
+                        .describe('名'),
+                      lastName: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWatchersItemUserOneLastNameMax,
+                        )
+                        .describe('姓'),
+                      fullName: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWatchersItemUserOneFullNameMax,
+                        )
+                        .describe('フルネーム'),
+                      employeeId: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWatchersItemUserOneEmployeeIdMax,
+                        )
+                        .nullable()
+                        .describe('社員番号'),
+                      image: zod
+                        .object({
+                          '100x100': zod.string().nullable(),
+                          '64x64': zod.string().nullable(),
+                          '32x32': zod.string().nullable(),
+                        })
+                        .describe(
+                          'ユーザー画像のURL。サイズごとに複数のURLを返します。',
+                        ),
+                      status: zod
+                        .enum([
+                          'invited',
+                          'activated',
+                          'suspended',
+                          'deactivated',
+                        ])
+                        .describe('ステータス'),
+                      locale: zod.string().describe('ロケール（jaまたはen）'),
+                      userType: zod
+                        .enum(['normal', 'assistant'])
+                        .optional()
+                        .describe(
+                          'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                        ),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
+                      deactivatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .nullish()
+                        .describe('削除日時'),
+                      lastUsedOn: zod.iso
+                        .date()
+                        .nullish()
+                        .describe(
+                          '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                        ),
+                      customFields: zod
+                        .array(
+                          zod.object({
+                            code: zod
+                              .string()
+                              .describe(
+                                'UserCustomField#code（変換せずそのまま）',
+                              ),
+                            fieldType: zod
+                              .union([
+                                zod.literal('text'),
+                                zod.literal('textLong'),
+                                zod.literal('number'),
+                                zod.literal('integer'),
+                                zod.literal('checkbox'),
+                                zod.literal('pullDown'),
+                                zod.literal('date'),
+                                zod.literal(null),
+                              ])
+                              .nullable()
+                              .describe(
+                                'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                              ),
+                            value: zod
+                              .union([
+                                zod.string(),
+                                zod.number(),
+                                zod.array(zod.string()),
+                                zod.null(),
+                              ])
+                              .describe(
+                                'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                              ),
+                          }),
+                        )
+                        .optional()
+                        .describe(
+                          'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                        ),
+                    })
+                    .describe('ユーザー'),
+                  zod.null(),
+                ])
+                .describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+              team: zod
+                .union([
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      name: zod
+                        .string()
+                        .max(getWorkflowResponseTwoWatchersItemTeamOneNameMax)
+                        .describe('名前'),
+                      fullName: zod.string().describe('上位組織を含む名前'),
+                      code: zod
+                        .string()
+                        .max(getWorkflowResponseTwoWatchersItemTeamOneCodeMax)
+                        .describe('コード'),
+                      notes: zod
+                        .string()
+                        .max(getWorkflowResponseTwoWatchersItemTeamOneNotesMax)
+                        .nullable()
+                        .describe('管理用メモ'),
+                      approveOnly: zod
+                        .boolean()
+                        .describe('承認専用チームかどうか'),
+                      usersCount: zod
+                        .int()
+                        .min(
+                          getWorkflowResponseTwoWatchersItemTeamOneUsersCountMin,
+                        )
+                        .describe('ユーザー数'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
+                    })
+                    .describe('チーム'),
+                  zod.null(),
+                ])
+                .describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+            })
+            .describe('ワークフローの自動ウォッチ設定'),
+        )
+        .describe('自動ウォッチ設定の配列'),
+      workflowFilterVisibilities: zod
+        .array(
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              user: zod
+                .union([
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      email: zod
+                        .email()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneEmailMax,
+                        )
+                        .describe('メールアドレス'),
+                      code: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneCodeMax,
+                        )
+                        .describe('コード'),
+                      firstName: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneFirstNameMax,
+                        )
+                        .describe('名'),
+                      lastName: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneLastNameMax,
+                        )
+                        .describe('姓'),
+                      fullName: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneFullNameMax,
+                        )
+                        .describe('フルネーム'),
+                      employeeId: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemUserOneEmployeeIdMax,
+                        )
+                        .nullable()
+                        .describe('社員番号'),
+                      image: zod
+                        .object({
+                          '100x100': zod.string().nullable(),
+                          '64x64': zod.string().nullable(),
+                          '32x32': zod.string().nullable(),
+                        })
+                        .describe(
+                          'ユーザー画像のURL。サイズごとに複数のURLを返します。',
+                        ),
+                      status: zod
+                        .enum([
+                          'invited',
+                          'activated',
+                          'suspended',
+                          'deactivated',
+                        ])
+                        .describe('ステータス'),
+                      locale: zod.string().describe('ロケール（jaまたはen）'),
+                      userType: zod
+                        .enum(['normal', 'assistant'])
+                        .optional()
+                        .describe(
+                          'ユーザータイプ。チームメンバー一覧APIのレスポンスには含まれません。',
+                        ),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
+                      deactivatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .nullish()
+                        .describe('削除日時'),
+                      lastUsedOn: zod.iso
+                        .date()
+                        .nullish()
+                        .describe(
+                          '最終利用日（kickflowで最後に操作を行った日付。画面からの操作のほか、APIやチャット経由での操作も対象となります）。ユーザー管理権限を持つトークンで \/v1\/users 配下のユーザー情報を取得した場合に返却されます。',
+                        ),
+                      customFields: zod
+                        .array(
+                          zod.object({
+                            code: zod
+                              .string()
+                              .describe(
+                                'UserCustomField#code（変換せずそのまま）',
+                              ),
+                            fieldType: zod
+                              .union([
+                                zod.literal('text'),
+                                zod.literal('textLong'),
+                                zod.literal('number'),
+                                zod.literal('integer'),
+                                zod.literal('checkbox'),
+                                zod.literal('pullDown'),
+                                zod.literal('date'),
+                                zod.literal(null),
+                              ])
+                              .nullable()
+                              .describe(
+                                'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
+                              ),
+                            value: zod
+                              .union([
+                                zod.string(),
+                                zod.number(),
+                                zod.array(zod.string()),
+                                zod.null(),
+                              ])
+                              .describe(
+                                'fieldType に応じた値。number \/ integer は新規に保存された値は文字列で返る\n(旧仕様で保存された既存データは number で返ることがあるため、利用側は string \/ number の両方を受け付けて扱うこと)。\n',
+                              ),
+                          }),
+                        )
+                        .optional()
+                        .describe(
+                          'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string \/ number \/ string[] \/ null)。\nnumber \/ integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string \/ number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ\/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET \/v1\/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                        ),
+                    })
+                    .describe('ユーザー'),
+                  zod.null(),
+                ])
+                .describe('ユーザー。ユーザーとチームは片方のみ値が入ります。'),
+              team: zod
+                .union([
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      name: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemTeamOneNameMax,
+                        )
+                        .describe('名前'),
+                      fullName: zod.string().describe('上位組織を含む名前'),
+                      code: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemTeamOneCodeMax,
+                        )
+                        .describe('コード'),
+                      notes: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemTeamOneNotesMax,
+                        )
+                        .nullable()
+                        .describe('管理用メモ'),
+                      approveOnly: zod
+                        .boolean()
+                        .describe('承認専用チームかどうか'),
+                      usersCount: zod
+                        .int()
+                        .min(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemTeamOneUsersCountMin,
+                        )
+                        .describe('ユーザー数'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
+                    })
+                    .describe('チーム'),
+                  zod.null(),
+                ])
+                .describe('チーム。ユーザーとチームは片方のみ値が入ります。'),
+              grade: zod
+                .union([
+                  zod
+                    .object({
+                      id: zod.uuid().describe('UUID'),
+                      name: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemGradeOneNameMax,
+                        )
+                        .describe('名前'),
+                      level: zod
+                        .int()
+                        .min(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemGradeOneLevelMin,
+                        )
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemGradeOneLevelMax,
+                        )
+                        .describe('レベル'),
+                      code: zod
+                        .string()
+                        .max(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemGradeOneCodeMax,
+                        )
+                        .nullable()
+                        .describe('コード'),
+                      isDefault: zod
+                        .boolean()
+                        .default(
+                          getWorkflowResponseTwoWorkflowFilterVisibilitiesItemGradeOneIsDefaultDefault,
+                        )
+                        .describe('デフォルトの役職かどうか'),
+                      createdAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('作成日時'),
+                      updatedAt: zod.iso
+                        .datetime({ offset: true })
+                        .describe('更新日時'),
+                    })
+                    .describe('役職'),
+                  zod.null(),
+                ])
+                .describe(
+                  '役職。チーム指定で役職も指定する場合のみ値が入ります。',
+                ),
+            })
+            .describe('ワークフローを絞り込み条件として選択できる対象'),
+        )
+        .describe(
+          'ワークフローを絞り込み条件として選択できる対象の配列。空配列の場合は全員が選択できます。',
+        ),
+      slackChannel: zod
+        .union([
+          zod
+            .object({
+              id: zod.string().describe('通知先のSlackチャンネルのID'),
+              notifyOpened: zod
+                .boolean()
+                .describe('チケットが申請されたときに通知する場合true'),
+              notifyApproved: zod
+                .boolean()
+                .describe('チケットが承認されたときに通知する場合true'),
+              notifyRejected: zod
+                .boolean()
+                .describe('チケットが差し戻されたときに通知する場合true'),
+              notifyCompleted: zod
+                .boolean()
+                .describe('チケットが完了したときに通知する場合true'),
+              notifyArchived: zod
+                .boolean()
+                .describe('チケットがアーカイブされたときに通知する場合true'),
+              notifyWithdrawn: zod
+                .boolean()
+                .describe('チケットが取り下げられたときに通知する場合true'),
+              notifyCommented: zod
+                .boolean()
+                .describe(
+                  'チケットにコメントが投稿されたときに通知する場合true',
+                ),
+              notifyConfirmed: zod
+                .boolean()
+                .describe('チケットが確認されたときに通知する場合true'),
+              notifyDenied: zod
+                .boolean()
+                .describe('チケットが却下されたときに通知する場合true'),
+              notifyApprovalCanceled: zod
+                .boolean()
+                .describe('チケットの承認が取り消されたときに通知する場合true'),
+              notifyConfirmCanceled: zod
+                .boolean()
+                .describe('チケットの確認が取り消されたときに通知する場合true'),
+              slackAccessToken: zod
+                .object({
+                  id: zod.uuid().describe('UUID'),
+                  slackTeamId: zod
+                    .string()
+                    .nullable()
+                    .describe(
+                      'SlackワークスペースのID。Enterprise Grid全体で連携している場合はnullになります。',
+                    ),
+                  slackTeamName: zod
+                    .string()
+                    .nullable()
+                    .describe(
+                      'Slackワークスペースの名前。Enterprise Grid全体で連携している場合はnullになります。',
+                    ),
+                  slackEnterpriseId: zod
+                    .string()
+                    .nullable()
+                    .describe(
+                      'Slack Enterprise GridのID。ワークスペース単位で連携している場合はnullになります。',
+                    ),
+                  slackEnterpriseName: zod
+                    .string()
+                    .nullable()
+                    .describe(
+                      'Slack Enterprise Gridの名前。ワークスペース単位で連携している場合はnullになります。',
+                    ),
+                  createdAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('作成日時'),
+                  updatedAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('更新日時'),
+                })
+                .describe('Slack連携のアクセストークン'),
+            })
+            .describe('ワークフローのSlack通知設定'),
+          zod.null(),
+        ])
+        .describe('Slack通知設定。未設定の場合はnullになります。'),
+      chatworkRoom: zod
+        .union([
+          zod
+            .object({
+              roomId: zod.string().describe('通知先のChatworkのルームID'),
+              name: zod.string().describe('通知先のChatworkのルーム名'),
+              notifyOpened: zod
+                .boolean()
+                .describe('チケットが申請されたときに通知する場合true'),
+              notifyApproved: zod
+                .boolean()
+                .describe('チケットが承認されたときに通知する場合true'),
+              notifyRejected: zod
+                .boolean()
+                .describe('チケットが差し戻されたときに通知する場合true'),
+              notifyCompleted: zod
+                .boolean()
+                .describe('チケットが完了したときに通知する場合true'),
+              notifyArchived: zod
+                .boolean()
+                .describe('チケットがアーカイブされたときに通知する場合true'),
+              notifyWithdrawn: zod
+                .boolean()
+                .describe('チケットが取り下げられたときに通知する場合true'),
+              notifyCommented: zod
+                .boolean()
+                .describe(
+                  'チケットにコメントが投稿されたときに通知する場合true',
+                ),
+              notifyConfirmed: zod
+                .boolean()
+                .describe('チケットが確認されたときに通知する場合true'),
+              notifyDenied: zod
+                .boolean()
+                .describe('チケットが却下されたときに通知する場合true'),
+              notifyApprovalCanceled: zod
+                .boolean()
+                .describe('チケットの承認が取り消されたときに通知する場合true'),
+              notifyConfirmCanceled: zod
+                .boolean()
+                .describe('チケットの確認が取り消されたときに通知する場合true'),
+            })
+            .describe('ワークフローのChatwork通知設定'),
+          zod.null(),
+        ])
+        .describe('Chatwork通知設定。未設定の場合はnullになります。'),
+      microsoftTeamsChannel: zod
+        .union([
+          zod
+            .object({
+              webhookUrl: zod
+                .string()
+                .describe('通知先のMicrosoft TeamsのWebhook URL'),
+              notifyOpened: zod
+                .boolean()
+                .describe('チケットが申請されたときに通知する場合true'),
+              notifyApproved: zod
+                .boolean()
+                .describe('チケットが承認されたときに通知する場合true'),
+              notifyRejected: zod
+                .boolean()
+                .describe('チケットが差し戻されたときに通知する場合true'),
+              notifyCompleted: zod
+                .boolean()
+                .describe('チケットが完了したときに通知する場合true'),
+              notifyArchived: zod
+                .boolean()
+                .describe('チケットがアーカイブされたときに通知する場合true'),
+              notifyWithdrawn: zod
+                .boolean()
+                .describe('チケットが取り下げられたときに通知する場合true'),
+              notifyCommented: zod
+                .boolean()
+                .describe(
+                  'チケットにコメントが投稿されたときに通知する場合true',
+                ),
+              notifyConfirmed: zod
+                .boolean()
+                .describe('チケットが確認されたときに通知する場合true'),
+              notifyDenied: zod
+                .boolean()
+                .describe('チケットが却下されたときに通知する場合true'),
+              notifyApprovalCanceled: zod
+                .boolean()
+                .describe('チケットの承認が取り消されたときに通知する場合true'),
+              notifyConfirmCanceled: zod
+                .boolean()
+                .describe('チケットの確認が取り消されたときに通知する場合true'),
+            })
+            .describe('ワークフローのMicrosoft Teams通知設定'),
+          zod.null(),
+        ])
+        .describe('Microsoft Teams通知設定。未設定の場合はnullになります。'),
+      googleChatSetting: zod
+        .union([
+          zod
+            .object({
+              id: zod.uuid().describe('UUID'),
+              webhookUrl: zod
+                .string()
+                .describe('通知先のGoogle ChatのWebhook URL'),
+              createdAt: zod.iso
+                .datetime({ offset: true })
+                .describe('作成日時'),
+              updatedAt: zod.iso
+                .datetime({ offset: true })
+                .describe('更新日時'),
+              notifyApproved: zod
+                .boolean()
+                .describe('チケットが承認されたときに通知する場合true'),
+              notifyArchived: zod
+                .boolean()
+                .describe('チケットがアーカイブされたときに通知する場合true'),
+              notifyCommented: zod
+                .boolean()
+                .describe(
+                  'チケットにコメントが投稿されたときに通知する場合true',
+                ),
+              notifyCompleted: zod
+                .boolean()
+                .describe('チケットが完了したときに通知する場合true'),
+              notifyConfirmed: zod
+                .boolean()
+                .describe('チケットが確認されたときに通知する場合true'),
+              notifyDenied: zod
+                .boolean()
+                .describe('チケットが却下されたときに通知する場合true'),
+              notifyOpened: zod
+                .boolean()
+                .describe('チケットが申請されたときに通知する場合true'),
+              notifyRejected: zod
+                .boolean()
+                .describe('チケットが差し戻されたときに通知する場合true'),
+              notifyWithdrawn: zod
+                .boolean()
+                .describe('チケットが取り下げられたときに通知する場合true'),
+              notifyApprovalCanceled: zod
+                .boolean()
+                .describe('チケットの承認が取り消されたときに通知する場合true'),
+              notifyConfirmCanceled: zod
+                .boolean()
+                .describe('チケットの確認が取り消されたときに通知する場合true'),
+            })
+            .describe('ワークフローのGoogle Chat通知設定'),
+          zod.null(),
+        ])
+        .describe('Google Chat通知設定。未設定の場合はnullになります。'),
+      reportUploadGoogleDrive: zod
+        .union([
+          zod
+            .object({
+              googleDriveFolderId: zod
+                .string()
+                .describe('アップロード先のGoogle DriveのフォルダのID'),
+            })
+            .describe('ワークフローのExcel帳票のGoogle Driveアップロード設定'),
+          zod.null(),
+        ])
+        .describe(
+          'Excel帳票のGoogle Driveアップロード設定。未設定の場合はnullになります。',
+        ),
+      reportUploadBox: zod
+        .union([
+          zod
+            .object({
+              boxFolderId: zod
+                .string()
+                .describe('アップロード先のBoxのフォルダのID'),
+            })
+            .describe('ワークフローのExcel帳票のBoxアップロード設定'),
+          zod.null(),
+        ])
+        .describe(
+          'Excel帳票のBoxアップロード設定。未設定の場合はnullになります。',
+        ),
+      ticketNumberingTiming: zod
+        .object({
+          id: zod
+            .uuid()
+            .nullable()
+            .describe(
+              'UUID。採番タイミングが未設定でデフォルト値を返す場合はnullになります。',
+            ),
+          timingType: zod
+            .enum(['created', 'opened', 'completed', 'sub_status_attached'])
+            .describe(
+              '採番するタイミング。createdはチケット作成時、openedは申請時、completedは完了時、 sub_status_attachedはサブステータス付与時を表します。',
+            ),
+          subStatus: zod
+            .union([
+              zod
+                .object({
+                  id: zod.uuid().describe('UUID'),
+                  code: zod.string().describe('コード'),
+                  name: zod.string().describe('名前'),
+                  notes: zod.string().nullable().describe('説明'),
+                  allowWithdrawal: zod.boolean().describe('取り下げを許可する'),
+                  allowRejection: zod.boolean().describe('差し戻しを許可する'),
+                  allowDenial: zod.boolean().describe('却下を許可する'),
+                  createdAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('作成日時'),
+                  updatedAt: zod.iso
+                    .datetime({ offset: true })
+                    .describe('更新日時'),
+                })
+                .describe('サブステータス'),
+              zod.null(),
+            ])
+            .describe(
+              '採番するサブステータス。timingTypeがsub_status_attached以外の場合はnullになります。',
+            ),
+        })
+        .describe('チケット番号を採番するタイミング'),
     }),
   )
   .describe('ワークフローの詳細')
