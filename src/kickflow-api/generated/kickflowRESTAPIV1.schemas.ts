@@ -5417,7 +5417,7 @@ export type UpdateProxyApproverBody = {
 
 export type UploadFileBody = {
   /** 添付ファイル */
-  file: Blob
+  file: Blob | File
 }
 
 export type UploadFile200 = {
