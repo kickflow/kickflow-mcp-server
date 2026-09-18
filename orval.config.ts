@@ -31,6 +31,7 @@ export default defineConfig({
       client: 'zod',
       target: OUTPUT_DIR,
       fileExtension: '.zod.ts',
+      indexFiles: false,
       override: {
         header: false,
       },
