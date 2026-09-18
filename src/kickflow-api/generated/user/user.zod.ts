@@ -151,6 +151,8 @@ export const GetCurrentUserResponse = zod
 
 /**
  * ユーザー一覧を取得します。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザー一覧を取得
  */
 export const listUsersQueryPageDefault = 1
@@ -505,6 +507,8 @@ export const CreateUserResponse = zod
 
 /**
  * ユーザーを一件取得します。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary ユーザーを取得
  */
 export const getUserPathUserIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
@@ -1027,6 +1031,8 @@ export const UpdateUserResponse = zod
 /**
  * メールアドレスからユーザーを取得します（完全一致）
  * ※メールアドレスはURLエンコードしたものを送ってください。
+ *
+ * このAPIの実行には、ユーザーの管理権限が必要です。
  * @summary メールアドレスからユーザーを取得
  */
 export const LookupUserByEmailQueryParams = zod.object({
