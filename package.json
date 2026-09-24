@@ -51,7 +51,7 @@
   "devDependencies": {
     "@types/node": "22.20.3",
     "axios-mock-adapter": "2.1.0",
-    "orval": "8.31.0",
+    "orval": "8.33.0",
     "tsx": "4.23.13",
     "typescript": "7.0.2",
     "yaml": "2.9.1",
