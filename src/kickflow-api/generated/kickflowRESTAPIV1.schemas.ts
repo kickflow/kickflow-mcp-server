@@ -118,7 +118,7 @@ export const UserUserType = {
 } as const
 
 /**
- * ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。
+ * ユーザーカスタムフィールドの入力種別
  * @nullable
  */
 export type UserCustomFieldsItemFieldType =
@@ -139,7 +139,7 @@ export type UserCustomFieldsItem = {
   /** UserCustomField#code（変換せずそのまま） */
   code: string
   /**
-   * ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。
+   * ユーザーカスタムフィールドの入力種別
    * @nullable
    */
   fieldType: UserCustomFieldsItemFieldType
@@ -212,13 +212,16 @@ export interface User {
   /**
    * ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。
    * code は UserCustomField#code を変換せずそのまま持つ。
-   * fieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。
+   * fieldType はユーザーカスタムフィールド定義の入力種別。
    * value は fieldType に応じた型 (string / number / string[] / null)。
    * number / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。
    * 値がセットされているフィールドのみを含む。
-   * エンタープライズ/トライアル契約テナントでのみ含まれる。
-   * ユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。
-   * ロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。
+   * エンタープライズ/トライアル契約テナントで、次の公開境界を満たす場合のみ含まれる。
+   * 通常のユーザー一覧・詳細では、「誰でも閲覧可能」が有効なフィールドを返し、
+   * ユーザー管理権限を持つリクエストには無効なフィールドも返す。
+   * ロールメンバーなど、公開境界外のレスポンス内のネストされたユーザーには
+   * customFields 自体が含まれない。
+   * 定義が存在しない code は、ユーザー管理権限の有無にかかわらず含まれない。
    */
   customFields?: UserCustomFieldsItem[]
 }
@@ -1287,13 +1290,6 @@ export const ExternalApiSettingHttpMethod = {
   patch: 'patch',
 } as const
 
-export type ExternalApiSettingHeadersItem = {
-  /** ヘッダーのキー */
-  key: string
-  /** ヘッダーの値 */
-  value: string
-}
-
 export type ExternalApiSettingMappingsItem = {
   formField: FormField
   /** 値抽出用のJSONPath */
@@ -1322,8 +1318,6 @@ export interface ExternalApiSetting {
    * @nullable
    */
   body: string | null
-  /** リクエストヘッダー */
-  headers: ExternalApiSettingHeadersItem[]
   /** レスポンスが複数レコードを含む場合true */
   responseArray: boolean
   /**
