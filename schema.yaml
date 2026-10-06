@@ -3448,9 +3448,7 @@ paths:
 
         注意2: チケットのステータスが処理中の場合、承認者が承認者用フィールドのみ更新可能です。リクエストボディにはslipItemsまたはinputsのみ設定してください（他のパラメータは無視されます）。
 
-        注意3: 明細ワークフローの場合、slipItemsは必須です。
-
-        注意4: inputsおよびslipItemsはフォーム全体を置き換えます。更新対象のフォームに含まれる値はすべて送信してください。フォームの一部のフィールドや明細のみを差分更新したい場合は、`PATCH /tickets/{ticketId}/form`（updateTicketForm）を使用してください。
+        注意3: inputsおよびslipItemsは、指定した場合にフォーム全体を置き換えます。指定するときは更新対象のフォームに含まれる値をすべて送信してください。フォームの一部のフィールドや明細のみを差分更新したい場合は、`PATCH /tickets/{ticketId}/form`（updateTicketForm）を使用してください。
       tags:
         - チケット
       requestBody:
@@ -3471,7 +3469,9 @@ paths:
                   description: 申請チームのUUID
                   format: uuid
                 proxyClientUserId:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: 依頼者となるユーザーのUUID。代理申請の場合のみ指定してください。
                   format: uuid
                 title:
@@ -3479,7 +3479,9 @@ paths:
                   description: チケットのタイトル。ワークフローでallow_titleがtrueのときのみ設定可能です。
                 slipItems:
                   type: array
-                  description: 明細アイテムの配列
+                  description: |-
+                    明細アイテムの配列。
+                    注意：省略した場合は既存の値が使用されます。
                   items:
                     type: object
                     description: 明細アイテム
@@ -3582,7 +3584,7 @@ paths:
                     フォームの入力の配列。
                     注意：申請者による更新時は、ワークフローのすべてのフォームフィールドに対応する入力を入れてください。
                     注意：承認者による更新時は、承認者用フィールドに対応する入力のみ入れてください。
-                    注意：明細ワークフローの場合、slipItemsも同時にリクエストボディに入れてください。
+                    注意：省略した場合は既存の値が使用されます。
                   items:
                     type: object
                     description: フォームの入力
@@ -6435,13 +6437,16 @@ components:
           description: |
             ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。
             code は UserCustomField#code を変換せずそのまま持つ。
-            fieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。
+            fieldType はユーザーカスタムフィールド定義の入力種別。
             value は fieldType に応じた型 (string / number / string[] / null)。
             number / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。
             値がセットされているフィールドのみを含む。
-            エンタープライズ/トライアル契約テナントでのみ含まれる。
-            ユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。
-            ロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。
+            エンタープライズ/トライアル契約テナントで、次の公開境界を満たす場合のみ含まれる。
+            通常のユーザー一覧・詳細では、「誰でも閲覧可能」が有効なフィールドを返し、
+            ユーザー管理権限を持つリクエストには無効なフィールドも返す。
+            ロールメンバーなど、公開境界外のレスポンス内のネストされたユーザーには
+            customFields 自体が含まれない。
+            定義が存在しない code は、ユーザー管理権限の有無にかかわらず含まれない。
           items:
             type: object
             required:
@@ -6465,7 +6470,7 @@ components:
                   - pullDown
                   - date
                   - null
-                description: ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。
+                description: ユーザーカスタムフィールドの入力種別
               value:
                 description: |
                   fieldType に応じた値。number / integer は新規に保存された値は文字列で返る
@@ -8440,21 +8445,6 @@ components:
             - string
             - 'null'
           description: リクエストボディ
-        headers:
-          type: array
-          description: リクエストヘッダー
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-                description: ヘッダーのキー
-              value:
-                type: string
-                description: ヘッダーの値
-            required:
-              - key
-              - value
         responseArray:
           type: boolean
           description: レスポンスが複数レコードを含む場合true
@@ -8492,7 +8482,6 @@ components:
         - httpMethod
         - url
         - body
-        - headers
         - responseArray
         - arrayJsonPath
         - mappings
