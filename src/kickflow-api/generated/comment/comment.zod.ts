@@ -158,9 +158,7 @@ export const ListCommentsResponseItem = zod
                   zod.literal(null),
                 ])
                 .nullable()
-                .describe(
-                  'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
-                ),
+                .describe('ユーザーカスタムフィールドの入力種別'),
               value: zod
                 .union([
                   zod.string(),
@@ -175,7 +173,7 @@ export const ListCommentsResponseItem = zod
           )
           .optional()
           .describe(
-            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントで、次の公開境界を満たす場合のみ含まれる。\n通常のユーザー一覧・詳細では、「誰でも閲覧可能」が有効なフィールドを返し、\nユーザー管理権限を持つリクエストには無効なフィールドも返す。\nロールメンバーなど、公開境界外のレスポンス内のネストされたユーザーには\ncustomFields 自体が含まれない。\n定義が存在しない code は、ユーザー管理権限の有無にかかわらず含まれない。\n',
           ),
       })
       .describe('ユーザー'),
@@ -256,9 +254,7 @@ export const ListCommentsResponseItem = zod
                       zod.literal(null),
                     ])
                     .nullable()
-                    .describe(
-                      'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
-                    ),
+                    .describe('ユーザーカスタムフィールドの入力種別'),
                   value: zod
                     .union([
                       zod.string(),
@@ -273,7 +269,7 @@ export const ListCommentsResponseItem = zod
               )
               .optional()
               .describe(
-                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントで、次の公開境界を満たす場合のみ含まれる。\n通常のユーザー一覧・詳細では、「誰でも閲覧可能」が有効なフィールドを返し、\nユーザー管理権限を持つリクエストには無効なフィールドも返す。\nロールメンバーなど、公開境界外のレスポンス内のネストされたユーザーには\ncustomFields 自体が含まれない。\n定義が存在しない code は、ユーザー管理権限の有無にかかわらず含まれない。\n',
               ),
           })
           .describe('ユーザー'),
@@ -420,9 +416,7 @@ export const CreateCommentResponse = zod
                   zod.literal(null),
                 ])
                 .nullable()
-                .describe(
-                  'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
-                ),
+                .describe('ユーザーカスタムフィールドの入力種別'),
               value: zod
                 .union([
                   zod.string(),
@@ -437,7 +431,7 @@ export const CreateCommentResponse = zod
           )
           .optional()
           .describe(
-            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントで、次の公開境界を満たす場合のみ含まれる。\n通常のユーザー一覧・詳細では、「誰でも閲覧可能」が有効なフィールドを返し、\nユーザー管理権限を持つリクエストには無効なフィールドも返す。\nロールメンバーなど、公開境界外のレスポンス内のネストされたユーザーには\ncustomFields 自体が含まれない。\n定義が存在しない code は、ユーザー管理権限の有無にかかわらず含まれない。\n',
           ),
       })
       .describe('ユーザー'),
@@ -518,9 +512,7 @@ export const CreateCommentResponse = zod
                       zod.literal(null),
                     ])
                     .nullable()
-                    .describe(
-                      'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
-                    ),
+                    .describe('ユーザーカスタムフィールドの入力種別'),
                   value: zod
                     .union([
                       zod.string(),
@@ -535,7 +527,7 @@ export const CreateCommentResponse = zod
               )
               .optional()
               .describe(
-                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントで、次の公開境界を満たす場合のみ含まれる。\n通常のユーザー一覧・詳細では、「誰でも閲覧可能」が有効なフィールドを返し、\nユーザー管理権限を持つリクエストには無効なフィールドも返す。\nロールメンバーなど、公開境界外のレスポンス内のネストされたユーザーには\ncustomFields 自体が含まれない。\n定義が存在しない code は、ユーザー管理権限の有無にかかわらず含まれない。\n',
               ),
           })
           .describe('ユーザー'),
@@ -675,9 +667,7 @@ export const GetCommentResponse = zod
                   zod.literal(null),
                 ])
                 .nullable()
-                .describe(
-                  'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
-                ),
+                .describe('ユーザーカスタムフィールドの入力種別'),
               value: zod
                 .union([
                   zod.string(),
@@ -692,7 +682,7 @@ export const GetCommentResponse = zod
           )
           .optional()
           .describe(
-            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントで、次の公開境界を満たす場合のみ含まれる。\n通常のユーザー一覧・詳細では、「誰でも閲覧可能」が有効なフィールドを返し、\nユーザー管理権限を持つリクエストには無効なフィールドも返す。\nロールメンバーなど、公開境界外のレスポンス内のネストされたユーザーには\ncustomFields 自体が含まれない。\n定義が存在しない code は、ユーザー管理権限の有無にかかわらず含まれない。\n',
           ),
       })
       .describe('ユーザー'),
@@ -773,9 +763,7 @@ export const GetCommentResponse = zod
                       zod.literal(null),
                     ])
                     .nullable()
-                    .describe(
-                      'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
-                    ),
+                    .describe('ユーザーカスタムフィールドの入力種別'),
                   value: zod
                     .union([
                       zod.string(),
@@ -790,7 +778,7 @@ export const GetCommentResponse = zod
               )
               .optional()
               .describe(
-                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントで、次の公開境界を満たす場合のみ含まれる。\n通常のユーザー一覧・詳細では、「誰でも閲覧可能」が有効なフィールドを返し、\nユーザー管理権限を持つリクエストには無効なフィールドも返す。\nロールメンバーなど、公開境界外のレスポンス内のネストされたユーザーには\ncustomFields 自体が含まれない。\n定義が存在しない code は、ユーザー管理権限の有無にかかわらず含まれない。\n',
               ),
           })
           .describe('ユーザー'),
@@ -934,9 +922,7 @@ export const UpdateCommentResponse = zod
                   zod.literal(null),
                 ])
                 .nullable()
-                .describe(
-                  'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
-                ),
+                .describe('ユーザーカスタムフィールドの入力種別'),
               value: zod
                 .union([
                   zod.string(),
@@ -951,7 +937,7 @@ export const UpdateCommentResponse = zod
           )
           .optional()
           .describe(
-            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+            'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントで、次の公開境界を満たす場合のみ含まれる。\n通常のユーザー一覧・詳細では、「誰でも閲覧可能」が有効なフィールドを返し、\nユーザー管理権限を持つリクエストには無効なフィールドも返す。\nロールメンバーなど、公開境界外のレスポンス内のネストされたユーザーには\ncustomFields 自体が含まれない。\n定義が存在しない code は、ユーザー管理権限の有無にかかわらず含まれない。\n',
           ),
       })
       .describe('ユーザー'),
@@ -1032,9 +1018,7 @@ export const UpdateCommentResponse = zod
                       zod.literal(null),
                     ])
                     .nullable()
-                    .describe(
-                      'ユーザーカスタムフィールドの入力種別。定義が存在しない古い値の場合は null。',
-                    ),
+                    .describe('ユーザーカスタムフィールドの入力種別'),
                   value: zod
                     .union([
                       zod.string(),
@@ -1049,7 +1033,7 @@ export const UpdateCommentResponse = zod
               )
               .optional()
               .describe(
-                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。定義が存在しない古い値の場合は null。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントでのみ含まれる。\nユーザー一覧・ユーザー取得 (ユーザー管理権限が必要) および本人取得 (GET /v1/user) のレスポンスに含まれる。\nロールメンバー一覧のユーザーや、チケット等の他リソースにネストされたユーザーには含まれない。\n',
+                'ユーザーカスタムフィールドの値の一覧。各要素は { code, value, fieldType }。\ncode は UserCustomField#code を変換せずそのまま持つ。\nfieldType はユーザーカスタムフィールド定義の入力種別。\nvalue は fieldType に応じた型 (string / number / string[] / null)。\nnumber / integer の value は、新規に保存された値は文字列で返り、旧仕様で保存された既存データは number で返ることがある (利用側は string / number の両方を受け付けて扱うこと)。\n値がセットされているフィールドのみを含む。\nエンタープライズ/トライアル契約テナントで、次の公開境界を満たす場合のみ含まれる。\n通常のユーザー一覧・詳細では、「誰でも閲覧可能」が有効なフィールドを返し、\nユーザー管理権限を持つリクエストには無効なフィールドも返す。\nロールメンバーなど、公開境界外のレスポンス内のネストされたユーザーには\ncustomFields 自体が含まれない。\n定義が存在しない code は、ユーザー管理権限の有無にかかわらず含まれない。\n',
               ),
           })
           .describe('ユーザー'),
