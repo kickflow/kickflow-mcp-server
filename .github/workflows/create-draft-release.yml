@@ -1,0 +1,48 @@
+name: Create Draft Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+
+jobs:
+  create-draft-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Read version
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Check if tag or release already exists
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          if gh api "repos/${{ github.repository }}/git/ref/tags/$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          elif gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists, skipping"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Draft Release
+        if: steps.check.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --target main \
+            --draft \
+            --generate-notes
