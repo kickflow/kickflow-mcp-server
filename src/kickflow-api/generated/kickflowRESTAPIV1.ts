@@ -1145,9 +1145,7 @@ export const getKickflowRESTAPIV1 = () => {
    *
    * 注意2: チケットのステータスが処理中の場合、承認者が承認者用フィールドのみ更新可能です。リクエストボディにはslipItemsまたはinputsのみ設定してください（他のパラメータは無視されます）。
    *
-   * 注意3: 明細ワークフローの場合、slipItemsは必須です。
-   *
-   * 注意4: inputsおよびslipItemsはフォーム全体を置き換えます。更新対象のフォームに含まれる値はすべて送信してください。フォームの一部のフィールドや明細のみを差分更新したい場合は、`PATCH /tickets/{ticketId}/form`（updateTicketForm）を使用してください。
+   * 注意3: inputsおよびslipItemsは、指定した場合にフォーム全体を置き換えます。指定するときは更新対象のフォームに含まれる値をすべて送信してください。フォームの一部のフィールドや明細のみを差分更新したい場合は、`PATCH /tickets/{ticketId}/form`（updateTicketForm）を使用してください。
    * @summary チケットを更新
    */
   const updateTicket = (
