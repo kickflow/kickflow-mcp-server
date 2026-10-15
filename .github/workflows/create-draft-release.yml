@@ -14,13 +14,28 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Read version
         id: version
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          BEFORE_VERSION=$(git show "$BEFORE_SHA:package.json" | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          if [ "$VERSION" = "$BEFORE_VERSION" ]; then
+            echo "Version unchanged ($VERSION), skipping"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "Version changed: $BEFORE_VERSION -> $VERSION"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Check if tag or release already exists
         id: check
+        if: steps.version.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -36,7 +51,7 @@ jobs:
           fi
 
       - name: Create Draft Release
-        if: steps.check.outputs.exists == 'false'
+        if: steps.version.outputs.changed == 'true' && steps.check.outputs.exists == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
