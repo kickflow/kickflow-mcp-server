@@ -43,6 +43,6 @@ jobs:
           TAG="v${{ steps.version.outputs.version }}"
           gh release create "$TAG" \
             --title "$TAG" \
-            --target main \
+            --target "$GITHUB_SHA" \
             --draft \
             --generate-notes
