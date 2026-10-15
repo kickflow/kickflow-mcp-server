@@ -65,14 +65,11 @@ jobs:
 
             Bump type: `${{ github.event.inputs.version }}`
 
-            When this PR is merged, the Create Draft Release workflow creates a draft release `v${{ steps.version.outputs.new_version }}`.
-            Review the release notes and publish it to trigger the npm publish.
+            ## Release steps
+            1. Wait for CI to pass, then merge this PR manually.
+               Auto-merge is not used because a merge performed by `GITHUB_TOKEN` does not trigger other workflows.
+            2. The Create Draft Release workflow creates a draft release `v${{ steps.version.outputs.new_version }}` on push to `main`.
+            3. Review the release notes and publish the release to trigger the npm publish.
           branch: chore/bump-version-${{ steps.version.outputs.new_version }}
           base: main
           delete-branch: true
-
-      - name: Enable auto-merge
-        if: steps.pr.outputs.pull-request-operation == 'created'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge --auto --squash "${{ steps.pr.outputs.pull-request-number }}"
