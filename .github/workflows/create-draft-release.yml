@@ -1,0 +1,66 @@
+name: Create Draft Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+
+jobs:
+  create-draft-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Read version
+        id: version
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          BEFORE_VERSION=$(git show "$BEFORE_SHA:package.json" 2>/dev/null | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version" 2>/dev/null || true)
+          if [ -z "$BEFORE_VERSION" ]; then
+            echo "Could not read package.json at $BEFORE_SHA, skipping"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          elif [ "$VERSION" = "$BEFORE_VERSION" ]; then
+            echo "Version unchanged ($VERSION), skipping"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Version changed: $BEFORE_VERSION -> $VERSION"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check if tag or release already exists
+        id: check
+        if: steps.version.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          if gh api "repos/${{ github.repository }}/git/ref/tags/$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          elif gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists, skipping"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create Draft Release
+        if: steps.version.outputs.changed == 'true' && steps.check.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --target "$GITHUB_SHA" \
+            --draft \
+            --generate-notes
