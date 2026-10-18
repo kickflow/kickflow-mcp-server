@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v7
         with:
@@ -49,30 +50,26 @@ jobs:
             exit 1
           fi
 
-      - name: Check for changes
-        id: changes
-        run: |
-          if git diff --quiet; then
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-          else
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-          fi
+      - name: Create Pull Request
+        id: pr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: bump version to ${{ steps.version.outputs.new_version }}'
+          add-paths: |
+            package.json
+            package-lock.json
+          title: 'chore: bump version to ${{ steps.version.outputs.new_version }}'
+          body: |
+            This PR was automatically created by the Update Version workflow.
 
-      - name: Commit and push changes
-        if: steps.changes.outputs.has_changes == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json package-lock.json
-          git commit -m "chore: bump version to ${{ steps.version.outputs.new_version }}"
-          git push origin main
+            Bump type: `${{ github.event.inputs.version }}`
 
-      - name: Create Draft Release
-        if: steps.changes.outputs.has_changes == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release create "v${{ steps.version.outputs.new_version }}" \
-            --title "v${{ steps.version.outputs.new_version }}" \
-            --draft \
-            --generate-notes
+            ## Release steps
+            1. Wait for CI to pass, then merge this PR manually.
+               Auto-merge is not used because a merge performed by `GITHUB_TOKEN` does not trigger other workflows.
+            2. The Create Draft Release workflow creates a draft release `v${{ steps.version.outputs.new_version }}` on push to `main`.
+            3. Review the release notes and publish the release to trigger the npm publish.
+          branch: chore/bump-version-${{ steps.version.outputs.new_version }}
+          base: main
+          delete-branch: true

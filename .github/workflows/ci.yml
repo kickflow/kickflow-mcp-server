@@ -2,6 +2,9 @@ name: CI
 
 on:
   pull_request:
+  push:
+    branches:
+      - 'chore/bump-version-*' # Update Version がデプロイキーで push するブランチ。GITHUB_TOKEN が作る PR では pull_request が発火しないため push 側で必須チェックを満たす
   workflow_dispatch:
 
 jobs:
