@@ -8171,9 +8171,10 @@ components:
             - button_api
             - button_kintone
             - datetime
+            - radio_button
         required:
           type: boolean
-          description: 必須項目かどうか
+          description: 必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。
         approver:
           type: boolean
           description: 承認者が編集可能かどうか
@@ -8184,7 +8185,7 @@ components:
           type:
             - array
             - 'null'
-          description: 選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。
+          description: 選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。
           items:
             type: string
         code:
@@ -8563,6 +8564,7 @@ components:
             - team
             - ticket
             - datetime
+            - radio_button
         code:
           type: string
           description: フィールドのコード
@@ -8571,13 +8573,13 @@ components:
           description: タイトル
         required:
           type: boolean
-          description: 入力必須の場合true
+          description: 入力必須の場合true。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。
         showTotal:
           type: boolean
           description: 列の合計を表示する場合true
         options:
           type: array
-          description: 選択肢。プルダウンまたはチェックボックスのときのみ値が入ります。
+          description: 選択肢。プルダウン、チェックボックスまたはラジオボタンのときのみ値が入ります。
           items:
             type: string
         regexpFormat:
