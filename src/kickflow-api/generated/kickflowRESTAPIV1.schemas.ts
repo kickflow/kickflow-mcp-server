@@ -1110,6 +1110,7 @@ export const FormFieldFieldType = {
   button_api: 'button_api',
   button_kintone: 'button_kintone',
   datetime: 'datetime',
+  radio_button: 'radio_button',
 } as const
 
 /**
@@ -1165,14 +1166,14 @@ export interface FormField {
   description: string | null
   /** フィールドの型 */
   fieldType: FormFieldFieldType
-  /** 必須項目かどうか */
+  /** 必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。 */
   required: boolean
   /** 承認者が編集可能かどうか */
   approver: boolean
   /** 申請者が編集可能かどうか */
   author: boolean
   /**
-   * 選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。
+   * 選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。
    * @nullable
    */
   options: string[] | null
@@ -1749,6 +1750,7 @@ export const SlipFieldFieldType = {
   team: 'team',
   ticket: 'ticket',
   datetime: 'datetime',
+  radio_button: 'radio_button',
 } as const
 
 export type SlipFieldAllowedTicketStatusItem =
@@ -1775,11 +1777,11 @@ export interface SlipField {
   code: string
   /** タイトル */
   title: string
-  /** 入力必須の場合true */
+  /** 入力必須の場合true。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。 */
   required: boolean
   /** 列の合計を表示する場合true */
   showTotal: boolean
-  /** 選択肢。プルダウンまたはチェックボックスのときのみ値が入ります。 */
+  /** 選択肢。プルダウン、チェックボックスまたはラジオボタンのときのみ値が入ります。 */
   options: string[]
   /**
    * 正規表現フォーマット

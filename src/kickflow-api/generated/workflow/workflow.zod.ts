@@ -1558,9 +1558,14 @@ export const GetWorkflowResponse = zod
                           'button_api',
                           'button_kintone',
                           'datetime',
+                          'radio_button',
                         ])
                         .describe('フィールドの型'),
-                      required: zod.boolean().describe('必須項目かどうか'),
+                      required: zod
+                        .boolean()
+                        .describe(
+                          '必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                        ),
                       approver: zod
                         .boolean()
                         .describe('承認者が編集可能かどうか'),
@@ -1571,7 +1576,7 @@ export const GetWorkflowResponse = zod
                         .array(zod.string())
                         .nullable()
                         .describe(
-                          '選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。',
+                          '選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。',
                         ),
                       code: zod
                         .string()
@@ -1990,11 +1995,14 @@ export const GetWorkflowResponse = zod
                                               'button_api',
                                               'button_kintone',
                                               'datetime',
+                                              'radio_button',
                                             ])
                                             .describe('フィールドの型'),
                                           required: zod
                                             .boolean()
-                                            .describe('必須項目かどうか'),
+                                            .describe(
+                                              '必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                                            ),
                                           approver: zod
                                             .boolean()
                                             .describe(
@@ -2009,7 +2017,7 @@ export const GetWorkflowResponse = zod
                                             .array(zod.string())
                                             .nullable()
                                             .describe(
-                                              '選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。',
+                                              '選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。',
                                             ),
                                           code: zod
                                             .string()
@@ -2191,11 +2199,14 @@ export const GetWorkflowResponse = zod
                                         'button_api',
                                         'button_kintone',
                                         'datetime',
+                                        'radio_button',
                                       ])
                                       .describe('フィールドの型'),
                                     required: zod
                                       .boolean()
-                                      .describe('必須項目かどうか'),
+                                      .describe(
+                                        '必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                                      ),
                                     approver: zod
                                       .boolean()
                                       .describe('承認者が編集可能かどうか'),
@@ -2206,7 +2217,7 @@ export const GetWorkflowResponse = zod
                                       .array(zod.string())
                                       .nullable()
                                       .describe(
-                                        '選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。',
+                                        '選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。',
                                       ),
                                     code: zod
                                       .string()
@@ -2405,11 +2416,14 @@ export const GetWorkflowResponse = zod
                                               'button_api',
                                               'button_kintone',
                                               'datetime',
+                                              'radio_button',
                                             ])
                                             .describe('フィールドの型'),
                                           required: zod
                                             .boolean()
-                                            .describe('必須項目かどうか'),
+                                            .describe(
+                                              '必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                                            ),
                                           approver: zod
                                             .boolean()
                                             .describe(
@@ -2424,7 +2438,7 @@ export const GetWorkflowResponse = zod
                                             .array(zod.string())
                                             .nullable()
                                             .describe(
-                                              '選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。',
+                                              '選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。',
                                             ),
                                           code: zod
                                             .string()
@@ -2604,11 +2618,14 @@ export const GetWorkflowResponse = zod
                                         'button_api',
                                         'button_kintone',
                                         'datetime',
+                                        'radio_button',
                                       ])
                                       .describe('フィールドの型'),
                                     required: zod
                                       .boolean()
-                                      .describe('必須項目かどうか'),
+                                      .describe(
+                                        '必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                                      ),
                                     approver: zod
                                       .boolean()
                                       .describe('承認者が編集可能かどうか'),
@@ -2619,7 +2636,7 @@ export const GetWorkflowResponse = zod
                                       .array(zod.string())
                                       .nullable()
                                       .describe(
-                                        '選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。',
+                                        '選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。',
                                       ),
                                     code: zod
                                       .string()
@@ -2773,11 +2790,14 @@ export const GetWorkflowResponse = zod
                                               'button_api',
                                               'button_kintone',
                                               'datetime',
+                                              'radio_button',
                                             ])
                                             .describe('フィールドの型'),
                                           required: zod
                                             .boolean()
-                                            .describe('必須項目かどうか'),
+                                            .describe(
+                                              '必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                                            ),
                                           approver: zod
                                             .boolean()
                                             .describe(
@@ -2792,7 +2812,7 @@ export const GetWorkflowResponse = zod
                                             .array(zod.string())
                                             .nullable()
                                             .describe(
-                                              '選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。',
+                                              '選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。',
                                             ),
                                           code: zod
                                             .string()
@@ -3302,11 +3322,14 @@ export const GetWorkflowResponse = zod
                                                 'button_api',
                                                 'button_kintone',
                                                 'datetime',
+                                                'radio_button',
                                               ])
                                               .describe('フィールドの型'),
                                             required: zod
                                               .boolean()
-                                              .describe('必須項目かどうか'),
+                                              .describe(
+                                                '必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                                              ),
                                             approver: zod
                                               .boolean()
                                               .describe(
@@ -3321,7 +3344,7 @@ export const GetWorkflowResponse = zod
                                               .array(zod.string())
                                               .nullable()
                                               .describe(
-                                                '選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。',
+                                                '選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。',
                                               ),
                                             code: zod
                                               .string()
@@ -4859,11 +4882,14 @@ export const GetWorkflowResponse = zod
                                   'button_api',
                                   'button_kintone',
                                   'datetime',
+                                  'radio_button',
                                 ])
                                 .describe('フィールドの型'),
                               required: zod
                                 .boolean()
-                                .describe('必須項目かどうか'),
+                                .describe(
+                                  '必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                                ),
                               approver: zod
                                 .boolean()
                                 .describe('承認者が編集可能かどうか'),
@@ -4874,7 +4900,7 @@ export const GetWorkflowResponse = zod
                                 .array(zod.string())
                                 .nullable()
                                 .describe(
-                                  '選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。',
+                                  '選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。',
                                 ),
                               code: zod
                                 .string()
@@ -5237,18 +5263,23 @@ export const GetWorkflowResponse = zod
                           'team',
                           'ticket',
                           'datetime',
+                          'radio_button',
                         ])
                         .describe('フィールドの型'),
                       code: zod.string().describe('フィールドのコード'),
                       title: zod.string().describe('タイトル'),
-                      required: zod.boolean().describe('入力必須の場合true'),
+                      required: zod
+                        .boolean()
+                        .describe(
+                          '入力必須の場合true。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                        ),
                       showTotal: zod
                         .boolean()
                         .describe('列の合計を表示する場合true'),
                       options: zod
                         .array(zod.string())
                         .describe(
-                          '選択肢。プルダウンまたはチェックボックスのときのみ値が入ります。',
+                          '選択肢。プルダウン、チェックボックスまたはラジオボタンのときのみ値が入ります。',
                         ),
                       regexpFormat: zod
                         .string()
@@ -5944,6 +5975,7 @@ export const GetWorkflowResponse = zod
                                                 'team',
                                                 'ticket',
                                                 'datetime',
+                                                'radio_button',
                                               ])
                                               .describe('フィールドの型'),
                                             code: zod
@@ -5954,7 +5986,9 @@ export const GetWorkflowResponse = zod
                                               .describe('タイトル'),
                                             required: zod
                                               .boolean()
-                                              .describe('入力必須の場合true'),
+                                              .describe(
+                                                '入力必須の場合true。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                                              ),
                                             showTotal: zod
                                               .boolean()
                                               .describe(
@@ -5963,7 +5997,7 @@ export const GetWorkflowResponse = zod
                                             options: zod
                                               .array(zod.string())
                                               .describe(
-                                                '選択肢。プルダウンまたはチェックボックスのときのみ値が入ります。',
+                                                '選択肢。プルダウン、チェックボックスまたはラジオボタンのときのみ値が入ります。',
                                               ),
                                             regexpFormat: zod
                                               .string()
@@ -7850,9 +7884,14 @@ export const GetWorkflowResponse = zod
                               'button_api',
                               'button_kintone',
                               'datetime',
+                              'radio_button',
                             ])
                             .describe('フィールドの型'),
-                          required: zod.boolean().describe('必須項目かどうか'),
+                          required: zod
+                            .boolean()
+                            .describe(
+                              '必須項目かどうか。フィールド定義の必須オプションの設定値です。fieldTypeがradio_buttonのフィールドでは、approverがtrueのときfalse、それ以外のときtrueに正規化されます。ラジオボタン型で未選択を許容するかどうかはこの値だけでは決まりません。申請時と承認者によるフォーム更新時には型固有の未選択チェックが行われ、下書き保存では未選択を一時的に保持できます。',
+                            ),
                           approver: zod
                             .boolean()
                             .describe('承認者が編集可能かどうか'),
@@ -7863,7 +7902,7 @@ export const GetWorkflowResponse = zod
                             .array(zod.string())
                             .nullable()
                             .describe(
-                              '選択肢のリスト。型がcheckboxまたはpull_downのときのみ値が入ります。',
+                              '選択肢のリスト。型がcheckbox、pull_downまたはradio_buttonのときのみ値が入ります。',
                             ),
                           code: zod
                             .string()

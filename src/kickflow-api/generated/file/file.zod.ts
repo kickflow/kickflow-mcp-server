@@ -9,7 +9,7 @@ import * as zod from 'zod'
  * @summary 添付ファイルをアップロード
  */
 export const UploadFileBody = zod.object({
-  file: zod.instanceof(Blob).describe('添付ファイル'),
+  file: zod.instanceof(Blob),
 })
 
 export const UploadFileResponse = zod.object({
