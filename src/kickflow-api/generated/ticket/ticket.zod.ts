@@ -8581,7 +8581,9 @@ export const ListTicketsResponseItem = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -18034,7 +18036,9 @@ export const ListTicketsResponseItem = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -18310,6 +18314,7 @@ export const ListTicketsResponse = zod.array(ListTicketsResponseItem)
 
 /**
  * チケットを作成します。
+ * クラウドサイン連携が許可されていない場合にcloudSignDocumentを指定すると、403 Forbidden（feature_disabled）を返します。
  * @summary チケットを作成
  */
 export const CreateTicketBody = zod.object({
@@ -18478,7 +18483,7 @@ export const CreateTicketBody = zod.object({
     })
     .optional()
     .describe(
-      'クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。',
+      'クラウドサイン書類。クラウドサイン連携が許可されていて、かつワークフローでクラウドサイン連携が有効な場合のみ指定してください。',
     ),
   approvers: zod
     .array(
@@ -29613,7 +29618,9 @@ export const CreateTicketResponse = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -39774,7 +39781,9 @@ export const CreateTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -48845,7 +48854,9 @@ export const CreateTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -60261,7 +60272,9 @@ export const CreateTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -72230,7 +72243,9 @@ export const CreateTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -83187,7 +83202,9 @@ export const CreateTicketResponse = zod
                                     }),
                                     zod.null(),
                                   ])
-                                  .describe('クラウドサイン連携設定'),
+                                  .describe(
+                                    'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                  ),
                                 ticketNumberKey: zod
                                   .union([
                                     zod
@@ -92959,7 +92976,9 @@ export const ListTasksResponseItem = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -102406,7 +102425,9 @@ export const ListTasksResponseItem = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -113798,7 +113819,9 @@ export const GetTicketResponse = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -123955,7 +123978,9 @@ export const GetTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -133026,7 +133051,9 @@ export const GetTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -144442,7 +144469,9 @@ export const GetTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -156411,7 +156440,9 @@ export const GetTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -167360,7 +167391,9 @@ export const GetTicketResponse = zod
                                     }),
                                     zod.null(),
                                   ])
-                                  .describe('クラウドサイン連携設定'),
+                                  .describe(
+                                    'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                  ),
                                 ticketNumberKey: zod
                                   .union([
                                     zod
@@ -168575,6 +168608,8 @@ export const GetTicketResponse = zod
  * 注意2: チケットのステータスが処理中の場合、承認者が承認者用フィールドのみ更新可能です。リクエストボディにはslipItemsまたはinputsのみ設定してください（他のパラメータは無視されます）。
  *
  * 注意3: inputsおよびslipItemsは、指定した場合にフォーム全体を置き換えます。指定するときは更新対象のフォームに含まれる値をすべて送信してください。フォームの一部のフィールドや明細のみを差分更新したい場合は、`PATCH /tickets/{ticketId}/form`（updateTicketForm）を使用してください。
+ *
+ * 注意4: クラウドサイン連携が許可されていない場合、クラウドサイン書類が添付されていない下書き・差し戻しのチケットにcloudSignDocumentを指定したとき、および添付済みの書類と異なる書類を指定したときは、403 Forbidden（feature_disabled）を返します。添付済みの書類と同じ書類（idが同じ）の指定は403を返さず、許可している場合と同じように受け付けます。処理中のチケットではcloudSignDocumentは従来どおり無視されます（注意2を参照）。
  * @summary チケットを更新
  */
 export const UpdateTicketParams = zod.object({
@@ -168749,7 +168784,7 @@ export const UpdateTicketBody = zod.object({
     })
     .optional()
     .describe(
-      'クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。',
+      'クラウドサイン書類。クラウドサイン連携が許可されていて、かつワークフローでクラウドサイン連携が有効な場合のみ指定してください。クラウドサイン連携が許可されていない場合の扱いは注意4を参照してください。',
     ),
   approvers: zod
     .array(
@@ -179884,7 +179919,9 @@ export const UpdateTicketResponse = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -190045,7 +190082,9 @@ export const UpdateTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -199116,7 +199155,9 @@ export const UpdateTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -210532,7 +210573,9 @@ export const UpdateTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -222501,7 +222544,9 @@ export const UpdateTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -233458,7 +233503,9 @@ export const UpdateTicketResponse = zod
                                     }),
                                     zod.null(),
                                   ])
-                                  .describe('クラウドサイン連携設定'),
+                                  .describe(
+                                    'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                  ),
                                 ticketNumberKey: zod
                                   .union([
                                     zod
@@ -246717,7 +246764,9 @@ export const UpdateTicketFormResponse = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -256890,7 +256939,9 @@ export const UpdateTicketFormResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -265963,7 +266014,9 @@ export const UpdateTicketFormResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -277379,7 +277432,9 @@ export const UpdateTicketFormResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -289348,7 +289403,9 @@ export const UpdateTicketFormResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -300319,7 +300376,9 @@ export const UpdateTicketFormResponse = zod
                                     }),
                                     zod.null(),
                                   ])
-                                  .describe('クラウドサイン連携設定'),
+                                  .describe(
+                                    'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                  ),
                                 ticketNumberKey: zod
                                   .union([
                                     zod
@@ -312676,7 +312735,9 @@ export const ApproveTicketResponse = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -322839,7 +322900,9 @@ export const ApproveTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -331910,7 +331973,9 @@ export const ApproveTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -343326,7 +343391,9 @@ export const ApproveTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -355295,7 +355362,9 @@ export const ApproveTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -366256,7 +366325,9 @@ export const ApproveTicketResponse = zod
                                     }),
                                     zod.null(),
                                   ])
-                                  .describe('クラウドサイン連携設定'),
+                                  .describe(
+                                    'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                  ),
                                 ticketNumberKey: zod
                                   .union([
                                     zod
@@ -378606,7 +378677,9 @@ export const RejectTicketResponse = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -388767,7 +388840,9 @@ export const RejectTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -397838,7 +397913,9 @@ export const RejectTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -409254,7 +409331,9 @@ export const RejectTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -421223,7 +421302,9 @@ export const RejectTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -432180,7 +432261,9 @@ export const RejectTicketResponse = zod
                                     }),
                                     zod.null(),
                                   ])
-                                  .describe('クラウドサイン連携設定'),
+                                  .describe(
+                                    'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                  ),
                                 ticketNumberKey: zod
                                   .union([
                                     zod
@@ -444523,7 +444606,9 @@ export const DenyTicketResponse = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -454682,7 +454767,9 @@ export const DenyTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -463753,7 +463840,9 @@ export const DenyTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -475169,7 +475258,9 @@ export const DenyTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -487138,7 +487229,9 @@ export const DenyTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -498095,7 +498188,9 @@ export const DenyTicketResponse = zod
                                     }),
                                     zod.null(),
                                   ])
-                                  .describe('クラウドサイン連携設定'),
+                                  .describe(
+                                    'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                  ),
                                 ticketNumberKey: zod
                                   .union([
                                     zod
@@ -510434,7 +510529,9 @@ export const WithdrawTicketResponse = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -520599,7 +520696,9 @@ export const WithdrawTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -529670,7 +529769,9 @@ export const WithdrawTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -541086,7 +541187,9 @@ export const WithdrawTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -553055,7 +553158,9 @@ export const WithdrawTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -564024,7 +564129,9 @@ export const WithdrawTicketResponse = zod
                                     }),
                                     zod.null(),
                                   ])
-                                  .describe('クラウドサイン連携設定'),
+                                  .describe(
+                                    'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                  ),
                                 ticketNumberKey: zod
                                   .union([
                                     zod
@@ -576371,7 +576478,9 @@ export const ArchiveTicketResponse = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
@@ -586534,7 +586643,9 @@ export const ArchiveTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -595605,7 +595716,9 @@ export const ArchiveTicketResponse = zod
                             }),
                             zod.null(),
                           ])
-                          .describe('クラウドサイン連携設定'),
+                          .describe(
+                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                          ),
                         ticketNumberKey: zod
                           .union([
                             zod
@@ -607021,7 +607134,9 @@ export const ArchiveTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -618990,7 +619105,9 @@ export const ArchiveTicketResponse = zod
                                             }),
                                             zod.null(),
                                           ])
-                                          .describe('クラウドサイン連携設定'),
+                                          .describe(
+                                            'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                          ),
                                         ticketNumberKey: zod
                                           .union([
                                             zod
@@ -629951,7 +630068,9 @@ export const ArchiveTicketResponse = zod
                                     }),
                                     zod.null(),
                                   ])
-                                  .describe('クラウドサイン連携設定'),
+                                  .describe(
+                                    'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                                  ),
                                 ticketNumberKey: zod
                                   .union([
                                     zod
@@ -639056,7 +639175,9 @@ export const ListTicketLinksResponseItem = zod
                   }),
                   zod.null(),
                 ])
-                .describe('クラウドサイン連携設定'),
+                .describe(
+                  'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+                ),
               ticketNumberKey: zod
                 .union([
                   zod
