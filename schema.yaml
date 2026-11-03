@@ -2918,7 +2918,9 @@ paths:
         '504':
           description: Gateway Timeout
           $ref: '#/components/responses/GatewayTimeout'
-      description: チケットを作成します。
+      description: |-
+        チケットを作成します。
+        クラウドサイン連携が許可されていない場合にcloudSignDocumentを指定すると、403 Forbidden（feature_disabled）を返します。
       tags:
         - チケット
       requestBody:
@@ -3134,7 +3136,7 @@ paths:
                           type: string
                 cloudSignDocument:
                   type: object
-                  description: クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。
+                  description: クラウドサイン書類。クラウドサイン連携が許可されていて、かつワークフローでクラウドサイン連携が有効な場合のみ指定してください。
                   properties:
                     id:
                       type: string
@@ -3449,6 +3451,8 @@ paths:
         注意2: チケットのステータスが処理中の場合、承認者が承認者用フィールドのみ更新可能です。リクエストボディにはslipItemsまたはinputsのみ設定してください（他のパラメータは無視されます）。
 
         注意3: inputsおよびslipItemsは、指定した場合にフォーム全体を置き換えます。指定するときは更新対象のフォームに含まれる値をすべて送信してください。フォームの一部のフィールドや明細のみを差分更新したい場合は、`PATCH /tickets/{ticketId}/form`（updateTicketForm）を使用してください。
+
+        注意4: クラウドサイン連携が許可されていない場合、クラウドサイン書類が添付されていない下書き・差し戻しのチケットにcloudSignDocumentを指定したとき、および添付済みの書類と異なる書類を指定したときは、403 Forbidden（feature_disabled）を返します。添付済みの書類と同じ書類（idが同じ）の指定は403を返さず、許可している場合と同じように受け付けます。処理中のチケットではcloudSignDocumentは従来どおり無視されます（注意2を参照）。
       tags:
         - チケット
       requestBody:
@@ -3664,7 +3668,7 @@ paths:
                           type: string
                 cloudSignDocument:
                   type: object
-                  description: クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。
+                  description: クラウドサイン書類。クラウドサイン連携が許可されていて、かつワークフローでクラウドサイン連携が有効な場合のみ指定してください。クラウドサイン連携が許可されていない場合の扱いは注意4を参照してください。
                   properties:
                     id:
                       type: string
@@ -7746,7 +7750,7 @@ components:
               items:
                 $ref: '#/components/schemas/WorkflowTicketViewer'
             cloudSignSetting:
-              description: クラウドサイン連携設定
+              description: クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。
               anyOf:
                 - type: object
                   properties:

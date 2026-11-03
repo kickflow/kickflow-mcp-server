@@ -7318,7 +7318,9 @@ export const GetWorkflowResponse = zod
           }),
           zod.null(),
         ])
-        .describe('クラウドサイン連携設定'),
+        .describe(
+          'クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。',
+        ),
       ticketNumberKey: zod
         .union([
           zod

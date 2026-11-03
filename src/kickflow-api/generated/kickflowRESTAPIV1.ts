@@ -1090,6 +1090,7 @@ export const getKickflowRESTAPIV1 = () => {
 
   /**
    * チケットを作成します。
+   * クラウドサイン連携が許可されていない場合にcloudSignDocumentを指定すると、403 Forbidden（feature_disabled）を返します。
    * @summary チケットを作成
    */
   const createTicket = (
@@ -1146,6 +1147,8 @@ export const getKickflowRESTAPIV1 = () => {
    * 注意2: チケットのステータスが処理中の場合、承認者が承認者用フィールドのみ更新可能です。リクエストボディにはslipItemsまたはinputsのみ設定してください（他のパラメータは無視されます）。
    *
    * 注意3: inputsおよびslipItemsは、指定した場合にフォーム全体を置き換えます。指定するときは更新対象のフォームに含まれる値をすべて送信してください。フォームの一部のフィールドや明細のみを差分更新したい場合は、`PATCH /tickets/{ticketId}/form`（updateTicketForm）を使用してください。
+   *
+   * 注意4: クラウドサイン連携が許可されていない場合、クラウドサイン書類が添付されていない下書き・差し戻しのチケットにcloudSignDocumentを指定したとき、および添付済みの書類と異なる書類を指定したときは、403 Forbidden（feature_disabled）を返します。添付済みの書類と同じ書類（idが同じ）の指定は403を返さず、許可している場合と同じように受け付けます。処理中のチケットではcloudSignDocumentは従来どおり無視されます（注意2を参照）。
    * @summary チケットを更新
    */
   const updateTicket = (
