@@ -1072,7 +1072,7 @@ export interface GeneralMasterItem {
 }
 
 /**
- * クラウドサイン連携設定
+ * クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。
  */
 export type WorkflowInTicketCloudSignSetting = {
   /** 書類の添付が必須な場合true */
@@ -2291,7 +2291,7 @@ export type WorkflowInTicket = Workflow & {
   sectionList: SectionListItem[]
   /** ワークフロー単位のチケット共有ユーザー */
   ticketViewers: WorkflowTicketViewer[]
-  /** クラウドサイン連携設定 */
+  /** クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。 */
   cloudSignSetting: WorkflowInTicketCloudSignSetting
   /** 採番グループ。未設定の場合はnullになります。 */
   ticketNumberKey: TicketNumberKey | null
@@ -2308,7 +2308,7 @@ export type WorkflowInTicket = Workflow & {
         sectionList: SectionListItem[]
         /** ワークフロー単位のチケット共有ユーザー */
         ticketViewers: WorkflowTicketViewer[]
-        /** クラウドサイン連携設定 */
+        /** クラウドサイン連携設定。クラウドサイン連携が許可されていない場合は、連携設定が削除されるためnullになります。 */
         cloudSignSetting: WorkflowInTicketCloudSignSetting
         /** 採番グループ。未設定の場合はnullになります。 */
         ticketNumberKey: TicketNumberKey | null
@@ -4656,7 +4656,7 @@ export type CreateTicketBodyInputsItem = {
 }
 
 /**
- * クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。
+ * クラウドサイン書類。クラウドサイン連携が許可されていて、かつワークフローでクラウドサイン連携が有効な場合のみ指定してください。
  */
 export type CreateTicketBodyCloudSignDocument = {
   /** クラウドサイン書類のID */
@@ -4695,7 +4695,7 @@ export type CreateTicketBody = {
   slipItems?: CreateTicketBodySlipItemsItem[]
   /** フォームの入力の配列。ワークフローのすべてのフォームフィールドに対応する入力を入れてください。フォームフィールドが存在しないワークフロー（明細セクションのみ）の場合は省略可能です。それ以外のワークフローでは必須です。 */
   inputs?: CreateTicketBodyInputsItem[]
-  /** クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。 */
+  /** クラウドサイン書類。クラウドサイン連携が許可されていて、かつワークフローでクラウドサイン連携が有効な場合のみ指定してください。 */
   cloudSignDocument?: CreateTicketBodyCloudSignDocument
   /**
    * 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。
@@ -4921,7 +4921,7 @@ export type UpdateTicketBodyInputsItem = {
 }
 
 /**
- * クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。
+ * クラウドサイン書類。クラウドサイン連携が許可されていて、かつワークフローでクラウドサイン連携が有効な場合のみ指定してください。クラウドサイン連携が許可されていない場合の扱いは注意4を参照してください。
  */
 export type UpdateTicketBodyCloudSignDocument = {
   /** クラウドサイン書類のID */
@@ -4963,7 +4963,7 @@ export type UpdateTicketBody = {
    * 注意：省略した場合は既存の値が使用されます。
    */
   inputs?: UpdateTicketBodyInputsItem[]
-  /** クラウドサイン書類。ワークフローでクラウドサイン連携が有効な場合のみ指定してください。 */
+  /** クラウドサイン書類。クラウドサイン連携が許可されていて、かつワークフローでクラウドサイン連携が有効な場合のみ指定してください。クラウドサイン連携が許可されていない場合の扱いは注意4を参照してください。 */
   cloudSignDocument?: UpdateTicketBodyCloudSignDocument
   /**
    * 承認タイプが「申請者が指名」の経路ステップの承認者を指定する配列。
