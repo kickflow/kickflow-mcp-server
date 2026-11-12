@@ -811,6 +811,11 @@ export const DeleteUserResponse = zod
  * ユーザーを更新します。
  *
  * このAPIの実行には、ユーザーの管理権限が必要です。
+ *
+ * スーパー管理者ロールに所属しないユーザーは、次のユーザーのメールアドレスを変更できません。変更しようとすると `403` (`missing_permission`) を返します。
+ *
+ * - スーパー管理者ロールに所属するユーザー
+ * - 自分より広い管理権限を持つユーザー
  * @summary ユーザーを更新
  */
 export const updateUserPathUserIdRegExp = new RegExp('^[a-zA-Z0-9_-]+$')
