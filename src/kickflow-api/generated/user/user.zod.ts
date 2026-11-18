@@ -123,7 +123,6 @@ export const GetCurrentUserResponse = zod
         .union([
           zod
             .object({
-              id: zod.uuid().describe('UUID'),
               expiresAt: zod.iso
                 .datetime({ offset: true })
                 .describe('招待の有効期限'),
@@ -475,7 +474,6 @@ export const CreateUserResponse = zod
         .union([
           zod
             .object({
-              id: zod.uuid().describe('UUID'),
               expiresAt: zod.iso
                 .datetime({ offset: true })
                 .describe('招待の有効期限'),
@@ -627,7 +625,6 @@ export const GetUserResponse = zod
         .union([
           zod
             .object({
-              id: zod.uuid().describe('UUID'),
               expiresAt: zod.iso
                 .datetime({ offset: true })
                 .describe('招待の有効期限'),
@@ -783,7 +780,6 @@ export const DeleteUserResponse = zod
         .union([
           zod
             .object({
-              id: zod.uuid().describe('UUID'),
               expiresAt: zod.iso
                 .datetime({ offset: true })
                 .describe('招待の有効期限'),
@@ -997,7 +993,6 @@ export const UpdateUserResponse = zod
         .union([
           zod
             .object({
-              id: zod.uuid().describe('UUID'),
               expiresAt: zod.iso
                 .datetime({ offset: true })
                 .describe('招待の有効期限'),
@@ -1154,7 +1149,6 @@ export const LookupUserByEmailResponse = zod
         .union([
           zod
             .object({
-              id: zod.uuid().describe('UUID'),
               expiresAt: zod.iso
                 .datetime({ offset: true })
                 .describe('招待の有効期限'),
@@ -1312,7 +1306,6 @@ export const ReinviteUserResponse = zod
         .union([
           zod
             .object({
-              id: zod.uuid().describe('UUID'),
               expiresAt: zod.iso
                 .datetime({ offset: true })
                 .describe('招待の有効期限'),
@@ -1470,7 +1463,6 @@ export const SuspendUserResponse = zod
         .union([
           zod
             .object({
-              id: zod.uuid().describe('UUID'),
               expiresAt: zod.iso
                 .datetime({ offset: true })
                 .describe('招待の有効期限'),
@@ -1628,7 +1620,6 @@ export const ReactivateUserResponse = zod
         .union([
           zod
             .object({
-              id: zod.uuid().describe('UUID'),
               expiresAt: zod.iso
                 .datetime({ offset: true })
                 .describe('招待の有効期限'),

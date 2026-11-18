@@ -8877,9 +8877,6 @@ export const GetWorkflowResponse = zod
         .union([
           zod
             .object({
-              webhookUrl: zod
-                .string()
-                .describe('通知先のMicrosoft TeamsのWebhook URL'),
               notifyOpened: zod
                 .boolean()
                 .describe('チケットが申請されたときに通知する場合true'),
@@ -8925,9 +8922,6 @@ export const GetWorkflowResponse = zod
           zod
             .object({
               id: zod.uuid().describe('UUID'),
-              webhookUrl: zod
-                .string()
-                .describe('通知先のGoogle ChatのWebhook URL'),
               createdAt: zod.iso
                 .datetime({ offset: true })
                 .describe('作成日時'),

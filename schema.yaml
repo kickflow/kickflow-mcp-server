@@ -1586,6 +1586,9 @@ paths:
         '500':
           description: Internal Server Error
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          description: Service Unavailable
+          $ref: '#/components/responses/ServiceUnavailable'
         '504':
           description: Gateway Timeout
           $ref: '#/components/responses/GatewayTimeout'
@@ -6539,10 +6542,6 @@ components:
         - users
       description: ユーザーの招待
       properties:
-        id:
-          type: string
-          format: uuid
-          description: UUID
         expiresAt:
           type: string
           format: date-time
@@ -6564,7 +6563,6 @@ components:
           format: date-time
           description: 更新日時
       required:
-        - id
         - expiresAt
         - userEmail
         - userLocale
@@ -9760,9 +9758,6 @@ components:
         - workflows
       description: ワークフローのMicrosoft Teams通知設定
       properties:
-        webhookUrl:
-          type: string
-          description: 通知先のMicrosoft TeamsのWebhook URL
         notifyOpened:
           type: boolean
           description: チケットが申請されたときに通知する場合true
@@ -9797,7 +9792,6 @@ components:
           type: boolean
           description: チケットの確認が取り消されたときに通知する場合true
       required:
-        - webhookUrl
         - notifyOpened
         - notifyApproved
         - notifyRejected
@@ -9820,9 +9814,6 @@ components:
           type: string
           description: UUID
           format: uuid
-        webhookUrl:
-          type: string
-          description: 通知先のGoogle ChatのWebhook URL
         createdAt:
           type: string
           description: 作成日時
@@ -9866,7 +9857,6 @@ components:
           description: チケットの確認が取り消されたときに通知する場合true
       required:
         - id
-        - webhookUrl
         - createdAt
         - updatedAt
         - notifyApproved
@@ -12054,6 +12044,12 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     GatewayTimeout:
       description: Gateway Timeout
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ServiceUnavailable:
+      description: Service Unavailable
       content:
         application/json:
           schema:

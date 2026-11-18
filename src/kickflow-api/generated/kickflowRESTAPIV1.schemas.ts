@@ -238,8 +238,6 @@ export type UserDetailUserLineWorksAccount = {
  * ユーザーの招待
  */
 export interface UserInvitation {
-  /** UUID */
-  id: string
   /** 招待の有効期限 */
   expiresAt: string
   /**
@@ -2633,8 +2631,6 @@ export interface WorkflowChatworkRoom {
  * ワークフローのMicrosoft Teams通知設定
  */
 export interface WorkflowMicrosoftTeamsChannel {
-  /** 通知先のMicrosoft TeamsのWebhook URL */
-  webhookUrl: string
   /** チケットが申請されたときに通知する場合true */
   notifyOpened: boolean
   /** チケットが承認されたときに通知する場合true */
@@ -2665,8 +2661,6 @@ export interface WorkflowMicrosoftTeamsChannel {
 export interface WorkflowGoogleChatSetting {
   /** UUID */
   id: string
-  /** 通知先のGoogle ChatのWebhook URL */
-  webhookUrl: string
   /** 作成日時 */
   createdAt: string
   /** 更新日時 */
@@ -3999,6 +3993,11 @@ export type InternalServerErrorResponse = ErrorResponse
  */
 export type GatewayTimeoutResponse = ErrorResponse
 
+/**
+ * Service Unavailable
+ */
+export type ServiceUnavailableResponse = ErrorResponse
+
 export type ListCategoriesParams = {
   /**
    * ページ
@@ -4329,9 +4328,7 @@ export type ActivateOrganizationChartBody = {
 }
 
 export type ListTeamsParams = {
-  /**
-   * 親チームのUUID
-   */
+  /** 親チームのUUID */
   parentId?: string
   /**
    * ページ
@@ -4459,9 +4456,7 @@ export type ListTicketsParams = {
    * @pattern ^(createdAt|updatedAt)(-asc|-desc)?$
    */
   sortBy?: string
-  /**
-   * ステータスの配列
-   */
+  /** ステータスの配列 */
   status?:
     | 'draft'
     | 'in_progress'
@@ -4477,74 +4472,42 @@ export type ListTicketsParams = {
         | 'denied'
         | 'archived'
       )[]
-  /**
-   * サブステータスのUUIDの配列
-   */
+  /** サブステータスのUUIDの配列 */
   subStatusIds?: string[]
-  /**
-   * ワークフローのUUID
-   */
+  /** ワークフローのUUID */
   workflowId?: string
-  /**
-   * 申請者のUUID
-   */
+  /** 申請者のUUID */
   authorId?: string
   /**
    * 申請時に選択したチームの上位組織を含む名前
    * @maxLength 300
    */
   authorTeamFullName?: string
-  /**
-   * チケット番号
-   */
+  /** チケット番号 */
   ticketNumber?: string
-  /**
-   * 作成日時の起点
-   */
+  /** 作成日時の起点 */
   createdAtStart?: string
-  /**
-   * 作成日時の終点
-   */
+  /** 作成日時の終点 */
   createdAtEnd?: string
-  /**
-   * 更新日時の起点
-   */
+  /** 更新日時の起点 */
   updatedAtStart?: string
-  /**
-   * 更新日時の終点
-   */
+  /** 更新日時の終点 */
   updatedAtEnd?: string
-  /**
-   * 申請日時の起点
-   */
+  /** 申請日時の起点 */
   openedAtStart?: string
-  /**
-   * 申請日時の終点
-   */
+  /** 申請日時の終点 */
   openedAtEnd?: string
-  /**
-   * 完了日時の起点
-   */
+  /** 完了日時の起点 */
   completedAtStart?: string
-  /**
-   * 完了日時の終点
-   */
+  /** 完了日時の終点 */
   completedAtEnd?: string
-  /**
-   * アーカイブ日時の起点
-   */
+  /** アーカイブ日時の起点 */
   archivedAtStart?: string
-  /**
-   * アーカイブ日時の終点
-   */
+  /** アーカイブ日時の終点 */
   archivedAtEnd?: string
-  /**
-   * 承認者のUUID。assigneeStatusとセットで指定してください。
-   */
+  /** 承認者のUUID。assigneeStatusとセットで指定してください。 */
   assigneeUserId?: string
-  /**
-   * 承認者の状態。assigneeUserIdとセットで指定してください。
-   */
+  /** 承認者の状態。assigneeUserIdとセットで指定してください。 */
   assigneeStatus?: ListTicketsAssigneeStatusItem[]
   /**
    * 現在の承認ステップ名
@@ -4721,78 +4684,44 @@ export type ListTasksParams = {
    * @pattern ^(createdAt|updatedAt|openedAt|assignedToMeAt)(-asc|-desc)?$
    */
   sortBy?: string
-  /**
-   * ステータスの配列
-   */
+  /** ステータスの配列 */
   status?: ListTasksStatusItem[]
-  /**
-   * サブステータスのUUIDの配列
-   */
+  /** サブステータスのUUIDの配列 */
   subStatusIds?: string[]
-  /**
-   * ワークフローのUUID
-   */
+  /** ワークフローのUUID */
   workflowId?: string
-  /**
-   * 申請者のUUID
-   */
+  /** 申請者のUUID */
   authorId?: string
   /**
    * 申請時に選択したチームの上位組織を含む名前
    * @maxLength 300
    */
   authorTeamFullName?: string
-  /**
-   * チケット番号
-   */
+  /** チケット番号 */
   ticketNumber?: string
-  /**
-   * 作成日時の起点
-   */
+  /** 作成日時の起点 */
   createdAtStart?: string
-  /**
-   * 作成日時の終点
-   */
+  /** 作成日時の終点 */
   createdAtEnd?: string
-  /**
-   * 更新日時の起点
-   */
+  /** 更新日時の起点 */
   updatedAtStart?: string
-  /**
-   * 更新日時の終点
-   */
+  /** 更新日時の終点 */
   updatedAtEnd?: string
-  /**
-   * 申請日時の起点
-   */
+  /** 申請日時の起点 */
   openedAtStart?: string
-  /**
-   * 申請日時の終点
-   */
+  /** 申請日時の終点 */
   openedAtEnd?: string
-  /**
-   * 承認依頼日時の起点
-   */
+  /** 承認依頼日時の起点 */
   assignedToMeAtStart?: string
-  /**
-   * 承認依頼日時の終点
-   */
+  /** 承認依頼日時の終点 */
   assignedToMeAtEnd?: string
-  /**
-   * 完了日時の起点
-   */
+  /** 完了日時の起点 */
   completedAtStart?: string
-  /**
-   * 完了日時の終点
-   */
+  /** 完了日時の終点 */
   completedAtEnd?: string
-  /**
-   * アーカイブ日時の起点
-   */
+  /** アーカイブ日時の起点 */
   archivedAtStart?: string
-  /**
-   * アーカイブ日時の終点
-   */
+  /** アーカイブ日時の終点 */
   archivedAtEnd?: string
   /**
    * 現在の承認ステップ名
@@ -5085,9 +5014,7 @@ export type ListUsersParams = {
    * @maximum 100
    */
   perPage?: number
-  /**
-   * ステータスによる絞り込み
-   */
+  /** ステータスによる絞り込み */
   status?: ListUsersStatusItem[]
   /**
    * ソート対象のフィールドと順序。指定可能なフィールド: email, code, lastUsedOn
@@ -5209,9 +5136,7 @@ export type UpdateUserBody = {
 }
 
 export type LookupUserByEmailParams = {
-  /**
-   * メールアドレス（URLエンコードを行ったもの）
-   */
+  /** メールアドレス（URLエンコードを行ったもの） */
   email: string
 }
 
@@ -5227,9 +5152,7 @@ export type ListUserTeamsParams = {
    * @maximum 100
    */
   perPage?: number
-  /**
-   * trueの場合、申請可能なチームのみ返す。デフォルトはfalse（すべてのチームを返す）
-   */
+  /** trueの場合、申請可能なチームのみ返す。デフォルトはfalse（すべてのチームを返す） */
   submittable?: boolean
 }
 
@@ -5264,13 +5187,9 @@ export type ListRoutesParams = {
    * @pattern ^(createdAt|folderId)(-asc|-desc)?$
    */
   sortBy?: string
-  /**
-   * ステータス
-   */
+  /** ステータス */
   status?: ListRoutesStatusItem[]
-  /**
-   * フォルダのUUID
-   */
+  /** フォルダのUUID */
   folderId?: string
 }
 
@@ -5299,9 +5218,7 @@ export type ListWorkflowsParams = {
    * @pattern ^(createdAt|updatedAt|name|status)(-asc|-desc)?$
    */
   sortBy?: string
-  /**
-   * ステータス
-   */
+  /** ステータス */
   status?: ListWorkflowsStatusItem[]
 }
 
@@ -5459,16 +5376,10 @@ export type ListAuditLogsParams = {
    * @pattern ^(createdAt)(-asc|-desc)?$
    */
   sortBy?: string
-  /**
-   * 作成日時の起点
-   */
+  /** 作成日時の起点 */
   createdAtStart?: string
-  /**
-   * 作成日時の終点
-   */
+  /** 作成日時の終点 */
   createdAtEnd?: string
-  /**
-   * ユーザーID
-   */
+  /** ユーザーID */
   userId?: string
 }
